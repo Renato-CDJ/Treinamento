@@ -46,6 +46,22 @@ export function IntegracaoTable() {
   const [isTableDialogOpen, setIsTableDialogOpen] = useState(false)
   const [editingCarteira, setEditingCarteira] = useState<{ original: string; novo: string } | null>(null)
   const [observacaoPopup, setObservacaoPopup] = useState<{ nome: string; texto: string } | null>(null)
+
+  // Gerenciamento de Turnos
+  const turnosBase = ['MANHA', 'TARDE', 'TARDE (4h)', 'INTEGRAL', 'NOITE', 'MADRUGADA']
+  const [turnosCustom, setTurnosCustom] = useState<string[]>([])
+  const [novoTurno, setNovoTurno] = useState('')
+  const [editingTurno, setEditingTurno] = useState<{ original: string; novo: string } | null>(null)
+  const [isTurnosDialogOpen, setIsTurnosDialogOpen] = useState(false)
+  const turnos = [...turnosBase, ...turnosCustom]
+
+  // Gerenciamento de Registros
+  const registrosBase = ['OPERADOR(A)', 'NEGOCIADOR', 'ESTAGIARIO']
+  const [registrosCustom, setRegistrosCustom] = useState<string[]>([])
+  const [novoRegistro, setNovoRegistro] = useState('')
+  const [editingRegistro, setEditingRegistro] = useState<{ original: string; novo: string } | null>(null)
+  const [isRegistrosDialogOpen, setIsRegistrosDialogOpen] = useState(false)
+  const registros = [...registrosBase, ...registrosCustom]
   const [formData, setFormData] = useState({
     colaborador: '',
     cpf: '',
@@ -257,6 +273,50 @@ export function IntegracaoTable() {
     setEditingCarteira(null)
   }
 
+  // Funções de Turnos
+  const addTurno = () => {
+    const valor = novoTurno.trim().toUpperCase()
+    if (valor && !turnos.includes(valor)) {
+      setTurnosCustom([...turnosCustom, valor])
+      setNovoTurno('')
+    }
+  }
+
+  const removeTurno = (turno: string) => {
+    setTurnosCustom(turnosCustom.filter(t => t !== turno))
+  }
+
+  const saveEditTurno = () => {
+    if (editingTurno && editingTurno.novo.trim() && editingTurno.novo.trim().toUpperCase() !== editingTurno.original) {
+      const novoValor = editingTurno.novo.trim().toUpperCase()
+      setTurnosCustom(turnosCustom.map(t => t === editingTurno.original ? novoValor : t))
+      setData(data.map(item => item.turno === editingTurno.original ? { ...item, turno: novoValor as any } : item))
+    }
+    setEditingTurno(null)
+  }
+
+  // Funções de Registros
+  const addRegistro = () => {
+    const valor = novoRegistro.trim().toUpperCase()
+    if (valor && !registros.includes(valor)) {
+      setRegistrosCustom([...registrosCustom, valor])
+      setNovoRegistro('')
+    }
+  }
+
+  const removeRegistro = (registro: string) => {
+    setRegistrosCustom(registrosCustom.filter(r => r !== registro))
+  }
+
+  const saveEditRegistro = () => {
+    if (editingRegistro && editingRegistro.novo.trim() && editingRegistro.novo.trim().toUpperCase() !== editingRegistro.original) {
+      const novoValor = editingRegistro.novo.trim().toUpperCase()
+      setRegistrosCustom(registrosCustom.map(r => r === editingRegistro.original ? novoValor : r))
+      setData(data.map(item => item.registro === editingRegistro.original ? { ...item, registro: novoValor as any } : item))
+    }
+    setEditingRegistro(null)
+  }
+
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
@@ -432,29 +492,50 @@ export function IntegracaoTable() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="turno">Turno</Label>
+                        <div className="flex items-center justify-between">
+                          <Label htmlFor="turno">Turno</Label>
+                          <button
+                            type="button"
+                            onClick={() => setIsTurnosDialogOpen(true)}
+                            className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                            title="Gerenciar turnos"
+                          >
+                            <SettingsIcon className="h-3.5 w-3.5" />
+                            Gerenciar
+                          </button>
+                        </div>
                         <Select value={formData.turno} onValueChange={(value) => setFormData({...formData, turno: value as any})}>
                           <SelectTrigger id="turno">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="MANHA">Manha</SelectItem>
-                            <SelectItem value="TARDE">Tarde</SelectItem>
-                            <SelectItem value="NOITE">Noite</SelectItem>
-                            <SelectItem value="MADRUGADA">Madrugada</SelectItem>
+                            {turnos.map(t => (
+                              <SelectItem key={t} value={t}>{t}</SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="registro">Registro</Label>
+                        <div className="flex items-center justify-between">
+                          <Label htmlFor="registro">Registro</Label>
+                          <button
+                            type="button"
+                            onClick={() => setIsRegistrosDialogOpen(true)}
+                            className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                            title="Gerenciar registros"
+                          >
+                            <SettingsIcon className="h-3.5 w-3.5" />
+                            Gerenciar
+                          </button>
+                        </div>
                         <Select value={formData.registro} onValueChange={(value) => setFormData({...formData, registro: value as any})}>
                           <SelectTrigger id="registro">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="OPERADOR(A)">Operador(a)</SelectItem>
-                            <SelectItem value="NEGOCIADOR">Negociador</SelectItem>
-                            <SelectItem value="INTEGRAL">Integral</SelectItem>
+                            {registros.map(r => (
+                              <SelectItem key={r} value={r}>{r}</SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
                       </div>
@@ -534,6 +615,140 @@ export function IntegracaoTable() {
                         {editingItem ? 'Atualizar' : 'Adicionar'}
                       </Button>
                     </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+
+                {/* Dialog Gerenciar Turnos */}
+                <Dialog open={isTurnosDialogOpen} onOpenChange={setIsTurnosDialogOpen}>
+                  <DialogContent className="max-w-md">
+                    <DialogHeader>
+                      <DialogTitle>Gerenciar Turnos</DialogTitle>
+                      <DialogDescription>
+                        Adicione, edite ou remova opcoes de turno
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                      <div>
+                        <p className="text-sm font-medium mb-2 text-foreground">Turnos Padrao</p>
+                        <div className="flex flex-wrap gap-2">
+                          {turnosBase.map(t => (
+                            <Badge key={t} variant="secondary">{t}</Badge>
+                          ))}
+                        </div>
+                      </div>
+                      {turnosCustom.length > 0 && (
+                        <div>
+                          <p className="text-sm font-medium mb-2 text-foreground">Turnos Personalizados</p>
+                          <div className="space-y-2">
+                            {turnosCustom.map(t => (
+                              <div key={t} className="flex items-center gap-2">
+                                {editingTurno?.original === t ? (
+                                  <>
+                                    <Input
+                                      value={editingTurno.novo}
+                                      onChange={(e) => setEditingTurno({ ...editingTurno, novo: e.target.value })}
+                                      className="flex-1 h-8"
+                                    />
+                                    <Button size="sm" variant="ghost" onClick={saveEditTurno} className="h-8 w-8 p-0">
+                                      <CheckCircle2Icon className="h-4 w-4 text-green-600" />
+                                    </Button>
+                                    <Button size="sm" variant="ghost" onClick={() => setEditingTurno(null)} className="h-8 w-8 p-0">
+                                      <XIcon className="h-4 w-4 text-red-600" />
+                                    </Button>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Badge variant="outline" className="flex-1 justify-center">{t}</Badge>
+                                    <Button size="sm" variant="ghost" onClick={() => setEditingTurno({ original: t, novo: t })} className="h-8 w-8 p-0 hover:bg-blue-100 dark:hover:bg-blue-500/20">
+                                      <PencilIcon className="h-4 w-4 text-blue-600" />
+                                    </Button>
+                                    <Button size="sm" variant="ghost" onClick={() => removeTurno(t)} className="h-8 w-8 p-0 hover:bg-red-100 dark:hover:bg-red-500/20">
+                                      <Trash2Icon className="h-4 w-4 text-red-600" />
+                                    </Button>
+                                  </>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      <div className="flex gap-2">
+                        <Input
+                          placeholder="Novo turno..."
+                          value={novoTurno}
+                          onChange={(e) => setNovoTurno(e.target.value)}
+                          onKeyDown={(e) => e.key === 'Enter' && addTurno()}
+                        />
+                        <Button size="sm" onClick={addTurno}>Adicionar</Button>
+                      </div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+
+                {/* Dialog Gerenciar Registros */}
+                <Dialog open={isRegistrosDialogOpen} onOpenChange={setIsRegistrosDialogOpen}>
+                  <DialogContent className="max-w-md">
+                    <DialogHeader>
+                      <DialogTitle>Gerenciar Registros</DialogTitle>
+                      <DialogDescription>
+                        Adicione, edite ou remova opcoes de registro
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                      <div>
+                        <p className="text-sm font-medium mb-2 text-foreground">Registros Padrao</p>
+                        <div className="flex flex-wrap gap-2">
+                          {registrosBase.map(r => (
+                            <Badge key={r} variant="secondary">{r}</Badge>
+                          ))}
+                        </div>
+                      </div>
+                      {registrosCustom.length > 0 && (
+                        <div>
+                          <p className="text-sm font-medium mb-2 text-foreground">Registros Personalizados</p>
+                          <div className="space-y-2">
+                            {registrosCustom.map(r => (
+                              <div key={r} className="flex items-center gap-2">
+                                {editingRegistro?.original === r ? (
+                                  <>
+                                    <Input
+                                      value={editingRegistro.novo}
+                                      onChange={(e) => setEditingRegistro({ ...editingRegistro, novo: e.target.value })}
+                                      className="flex-1 h-8"
+                                    />
+                                    <Button size="sm" variant="ghost" onClick={saveEditRegistro} className="h-8 w-8 p-0">
+                                      <CheckCircle2Icon className="h-4 w-4 text-green-600" />
+                                    </Button>
+                                    <Button size="sm" variant="ghost" onClick={() => setEditingRegistro(null)} className="h-8 w-8 p-0">
+                                      <XIcon className="h-4 w-4 text-red-600" />
+                                    </Button>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Badge variant="outline" className="flex-1 justify-center">{r}</Badge>
+                                    <Button size="sm" variant="ghost" onClick={() => setEditingRegistro({ original: r, novo: r })} className="h-8 w-8 p-0 hover:bg-blue-100 dark:hover:bg-blue-500/20">
+                                      <PencilIcon className="h-4 w-4 text-blue-600" />
+                                    </Button>
+                                    <Button size="sm" variant="ghost" onClick={() => removeRegistro(r)} className="h-8 w-8 p-0 hover:bg-red-100 dark:hover:bg-red-500/20">
+                                      <Trash2Icon className="h-4 w-4 text-red-600" />
+                                    </Button>
+                                  </>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      <div className="flex gap-2">
+                        <Input
+                          placeholder="Novo registro..."
+                          value={novoRegistro}
+                          onChange={(e) => setNovoRegistro(e.target.value)}
+                          onKeyDown={(e) => e.key === 'Enter' && addRegistro()}
+                        />
+                        <Button size="sm" onClick={addRegistro}>Adicionar</Button>
+                      </div>
+                    </div>
                   </DialogContent>
                 </Dialog>
               </>
