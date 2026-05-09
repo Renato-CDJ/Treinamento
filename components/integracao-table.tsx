@@ -404,20 +404,20 @@ export function IntegracaoTable() {
                                       onChange={(e) => setEditingCarteira({ ...editingCarteira, novo: e.target.value })}
                                       className="flex-1 h-8"
                                     />
-                                    <Button size="sm" variant="ghost" onClick={saveEditCarteira} className="h-8 w-8 p-0">
+                                    <Button type="button" size="sm" variant="ghost" onClick={saveEditCarteira} className="h-8 w-8 p-0">
                                       <CheckCircle2Icon className="h-4 w-4 text-green-600" />
                                     </Button>
-                                    <Button size="sm" variant="ghost" onClick={() => setEditingCarteira(null)} className="h-8 w-8 p-0">
+                                    <Button type="button" size="sm" variant="ghost" onClick={() => setEditingCarteira(null)} className="h-8 w-8 p-0">
                                       <XIcon className="h-4 w-4 text-red-600" />
                                     </Button>
                                   </>
                                 ) : (
                                   <>
                                     <Badge variant="outline" className="flex-1 justify-center">{c}</Badge>
-                                    <Button size="sm" variant="ghost" onClick={() => startEditCarteira(c)} className="h-8 w-8 p-0 hover:bg-blue-100 dark:hover:bg-blue-500/20">
+                                    <Button type="button" size="sm" variant="ghost" onClick={() => startEditCarteira(c)} className="h-8 w-8 p-0 hover:bg-blue-100 dark:hover:bg-blue-500/20">
                                       <PencilIcon className="h-4 w-4 text-blue-600" />
                                     </Button>
-                                    <Button size="sm" variant="ghost" onClick={() => removeCarteira(c)} className="h-8 w-8 p-0 hover:bg-red-100 dark:hover:bg-red-500/20">
+                                    <Button type="button" size="sm" variant="ghost" onClick={() => removeCarteira(c)} className="h-8 w-8 p-0 hover:bg-red-100 dark:hover:bg-red-500/20">
                                       <Trash2Icon className="h-4 w-4 text-red-600" />
                                     </Button>
                                   </>
@@ -432,9 +432,9 @@ export function IntegracaoTable() {
                           placeholder="Nova carteira..."
                           value={novaCarteira}
                           onChange={(e) => setNovaCarteira(e.target.value)}
-                          onKeyPress={(e) => e.key === 'Enter' && addCarteira()}
+                          onKeyDown={(e) => e.key === 'Enter' && addCarteira()}
                         />
-                        <Button size="sm" onClick={addCarteira}>Adicionar</Button>
+                        <Button type="button" size="sm" onClick={addCarteira}>Adicionar</Button>
                       </div>
                     </div>
                   </DialogContent>
@@ -692,20 +692,20 @@ export function IntegracaoTable() {
                                       onChange={(e) => setEditingTurno({ ...editingTurno, novo: e.target.value })}
                                       className="flex-1 h-8"
                                     />
-                                    <Button size="sm" variant="ghost" onClick={saveEditTurno} className="h-8 w-8 p-0">
+                                    <Button type="button" size="sm" variant="ghost" onClick={saveEditTurno} className="h-8 w-8 p-0">
                                       <CheckCircle2Icon className="h-4 w-4 text-green-600" />
                                     </Button>
-                                    <Button size="sm" variant="ghost" onClick={() => setEditingTurno(null)} className="h-8 w-8 p-0">
+                                    <Button type="button" size="sm" variant="ghost" onClick={() => setEditingTurno(null)} className="h-8 w-8 p-0">
                                       <XIcon className="h-4 w-4 text-red-600" />
                                     </Button>
                                   </>
                                 ) : (
                                   <>
                                     <Badge variant="outline" className="flex-1 justify-center">{t}</Badge>
-                                    <Button size="sm" variant="ghost" onClick={() => setEditingTurno({ original: t, novo: t })} className="h-8 w-8 p-0 hover:bg-blue-100 dark:hover:bg-blue-500/20">
+                                    <Button type="button" size="sm" variant="ghost" onClick={() => setEditingTurno({ original: t, novo: t })} className="h-8 w-8 p-0 hover:bg-blue-100 dark:hover:bg-blue-500/20">
                                       <PencilIcon className="h-4 w-4 text-blue-600" />
                                     </Button>
-                                    <Button size="sm" variant="ghost" onClick={() => removeTurno(t)} className="h-8 w-8 p-0 hover:bg-red-100 dark:hover:bg-red-500/20">
+                                    <Button type="button" size="sm" variant="ghost" onClick={() => removeTurno(t)} className="h-8 w-8 p-0 hover:bg-red-100 dark:hover:bg-red-500/20">
                                       <Trash2Icon className="h-4 w-4 text-red-600" />
                                     </Button>
                                   </>
@@ -722,7 +722,7 @@ export function IntegracaoTable() {
                           onChange={(e) => setNovoTurno(e.target.value)}
                           onKeyDown={(e) => e.key === 'Enter' && addTurno()}
                         />
-                        <Button size="sm" onClick={addTurno}>Adicionar</Button>
+                        <Button type="button" size="sm" onClick={addTurno}>Adicionar</Button>
                       </div>
                     </div>
                   </DialogContent>
@@ -759,20 +759,20 @@ export function IntegracaoTable() {
                                       onChange={(e) => setEditingRegistro({ ...editingRegistro, novo: e.target.value })}
                                       className="flex-1 h-8"
                                     />
-                                    <Button size="sm" variant="ghost" onClick={saveEditRegistro} className="h-8 w-8 p-0">
+                                    <Button type="button" size="sm" variant="ghost" onClick={saveEditRegistro} className="h-8 w-8 p-0">
                                       <CheckCircle2Icon className="h-4 w-4 text-green-600" />
                                     </Button>
-                                    <Button size="sm" variant="ghost" onClick={() => setEditingRegistro(null)} className="h-8 w-8 p-0">
+                                    <Button type="button" size="sm" variant="ghost" onClick={() => setEditingRegistro(null)} className="h-8 w-8 p-0">
                                       <XIcon className="h-4 w-4 text-red-600" />
                                     </Button>
                                   </>
                                 ) : (
                                   <>
                                     <Badge variant="outline" className="flex-1 justify-center">{r}</Badge>
-                                    <Button size="sm" variant="ghost" onClick={() => setEditingRegistro({ original: r, novo: r })} className="h-8 w-8 p-0 hover:bg-blue-100 dark:hover:bg-blue-500/20">
+                                    <Button type="button" size="sm" variant="ghost" onClick={() => setEditingRegistro({ original: r, novo: r })} className="h-8 w-8 p-0 hover:bg-blue-100 dark:hover:bg-blue-500/20">
                                       <PencilIcon className="h-4 w-4 text-blue-600" />
                                     </Button>
-                                    <Button size="sm" variant="ghost" onClick={() => removeRegistro(r)} className="h-8 w-8 p-0 hover:bg-red-100 dark:hover:bg-red-500/20">
+                                    <Button type="button" size="sm" variant="ghost" onClick={() => removeRegistro(r)} className="h-8 w-8 p-0 hover:bg-red-100 dark:hover:bg-red-500/20">
                                       <Trash2Icon className="h-4 w-4 text-red-600" />
                                     </Button>
                                   </>
@@ -789,7 +789,7 @@ export function IntegracaoTable() {
                           onChange={(e) => setNovoRegistro(e.target.value)}
                           onKeyDown={(e) => e.key === 'Enter' && addRegistro()}
                         />
-                        <Button size="sm" onClick={addRegistro}>Adicionar</Button>
+                        <Button type="button" size="sm" onClick={addRegistro}>Adicionar</Button>
                       </div>
                     </div>
                   </DialogContent>
