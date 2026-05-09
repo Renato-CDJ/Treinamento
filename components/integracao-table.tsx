@@ -541,209 +541,225 @@ export function IntegracaoTable() {
         </div>
       </div>
 
-      {/* Dialog para visualizar tabela completa */}
-      <Dialog open={isTableDialogOpen} onOpenChange={setIsTableDialogOpen}>
-        <DialogContent className="w-[95vw] max-w-[95vw] h-[90vh] max-h-[90vh] p-0 flex flex-col gap-0 overflow-hidden">
-          {/* Header fixo */}
-          <div className="flex-shrink-0 px-6 pt-6 pb-4 border-b border-border">
-            <DialogHeader className="mb-3">
-              <DialogTitle className="flex items-center gap-2">
-                <TableIcon className="h-5 w-5" />
-                Colaboradores Registrados em Integracao
-              </DialogTitle>
-              <DialogDescription>
-                Lista completa de todos os colaboradores em treinamento
-              </DialogDescription>
-            </DialogHeader>
-            {/* Filtros */}
-            <div className="flex flex-col sm:flex-row gap-3">
-              <div className="flex-1 relative">
-                <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="Buscar por nome ou CPF..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
-                />
+      {/* Overlay fullscreen para a tabela completa */}
+      {isTableDialogOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+          onClick={(e) => { if (e.target === e.currentTarget) setIsTableDialogOpen(false) }}
+        >
+          <div
+            className="relative bg-background border border-border rounded-lg shadow-2xl flex flex-col"
+            style={{ width: '96vw', height: '92vh' }}
+          >
+            {/* Header fixo */}
+            <div className="flex-shrink-0 px-6 pt-5 pb-4 border-b border-border">
+              <div className="flex items-start justify-between mb-3">
+                <div>
+                  <h2 className="text-lg font-semibold flex items-center gap-2 text-foreground">
+                    <TableIcon className="h-5 w-5" />
+                    Colaboradores Registrados em Integracao
+                  </h2>
+                  <p className="text-sm text-muted-foreground mt-0.5">
+                    Lista completa de todos os colaboradores em treinamento
+                  </p>
+                </div>
+                <button
+                  onClick={() => setIsTableDialogOpen(false)}
+                  className="text-muted-foreground hover:text-foreground transition-colors p-1 rounded-md hover:bg-muted"
+                >
+                  <XIcon className="h-5 w-5" />
+                </button>
               </div>
-              <Select value={filterCarteira} onValueChange={setFilterCarteira}>
-                <SelectTrigger className="w-full sm:w-44">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="TODAS">Todas as Carteiras</SelectItem>
-                  {carteiras.map(c => (
-                    <SelectItem key={c} value={c}>{c}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <Select value={filterTurno} onValueChange={setFilterTurno}>
-                <SelectTrigger className="w-full sm:w-40">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="TODOS">Todos os Turnos</SelectItem>
-                  <SelectItem value="MANHA">Manha</SelectItem>
-                  <SelectItem value="TARDE">Tarde</SelectItem>
-                  <SelectItem value="NOITE">Noite</SelectItem>
-                  <SelectItem value="MADRUGADA">Madrugada</SelectItem>
-                </SelectContent>
-              </Select>
-              <Select value={filterRegistro} onValueChange={setFilterRegistro}>
-                <SelectTrigger className="w-full sm:w-44">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="TODOS">Todos os Registros</SelectItem>
-                  <SelectItem value="OPERADOR(A)">Operador(a)</SelectItem>
-                  <SelectItem value="NEGOCIADOR">Negociador</SelectItem>
-                  <SelectItem value="INTEGRAL">Integral</SelectItem>
-                </SelectContent>
-              </Select>
+              {/* Filtros */}
+              <div className="flex flex-wrap gap-2">
+                <div className="relative flex-1 min-w-[200px]">
+                  <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Buscar por nome ou CPF..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10 h-9"
+                  />
+                </div>
+                <Select value={filterCarteira} onValueChange={setFilterCarteira}>
+                  <SelectTrigger className="w-44 h-9">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="TODAS">Todas as Carteiras</SelectItem>
+                    {carteiras.map(c => (
+                      <SelectItem key={c} value={c}>{c}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select value={filterTurno} onValueChange={setFilterTurno}>
+                  <SelectTrigger className="w-36 h-9">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="TODOS">Todos os Turnos</SelectItem>
+                    <SelectItem value="MANHA">Manha</SelectItem>
+                    <SelectItem value="TARDE">Tarde</SelectItem>
+                    <SelectItem value="NOITE">Noite</SelectItem>
+                    <SelectItem value="MADRUGADA">Madrugada</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Select value={filterRegistro} onValueChange={setFilterRegistro}>
+                  <SelectTrigger className="w-44 h-9">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="TODOS">Todos os Registros</SelectItem>
+                    <SelectItem value="OPERADOR(A)">Operador(a)</SelectItem>
+                    <SelectItem value="NEGOCIADOR">Negociador</SelectItem>
+                    <SelectItem value="INTEGRAL">Integral</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
-          </div>
 
-          {/* Tabela com scroll independente */}
-          <div className="flex-1 overflow-auto min-h-0">
-            {filteredData.length === 0 ? (
-              <div className="flex items-center justify-center h-full">
-                <p className="text-muted-foreground">Nenhum colaborador encontrado</p>
-              </div>
-            ) : (
-              <table className="w-full text-sm border-collapse">
-                <thead className="sticky top-0 z-10 bg-muted/80 backdrop-blur-sm">
-                  <tr className="border-b border-border">
-                    <th className="px-3 py-3 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wide w-12">QTD</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide min-w-[160px]">COLABORADOR</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide min-w-[130px]">CPF</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide min-w-[110px]">ADMISSAO</th>
-                    <th className="px-3 py-3 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wide w-16">DIAS</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide min-w-[100px]">TURNO</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide min-w-[120px]">REGISTRO</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide min-w-[110px]">CARTEIRA</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide min-w-[130px]">1 DIA</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide min-w-[130px]">2 DIA</th>
-                    <th className="px-3 py-3 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wide min-w-[100px]">APLICADO?</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide min-w-[180px]">OBSERVACAO</th>
-                    {canEdit && <th className="px-3 py-3 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wide w-20">ACOES</th>}
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredData.map((item, index) => (
-                    <tr key={item.id} className="border-b border-border hover:bg-muted/40 transition-colors">
-                      <td className="px-3 py-3 text-center text-sm font-medium text-muted-foreground">{index + 1}</td>
-                      <td className="px-3 py-3 font-medium text-foreground whitespace-nowrap">{item.colaborador}</td>
-                      <td className="px-3 py-3 text-muted-foreground whitespace-nowrap">{item.cpf}</td>
-                      <td className="px-3 py-3 whitespace-nowrap">{item.admissao}</td>
-                      <td className="px-3 py-3 text-center">{item.dias}</td>
-                      <td className="px-3 py-3 whitespace-nowrap">{item.turno}</td>
-                      <td className="px-3 py-3 whitespace-nowrap">{item.registro}</td>
-                      <td className="px-3 py-3">
-                        <Badge variant="outline" className="whitespace-nowrap">{item.carteira}</Badge>
-                      </td>
-                      <td className="px-3 py-3 whitespace-nowrap">
-                        {item.dia1 ? (
-                          <div className="flex items-center gap-1.5">
-                            {item.dia1 === 'PRESENTE' && <CheckCircle2Icon className="h-4 w-4 text-green-600 flex-shrink-0" />}
-                            {item.dia1 === 'FALTOU' && <MinusCircleIcon className="h-4 w-4 text-yellow-600 flex-shrink-0" />}
-                            {item.dia1 === 'NAO COMPARECEU' && <XCircleIcon className="h-4 w-4 text-red-600 flex-shrink-0" />}
-                            <span className="text-xs">{item.dia1}</span>
-                          </div>
-                        ) : <span className="text-xs text-muted-foreground">-</span>}
-                      </td>
-                      <td className="px-3 py-3 whitespace-nowrap">
-                        {item.dia2 ? (
-                          <div className="flex items-center gap-1.5">
-                            {item.dia2 === 'PRESENTE' && <CheckCircle2Icon className="h-4 w-4 text-green-600 flex-shrink-0" />}
-                            {item.dia2 === 'FALTOU' && <MinusCircleIcon className="h-4 w-4 text-yellow-600 flex-shrink-0" />}
-                            {item.dia2 === 'NAO COMPARECEU' && <XCircleIcon className="h-4 w-4 text-red-600 flex-shrink-0" />}
-                            <span className="text-xs">{item.dia2}</span>
-                          </div>
-                        ) : <span className="text-xs text-muted-foreground">-</span>}
-                      </td>
-                      <td className="px-3 py-3 text-center">
-                        {item.aplicado ? (
-                          <Badge className="bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400 whitespace-nowrap">Sim</Badge>
-                        ) : (
-                          <Badge variant="secondary" className="whitespace-nowrap">Nao</Badge>
-                        )}
-                      </td>
-                      <td className="px-3 py-3 max-w-[200px]">
-                        {item.observacao ? (
-                          <div className="flex items-start gap-1 text-muted-foreground" title={item.observacao}>
-                            <MessageSquareIcon className="h-3.5 w-3.5 flex-shrink-0 mt-0.5" />
-                            <span className="text-xs line-clamp-2 leading-relaxed">{item.observacao}</span>
-                          </div>
-                        ) : <span className="text-xs text-muted-foreground">-</span>}
-                      </td>
-                      {canEdit && (
-                        <td className="px-3 py-3">
-                          <div className="flex gap-1.5 justify-center">
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => {
-                                handleEditItem(item)
-                                setIsTableDialogOpen(false)
-                              }}
-                              className="h-8 w-8 p-0 hover:bg-blue-100 dark:hover:bg-blue-500/20 hover:text-blue-600 dark:hover:text-blue-400"
-                            >
-                              <PencilIcon className="h-4 w-4" />
-                            </Button>
-                            <Dialog open={deleteConfirm === item.id} onOpenChange={(open) => !open && setDeleteConfirm(null)}>
-                              <DialogTrigger asChild>
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  onClick={() => setDeleteConfirm(item.id)}
-                                  className="h-8 w-8 p-0 hover:bg-red-100 dark:hover:bg-red-500/20 hover:text-red-600 dark:hover:text-red-400"
-                                >
-                                  <Trash2Icon className="h-4 w-4" />
-                                </Button>
-                              </DialogTrigger>
-                              <DialogContent className="max-w-sm">
-                                <DialogHeader>
-                                  <DialogTitle className="flex items-center gap-2 text-destructive">
-                                    <AlertCircleIcon className="h-5 w-5" />
-                                    Confirmar Exclusao
-                                  </DialogTitle>
-                                </DialogHeader>
-                                <p className="text-sm text-foreground">
-                                  Tem certeza que deseja remover <strong>{item.colaborador}</strong>?
-                                </p>
-                                <DialogFooter>
-                                  <Button variant="outline" onClick={() => setDeleteConfirm(null)}>Cancelar</Button>
-                                  <Button variant="destructive" onClick={() => handleDeleteItem(item.id)}>Remover</Button>
-                                </DialogFooter>
-                              </DialogContent>
-                            </Dialog>
-                          </div>
-                        </td>
-                      )}
+            {/* Area de scroll: horizontal e vertical */}
+            <div className="flex-1 overflow-auto min-h-0">
+              {filteredData.length === 0 ? (
+                <div className="flex items-center justify-center h-full">
+                  <p className="text-muted-foreground">Nenhum colaborador encontrado</p>
+                </div>
+              ) : (
+                <table className="border-collapse" style={{ minWidth: '100%', width: 'max-content' }}>
+                  <thead style={{ position: 'sticky', top: 0, zIndex: 10 }}>
+                    <tr className="bg-muted border-b border-border">
+                      <th className="px-3 py-3 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '50px' }}>QTD</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '180px' }}>COLABORADOR</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '140px' }}>CPF</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '120px' }}>ADMISSAO</th>
+                      <th className="px-3 py-3 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '70px' }}>DIAS</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '120px' }}>TURNO</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '130px' }}>REGISTRO</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '120px' }}>CARTEIRA</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '150px' }}>1 DIA</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '150px' }}>2 DIA</th>
+                      <th className="px-3 py-3 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '110px' }}>APLICADO?</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '200px' }}>OBSERVACAO</th>
+                      {canEdit && <th className="px-3 py-3 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '90px' }}>ACOES</th>}
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
-          </div>
+                  </thead>
+                  <tbody>
+                    {filteredData.map((item, index) => (
+                      <tr key={item.id} className="border-b border-border hover:bg-muted/40 transition-colors">
+                        <td className="px-3 py-3 text-center text-sm text-muted-foreground">{index + 1}</td>
+                        <td className="px-3 py-3 font-medium text-foreground whitespace-nowrap">{item.colaborador}</td>
+                        <td className="px-3 py-3 text-muted-foreground whitespace-nowrap">{item.cpf}</td>
+                        <td className="px-3 py-3 text-sm whitespace-nowrap">{item.admissao}</td>
+                        <td className="px-3 py-3 text-center text-sm">{item.dias}</td>
+                        <td className="px-3 py-3 text-sm whitespace-nowrap">{item.turno}</td>
+                        <td className="px-3 py-3 text-sm whitespace-nowrap">{item.registro}</td>
+                        <td className="px-3 py-3">
+                          <Badge variant="outline" className="whitespace-nowrap text-xs">{item.carteira}</Badge>
+                        </td>
+                        <td className="px-3 py-3 whitespace-nowrap">
+                          {item.dia1 ? (
+                            <div className="flex items-center gap-1.5">
+                              {item.dia1 === 'PRESENTE' && <CheckCircle2Icon className="h-4 w-4 text-green-600 flex-shrink-0" />}
+                              {item.dia1 === 'FALTOU' && <MinusCircleIcon className="h-4 w-4 text-yellow-600 flex-shrink-0" />}
+                              {item.dia1 === 'NAO COMPARECEU' && <XCircleIcon className="h-4 w-4 text-red-600 flex-shrink-0" />}
+                              <span className="text-xs">{item.dia1}</span>
+                            </div>
+                          ) : <span className="text-xs text-muted-foreground">-</span>}
+                        </td>
+                        <td className="px-3 py-3 whitespace-nowrap">
+                          {item.dia2 ? (
+                            <div className="flex items-center gap-1.5">
+                              {item.dia2 === 'PRESENTE' && <CheckCircle2Icon className="h-4 w-4 text-green-600 flex-shrink-0" />}
+                              {item.dia2 === 'FALTOU' && <MinusCircleIcon className="h-4 w-4 text-yellow-600 flex-shrink-0" />}
+                              {item.dia2 === 'NAO COMPARECEU' && <XCircleIcon className="h-4 w-4 text-red-600 flex-shrink-0" />}
+                              <span className="text-xs">{item.dia2}</span>
+                            </div>
+                          ) : <span className="text-xs text-muted-foreground">-</span>}
+                        </td>
+                        <td className="px-3 py-3 text-center whitespace-nowrap">
+                          {item.aplicado ? (
+                            <Badge className="bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400 text-xs">Sim</Badge>
+                          ) : (
+                            <Badge variant="secondary" className="text-xs">Nao</Badge>
+                          )}
+                        </td>
+                        <td className="px-3 py-3" style={{ maxWidth: '200px' }}>
+                          {item.observacao ? (
+                            <div className="flex items-start gap-1 text-muted-foreground" title={item.observacao}>
+                              <MessageSquareIcon className="h-3.5 w-3.5 flex-shrink-0 mt-0.5" />
+                              <span className="text-xs leading-relaxed break-words">{item.observacao}</span>
+                            </div>
+                          ) : <span className="text-xs text-muted-foreground">-</span>}
+                        </td>
+                        {canEdit && (
+                          <td className="px-3 py-3">
+                            <div className="flex gap-1.5 justify-center">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => {
+                                  handleEditItem(item)
+                                  setIsTableDialogOpen(false)
+                                }}
+                                className="h-8 w-8 p-0 hover:bg-blue-100 dark:hover:bg-blue-500/20 hover:text-blue-600 dark:hover:text-blue-400"
+                              >
+                                <PencilIcon className="h-4 w-4" />
+                              </Button>
+                              <Dialog open={deleteConfirm === item.id} onOpenChange={(open) => !open && setDeleteConfirm(null)}>
+                                <DialogTrigger asChild>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => setDeleteConfirm(item.id)}
+                                    className="h-8 w-8 p-0 hover:bg-red-100 dark:hover:bg-red-500/20 hover:text-red-600 dark:hover:text-red-400"
+                                  >
+                                    <Trash2Icon className="h-4 w-4" />
+                                  </Button>
+                                </DialogTrigger>
+                                <DialogContent className="max-w-sm">
+                                  <DialogHeader>
+                                    <DialogTitle className="flex items-center gap-2 text-destructive">
+                                      <AlertCircleIcon className="h-5 w-5" />
+                                      Confirmar Exclusao
+                                    </DialogTitle>
+                                  </DialogHeader>
+                                  <p className="text-sm text-foreground">
+                                    Tem certeza que deseja remover <strong>{item.colaborador}</strong>?
+                                  </p>
+                                  <DialogFooter>
+                                    <Button variant="outline" onClick={() => setDeleteConfirm(null)}>Cancelar</Button>
+                                    <Button variant="destructive" onClick={() => handleDeleteItem(item.id)}>Remover</Button>
+                                  </DialogFooter>
+                                </DialogContent>
+                              </Dialog>
+                            </div>
+                          </td>
+                        )}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+            </div>
 
-          {/* Footer fixo */}
-          <div className="flex-shrink-0 flex justify-between items-center px-6 py-4 border-t border-border bg-background">
-            <p className="text-sm text-muted-foreground">
-              Total: <span className="font-semibold text-foreground">{filteredData.length}</span> colaborador{filteredData.length !== 1 ? 'es' : ''}
-            </p>
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm" onClick={handleExport} className="gap-2">
-                <DownloadIcon className="h-4 w-4" />
-                Exportar
-              </Button>
-              <Button variant="outline" size="sm" onClick={() => setIsTableDialogOpen(false)}>
-                Fechar
-              </Button>
+            {/* Footer fixo */}
+            <div className="flex-shrink-0 flex justify-between items-center px-6 py-4 border-t border-border bg-background rounded-b-lg">
+              <p className="text-sm text-muted-foreground">
+                Total: <span className="font-semibold text-foreground">{filteredData.length}</span> colaborador{filteredData.length !== 1 ? 'es' : ''}
+              </p>
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm" onClick={handleExport} className="gap-2">
+                  <DownloadIcon className="h-4 w-4" />
+                  Exportar
+                </Button>
+                <Button variant="outline" size="sm" onClick={() => setIsTableDialogOpen(false)}>
+                  Fechar
+                </Button>
+              </div>
             </div>
           </div>
-        </DialogContent>
-      </Dialog>
+        </div>
+      )}
 
       {/* Stats Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
