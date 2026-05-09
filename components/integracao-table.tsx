@@ -930,13 +930,13 @@ export function IntegracaoTable() {
             <div className="h-[250px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData.porCarteira} layout="vertical">
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis type="number" tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 11 }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                  <XAxis type="number" tick={{ fill: 'var(--muted-foreground)', fontSize: 11 }} />
                   <YAxis 
                     dataKey="name" 
                     type="category" 
-                    width={100} 
-                    tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 11 }} 
+                    width={110} 
+                    tick={{ fill: 'var(--muted-foreground)', fontSize: 11 }} 
                   />
                   <Tooltip content={<CustomTooltip />} />
                   <Bar dataKey="value" fill="#3b82f6" radius={[0, 4, 4, 0]} />
@@ -955,15 +955,15 @@ export function IntegracaoTable() {
             <div className="h-[250px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData.porTurno}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
                   <XAxis 
                     dataKey="name" 
-                    tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 10 }}
+                    tick={{ fill: 'var(--muted-foreground)', fontSize: 10 }}
                     angle={-20}
                     textAnchor="end"
                     height={50}
                   />
-                  <YAxis tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 11 }} />
+                  <YAxis tick={{ fill: 'var(--muted-foreground)', fontSize: 11 }} />
                   <Tooltip content={<CustomTooltip />} />
                   <Bar dataKey="value" fill="#22c55e" radius={[4, 4, 0, 0]} />
                 </BarChart>

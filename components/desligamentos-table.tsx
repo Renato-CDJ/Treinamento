@@ -45,6 +45,7 @@ import {
   UserIcon,
   CalendarIcon,
   TableIcon,
+  XIcon,
 } from 'lucide-react'
 import {
   BarChart,
@@ -366,130 +367,194 @@ export function DesligamentosTable() {
         </div>
       </div>
 
-      {/* Dialog para visualizar tabela completa */}
-      <Dialog open={isTableDialogOpen} onOpenChange={setIsTableDialogOpen}>
-        <DialogContent className="max-w-[95vw] max-h-[90vh] overflow-hidden flex flex-col">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <TableIcon className="h-5 w-5" />
-              Colaboradores Desligados - Registros Completos
-            </DialogTitle>
-            <DialogDescription>
-              Lista completa de todos os colaboradores desligados
-            </DialogDescription>
-          </DialogHeader>
-          
-          {/* Filters inside dialog */}
-          <div className="flex flex-col sm:flex-row gap-3 py-2">
-            <div className="flex-1 relative">
-              <SearchIcon className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Buscar por nome..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
+      {/* Overlay fullscreen para a tabela completa */}
+      {isTableDialogOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+          onClick={(e) => { if (e.target === e.currentTarget) setIsTableDialogOpen(false) }}
+        >
+          <div
+            className="relative bg-background border border-border rounded-lg shadow-2xl flex flex-col"
+            style={{ width: '96vw', height: '92vh' }}
+          >
+            {/* Header fixo */}
+            <div className="flex-shrink-0 px-6 pt-5 pb-4 border-b border-border">
+              <div className="flex items-start justify-between mb-3">
+                <div>
+                  <h2 className="text-lg font-semibold flex items-center gap-2 text-foreground">
+                    <TableIcon className="h-5 w-5" />
+                    Colaboradores Desligados - Registros Completos
+                  </h2>
+                  <p className="text-sm text-muted-foreground mt-0.5">
+                    Lista completa de todos os colaboradores desligados
+                  </p>
+                </div>
+                <button
+                  onClick={() => setIsTableDialogOpen(false)}
+                  className="text-muted-foreground hover:text-foreground transition-colors p-1 rounded-md hover:bg-muted"
+                >
+                  <XIcon className="h-5 w-5" />
+                </button>
+              </div>
+              {/* Filtros */}
+              <div className="flex flex-wrap gap-2">
+                <div className="relative flex-1 min-w-[200px]">
+                  <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Buscar por nome..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10 h-9"
+                  />
+                </div>
+                <Select value={filterCarteira} onValueChange={setFilterCarteira}>
+                  <SelectTrigger className="w-44 h-9">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="TODAS">Todas as Carteiras</SelectItem>
+                    {carteiras.map(c => (
+                      <SelectItem key={c} value={c}>{c}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select value={filterStatus} onValueChange={setFilterStatus}>
+                  <SelectTrigger className="w-44 h-9">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="TODOS">Todos Status</SelectItem>
+                    <SelectItem value="COM AVISO PREVIO">Com Aviso Previo</SelectItem>
+                    <SelectItem value="SEM AVISO PREVIO">Sem Aviso Previo</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Select value={filterMotivo} onValueChange={setFilterMotivo}>
+                  <SelectTrigger className="w-44 h-9">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="TODOS">Todos os Motivos</SelectItem>
+                    {motivos.map(m => (
+                      <SelectItem key={m} value={m}>{m}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
-            <Select value={filterCarteira} onValueChange={setFilterCarteira}>
-              <SelectTrigger className="w-full sm:w-40">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="TODAS">Todas as Carteiras</SelectItem>
-                {carteiras.map(c => (
-                  <SelectItem key={c} value={c}>{c}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <Select value={filterStatus} onValueChange={setFilterStatus}>
-              <SelectTrigger className="w-full sm:w-40">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="TODOS">Todos Status</SelectItem>
-                <SelectItem value="COM AVISO PREVIO">Com Aviso Previo</SelectItem>
-                <SelectItem value="SEM AVISO PREVIO">Sem Aviso Previo</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
 
-          <div className="flex-1 overflow-auto">
-            <Table>
-              <TableHeader>
-                <TableRow className="border-b border-border hover:bg-transparent">
-                  <TableHead className="w-12 text-center">QTD</TableHead>
-                  <TableHead className="min-w-40">NOME DO OPERADOR</TableHead>
-                  <TableHead className="min-w-24">CARTEIRA</TableHead>
-                  <TableHead className="min-w-28">ADMISSAO</TableHead>
-                  <TableHead className="min-w-20 text-center">DIAS</TableHead>
-                  <TableHead className="min-w-40">MOTIVO</TableHead>
-                  <TableHead className="min-w-28">STATUS</TableHead>
-                  <TableHead className="min-w-28">DATA DESLIGAMENTO</TableHead>
-                  {canEdit && <TableHead className="w-16 text-center">ACOES</TableHead>}
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredData.map((item, index) => (
-                  <TableRow key={item.id} className="border-b border-border hover:bg-muted/50">
-                    <TableCell className="text-center text-sm font-medium">{index + 1}</TableCell>
-                    <TableCell className="font-medium text-foreground whitespace-nowrap">{item.nome || item.nomeOperador}</TableCell>
-                    <TableCell className="text-sm"><Badge variant="outline">{item.carteira}</Badge></TableCell>
-                    <TableCell className="text-sm whitespace-nowrap">{item.admissao}</TableCell>
-                    <TableCell className="text-center text-sm">{item.dias}</TableCell>
-                    <TableCell className="text-sm">{item.motivo}</TableCell>
-                    <TableCell className="text-sm whitespace-nowrap">
-                      {item.status === 'COM AVISO PREVIO' ? (
-                        <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-400">
-                          Com Aviso
-                        </Badge>
-                      ) : (
-                        <Badge variant="destructive">
-                          Sem Aviso
-                        </Badge>
-                      )}
-                    </TableCell>
-                    <TableCell className="text-sm whitespace-nowrap">{item.dataDesligamento}</TableCell>
-                    {canEdit && (
-                      <TableCell className="text-center">
-                        <div className="flex gap-2 justify-center">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => {
-                              handleEditItem(item)
-                              setIsTableDialogOpen(false)
-                            }}
-                            className="h-8 w-8 p-0 hover:bg-blue-100 dark:hover:bg-blue-500/20 hover:text-blue-600 dark:hover:text-blue-400"
-                          >
-                            <PencilIcon className="h-4 w-4" />
-                          </Button>
-                          <Dialog open={deleteConfirm === item.id} onOpenChange={(open) => !open && setDeleteConfirm(null)}>
-                            <DialogTrigger asChild>
+            {/* Area de scroll: horizontal e vertical */}
+            <div className="flex-1 overflow-auto min-h-0">
+              {filteredData.length === 0 ? (
+                <div className="flex items-center justify-center h-full">
+                  <p className="text-muted-foreground">Nenhum registro encontrado</p>
+                </div>
+              ) : (
+                <table className="border-collapse" style={{ minWidth: '100%', width: 'max-content' }}>
+                  <thead style={{ position: 'sticky', top: 0, zIndex: 10 }}>
+                    <tr className="bg-muted border-b border-border">
+                      <th className="px-3 py-3 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '50px' }}>QTD</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '180px' }}>NOME DO OPERADOR</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '120px' }}>CARTEIRA</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '120px' }}>ADMISSAO</th>
+                      <th className="px-3 py-3 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '70px' }}>DIAS</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '200px' }}>MOTIVO</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '150px' }}>STATUS</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '160px' }}>DATA DESLIGAMENTO</th>
+                      {canEdit && <th className="px-3 py-3 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '90px' }}>ACOES</th>}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredData.map((item, index) => (
+                      <tr key={item.id} className="border-b border-border hover:bg-muted/40 transition-colors">
+                        <td className="px-3 py-3 text-center text-sm text-muted-foreground">{index + 1}</td>
+                        <td className="px-3 py-3 font-medium text-foreground whitespace-nowrap">{item.nome || item.nomeOperador}</td>
+                        <td className="px-3 py-3">
+                          <Badge variant="outline" className="whitespace-nowrap text-xs">{item.carteira}</Badge>
+                        </td>
+                        <td className="px-3 py-3 text-sm whitespace-nowrap">{item.admissao}</td>
+                        <td className="px-3 py-3 text-center text-sm">{item.dias}</td>
+                        <td className="px-3 py-3 text-sm">{item.motivo}</td>
+                        <td className="px-3 py-3 whitespace-nowrap">
+                          {item.status === 'COM AVISO PREVIO' ? (
+                            <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-400 text-xs">
+                              Com Aviso
+                            </Badge>
+                          ) : (
+                            <Badge variant="destructive" className="text-xs">
+                              Sem Aviso
+                            </Badge>
+                          )}
+                        </td>
+                        <td className="px-3 py-3 text-sm whitespace-nowrap">{item.dataDesligamento}</td>
+                        {canEdit && (
+                          <td className="px-3 py-3">
+                            <div className="flex gap-1.5 justify-center">
                               <Button
                                 variant="ghost"
                                 size="sm"
-                                onClick={() => setDeleteConfirm(item.id)}
-                                className="h-8 w-8 p-0 hover:bg-red-100 dark:hover:bg-red-500/20 hover:text-red-600 dark:hover:text-red-400"
+                                onClick={() => {
+                                  handleEditItem(item)
+                                  setIsTableDialogOpen(false)
+                                }}
+                                className="h-8 w-8 p-0 hover:bg-blue-100 dark:hover:bg-blue-500/20 hover:text-blue-600 dark:hover:text-blue-400"
                               >
-                                <Trash2Icon className="h-4 w-4" />
+                                <PencilIcon className="h-4 w-4" />
                               </Button>
-                            </DialogTrigger>
-                            <DialogContent className="max-w-sm">
-                              <DialogHeader>
-                                <DialogTitle className="flex items-center gap-2 text-destructive">
-                                  <AlertTriangleIcon className="h-5 w-5" />
-                                  Confirmar Exclusao
-                                </DialogTitle>
-                              </DialogHeader>
-                              <p className="text-sm text-foreground">
-                                Tem certeza que deseja remover <strong>{item.nome || item.nomeOperador}</strong>?
-                              </p>
-                              <DialogFooter>
-                                <Button variant="outline" onClick={() => setDeleteConfirm(null)}>Cancelar</Button>
-                                <Button variant="destructive" onClick={() => handleDeleteItem(item.id)}>Remover</Button>
-                              </DialogFooter>
-                            </DialogContent>
-                          </Dialog>
+                              <Dialog open={deleteConfirm === item.id} onOpenChange={(open) => !open && setDeleteConfirm(null)}>
+                                <DialogTrigger asChild>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => setDeleteConfirm(item.id)}
+                                    className="h-8 w-8 p-0 hover:bg-red-100 dark:hover:bg-red-500/20 hover:text-red-600 dark:hover:text-red-400"
+                                  >
+                                    <Trash2Icon className="h-4 w-4" />
+                                  </Button>
+                                </DialogTrigger>
+                                <DialogContent className="max-w-sm">
+                                  <DialogHeader>
+                                    <DialogTitle className="flex items-center gap-2 text-destructive">
+                                      <AlertTriangleIcon className="h-5 w-5" />
+                                      Confirmar Exclusao
+                                    </DialogTitle>
+                                  </DialogHeader>
+                                  <p className="text-sm text-foreground">
+                                    Tem certeza que deseja remover <strong>{item.nome || item.nomeOperador}</strong>?
+                                  </p>
+                                  <DialogFooter>
+                                    <Button variant="outline" onClick={() => setDeleteConfirm(null)}>Cancelar</Button>
+                                    <Button variant="destructive" onClick={() => handleDeleteItem(item.id)}>Remover</Button>
+                                  </DialogFooter>
+                                </DialogContent>
+                              </Dialog>
+                            </div>
+                          </td>
+                        )}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+            </div>
+
+            {/* Footer fixo */}
+            <div className="flex-shrink-0 flex justify-between items-center px-6 py-4 border-t border-border bg-background rounded-b-lg">
+              <p className="text-sm text-muted-foreground">
+                Total: <span className="font-semibold text-foreground">{filteredData.length}</span> registro{filteredData.length !== 1 ? 's' : ''}
+              </p>
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm" onClick={handleExport} className="gap-2">
+                  <DownloadIcon className="h-4 w-4" />
+                  Exportar
+                </Button>
+                <Button variant="outline" size="sm" onClick={() => setIsTableDialogOpen(false)}>
+                  Fechar
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
                         </div>
                       </TableCell>
                     )}
@@ -622,15 +687,15 @@ export function DesligamentosTable() {
             <div className="h-[250px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData.faixasTempo}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
                   <XAxis 
                     dataKey="name" 
-                    tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 9 }}
+                    tick={{ fill: 'var(--muted-foreground)', fontSize: 9 }}
                     angle={-25}
                     textAnchor="end"
                     height={60}
                   />
-                  <YAxis tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 11 }} />
+                  <YAxis tick={{ fill: 'var(--muted-foreground)', fontSize: 11 }} />
                   <Tooltip content={<CustomTooltip />} />
                   <Bar dataKey="value" fill="#f59e0b" radius={[4, 4, 0, 0]} />
                 </BarChart>
@@ -648,13 +713,13 @@ export function DesligamentosTable() {
             <div className="h-[250px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData.porMotivo} layout="vertical">
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis type="number" tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 11 }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                  <XAxis type="number" tick={{ fill: 'var(--muted-foreground)', fontSize: 11 }} />
                   <YAxis 
                     dataKey="name" 
                     type="category" 
-                    width={120} 
-                    tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 9 }} 
+                    width={130} 
+                    tick={{ fill: 'var(--muted-foreground)', fontSize: 9 }} 
                   />
                   <Tooltip content={<CustomTooltip />} />
                   <Bar dataKey="value" fill="#8b5cf6" radius={[0, 4, 4, 0]} />
