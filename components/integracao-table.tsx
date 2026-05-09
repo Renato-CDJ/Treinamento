@@ -447,163 +447,206 @@ export function IntegracaoTable() {
                     </Button>
                   </DialogTrigger>
                   <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-                    <DialogHeader>
-                      <DialogTitle>{editingItem ? 'Editar Colaborador' : 'Adicionar Novo Colaborador'}</DialogTitle>
+                    <DialogHeader className="pb-4 border-b">
+                      <DialogTitle className="text-xl">{editingItem ? 'Editar Colaborador' : 'Adicionar Novo Colaborador'}</DialogTitle>
                       <DialogDescription>
                         Preencha as informacoes do colaborador em integracao
                       </DialogDescription>
                     </DialogHeader>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="colaborador">Nome do Colaborador *</Label>
-                        <Input
-                          id="colaborador"
-                          placeholder="Nome completo"
-                          value={formData.colaborador}
-                          onChange={(e) => setFormData({...formData, colaborador: e.target.value})}
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="cpf">CPF *</Label>
-                        <Input
-                          id="cpf"
-                          placeholder="000.000.000-00"
-                          value={formData.cpf}
-                          onChange={(e) => setFormData({...formData, cpf: e.target.value})}
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="admissao">Data de Admissao (DD/MM/AAAA) *</Label>
-                        <Input
-                          id="admissao"
-                          placeholder="DD/MM/AAAA"
-                          value={formData.admissao}
-                          onChange={(e) => handleAdmissaoChange(e.target.value)}
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="dias">Dias de Treinamento</Label>
-                        <Input
-                          id="dias"
-                          type="number"
-                          value={formData.dias}
-                          readOnly
-                          className="bg-muted"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between">
-                          <Label htmlFor="turno">Turno</Label>
-                          <button
-                            type="button"
-                            onClick={() => setIsTurnosDialogOpen(true)}
-                            className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
-                            title="Gerenciar turnos"
-                          >
-                            <SettingsIcon className="h-3.5 w-3.5" />
-                            Gerenciar
-                          </button>
+                    
+                    <div className="space-y-6 py-4">
+                      {/* Secao: Dados Pessoais */}
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-2">
+                          <div className="h-5 w-1 bg-primary rounded-full" />
+                          <h3 className="text-sm font-semibold text-foreground">Dados Pessoais</h3>
                         </div>
-                        <Select value={formData.turno} onValueChange={(value) => setFormData({...formData, turno: value as any})}>
-                          <SelectTrigger id="turno">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {turnos.map(t => (
-                              <SelectItem key={t} value={t}>{t}</SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between">
-                          <Label htmlFor="registro">Registro</Label>
-                          <button
-                            type="button"
-                            onClick={() => setIsRegistrosDialogOpen(true)}
-                            className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
-                            title="Gerenciar registros"
-                          >
-                            <SettingsIcon className="h-3.5 w-3.5" />
-                            Gerenciar
-                          </button>
+                        <div className="grid grid-cols-2 gap-4 pl-3">
+                          <div className="space-y-2">
+                            <Label htmlFor="colaborador" className="text-sm">Nome do Colaborador <span className="text-red-500">*</span></Label>
+                            <Input
+                              id="colaborador"
+                              placeholder="Nome completo"
+                              value={formData.colaborador}
+                              onChange={(e) => setFormData({...formData, colaborador: e.target.value})}
+                              className="h-9"
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="cpf" className="text-sm">CPF <span className="text-red-500">*</span></Label>
+                            <Input
+                              id="cpf"
+                              placeholder="000.000.000-00"
+                              value={formData.cpf}
+                              onChange={(e) => setFormData({...formData, cpf: e.target.value})}
+                              className="h-9"
+                            />
+                          </div>
                         </div>
-                        <Select value={formData.registro} onValueChange={(value) => setFormData({...formData, registro: value as any})}>
-                          <SelectTrigger id="registro">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {registros.map(r => (
-                              <SelectItem key={r} value={r}>{r}</SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
                       </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="carteira">Carteira</Label>
-                        <Select value={formData.carteira} onValueChange={(value) => setFormData({...formData, carteira: value})}>
-                          <SelectTrigger id="carteira">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {carteiras.map(c => (
-                              <SelectItem key={c} value={c}>{c}</SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+
+                      {/* Secao: Informacoes de Trabalho */}
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-2">
+                          <div className="h-5 w-1 bg-primary rounded-full" />
+                          <h3 className="text-sm font-semibold text-foreground">Informacoes de Trabalho</h3>
+                        </div>
+                        <div className="grid grid-cols-3 gap-4 pl-3">
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-between">
+                              <Label htmlFor="turno" className="text-sm">Turno</Label>
+                              <button
+                                type="button"
+                                onClick={() => setIsTurnosDialogOpen(true)}
+                                className="flex items-center gap-1 text-xs text-primary hover:text-primary/80 transition-colors font-medium"
+                                title="Gerenciar turnos"
+                              >
+                                <SettingsIcon className="h-3 w-3" />
+                                Gerenciar
+                              </button>
+                            </div>
+                            <Select value={formData.turno} onValueChange={(value) => setFormData({...formData, turno: value as any})}>
+                              <SelectTrigger id="turno" className="h-9">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {turnos.map(t => (
+                                  <SelectItem key={t} value={t}>{t}</SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-between">
+                              <Label htmlFor="registro" className="text-sm">Registro</Label>
+                              <button
+                                type="button"
+                                onClick={() => setIsRegistrosDialogOpen(true)}
+                                className="flex items-center gap-1 text-xs text-primary hover:text-primary/80 transition-colors font-medium"
+                                title="Gerenciar registros"
+                              >
+                                <SettingsIcon className="h-3 w-3" />
+                                Gerenciar
+                              </button>
+                            </div>
+                            <Select value={formData.registro} onValueChange={(value) => setFormData({...formData, registro: value as any})}>
+                              <SelectTrigger id="registro" className="h-9">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {registros.map(r => (
+                                  <SelectItem key={r} value={r}>{r}</SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="carteira" className="text-sm">Carteira</Label>
+                            <Select value={formData.carteira} onValueChange={(value) => setFormData({...formData, carteira: value})}>
+                              <SelectTrigger id="carteira" className="h-9">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {carteiras.map(c => (
+                                  <SelectItem key={c} value={c}>{c}</SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
                       </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="dia1">1 Dia</Label>
-                        <Select value={formData.dia1} onValueChange={(value) => setFormData({...formData, dia1: value})}>
-                          <SelectTrigger id="dia1">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="vazio">Em Branco</SelectItem>
-                            <SelectItem value="PRESENTE">Presente</SelectItem>
-                            <SelectItem value="FALTOU">Faltou</SelectItem>
-                            <SelectItem value="NAO COMPARECEU">Nao Compareceu</SelectItem>
-                          </SelectContent>
-                        </Select>
+
+                      {/* Secao: Treinamento */}
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-2">
+                          <div className="h-5 w-1 bg-primary rounded-full" />
+                          <h3 className="text-sm font-semibold text-foreground">Treinamento</h3>
+                        </div>
+                        <div className="grid grid-cols-4 gap-4 pl-3">
+                          <div className="space-y-2">
+                            <Label htmlFor="admissao" className="text-sm">Data de Admissao <span className="text-red-500">*</span></Label>
+                            <Input
+                              id="admissao"
+                              placeholder="DD/MM/AAAA"
+                              value={formData.admissao}
+                              onChange={(e) => handleAdmissaoChange(e.target.value)}
+                              className="h-9"
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="dias" className="text-sm">Dias</Label>
+                            <Input
+                              id="dias"
+                              type="number"
+                              value={formData.dias}
+                              readOnly
+                              className="h-9 bg-muted text-center font-medium"
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="dia1" className="text-sm">1o Dia</Label>
+                            <Select value={formData.dia1} onValueChange={(value) => setFormData({...formData, dia1: value})}>
+                              <SelectTrigger id="dia1" className="h-9">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="vazio">Em Branco</SelectItem>
+                                <SelectItem value="PRESENTE">Presente</SelectItem>
+                                <SelectItem value="FALTOU">Faltou</SelectItem>
+                                <SelectItem value="NAO COMPARECEU">Nao Compareceu</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="dia2" className="text-sm">2o Dia</Label>
+                            <Select value={formData.dia2} onValueChange={(value) => setFormData({...formData, dia2: value})}>
+                              <SelectTrigger id="dia2" className="h-9">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="vazio">Em Branco</SelectItem>
+                                <SelectItem value="PRESENTE">Presente</SelectItem>
+                                <SelectItem value="FALTOU">Faltou</SelectItem>
+                                <SelectItem value="NAO COMPARECEU">Nao Compareceu</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4 pl-3">
+                          <div className="space-y-2">
+                            <Label htmlFor="aplicado" className="text-sm">Treinamento Aplicado?</Label>
+                            <Select value={formData.aplicado ? 'sim' : 'nao'} onValueChange={(value) => setFormData({...formData, aplicado: value === 'sim'})}>
+                              <SelectTrigger id="aplicado" className="h-9">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="nao">Nao</SelectItem>
+                                <SelectItem value="sim">Sim</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
                       </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="dia2">2 Dia</Label>
-                        <Select value={formData.dia2} onValueChange={(value) => setFormData({...formData, dia2: value})}>
-                          <SelectTrigger id="dia2">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="vazio">Em Branco</SelectItem>
-                            <SelectItem value="PRESENTE">Presente</SelectItem>
-                            <SelectItem value="FALTOU">Faltou</SelectItem>
-                            <SelectItem value="NAO COMPARECEU">Nao Compareceu</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="aplicado">Treinamento Aplicado?</Label>
-                        <Select value={formData.aplicado ? 'sim' : 'nao'} onValueChange={(value) => setFormData({...formData, aplicado: value === 'sim'})}>
-                          <SelectTrigger id="aplicado">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="nao">Nao</SelectItem>
-                            <SelectItem value="sim">Sim</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="col-span-2 space-y-2">
-                        <Label htmlFor="observacao">Observacao</Label>
-                        <Textarea
-                          id="observacao"
-                          placeholder="Adicione uma observacao sobre o colaborador..."
-                          value={formData.observacao}
-                          onChange={(e) => setFormData({...formData, observacao: e.target.value})}
-                          className="min-h-20"
-                        />
+
+                      {/* Secao: Observacoes */}
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-2">
+                          <div className="h-5 w-1 bg-primary rounded-full" />
+                          <h3 className="text-sm font-semibold text-foreground">Observacoes</h3>
+                        </div>
+                        <div className="pl-3">
+                          <Textarea
+                            id="observacao"
+                            placeholder="Adicione uma observacao sobre o colaborador..."
+                            value={formData.observacao}
+                            onChange={(e) => setFormData({...formData, observacao: e.target.value})}
+                            className="min-h-20 resize-none"
+                          />
+                        </div>
                       </div>
                     </div>
-                    <DialogFooter>
+
+                    <DialogFooter className="pt-4 border-t gap-2">
                       <Button variant="outline" onClick={() => {
                         setIsAddDialogOpen(false)
                         resetForm()
@@ -611,7 +654,7 @@ export function IntegracaoTable() {
                       }}>
                         Cancelar
                       </Button>
-                      <Button onClick={handleAddItem}>
+                      <Button onClick={handleAddItem} className="min-w-24">
                         {editingItem ? 'Atualizar' : 'Adicionar'}
                       </Button>
                     </DialogFooter>
