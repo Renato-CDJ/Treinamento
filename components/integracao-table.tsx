@@ -12,7 +12,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { PlusIcon, PencilIcon, Trash2Icon, SearchIcon, DownloadIcon, CheckCircle2Icon, MinusCircleIcon, XCircleIcon, AlertCircleIcon, UserIcon, BriefcaseIcon, CalendarIcon, SettingsIcon, UserCheckIcon, UserXIcon, TrendingUpIcon } from 'lucide-react'
+import { Textarea } from '@/components/ui/textarea'
+import { PlusIcon, PencilIcon, Trash2Icon, SearchIcon, DownloadIcon, CheckCircle2Icon, MinusCircleIcon, XCircleIcon, AlertCircleIcon, UserIcon, BriefcaseIcon, CalendarIcon, SettingsIcon, UserCheckIcon, UserXIcon, TrendingUpIcon, EyeIcon, XIcon, TableIcon, MessageSquareIcon } from 'lucide-react'
 import {
   BarChart,
   Bar,
@@ -42,6 +43,9 @@ export function IntegracaoTable() {
   const [carteirasCustom, setCarteirasCustom] = useState<string[]>([])
   const [novaCarteira, setNovaCarteira] = useState('')
   const [isCarteirasDialogOpen, setIsCarteirasDialogOpen] = useState(false)
+  const [isTableDialogOpen, setIsTableDialogOpen] = useState(false)
+  const [editingCarteira, setEditingCarteira] = useState<{ original: string; novo: string } | null>(null)
+  const [observacaoPopup, setObservacaoPopup] = useState<{ nome: string; texto: string } | null>(null)
   const [formData, setFormData] = useState({
     colaborador: '',
     cpf: '',
@@ -52,6 +56,8 @@ export function IntegracaoTable() {
     carteira: 'CAIXA',
     dia1: 'vazio',
     dia2: 'vazio',
+    aplicado: false,
+    observacao: '',
   })
 
   const carteirasBase = ['CAIXA', 'BMG DIG.', 'ITAPAMA DIG.', 'MERCANTIL', 'CARREFOUR', 'ATIVO']
@@ -129,13 +135,23 @@ export function IntegracaoTable() {
 
     const newItem: ColaboradorIntegracao = {
       id: Date.now().toString(),
-      ...formData,
+      qtd: data.length + 1,
+      colaborador: formData.colaborador,
+      cpf: formData.cpf,
+      admissao: formData.admissao,
+      dias: formData.dias,
+      turno: formData.turno,
+      registro: formData.registro,
+      carteira: formData.carteira,
       dia1: formData.dia1 === 'vazio' ? '' : (formData.dia1 as PresencaStatus),
       dia2: formData.dia2 === 'vazio' ? '' : (formData.dia2 as PresencaStatus),
+      aplicado: formData.aplicado,
+      observacao: formData.observacao,
+      createdAt: new Date().toISOString(),
     }
 
     if (editingItem) {
-      setData(data.map(item => item.id === editingItem.id ? newItem : item))
+      setData(data.map(item => item.id === editingItem.id ? { ...newItem, id: editingItem.id } : item))
       setEditingItem(null)
     } else {
       setData([...data, newItem])
@@ -156,6 +172,8 @@ export function IntegracaoTable() {
       carteira: item.carteira,
       dia1: item.dia1 || 'vazio',
       dia2: item.dia2 || 'vazio',
+      aplicado: item.aplicado,
+      observacao: item.observacao || '',
     })
     setEditingItem(item)
     setIsAddDialogOpen(true)
@@ -177,12 +195,14 @@ export function IntegracaoTable() {
       carteira: 'CAIXA',
       dia1: 'vazio',
       dia2: 'vazio',
+      aplicado: false,
+      observacao: '',
     })
   }
 
   const handleExport = () => {
     const csv = [
-      ['QTD', 'COLABORADOR', 'CPF', 'ADMISSÃO', 'DIAS', 'TURNO', 'REGISTRO', 'CARTEIRA', '1 DIA', '2 DIA', 'APLICADO?'],
+      ['QTD', 'COLABORADOR', 'CPF', 'ADMISSAO', 'DIAS', 'TURNO', 'REGISTRO', 'CARTEIRA', '1 DIA', '2 DIA', 'APLICADO?', 'OBSERVACAO'],
       ...filteredData.map((item, index) => [
         index + 1,
         item.colaborador,
@@ -194,7 +214,8 @@ export function IntegracaoTable() {
         item.carteira,
         item.dia1,
         item.dia2,
-        item.aplicado ? 'Sim' : 'Não'
+        item.aplicado ? 'Sim' : 'Nao',
+        item.observacao || ''
       ])
     ]
     const csvContent = csv.map(row => row.join(',')).join('\n')
@@ -215,6 +236,25 @@ export function IntegracaoTable() {
 
   const removeCarteira = (carteira: string) => {
     setCarteirasCustom(carteirasCustom.filter(c => c !== carteira))
+  }
+
+  const startEditCarteira = (carteira: string) => {
+    setEditingCarteira({ original: carteira, novo: carteira })
+  }
+
+  const saveEditCarteira = () => {
+    if (editingCarteira && editingCarteira.novo && editingCarteira.novo !== editingCarteira.original) {
+      setCarteirasCustom(carteirasCustom.map(c => 
+        c === editingCarteira.original ? editingCarteira.novo : c
+      ))
+      // Atualizar colaboradores que usam essa carteira
+      setData(data.map(item => 
+        item.carteira === editingCarteira.original 
+          ? { ...item, carteira: editingCarteira.novo }
+          : item
+      ))
+    }
+    setEditingCarteira(null)
   }
 
   const CustomTooltip = ({ active, payload, label }: any) => {
@@ -241,13 +281,22 @@ export function IntegracaoTable() {
               <UserCheckIcon className="h-5 w-5 text-primary" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-foreground">Colaboradores em Integração</h2>
+              <h2 className="text-lg font-semibold text-foreground">Colaboradores em Integracao</h2>
               <p className="text-sm text-muted-foreground">
                 Acompanhe os novos colaboradores no treinamento inicial de 2 dias
               </p>
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setIsTableDialogOpen(true)}
+              className="gap-2"
+            >
+              <TableIcon className="h-4 w-4" />
+              <span className="hidden sm:inline">Ver Registrados</span>
+            </Button>
             <Button
               variant="outline"
               size="sm"
@@ -270,12 +319,12 @@ export function IntegracaoTable() {
                     <DialogHeader>
                       <DialogTitle>Gerenciar Carteiras</DialogTitle>
                       <DialogDescription>
-                        Adicione ou remova carteiras personalizadas
+                        Adicione, edite ou remova carteiras personalizadas
                       </DialogDescription>
                     </DialogHeader>
                     <div className="space-y-4">
                       <div>
-                        <p className="text-sm font-medium mb-2 text-foreground">Carteiras Padrão</p>
+                        <p className="text-sm font-medium mb-2 text-foreground">Carteiras Padrao</p>
                         <div className="flex flex-wrap gap-2">
                           {carteirasBase.map(c => (
                             <Badge key={c} variant="secondary">{c}</Badge>
@@ -285,16 +334,35 @@ export function IntegracaoTable() {
                       {carteirasCustom.length > 0 && (
                         <div>
                           <p className="text-sm font-medium mb-2 text-foreground">Carteiras Personalizadas</p>
-                          <div className="flex flex-wrap gap-2">
+                          <div className="space-y-2">
                             {carteirasCustom.map(c => (
-                              <Badge
-                                key={c}
-                                variant="outline"
-                                className="cursor-pointer hover:bg-destructive hover:text-destructive-foreground"
-                                onClick={() => removeCarteira(c)}
-                              >
-                                {c} ×
-                              </Badge>
+                              <div key={c} className="flex items-center gap-2">
+                                {editingCarteira?.original === c ? (
+                                  <>
+                                    <Input
+                                      value={editingCarteira.novo}
+                                      onChange={(e) => setEditingCarteira({ ...editingCarteira, novo: e.target.value })}
+                                      className="flex-1 h-8"
+                                    />
+                                    <Button size="sm" variant="ghost" onClick={saveEditCarteira} className="h-8 w-8 p-0">
+                                      <CheckCircle2Icon className="h-4 w-4 text-green-600" />
+                                    </Button>
+                                    <Button size="sm" variant="ghost" onClick={() => setEditingCarteira(null)} className="h-8 w-8 p-0">
+                                      <XIcon className="h-4 w-4 text-red-600" />
+                                    </Button>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Badge variant="outline" className="flex-1 justify-center">{c}</Badge>
+                                    <Button size="sm" variant="ghost" onClick={() => startEditCarteira(c)} className="h-8 w-8 p-0 hover:bg-blue-100 dark:hover:bg-blue-500/20">
+                                      <PencilIcon className="h-4 w-4 text-blue-600" />
+                                    </Button>
+                                    <Button size="sm" variant="ghost" onClick={() => removeCarteira(c)} className="h-8 w-8 p-0 hover:bg-red-100 dark:hover:bg-red-500/20">
+                                      <Trash2Icon className="h-4 w-4 text-red-600" />
+                                    </Button>
+                                  </>
+                                )}
+                              </div>
                             ))}
                           </div>
                         </div>
@@ -318,11 +386,11 @@ export function IntegracaoTable() {
                       <span className="hidden sm:inline">Adicionar</span>
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="max-w-2xl">
+                  <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
                     <DialogHeader>
                       <DialogTitle>{editingItem ? 'Editar Colaborador' : 'Adicionar Novo Colaborador'}</DialogTitle>
                       <DialogDescription>
-                        Preencha as informações do colaborador em integração
+                        Preencha as informacoes do colaborador em integracao
                       </DialogDescription>
                     </DialogHeader>
                     <div className="grid grid-cols-2 gap-4">
@@ -345,7 +413,7 @@ export function IntegracaoTable() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="admissao">Data de Admissão (DD/MM/AAAA) *</Label>
+                        <Label htmlFor="admissao">Data de Admissao (DD/MM/AAAA) *</Label>
                         <Input
                           id="admissao"
                           placeholder="DD/MM/AAAA"
@@ -370,7 +438,7 @@ export function IntegracaoTable() {
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="MANHA">Manhã</SelectItem>
+                            <SelectItem value="MANHA">Manha</SelectItem>
                             <SelectItem value="TARDE">Tarde</SelectItem>
                             <SelectItem value="NOITE">Noite</SelectItem>
                             <SelectItem value="MADRUGADA">Madrugada</SelectItem>
@@ -404,7 +472,7 @@ export function IntegracaoTable() {
                         </Select>
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="dia1">1º Dia</Label>
+                        <Label htmlFor="dia1">1 Dia</Label>
                         <Select value={formData.dia1} onValueChange={(value) => setFormData({...formData, dia1: value})}>
                           <SelectTrigger id="dia1">
                             <SelectValue />
@@ -413,12 +481,12 @@ export function IntegracaoTable() {
                             <SelectItem value="vazio">Em Branco</SelectItem>
                             <SelectItem value="PRESENTE">Presente</SelectItem>
                             <SelectItem value="FALTOU">Faltou</SelectItem>
-                            <SelectItem value="NÃO COMPARECEU">Não Compareceu</SelectItem>
+                            <SelectItem value="NAO COMPARECEU">Nao Compareceu</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="dia2">2º Dia</Label>
+                        <Label htmlFor="dia2">2 Dia</Label>
                         <Select value={formData.dia2} onValueChange={(value) => setFormData({...formData, dia2: value})}>
                           <SelectTrigger id="dia2">
                             <SelectValue />
@@ -427,9 +495,31 @@ export function IntegracaoTable() {
                             <SelectItem value="vazio">Em Branco</SelectItem>
                             <SelectItem value="PRESENTE">Presente</SelectItem>
                             <SelectItem value="FALTOU">Faltou</SelectItem>
-                            <SelectItem value="NÃO COMPARECEU">Não Compareceu</SelectItem>
+                            <SelectItem value="NAO COMPARECEU">Nao Compareceu</SelectItem>
                           </SelectContent>
                         </Select>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="aplicado">Treinamento Aplicado?</Label>
+                        <Select value={formData.aplicado ? 'sim' : 'nao'} onValueChange={(value) => setFormData({...formData, aplicado: value === 'sim'})}>
+                          <SelectTrigger id="aplicado">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="nao">Nao</SelectItem>
+                            <SelectItem value="sim">Sim</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="col-span-2 space-y-2">
+                        <Label htmlFor="observacao">Observacao</Label>
+                        <Textarea
+                          id="observacao"
+                          placeholder="Adicione uma observacao sobre o colaborador..."
+                          value={formData.observacao}
+                          onChange={(e) => setFormData({...formData, observacao: e.target.value})}
+                          className="min-h-20"
+                        />
                       </div>
                     </div>
                     <DialogFooter>
@@ -452,13 +542,275 @@ export function IntegracaoTable() {
         </div>
       </div>
 
+      {/* Overlay fullscreen para a tabela completa */}
+      {isTableDialogOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+          onClick={(e) => { if (e.target === e.currentTarget) setIsTableDialogOpen(false) }}
+        >
+          <div
+            className="relative bg-background border border-border rounded-lg shadow-2xl flex flex-col"
+            style={{ width: '96vw', height: '92vh' }}
+          >
+            {/* Header fixo */}
+            <div className="flex-shrink-0 px-6 pt-5 pb-4 border-b border-border">
+              <div className="flex items-start justify-between mb-3">
+                <div>
+                  <h2 className="text-lg font-semibold flex items-center gap-2 text-foreground">
+                    <TableIcon className="h-5 w-5" />
+                    Colaboradores Registrados em Integracao
+                  </h2>
+                  <p className="text-sm text-muted-foreground mt-0.5">
+                    Lista completa de todos os colaboradores em treinamento
+                  </p>
+                </div>
+                <button
+                  onClick={() => setIsTableDialogOpen(false)}
+                  className="text-muted-foreground hover:text-foreground transition-colors p-1 rounded-md hover:bg-muted"
+                >
+                  <XIcon className="h-5 w-5" />
+                </button>
+              </div>
+              {/* Filtros */}
+              <div className="flex flex-wrap gap-2">
+                <div className="relative flex-1 min-w-[200px]">
+                  <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Buscar por nome ou CPF..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10 h-9"
+                  />
+                </div>
+                <Select value={filterCarteira} onValueChange={setFilterCarteira}>
+                  <SelectTrigger className="w-44 h-9">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="TODAS">Todas as Carteiras</SelectItem>
+                    {carteiras.map(c => (
+                      <SelectItem key={c} value={c}>{c}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select value={filterTurno} onValueChange={setFilterTurno}>
+                  <SelectTrigger className="w-36 h-9">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="TODOS">Todos os Turnos</SelectItem>
+                    <SelectItem value="MANHA">Manha</SelectItem>
+                    <SelectItem value="TARDE">Tarde</SelectItem>
+                    <SelectItem value="NOITE">Noite</SelectItem>
+                    <SelectItem value="MADRUGADA">Madrugada</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Select value={filterRegistro} onValueChange={setFilterRegistro}>
+                  <SelectTrigger className="w-44 h-9">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="TODOS">Todos os Registros</SelectItem>
+                    <SelectItem value="OPERADOR(A)">Operador(a)</SelectItem>
+                    <SelectItem value="NEGOCIADOR">Negociador</SelectItem>
+                    <SelectItem value="INTEGRAL">Integral</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            {/* Area de scroll: horizontal e vertical */}
+            <div className="flex-1 overflow-auto min-h-0">
+              {filteredData.length === 0 ? (
+                <div className="flex items-center justify-center h-full">
+                  <p className="text-muted-foreground">Nenhum colaborador encontrado</p>
+                </div>
+              ) : (
+                <table className="border-collapse" style={{ minWidth: '100%', width: 'max-content' }}>
+                  <thead style={{ position: 'sticky', top: 0, zIndex: 10 }}>
+                    <tr className="bg-muted border-b border-border">
+                      <th className="px-3 py-3 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '50px' }}>QTD</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '180px' }}>COLABORADOR</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '140px' }}>CPF</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '120px' }}>ADMISSAO</th>
+                      <th className="px-3 py-3 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '70px' }}>DIAS</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '120px' }}>TURNO</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '130px' }}>REGISTRO</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '120px' }}>CARTEIRA</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '150px' }}>1 DIA</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '150px' }}>2 DIA</th>
+                      <th className="px-3 py-3 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '110px' }}>APLICADO?</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '200px' }}>OBSERVACAO</th>
+                      {canEdit && <th className="px-3 py-3 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '90px' }}>ACOES</th>}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredData.map((item, index) => (
+                      <tr key={item.id} className="border-b border-border hover:bg-muted/40 transition-colors">
+                        <td className="px-3 py-3 text-center text-sm text-muted-foreground">{index + 1}</td>
+                        <td className="px-3 py-3 font-medium text-foreground whitespace-nowrap">{item.colaborador}</td>
+                        <td className="px-3 py-3 text-muted-foreground whitespace-nowrap">{item.cpf}</td>
+                        <td className="px-3 py-3 text-sm whitespace-nowrap">{item.admissao}</td>
+                        <td className="px-3 py-3 text-center text-sm">{item.dias}</td>
+                        <td className="px-3 py-3 text-sm whitespace-nowrap">{item.turno}</td>
+                        <td className="px-3 py-3 text-sm whitespace-nowrap">{item.registro}</td>
+                        <td className="px-3 py-3">
+                          <Badge variant="outline" className="whitespace-nowrap text-xs">{item.carteira}</Badge>
+                        </td>
+                        <td className="px-3 py-3 whitespace-nowrap">
+                          {item.dia1 ? (
+                            <div className="flex items-center gap-1.5">
+                              {item.dia1 === 'PRESENTE' && <CheckCircle2Icon className="h-4 w-4 text-green-600 flex-shrink-0" />}
+                              {item.dia1 === 'FALTOU' && <MinusCircleIcon className="h-4 w-4 text-yellow-600 flex-shrink-0" />}
+                              {item.dia1 === 'NAO COMPARECEU' && <XCircleIcon className="h-4 w-4 text-red-600 flex-shrink-0" />}
+                              <span className="text-xs">{item.dia1}</span>
+                            </div>
+                          ) : <span className="text-xs text-muted-foreground">-</span>}
+                        </td>
+                        <td className="px-3 py-3 whitespace-nowrap">
+                          {item.dia2 ? (
+                            <div className="flex items-center gap-1.5">
+                              {item.dia2 === 'PRESENTE' && <CheckCircle2Icon className="h-4 w-4 text-green-600 flex-shrink-0" />}
+                              {item.dia2 === 'FALTOU' && <MinusCircleIcon className="h-4 w-4 text-yellow-600 flex-shrink-0" />}
+                              {item.dia2 === 'NAO COMPARECEU' && <XCircleIcon className="h-4 w-4 text-red-600 flex-shrink-0" />}
+                              <span className="text-xs">{item.dia2}</span>
+                            </div>
+                          ) : <span className="text-xs text-muted-foreground">-</span>}
+                        </td>
+                        <td className="px-3 py-3 text-center whitespace-nowrap">
+                          {item.aplicado ? (
+                            <Badge className="bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400 text-xs">Sim</Badge>
+                          ) : (
+                            <Badge variant="secondary" className="text-xs">Nao</Badge>
+                          )}
+                        </td>
+                        <td className="px-3 py-3 text-center">
+                          {item.observacao ? (
+                            <button
+                              onClick={() => setObservacaoPopup({ nome: item.colaborador, texto: item.observacao! })}
+                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-muted hover:bg-primary hover:text-primary-foreground border border-border transition-colors whitespace-nowrap"
+                            >
+                              <MessageSquareIcon className="h-3.5 w-3.5" />
+                              Ver
+                            </button>
+                          ) : (
+                            <span className="text-xs text-muted-foreground">-</span>
+                          )}
+                        </td>
+                        {canEdit && (
+                          <td className="px-3 py-3">
+                            <div className="flex gap-1.5 justify-center">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => {
+                                  handleEditItem(item)
+                                  setIsTableDialogOpen(false)
+                                }}
+                                className="h-8 w-8 p-0 hover:bg-blue-100 dark:hover:bg-blue-500/20 hover:text-blue-600 dark:hover:text-blue-400"
+                              >
+                                <PencilIcon className="h-4 w-4" />
+                              </Button>
+                              <Dialog open={deleteConfirm === item.id} onOpenChange={(open) => !open && setDeleteConfirm(null)}>
+                                <DialogTrigger asChild>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => setDeleteConfirm(item.id)}
+                                    className="h-8 w-8 p-0 hover:bg-red-100 dark:hover:bg-red-500/20 hover:text-red-600 dark:hover:text-red-400"
+                                  >
+                                    <Trash2Icon className="h-4 w-4" />
+                                  </Button>
+                                </DialogTrigger>
+                                <DialogContent className="max-w-sm">
+                                  <DialogHeader>
+                                    <DialogTitle className="flex items-center gap-2 text-destructive">
+                                      <AlertCircleIcon className="h-5 w-5" />
+                                      Confirmar Exclusao
+                                    </DialogTitle>
+                                  </DialogHeader>
+                                  <p className="text-sm text-foreground">
+                                    Tem certeza que deseja remover <strong>{item.colaborador}</strong>?
+                                  </p>
+                                  <DialogFooter>
+                                    <Button variant="outline" onClick={() => setDeleteConfirm(null)}>Cancelar</Button>
+                                    <Button variant="destructive" onClick={() => handleDeleteItem(item.id)}>Remover</Button>
+                                  </DialogFooter>
+                                </DialogContent>
+                              </Dialog>
+                            </div>
+                          </td>
+                        )}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+            </div>
+
+            {/* Footer fixo */}
+            <div className="flex-shrink-0 flex justify-between items-center px-6 py-4 border-t border-border bg-background rounded-b-lg">
+              <p className="text-sm text-muted-foreground">
+                Total: <span className="font-semibold text-foreground">{filteredData.length}</span> colaborador{filteredData.length !== 1 ? 'es' : ''}
+              </p>
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm" onClick={handleExport} className="gap-2">
+                  <DownloadIcon className="h-4 w-4" />
+                  Exportar
+                </Button>
+                <Button variant="outline" size="sm" onClick={() => setIsTableDialogOpen(false)}>
+                  Fechar
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Popup de Observacao */}
+      {observacaoPopup && (
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm"
+          onClick={() => setObservacaoPopup(null)}
+        >
+          <div
+            className="bg-background border border-border rounded-xl shadow-2xl w-full max-w-md mx-4 p-6"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-start justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <MessageSquareIcon className="h-5 w-5 text-primary flex-shrink-0" />
+                <div>
+                  <h3 className="text-base font-semibold text-foreground">Observacao</h3>
+                  <p className="text-xs text-muted-foreground mt-0.5">{observacaoPopup.nome}</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setObservacaoPopup(null)}
+                className="text-muted-foreground hover:text-foreground transition-colors p-1 rounded-md hover:bg-muted"
+              >
+                <XIcon className="h-4 w-4" />
+              </button>
+            </div>
+            <div className="bg-muted/50 rounded-lg p-4 border border-border">
+              <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">{observacaoPopup.texto}</p>
+            </div>
+            <div className="flex justify-end mt-4">
+              <Button variant="outline" size="sm" onClick={() => setObservacaoPopup(null)}>
+                Fechar
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Stats Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
         <Card className="bg-card border-border">
           <CardContent className="p-4">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Total em Integração</p>
+                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Total em Integracao</p>
                 <p className="text-2xl font-bold text-foreground mt-1">{stats.total}</p>
                 <p className="text-xs text-muted-foreground mt-0.5">Colaboradores</p>
               </div>
@@ -505,7 +857,7 @@ export function IntegracaoTable() {
               <div className="flex-1">
                 <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Aplicados</p>
                 <p className="text-2xl font-bold text-foreground mt-1">{stats.aplicados}</p>
-                <p className="text-xs text-muted-foreground mt-0.5">Aptos para operação</p>
+                <p className="text-xs text-muted-foreground mt-0.5">Aptos para operacao</p>
               </div>
               <div className="p-2.5 rounded-lg bg-emerald-100 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400">
                 <CheckCircle2Icon className="h-5 w-5" />
@@ -518,7 +870,7 @@ export function IntegracaoTable() {
           <CardContent className="p-4">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Taxa de Presença</p>
+                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Taxa de Presenca</p>
                 <p className="text-2xl font-bold text-foreground mt-1">{stats.taxaPresenca}%</p>
                 <div className="flex items-center gap-1 mt-2 text-xs">
                   <span className={stats.taxaPresenca >= 70 ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'}>
@@ -538,8 +890,8 @@ export function IntegracaoTable() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <Card className="bg-card border-border">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-semibold">Status de Presença</CardTitle>
-            <CardDescription className="text-xs">Distribuição da presença no treinamento</CardDescription>
+            <CardTitle className="text-sm font-semibold">Status de Presenca</CardTitle>
+            <CardDescription className="text-xs">Distribuicao da presenca no treinamento</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="h-[250px]">
@@ -572,19 +924,19 @@ export function IntegracaoTable() {
         <Card className="bg-card border-border">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-semibold">Por Carteira</CardTitle>
-            <CardDescription className="text-xs">Colaboradores por carteira de atuação</CardDescription>
+            <CardDescription className="text-xs">Colaboradores por carteira de atuacao</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="h-[250px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData.porCarteira} layout="vertical">
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis type="number" tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 11 }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                  <XAxis type="number" tick={{ fill: 'var(--muted-foreground)', fontSize: 11 }} />
                   <YAxis 
                     dataKey="name" 
                     type="category" 
-                    width={100} 
-                    tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 11 }} 
+                    width={110} 
+                    tick={{ fill: 'var(--muted-foreground)', fontSize: 11 }} 
                   />
                   <Tooltip content={<CustomTooltip />} />
                   <Bar dataKey="value" fill="#3b82f6" radius={[0, 4, 4, 0]} />
@@ -597,21 +949,21 @@ export function IntegracaoTable() {
         <Card className="bg-card border-border">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-semibold">Por Turno</CardTitle>
-            <CardDescription className="text-xs">Distribuição por turno de trabalho</CardDescription>
+            <CardDescription className="text-xs">Distribuicao por turno de trabalho</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="h-[250px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData.porTurno}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
                   <XAxis 
                     dataKey="name" 
-                    tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 10 }}
+                    tick={{ fill: 'var(--muted-foreground)', fontSize: 10 }}
                     angle={-20}
                     textAnchor="end"
                     height={50}
                   />
-                  <YAxis tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 11 }} />
+                  <YAxis tick={{ fill: 'var(--muted-foreground)', fontSize: 11 }} />
                   <Tooltip content={<CustomTooltip />} />
                   <Bar dataKey="value" fill="#22c55e" radius={[4, 4, 0, 0]} />
                 </BarChart>
@@ -620,167 +972,6 @@ export function IntegracaoTable() {
           </CardContent>
         </Card>
       </div>
-
-      {/* Filters and Search */}
-      <div className="space-y-4">
-        <div className="flex flex-col sm:flex-row gap-3">
-          <div className="flex-1 relative">
-            <SearchIcon className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Buscar por nome ou CPF..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
-          </div>
-          <Select value={filterCarteira} onValueChange={setFilterCarteira}>
-            <SelectTrigger className="w-full sm:w-40">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="TODAS">Todas as Carteiras</SelectItem>
-              {carteiras.map(c => (
-                <SelectItem key={c} value={c}>{c}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <Select value={filterTurno} onValueChange={setFilterTurno}>
-            <SelectTrigger className="w-full sm:w-40">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="TODOS">Todos os Turnos</SelectItem>
-              <SelectItem value="MANHA">Manhã</SelectItem>
-              <SelectItem value="TARDE">Tarde</SelectItem>
-              <SelectItem value="NOITE">Noite</SelectItem>
-              <SelectItem value="MADRUGADA">Madrugada</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select value={filterRegistro} onValueChange={setFilterRegistro}>
-            <SelectTrigger className="w-full sm:w-40">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="TODOS">Todos Registros</SelectItem>
-              <SelectItem value="OPERADOR(A)">Operador(a)</SelectItem>
-              <SelectItem value="NEGOCIADOR">Negociador</SelectItem>
-              <SelectItem value="INTEGRAL">Integral</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
-
-      {/* Table */}
-      <Card className="bg-card border-border overflow-hidden">
-        <div className="overflow-x-auto">
-          <Table>
-            <TableHeader>
-              <TableRow className="border-b border-border hover:bg-transparent">
-                <TableHead className="w-12 text-center">QTD</TableHead>
-                <TableHead className="min-w-40">NOME DO COLABORADOR</TableHead>
-                <TableHead className="min-w-32">CPF</TableHead>
-                <TableHead className="min-w-28">ADMISSÃO</TableHead>
-                <TableHead className="min-w-20 text-center">DIAS</TableHead>
-                <TableHead className="min-w-28">TURNO</TableHead>
-                <TableHead className="min-w-28">REGISTRO</TableHead>
-                <TableHead className="min-w-24">CARTEIRA</TableHead>
-                <TableHead className="min-w-24">1 DIA</TableHead>
-                <TableHead className="min-w-24">2 DIA</TableHead>
-                <TableHead className="min-w-24">APLICADO?</TableHead>
-                {canEdit && <TableHead className="w-16 text-center">AÇÕES</TableHead>}
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredData.map((item, index) => (
-                <TableRow key={item.id} className="border-b border-border hover:bg-muted/50">
-                  <TableCell className="text-center text-sm font-medium">{index + 1}</TableCell>
-                  <TableCell className="font-medium text-foreground whitespace-nowrap">{item.colaborador}</TableCell>
-                  <TableCell className="text-muted-foreground text-sm whitespace-nowrap">{item.cpf}</TableCell>
-                  <TableCell className="text-sm whitespace-nowrap">{item.admissao}</TableCell>
-                  <TableCell className="text-center text-sm">{item.dias}</TableCell>
-                  <TableCell className="text-sm whitespace-nowrap">{item.turno}</TableCell>
-                  <TableCell className="text-sm whitespace-nowrap">{item.registro}</TableCell>
-                  <TableCell className="text-sm"><Badge variant="outline">{item.carteira}</Badge></TableCell>
-                  <TableCell className="text-sm whitespace-nowrap">
-                    {item.dia1 ? (
-                      <div className="flex items-center gap-1">
-                        {item.dia1 === 'PRESENTE' && <CheckCircle2Icon className="h-4 w-4 text-green-600" />}
-                        {item.dia1 === 'FALTOU' && <MinusCircleIcon className="h-4 w-4 text-yellow-600" />}
-                        {item.dia1 === 'NÃO COMPARECEU' && <XCircleIcon className="h-4 w-4 text-red-600" />}
-                        <span className="text-xs">{item.dia1}</span>
-                      </div>
-                    ) : <span className="text-xs text-muted-foreground">-</span>}
-                  </TableCell>
-                  <TableCell className="text-sm whitespace-nowrap">
-                    {item.dia2 ? (
-                      <div className="flex items-center gap-1">
-                        {item.dia2 === 'PRESENTE' && <CheckCircle2Icon className="h-4 w-4 text-green-600" />}
-                        {item.dia2 === 'FALTOU' && <MinusCircleIcon className="h-4 w-4 text-yellow-600" />}
-                        {item.dia2 === 'NÃO COMPARECEU' && <XCircleIcon className="h-4 w-4 text-red-600" />}
-                        <span className="text-xs">{item.dia2}</span>
-                      </div>
-                    ) : <span className="text-xs text-muted-foreground">-</span>}
-                  </TableCell>
-                  <TableCell className="text-sm whitespace-nowrap">
-                    {item.aplicado ? (
-                      <Badge className="bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400">Sim</Badge>
-                    ) : (
-                      <Badge variant="secondary">Não</Badge>
-                    )}
-                  </TableCell>
-                  {canEdit && (
-                    <TableCell className="text-center">
-                      <div className="flex gap-2 justify-center">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleEditItem(item)}
-                          className="h-8 w-8 p-0 hover:bg-blue-100 dark:hover:bg-blue-500/20 hover:text-blue-600 dark:hover:text-blue-400"
-                        >
-                          <PencilIcon className="h-4 w-4" />
-                        </Button>
-                        <Dialog open={deleteConfirm === item.id} onOpenChange={(open) => !open && setDeleteConfirm(null)}>
-                          <DialogTrigger asChild>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => setDeleteConfirm(item.id)}
-                              className="h-8 w-8 p-0 hover:bg-red-100 dark:hover:bg-red-500/20 hover:text-red-600 dark:hover:text-red-400"
-                            >
-                              <Trash2Icon className="h-4 w-4" />
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent className="max-w-sm">
-                            <DialogHeader>
-                              <DialogTitle className="flex items-center gap-2 text-destructive">
-                                <AlertCircleIcon className="h-5 w-5" />
-                                Confirmar Exclusão
-                              </DialogTitle>
-                            </DialogHeader>
-                            <p className="text-sm text-foreground">
-                              Tem certeza que deseja remover <strong>{item.colaborador}</strong>?
-                            </p>
-                            <DialogFooter>
-                              <Button variant="outline" onClick={() => setDeleteConfirm(null)}>Cancelar</Button>
-                              <Button variant="destructive" onClick={() => handleDeleteItem(item.id)}>Remover</Button>
-                            </DialogFooter>
-                          </DialogContent>
-                        </Dialog>
-                      </div>
-                    </TableCell>
-                  )}
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-      </Card>
-
-      {filteredData.length === 0 && (
-        <div className="text-center py-8">
-          <p className="text-muted-foreground">Nenhum colaborador encontrado</p>
-        </div>
-      )}
     </div>
   )
 }

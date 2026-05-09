@@ -33,12 +33,14 @@ export interface ColaboradorIntegracao {
   dia1: PresencaStatus
   dia2: PresencaStatus
   aplicado: boolean
+  observacao?: string
   createdAt: string
 }
 
 export interface ColaboradorDesligamento {
   id: string
   qtd: number
+  nome?: string
   nomeOperador: string
   carteira: CarteiraType
   admissao: string

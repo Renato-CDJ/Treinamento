@@ -44,10 +44,8 @@ import {
   CheckIcon,
   UserIcon,
   CalendarIcon,
-  ClockIcon,
-  BriefcaseIcon,
-  FilterXIcon,
-  FileTextIcon,
+  TableIcon,
+  XIcon,
 } from 'lucide-react'
 import {
   BarChart,
@@ -75,19 +73,21 @@ export function DesligamentosTable() {
   const [filterCarteira, setFilterCarteira] = useState('TODAS')
   const [filterStatus, setFilterStatus] = useState('TODOS')
   const [filterMotivo, setFilterMotivo] = useState('TODOS')
+  const [isTableDialogOpen, setIsTableDialogOpen] = useState(false)
   const [formData, setFormData] = useState({
     nome: '',
     carteira: 'CAIXA',
     admissao: '',
     dias: 0,
     motivo: '',
-    status: 'COM AVISO PRÉVIO' as const,
+    status: 'COM AVISO PREVIO' as const,
     dataDesligamento: '',
   })
 
   const filteredData = useMemo(() => {
     return data.filter(item => {
-      const matchesSearch = item.nome.toLowerCase().includes(searchTerm.toLowerCase())
+      const nomeCompleto = (item.nome || item.nomeOperador).toLowerCase()
+      const matchesSearch = nomeCompleto.includes(searchTerm.toLowerCase())
       const matchesCarteira = filterCarteira === 'TODAS' || item.carteira === filterCarteira
       const matchesStatus = filterStatus === 'TODOS' || item.status === filterStatus
       const matchesMotivo = filterMotivo === 'TODOS' || item.motivo === filterMotivo
@@ -97,7 +97,7 @@ export function DesligamentosTable() {
 
   const stats = useMemo(() => {
     const total = filteredData.length
-    const comAviso = filteredData.filter(d => d.status === 'COM AVISO PRÉVIO').length
+    const comAviso = filteredData.filter(d => d.status === 'COM AVISO PREVIO').length
     const semAviso = total - comAviso
     const mediaDias = total > 0 ? Math.round(filteredData.reduce((acc, d) => acc + d.dias, 0) / total) : 0
 
@@ -122,8 +122,8 @@ export function DesligamentosTable() {
     ]
 
     const porStatus = [
-      { name: 'Com Aviso Prévio', value: filteredData.filter(d => d.status === 'COM AVISO PRÉVIO').length },
-      { name: 'Sem Aviso Prévio', value: filteredData.filter(d => d.status === 'SEM AVISO PRÉVIO').length },
+      { name: 'Com Aviso Previo', value: filteredData.filter(d => d.status === 'COM AVISO PREVIO').length },
+      { name: 'Sem Aviso Previo', value: filteredData.filter(d => d.status === 'SEM AVISO PREVIO').length },
     ]
 
     return { porMotivo, faixasTempo, porStatus }
@@ -140,17 +140,20 @@ export function DesligamentosTable() {
 
     const newItem: ColaboradorDesligamento = {
       id: Date.now().toString(),
+      qtd: data.length + 1,
       nome: formData.nome,
+      nomeOperador: formData.nome,
       carteira: formData.carteira,
       admissao: formData.admissao,
       dias: Math.max(0, dias),
       motivo: formData.motivo,
       status: formData.status,
       dataDesligamento: formData.dataDesligamento,
+      createdAt: new Date().toISOString(),
     }
 
     if (editingItem) {
-      setData(data.map(item => item.id === editingItem.id ? newItem : item))
+      setData(data.map(item => item.id === editingItem.id ? { ...newItem, id: editingItem.id } : item))
       setEditingItem(null)
     } else {
       setData([...data, newItem])
@@ -162,7 +165,7 @@ export function DesligamentosTable() {
 
   const handleEditItem = (item: ColaboradorDesligamento) => {
     setFormData({
-      nome: item.nome,
+      nome: item.nome || item.nomeOperador,
       carteira: item.carteira,
       admissao: item.admissao,
       dias: item.dias,
@@ -186,17 +189,17 @@ export function DesligamentosTable() {
       admissao: '',
       dias: 0,
       motivo: '',
-      status: 'COM AVISO PRÉVIO',
+      status: 'COM AVISO PREVIO',
       dataDesligamento: '',
     })
   }
 
   const handleExport = () => {
     const csv = [
-      ['QTD', 'NOME DO OPERADOR', 'CARTEIRA', 'ADMISSÃO', 'DIAS', 'MOTIVO', 'STATUS', 'DATA DO DESLIGAMENTO'],
+      ['QTD', 'NOME DO OPERADOR', 'CARTEIRA', 'ADMISSAO', 'DIAS', 'MOTIVO', 'STATUS', 'DATA DO DESLIGAMENTO'],
       ...filteredData.map((item, index) => [
         index + 1,
-        item.nome,
+        item.nome || item.nomeOperador,
         item.carteira,
         item.admissao,
         item.dias,
@@ -247,7 +250,16 @@ export function DesligamentosTable() {
               </p>
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setIsTableDialogOpen(true)}
+              className="gap-2"
+            >
+              <TableIcon className="h-4 w-4" />
+              <span className="hidden sm:inline">Ver Registrados</span>
+            </Button>
             <Button
               variant="outline"
               size="sm"
@@ -269,7 +281,7 @@ export function DesligamentosTable() {
                   <DialogHeader>
                     <DialogTitle>{editingItem ? 'Editar Desligamento' : 'Adicionar Novo Desligamento'}</DialogTitle>
                     <DialogDescription>
-                      Registre as informações do colaborador desligado
+                      Registre as informacoes do colaborador desligado
                     </DialogDescription>
                   </DialogHeader>
                   <div className="grid grid-cols-2 gap-4">
@@ -296,7 +308,7 @@ export function DesligamentosTable() {
                       </Select>
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="admissao">Data de Admissão (DD/MM/AAAA) *</Label>
+                      <Label htmlFor="admissao">Data de Admissao (DD/MM/AAAA) *</Label>
                       <Input
                         id="admissao"
                         placeholder="DD/MM/AAAA"
@@ -330,8 +342,8 @@ export function DesligamentosTable() {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="COM AVISO PRÉVIO">Com Aviso Prévio</SelectItem>
-                          <SelectItem value="SEM AVISO PRÉVIO">Sem Aviso Prévio</SelectItem>
+                          <SelectItem value="COM AVISO PREVIO">Com Aviso Previo</SelectItem>
+                          <SelectItem value="SEM AVISO PREVIO">Sem Aviso Previo</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -355,6 +367,195 @@ export function DesligamentosTable() {
         </div>
       </div>
 
+      {/* Overlay fullscreen para a tabela completa */}
+      {isTableDialogOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+          onClick={(e) => { if (e.target === e.currentTarget) setIsTableDialogOpen(false) }}
+        >
+          <div
+            className="relative bg-background border border-border rounded-lg shadow-2xl flex flex-col"
+            style={{ width: '96vw', height: '92vh' }}
+          >
+            {/* Header fixo */}
+            <div className="flex-shrink-0 px-6 pt-5 pb-4 border-b border-border">
+              <div className="flex items-start justify-between mb-3">
+                <div>
+                  <h2 className="text-lg font-semibold flex items-center gap-2 text-foreground">
+                    <TableIcon className="h-5 w-5" />
+                    Colaboradores Desligados - Registros Completos
+                  </h2>
+                  <p className="text-sm text-muted-foreground mt-0.5">
+                    Lista completa de todos os colaboradores desligados
+                  </p>
+                </div>
+                <button
+                  onClick={() => setIsTableDialogOpen(false)}
+                  className="text-muted-foreground hover:text-foreground transition-colors p-1 rounded-md hover:bg-muted"
+                >
+                  <XIcon className="h-5 w-5" />
+                </button>
+              </div>
+              {/* Filtros */}
+              <div className="flex flex-wrap gap-2">
+                <div className="relative flex-1 min-w-[200px]">
+                  <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Buscar por nome..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10 h-9"
+                  />
+                </div>
+                <Select value={filterCarteira} onValueChange={setFilterCarteira}>
+                  <SelectTrigger className="w-44 h-9">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="TODAS">Todas as Carteiras</SelectItem>
+                    {carteiras.map(c => (
+                      <SelectItem key={c} value={c}>{c}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select value={filterStatus} onValueChange={setFilterStatus}>
+                  <SelectTrigger className="w-44 h-9">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="TODOS">Todos Status</SelectItem>
+                    <SelectItem value="COM AVISO PREVIO">Com Aviso Previo</SelectItem>
+                    <SelectItem value="SEM AVISO PREVIO">Sem Aviso Previo</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Select value={filterMotivo} onValueChange={setFilterMotivo}>
+                  <SelectTrigger className="w-44 h-9">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="TODOS">Todos os Motivos</SelectItem>
+                    {motivos.map(m => (
+                      <SelectItem key={m} value={m}>{m}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            {/* Area de scroll: horizontal e vertical */}
+            <div className="flex-1 overflow-auto min-h-0">
+              {filteredData.length === 0 ? (
+                <div className="flex items-center justify-center h-full">
+                  <p className="text-muted-foreground">Nenhum registro encontrado</p>
+                </div>
+              ) : (
+                <table className="border-collapse" style={{ minWidth: '100%', width: 'max-content' }}>
+                  <thead style={{ position: 'sticky', top: 0, zIndex: 10 }}>
+                    <tr className="bg-muted border-b border-border">
+                      <th className="px-3 py-3 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '50px' }}>QTD</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '180px' }}>NOME DO OPERADOR</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '120px' }}>CARTEIRA</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '120px' }}>ADMISSAO</th>
+                      <th className="px-3 py-3 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '70px' }}>DIAS</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '200px' }}>MOTIVO</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '150px' }}>STATUS</th>
+                      <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '160px' }}>DATA DESLIGAMENTO</th>
+                      {canEdit && <th className="px-3 py-3 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap" style={{ minWidth: '90px' }}>ACOES</th>}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredData.map((item, index) => (
+                      <tr key={item.id} className="border-b border-border hover:bg-muted/40 transition-colors">
+                        <td className="px-3 py-3 text-center text-sm text-muted-foreground">{index + 1}</td>
+                        <td className="px-3 py-3 font-medium text-foreground whitespace-nowrap">{item.nome || item.nomeOperador}</td>
+                        <td className="px-3 py-3">
+                          <Badge variant="outline" className="whitespace-nowrap text-xs">{item.carteira}</Badge>
+                        </td>
+                        <td className="px-3 py-3 text-sm whitespace-nowrap">{item.admissao}</td>
+                        <td className="px-3 py-3 text-center text-sm">{item.dias}</td>
+                        <td className="px-3 py-3 text-sm">{item.motivo}</td>
+                        <td className="px-3 py-3 whitespace-nowrap">
+                          {item.status === 'COM AVISO PREVIO' ? (
+                            <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-400 text-xs">
+                              Com Aviso
+                            </Badge>
+                          ) : (
+                            <Badge variant="destructive" className="text-xs">
+                              Sem Aviso
+                            </Badge>
+                          )}
+                        </td>
+                        <td className="px-3 py-3 text-sm whitespace-nowrap">{item.dataDesligamento}</td>
+                        {canEdit && (
+                          <td className="px-3 py-3">
+                            <div className="flex gap-1.5 justify-center">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => {
+                                  handleEditItem(item)
+                                  setIsTableDialogOpen(false)
+                                }}
+                                className="h-8 w-8 p-0 hover:bg-blue-100 dark:hover:bg-blue-500/20 hover:text-blue-600 dark:hover:text-blue-400"
+                              >
+                                <PencilIcon className="h-4 w-4" />
+                              </Button>
+                              <Dialog open={deleteConfirm === item.id} onOpenChange={(open) => !open && setDeleteConfirm(null)}>
+                                <DialogTrigger asChild>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => setDeleteConfirm(item.id)}
+                                    className="h-8 w-8 p-0 hover:bg-red-100 dark:hover:bg-red-500/20 hover:text-red-600 dark:hover:text-red-400"
+                                  >
+                                    <Trash2Icon className="h-4 w-4" />
+                                  </Button>
+                                </DialogTrigger>
+                                <DialogContent className="max-w-sm">
+                                  <DialogHeader>
+                                    <DialogTitle className="flex items-center gap-2 text-destructive">
+                                      <AlertTriangleIcon className="h-5 w-5" />
+                                      Confirmar Exclusao
+                                    </DialogTitle>
+                                  </DialogHeader>
+                                  <p className="text-sm text-foreground">
+                                    Tem certeza que deseja remover <strong>{item.nome || item.nomeOperador}</strong>?
+                                  </p>
+                                  <DialogFooter>
+                                    <Button variant="outline" onClick={() => setDeleteConfirm(null)}>Cancelar</Button>
+                                    <Button variant="destructive" onClick={() => handleDeleteItem(item.id)}>Remover</Button>
+                                  </DialogFooter>
+                                </DialogContent>
+                              </Dialog>
+                            </div>
+                          </td>
+                        )}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+            </div>
+
+            {/* Footer fixo */}
+            <div className="flex-shrink-0 flex justify-between items-center px-6 py-4 border-t border-border bg-background rounded-b-lg">
+              <p className="text-sm text-muted-foreground">
+                Total: <span className="font-semibold text-foreground">{filteredData.length}</span> registro{filteredData.length !== 1 ? 's' : ''}
+              </p>
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm" onClick={handleExport} className="gap-2">
+                  <DownloadIcon className="h-4 w-4" />
+                  Exportar
+                </Button>
+                <Button variant="outline" size="sm" onClick={() => setIsTableDialogOpen(false)}>
+                  Fechar
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Stats Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Card className="bg-card border-border">
@@ -376,9 +577,9 @@ export function DesligamentosTable() {
           <CardContent className="p-4">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Com Aviso Prévio</p>
+                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Com Aviso Previo</p>
                 <p className="text-2xl font-bold text-foreground mt-1">{stats.comAviso}</p>
-                <p className="text-xs text-muted-foreground mt-0.5">{((stats.comAviso / stats.total) * 100).toFixed(0)}% do total</p>
+                <p className="text-xs text-muted-foreground mt-0.5">{stats.total > 0 ? ((stats.comAviso / stats.total) * 100).toFixed(0) : 0}% do total</p>
               </div>
               <div className="p-2.5 rounded-lg bg-emerald-100 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400">
                 <CheckIcon className="h-5 w-5" />
@@ -391,9 +592,9 @@ export function DesligamentosTable() {
           <CardContent className="p-4">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Sem Aviso Prévio</p>
+                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Sem Aviso Previo</p>
                 <p className="text-2xl font-bold text-foreground mt-1">{stats.semAviso}</p>
-                <p className="text-xs text-muted-foreground mt-0.5">{((stats.semAviso / stats.total) * 100).toFixed(0)}% do total</p>
+                <p className="text-xs text-muted-foreground mt-0.5">{stats.total > 0 ? ((stats.semAviso / stats.total) * 100).toFixed(0) : 0}% do total</p>
               </div>
               <div className="p-2.5 rounded-lg bg-red-100 text-red-600 dark:bg-red-500/20 dark:text-red-400">
                 <AlertTriangleIcon className="h-5 w-5" />
@@ -406,9 +607,9 @@ export function DesligamentosTable() {
           <CardContent className="p-4">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Média Permanência</p>
+                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Media Permanencia</p>
                 <p className="text-2xl font-bold text-foreground mt-1">{stats.mediaDias}d</p>
-                <p className="text-xs text-muted-foreground mt-0.5">dias em média</p>
+                <p className="text-xs text-muted-foreground mt-0.5">dias em media</p>
               </div>
               <div className="p-2.5 rounded-lg bg-amber-100 text-amber-600 dark:bg-amber-500/20 dark:text-amber-400">
                 <CalendarIcon className="h-5 w-5" />
@@ -423,7 +624,7 @@ export function DesligamentosTable() {
         <Card className="bg-card border-border">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-semibold">Status do Desligamento</CardTitle>
-            <CardDescription className="text-xs">Com ou sem aviso prévio</CardDescription>
+            <CardDescription className="text-xs">Com ou sem aviso previo</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="h-[250px]">
@@ -454,22 +655,22 @@ export function DesligamentosTable() {
 
         <Card className="bg-card border-border">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-semibold">Tempo de Permanência</CardTitle>
+            <CardTitle className="text-sm font-semibold">Tempo de Permanencia</CardTitle>
             <CardDescription className="text-xs">Faixas de tempo na empresa</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="h-[250px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData.faixasTempo}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
                   <XAxis 
                     dataKey="name" 
-                    tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 9 }}
+                    tick={{ fill: 'var(--muted-foreground)', fontSize: 9 }}
                     angle={-25}
                     textAnchor="end"
                     height={60}
                   />
-                  <YAxis tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 11 }} />
+                  <YAxis tick={{ fill: 'var(--muted-foreground)', fontSize: 11 }} />
                   <Tooltip content={<CustomTooltip />} />
                   <Bar dataKey="value" fill="#f59e0b" radius={[4, 4, 0, 0]} />
                 </BarChart>
@@ -487,13 +688,13 @@ export function DesligamentosTable() {
             <div className="h-[250px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData.porMotivo} layout="vertical">
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis type="number" tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 11 }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                  <XAxis type="number" tick={{ fill: 'var(--muted-foreground)', fontSize: 11 }} />
                   <YAxis 
                     dataKey="name" 
                     type="category" 
-                    width={120} 
-                    tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 9 }} 
+                    width={130} 
+                    tick={{ fill: 'var(--muted-foreground)', fontSize: 9 }} 
                   />
                   <Tooltip content={<CustomTooltip />} />
                   <Bar dataKey="value" fill="#8b5cf6" radius={[0, 4, 4, 0]} />
@@ -503,145 +704,6 @@ export function DesligamentosTable() {
           </CardContent>
         </Card>
       </div>
-
-      {/* Filters and Search */}
-      <div className="space-y-4">
-        <div className="flex flex-col sm:flex-row gap-3">
-          <div className="flex-1 relative">
-            <SearchIcon className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Buscar por nome..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
-          </div>
-          <Select value={filterCarteira} onValueChange={setFilterCarteira}>
-            <SelectTrigger className="w-full sm:w-40">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="TODAS">Todas as Carteiras</SelectItem>
-              {carteiras.map(c => (
-                <SelectItem key={c} value={c}>{c}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <Select value={filterStatus} onValueChange={setFilterStatus}>
-            <SelectTrigger className="w-full sm:w-40">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="TODOS">Todos Status</SelectItem>
-              <SelectItem value="COM AVISO PRÉVIO">Com Aviso Prévio</SelectItem>
-              <SelectItem value="SEM AVISO PRÉVIO">Sem Aviso Prévio</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select value={filterMotivo} onValueChange={setFilterMotivo}>
-            <SelectTrigger className="w-full sm:w-40">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="TODOS">Todos Motivos</SelectItem>
-              {motivos.map(m => (
-                <SelectItem key={m} value={m}>{m.slice(0, 30)}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
-
-      {/* Table */}
-      <Card className="bg-card border-border overflow-hidden">
-        <div className="overflow-x-auto">
-          <Table>
-            <TableHeader>
-              <TableRow className="border-b border-border hover:bg-transparent">
-                <TableHead className="w-12 text-center">QTD</TableHead>
-                <TableHead className="min-w-40">NOME DO OPERADOR</TableHead>
-                <TableHead className="min-w-24">CARTEIRA</TableHead>
-                <TableHead className="min-w-28">ADMISSÃO</TableHead>
-                <TableHead className="min-w-20 text-center">DIAS</TableHead>
-                <TableHead className="min-w-40">MOTIVO</TableHead>
-                <TableHead className="min-w-28">STATUS</TableHead>
-                <TableHead className="min-w-28">DATA DESLIGAMENTO</TableHead>
-                {canEdit && <TableHead className="w-16 text-center">AÇÕES</TableHead>}
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredData.map((item, index) => (
-                <TableRow key={item.id} className="border-b border-border hover:bg-muted/50">
-                  <TableCell className="text-center text-sm font-medium">{index + 1}</TableCell>
-                  <TableCell className="font-medium text-foreground whitespace-nowrap">{item.nome}</TableCell>
-                  <TableCell className="text-sm"><Badge variant="outline">{item.carteira}</Badge></TableCell>
-                  <TableCell className="text-sm whitespace-nowrap">{item.admissao}</TableCell>
-                  <TableCell className="text-center text-sm">{item.dias}</TableCell>
-                  <TableCell className="text-sm">{item.motivo}</TableCell>
-                  <TableCell className="text-sm whitespace-nowrap">
-                    {item.status === 'COM AVISO PRÉVIO' ? (
-                      <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-400">
-                        Com Aviso
-                      </Badge>
-                    ) : (
-                      <Badge variant="destructive">
-                        Sem Aviso
-                      </Badge>
-                    )}
-                  </TableCell>
-                  <TableCell className="text-sm whitespace-nowrap">{item.dataDesligamento}</TableCell>
-                  {canEdit && (
-                    <TableCell className="text-center">
-                      <div className="flex gap-2 justify-center">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleEditItem(item)}
-                          className="h-8 w-8 p-0 hover:bg-blue-100 dark:hover:bg-blue-500/20 hover:text-blue-600 dark:hover:text-blue-400"
-                        >
-                          <PencilIcon className="h-4 w-4" />
-                        </Button>
-                        <Dialog open={deleteConfirm === item.id} onOpenChange={(open) => !open && setDeleteConfirm(null)}>
-                          <DialogTrigger asChild>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => setDeleteConfirm(item.id)}
-                              className="h-8 w-8 p-0 hover:bg-red-100 dark:hover:bg-red-500/20 hover:text-red-600 dark:hover:text-red-400"
-                            >
-                              <Trash2Icon className="h-4 w-4" />
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent className="max-w-sm">
-                            <DialogHeader>
-                              <DialogTitle className="flex items-center gap-2 text-destructive">
-                                <AlertTriangleIcon className="h-5 w-5" />
-                                Confirmar Exclusão
-                              </DialogTitle>
-                            </DialogHeader>
-                            <p className="text-sm text-foreground">
-                              Tem certeza que deseja remover <strong>{item.nome}</strong>?
-                            </p>
-                            <DialogFooter>
-                              <Button variant="outline" onClick={() => setDeleteConfirm(null)}>Cancelar</Button>
-                              <Button variant="destructive" onClick={() => handleDeleteItem(item.id)}>Remover</Button>
-                            </DialogFooter>
-                          </DialogContent>
-                        </Dialog>
-                      </div>
-                    </TableCell>
-                  )}
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-      </Card>
-
-      {filteredData.length === 0 && (
-        <div className="text-center py-8">
-          <p className="text-muted-foreground">Nenhum registro encontrado</p>
-        </div>
-      )}
     </div>
   )
 }
