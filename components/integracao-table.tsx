@@ -46,6 +46,22 @@ export function IntegracaoTable() {
   const [isTableDialogOpen, setIsTableDialogOpen] = useState(false)
   const [editingCarteira, setEditingCarteira] = useState<{ original: string; novo: string } | null>(null)
   const [observacaoPopup, setObservacaoPopup] = useState<{ nome: string; texto: string } | null>(null)
+
+  // Gerenciamento de Turnos
+  const turnosBase = ['MANHA', 'TARDE', 'TARDE (4h)', 'INTEGRAL', 'NOITE', 'MADRUGADA']
+  const [turnosCustom, setTurnosCustom] = useState<string[]>([])
+  const [novoTurno, setNovoTurno] = useState('')
+  const [editingTurno, setEditingTurno] = useState<{ original: string; novo: string } | null>(null)
+  const [isTurnosDialogOpen, setIsTurnosDialogOpen] = useState(false)
+  const turnos = [...turnosBase, ...turnosCustom]
+
+  // Gerenciamento de Registros
+  const registrosBase = ['OPERADOR(A)', 'NEGOCIADOR', 'ESTAGIARIO']
+  const [registrosCustom, setRegistrosCustom] = useState<string[]>([])
+  const [novoRegistro, setNovoRegistro] = useState('')
+  const [editingRegistro, setEditingRegistro] = useState<{ original: string; novo: string } | null>(null)
+  const [isRegistrosDialogOpen, setIsRegistrosDialogOpen] = useState(false)
+  const registros = [...registrosBase, ...registrosCustom]
   const [formData, setFormData] = useState({
     colaborador: '',
     cpf: '',
@@ -257,6 +273,50 @@ export function IntegracaoTable() {
     setEditingCarteira(null)
   }
 
+  // Funções de Turnos
+  const addTurno = () => {
+    const valor = novoTurno.trim().toUpperCase()
+    if (valor && !turnos.includes(valor)) {
+      setTurnosCustom([...turnosCustom, valor])
+      setNovoTurno('')
+    }
+  }
+
+  const removeTurno = (turno: string) => {
+    setTurnosCustom(turnosCustom.filter(t => t !== turno))
+  }
+
+  const saveEditTurno = () => {
+    if (editingTurno && editingTurno.novo.trim() && editingTurno.novo.trim().toUpperCase() !== editingTurno.original) {
+      const novoValor = editingTurno.novo.trim().toUpperCase()
+      setTurnosCustom(turnosCustom.map(t => t === editingTurno.original ? novoValor : t))
+      setData(data.map(item => item.turno === editingTurno.original ? { ...item, turno: novoValor as any } : item))
+    }
+    setEditingTurno(null)
+  }
+
+  // Funções de Registros
+  const addRegistro = () => {
+    const valor = novoRegistro.trim().toUpperCase()
+    if (valor && !registros.includes(valor)) {
+      setRegistrosCustom([...registrosCustom, valor])
+      setNovoRegistro('')
+    }
+  }
+
+  const removeRegistro = (registro: string) => {
+    setRegistrosCustom(registrosCustom.filter(r => r !== registro))
+  }
+
+  const saveEditRegistro = () => {
+    if (editingRegistro && editingRegistro.novo.trim() && editingRegistro.novo.trim().toUpperCase() !== editingRegistro.original) {
+      const novoValor = editingRegistro.novo.trim().toUpperCase()
+      setRegistrosCustom(registrosCustom.map(r => r === editingRegistro.original ? novoValor : r))
+      setData(data.map(item => item.registro === editingRegistro.original ? { ...item, registro: novoValor as any } : item))
+    }
+    setEditingRegistro(null)
+  }
+
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
@@ -344,20 +404,20 @@ export function IntegracaoTable() {
                                       onChange={(e) => setEditingCarteira({ ...editingCarteira, novo: e.target.value })}
                                       className="flex-1 h-8"
                                     />
-                                    <Button size="sm" variant="ghost" onClick={saveEditCarteira} className="h-8 w-8 p-0">
+                                    <Button type="button" size="sm" variant="ghost" onClick={saveEditCarteira} className="h-8 w-8 p-0">
                                       <CheckCircle2Icon className="h-4 w-4 text-green-600" />
                                     </Button>
-                                    <Button size="sm" variant="ghost" onClick={() => setEditingCarteira(null)} className="h-8 w-8 p-0">
+                                    <Button type="button" size="sm" variant="ghost" onClick={() => setEditingCarteira(null)} className="h-8 w-8 p-0">
                                       <XIcon className="h-4 w-4 text-red-600" />
                                     </Button>
                                   </>
                                 ) : (
                                   <>
                                     <Badge variant="outline" className="flex-1 justify-center">{c}</Badge>
-                                    <Button size="sm" variant="ghost" onClick={() => startEditCarteira(c)} className="h-8 w-8 p-0 hover:bg-blue-100 dark:hover:bg-blue-500/20">
+                                    <Button type="button" size="sm" variant="ghost" onClick={() => startEditCarteira(c)} className="h-8 w-8 p-0 hover:bg-blue-100 dark:hover:bg-blue-500/20">
                                       <PencilIcon className="h-4 w-4 text-blue-600" />
                                     </Button>
-                                    <Button size="sm" variant="ghost" onClick={() => removeCarteira(c)} className="h-8 w-8 p-0 hover:bg-red-100 dark:hover:bg-red-500/20">
+                                    <Button type="button" size="sm" variant="ghost" onClick={() => removeCarteira(c)} className="h-8 w-8 p-0 hover:bg-red-100 dark:hover:bg-red-500/20">
                                       <Trash2Icon className="h-4 w-4 text-red-600" />
                                     </Button>
                                   </>
@@ -372,9 +432,9 @@ export function IntegracaoTable() {
                           placeholder="Nova carteira..."
                           value={novaCarteira}
                           onChange={(e) => setNovaCarteira(e.target.value)}
-                          onKeyPress={(e) => e.key === 'Enter' && addCarteira()}
+                          onKeyDown={(e) => e.key === 'Enter' && addCarteira()}
                         />
-                        <Button size="sm" onClick={addCarteira}>Adicionar</Button>
+                        <Button type="button" size="sm" onClick={addCarteira}>Adicionar</Button>
                       </div>
                     </div>
                   </DialogContent>
@@ -387,142 +447,206 @@ export function IntegracaoTable() {
                     </Button>
                   </DialogTrigger>
                   <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-                    <DialogHeader>
-                      <DialogTitle>{editingItem ? 'Editar Colaborador' : 'Adicionar Novo Colaborador'}</DialogTitle>
+                    <DialogHeader className="pb-4 border-b">
+                      <DialogTitle className="text-xl">{editingItem ? 'Editar Colaborador' : 'Adicionar Novo Colaborador'}</DialogTitle>
                       <DialogDescription>
                         Preencha as informacoes do colaborador em integracao
                       </DialogDescription>
                     </DialogHeader>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="colaborador">Nome do Colaborador *</Label>
-                        <Input
-                          id="colaborador"
-                          placeholder="Nome completo"
-                          value={formData.colaborador}
-                          onChange={(e) => setFormData({...formData, colaborador: e.target.value})}
-                        />
+                    
+                    <div className="space-y-6 py-4">
+                      {/* Secao: Dados Pessoais */}
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-2">
+                          <div className="h-5 w-1 bg-primary rounded-full" />
+                          <h3 className="text-sm font-semibold text-foreground">Dados Pessoais</h3>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4 pl-3">
+                          <div className="space-y-2">
+                            <Label htmlFor="colaborador" className="text-sm">Nome do Colaborador <span className="text-red-500">*</span></Label>
+                            <Input
+                              id="colaborador"
+                              placeholder="Nome completo"
+                              value={formData.colaborador}
+                              onChange={(e) => setFormData({...formData, colaborador: e.target.value})}
+                              className="h-9"
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="cpf" className="text-sm">CPF <span className="text-red-500">*</span></Label>
+                            <Input
+                              id="cpf"
+                              placeholder="000.000.000-00"
+                              value={formData.cpf}
+                              onChange={(e) => setFormData({...formData, cpf: e.target.value})}
+                              className="h-9"
+                            />
+                          </div>
+                        </div>
                       </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="cpf">CPF *</Label>
-                        <Input
-                          id="cpf"
-                          placeholder="000.000.000-00"
-                          value={formData.cpf}
-                          onChange={(e) => setFormData({...formData, cpf: e.target.value})}
-                        />
+
+                      {/* Secao: Informacoes de Trabalho */}
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-2">
+                          <div className="h-5 w-1 bg-primary rounded-full" />
+                          <h3 className="text-sm font-semibold text-foreground">Informacoes de Trabalho</h3>
+                        </div>
+                        <div className="grid grid-cols-3 gap-4 pl-3">
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-between">
+                              <Label htmlFor="turno" className="text-sm">Turno</Label>
+                              <button
+                                type="button"
+                                onClick={() => setIsTurnosDialogOpen(true)}
+                                className="flex items-center gap-1 text-xs text-primary hover:text-primary/80 transition-colors font-medium"
+                                title="Gerenciar turnos"
+                              >
+                                <SettingsIcon className="h-3 w-3" />
+                                Gerenciar
+                              </button>
+                            </div>
+                            <Select value={formData.turno} onValueChange={(value) => setFormData({...formData, turno: value as any})}>
+                              <SelectTrigger id="turno" className="h-9">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {turnos.map(t => (
+                                  <SelectItem key={t} value={t}>{t}</SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-between">
+                              <Label htmlFor="registro" className="text-sm">Registro</Label>
+                              <button
+                                type="button"
+                                onClick={() => setIsRegistrosDialogOpen(true)}
+                                className="flex items-center gap-1 text-xs text-primary hover:text-primary/80 transition-colors font-medium"
+                                title="Gerenciar registros"
+                              >
+                                <SettingsIcon className="h-3 w-3" />
+                                Gerenciar
+                              </button>
+                            </div>
+                            <Select value={formData.registro} onValueChange={(value) => setFormData({...formData, registro: value as any})}>
+                              <SelectTrigger id="registro" className="h-9">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {registros.map(r => (
+                                  <SelectItem key={r} value={r}>{r}</SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="carteira" className="text-sm">Carteira</Label>
+                            <Select value={formData.carteira} onValueChange={(value) => setFormData({...formData, carteira: value})}>
+                              <SelectTrigger id="carteira" className="h-9">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {carteiras.map(c => (
+                                  <SelectItem key={c} value={c}>{c}</SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
                       </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="admissao">Data de Admissao (DD/MM/AAAA) *</Label>
-                        <Input
-                          id="admissao"
-                          placeholder="DD/MM/AAAA"
-                          value={formData.admissao}
-                          onChange={(e) => handleAdmissaoChange(e.target.value)}
-                        />
+
+                      {/* Secao: Treinamento */}
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-2">
+                          <div className="h-5 w-1 bg-primary rounded-full" />
+                          <h3 className="text-sm font-semibold text-foreground">Treinamento</h3>
+                        </div>
+                        <div className="grid grid-cols-4 gap-4 pl-3">
+                          <div className="space-y-2">
+                            <Label htmlFor="admissao" className="text-sm">Data de Admissao <span className="text-red-500">*</span></Label>
+                            <Input
+                              id="admissao"
+                              placeholder="DD/MM/AAAA"
+                              value={formData.admissao}
+                              onChange={(e) => handleAdmissaoChange(e.target.value)}
+                              className="h-9"
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="dias" className="text-sm">Dias</Label>
+                            <Input
+                              id="dias"
+                              type="number"
+                              value={formData.dias}
+                              readOnly
+                              className="h-9 bg-muted text-center font-medium"
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="dia1" className="text-sm">1o Dia</Label>
+                            <Select value={formData.dia1} onValueChange={(value) => setFormData({...formData, dia1: value})}>
+                              <SelectTrigger id="dia1" className="h-9">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="vazio">Em Branco</SelectItem>
+                                <SelectItem value="PRESENTE">Presente</SelectItem>
+                                <SelectItem value="FALTOU">Faltou</SelectItem>
+                                <SelectItem value="NAO COMPARECEU">Nao Compareceu</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="dia2" className="text-sm">2o Dia</Label>
+                            <Select value={formData.dia2} onValueChange={(value) => setFormData({...formData, dia2: value})}>
+                              <SelectTrigger id="dia2" className="h-9">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="vazio">Em Branco</SelectItem>
+                                <SelectItem value="PRESENTE">Presente</SelectItem>
+                                <SelectItem value="FALTOU">Faltou</SelectItem>
+                                <SelectItem value="NAO COMPARECEU">Nao Compareceu</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4 pl-3">
+                          <div className="space-y-2">
+                            <Label htmlFor="aplicado" className="text-sm">Treinamento Aplicado?</Label>
+                            <Select value={formData.aplicado ? 'sim' : 'nao'} onValueChange={(value) => setFormData({...formData, aplicado: value === 'sim'})}>
+                              <SelectTrigger id="aplicado" className="h-9">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="nao">Nao</SelectItem>
+                                <SelectItem value="sim">Sim</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
                       </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="dias">Dias de Treinamento</Label>
-                        <Input
-                          id="dias"
-                          type="number"
-                          value={formData.dias}
-                          readOnly
-                          className="bg-muted"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="turno">Turno</Label>
-                        <Select value={formData.turno} onValueChange={(value) => setFormData({...formData, turno: value as any})}>
-                          <SelectTrigger id="turno">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="MANHA">Manha</SelectItem>
-                            <SelectItem value="TARDE">Tarde</SelectItem>
-                            <SelectItem value="NOITE">Noite</SelectItem>
-                            <SelectItem value="MADRUGADA">Madrugada</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="registro">Registro</Label>
-                        <Select value={formData.registro} onValueChange={(value) => setFormData({...formData, registro: value as any})}>
-                          <SelectTrigger id="registro">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="OPERADOR(A)">Operador(a)</SelectItem>
-                            <SelectItem value="NEGOCIADOR">Negociador</SelectItem>
-                            <SelectItem value="INTEGRAL">Integral</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="carteira">Carteira</Label>
-                        <Select value={formData.carteira} onValueChange={(value) => setFormData({...formData, carteira: value})}>
-                          <SelectTrigger id="carteira">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {carteiras.map(c => (
-                              <SelectItem key={c} value={c}>{c}</SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="dia1">1 Dia</Label>
-                        <Select value={formData.dia1} onValueChange={(value) => setFormData({...formData, dia1: value})}>
-                          <SelectTrigger id="dia1">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="vazio">Em Branco</SelectItem>
-                            <SelectItem value="PRESENTE">Presente</SelectItem>
-                            <SelectItem value="FALTOU">Faltou</SelectItem>
-                            <SelectItem value="NAO COMPARECEU">Nao Compareceu</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="dia2">2 Dia</Label>
-                        <Select value={formData.dia2} onValueChange={(value) => setFormData({...formData, dia2: value})}>
-                          <SelectTrigger id="dia2">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="vazio">Em Branco</SelectItem>
-                            <SelectItem value="PRESENTE">Presente</SelectItem>
-                            <SelectItem value="FALTOU">Faltou</SelectItem>
-                            <SelectItem value="NAO COMPARECEU">Nao Compareceu</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="aplicado">Treinamento Aplicado?</Label>
-                        <Select value={formData.aplicado ? 'sim' : 'nao'} onValueChange={(value) => setFormData({...formData, aplicado: value === 'sim'})}>
-                          <SelectTrigger id="aplicado">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="nao">Nao</SelectItem>
-                            <SelectItem value="sim">Sim</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="col-span-2 space-y-2">
-                        <Label htmlFor="observacao">Observacao</Label>
-                        <Textarea
-                          id="observacao"
-                          placeholder="Adicione uma observacao sobre o colaborador..."
-                          value={formData.observacao}
-                          onChange={(e) => setFormData({...formData, observacao: e.target.value})}
-                          className="min-h-20"
-                        />
+
+                      {/* Secao: Observacoes */}
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-2">
+                          <div className="h-5 w-1 bg-primary rounded-full" />
+                          <h3 className="text-sm font-semibold text-foreground">Observacoes</h3>
+                        </div>
+                        <div className="pl-3">
+                          <Textarea
+                            id="observacao"
+                            placeholder="Adicione uma observacao sobre o colaborador..."
+                            value={formData.observacao}
+                            onChange={(e) => setFormData({...formData, observacao: e.target.value})}
+                            className="min-h-20 resize-none"
+                          />
+                        </div>
                       </div>
                     </div>
-                    <DialogFooter>
+
+                    <DialogFooter className="pt-4 border-t gap-2">
                       <Button variant="outline" onClick={() => {
                         setIsAddDialogOpen(false)
                         resetForm()
@@ -530,10 +654,144 @@ export function IntegracaoTable() {
                       }}>
                         Cancelar
                       </Button>
-                      <Button onClick={handleAddItem}>
+                      <Button onClick={handleAddItem} className="min-w-24">
                         {editingItem ? 'Atualizar' : 'Adicionar'}
                       </Button>
                     </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+
+                {/* Dialog Gerenciar Turnos */}
+                <Dialog open={isTurnosDialogOpen} onOpenChange={setIsTurnosDialogOpen}>
+                  <DialogContent className="max-w-md">
+                    <DialogHeader>
+                      <DialogTitle>Gerenciar Turnos</DialogTitle>
+                      <DialogDescription>
+                        Adicione, edite ou remova opcoes de turno
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                      <div>
+                        <p className="text-sm font-medium mb-2 text-foreground">Turnos Padrao</p>
+                        <div className="flex flex-wrap gap-2">
+                          {turnosBase.map(t => (
+                            <Badge key={t} variant="secondary">{t}</Badge>
+                          ))}
+                        </div>
+                      </div>
+                      {turnosCustom.length > 0 && (
+                        <div>
+                          <p className="text-sm font-medium mb-2 text-foreground">Turnos Personalizados</p>
+                          <div className="space-y-2">
+                            {turnosCustom.map(t => (
+                              <div key={t} className="flex items-center gap-2">
+                                {editingTurno?.original === t ? (
+                                  <>
+                                    <Input
+                                      value={editingTurno.novo}
+                                      onChange={(e) => setEditingTurno({ ...editingTurno, novo: e.target.value })}
+                                      className="flex-1 h-8"
+                                    />
+                                    <Button type="button" size="sm" variant="ghost" onClick={saveEditTurno} className="h-8 w-8 p-0">
+                                      <CheckCircle2Icon className="h-4 w-4 text-green-600" />
+                                    </Button>
+                                    <Button type="button" size="sm" variant="ghost" onClick={() => setEditingTurno(null)} className="h-8 w-8 p-0">
+                                      <XIcon className="h-4 w-4 text-red-600" />
+                                    </Button>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Badge variant="outline" className="flex-1 justify-center">{t}</Badge>
+                                    <Button type="button" size="sm" variant="ghost" onClick={() => setEditingTurno({ original: t, novo: t })} className="h-8 w-8 p-0 hover:bg-blue-100 dark:hover:bg-blue-500/20">
+                                      <PencilIcon className="h-4 w-4 text-blue-600" />
+                                    </Button>
+                                    <Button type="button" size="sm" variant="ghost" onClick={() => removeTurno(t)} className="h-8 w-8 p-0 hover:bg-red-100 dark:hover:bg-red-500/20">
+                                      <Trash2Icon className="h-4 w-4 text-red-600" />
+                                    </Button>
+                                  </>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      <div className="flex gap-2">
+                        <Input
+                          placeholder="Novo turno..."
+                          value={novoTurno}
+                          onChange={(e) => setNovoTurno(e.target.value)}
+                          onKeyDown={(e) => e.key === 'Enter' && addTurno()}
+                        />
+                        <Button type="button" size="sm" onClick={addTurno}>Adicionar</Button>
+                      </div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+
+                {/* Dialog Gerenciar Registros */}
+                <Dialog open={isRegistrosDialogOpen} onOpenChange={setIsRegistrosDialogOpen}>
+                  <DialogContent className="max-w-md">
+                    <DialogHeader>
+                      <DialogTitle>Gerenciar Registros</DialogTitle>
+                      <DialogDescription>
+                        Adicione, edite ou remova opcoes de registro
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                      <div>
+                        <p className="text-sm font-medium mb-2 text-foreground">Registros Padrao</p>
+                        <div className="flex flex-wrap gap-2">
+                          {registrosBase.map(r => (
+                            <Badge key={r} variant="secondary">{r}</Badge>
+                          ))}
+                        </div>
+                      </div>
+                      {registrosCustom.length > 0 && (
+                        <div>
+                          <p className="text-sm font-medium mb-2 text-foreground">Registros Personalizados</p>
+                          <div className="space-y-2">
+                            {registrosCustom.map(r => (
+                              <div key={r} className="flex items-center gap-2">
+                                {editingRegistro?.original === r ? (
+                                  <>
+                                    <Input
+                                      value={editingRegistro.novo}
+                                      onChange={(e) => setEditingRegistro({ ...editingRegistro, novo: e.target.value })}
+                                      className="flex-1 h-8"
+                                    />
+                                    <Button type="button" size="sm" variant="ghost" onClick={saveEditRegistro} className="h-8 w-8 p-0">
+                                      <CheckCircle2Icon className="h-4 w-4 text-green-600" />
+                                    </Button>
+                                    <Button type="button" size="sm" variant="ghost" onClick={() => setEditingRegistro(null)} className="h-8 w-8 p-0">
+                                      <XIcon className="h-4 w-4 text-red-600" />
+                                    </Button>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Badge variant="outline" className="flex-1 justify-center">{r}</Badge>
+                                    <Button type="button" size="sm" variant="ghost" onClick={() => setEditingRegistro({ original: r, novo: r })} className="h-8 w-8 p-0 hover:bg-blue-100 dark:hover:bg-blue-500/20">
+                                      <PencilIcon className="h-4 w-4 text-blue-600" />
+                                    </Button>
+                                    <Button type="button" size="sm" variant="ghost" onClick={() => removeRegistro(r)} className="h-8 w-8 p-0 hover:bg-red-100 dark:hover:bg-red-500/20">
+                                      <Trash2Icon className="h-4 w-4 text-red-600" />
+                                    </Button>
+                                  </>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      <div className="flex gap-2">
+                        <Input
+                          placeholder="Novo registro..."
+                          value={novoRegistro}
+                          onChange={(e) => setNovoRegistro(e.target.value)}
+                          onKeyDown={(e) => e.key === 'Enter' && addRegistro()}
+                        />
+                        <Button type="button" size="sm" onClick={addRegistro}>Adicionar</Button>
+                      </div>
+                    </div>
                   </DialogContent>
                 </Dialog>
               </>
