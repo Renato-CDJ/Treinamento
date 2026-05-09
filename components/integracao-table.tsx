@@ -45,6 +45,7 @@ export function IntegracaoTable() {
   const [isCarteirasDialogOpen, setIsCarteirasDialogOpen] = useState(false)
   const [isTableDialogOpen, setIsTableDialogOpen] = useState(false)
   const [editingCarteira, setEditingCarteira] = useState<{ original: string; novo: string } | null>(null)
+  const [observacaoPopup, setObservacaoPopup] = useState<{ nome: string; texto: string } | null>(null)
   const [formData, setFormData] = useState({
     colaborador: '',
     cpf: '',
@@ -683,13 +684,18 @@ export function IntegracaoTable() {
                             <Badge variant="secondary" className="text-xs">Nao</Badge>
                           )}
                         </td>
-                        <td className="px-3 py-3" style={{ maxWidth: '200px' }}>
+                        <td className="px-3 py-3 text-center">
                           {item.observacao ? (
-                            <div className="flex items-start gap-1 text-muted-foreground" title={item.observacao}>
-                              <MessageSquareIcon className="h-3.5 w-3.5 flex-shrink-0 mt-0.5" />
-                              <span className="text-xs leading-relaxed break-words">{item.observacao}</span>
-                            </div>
-                          ) : <span className="text-xs text-muted-foreground">-</span>}
+                            <button
+                              onClick={() => setObservacaoPopup({ nome: item.colaborador, texto: item.observacao! })}
+                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-muted hover:bg-primary hover:text-primary-foreground border border-border transition-colors whitespace-nowrap"
+                            >
+                              <MessageSquareIcon className="h-3.5 w-3.5" />
+                              Ver
+                            </button>
+                          ) : (
+                            <span className="text-xs text-muted-foreground">-</span>
+                          )}
                         </td>
                         {canEdit && (
                           <td className="px-3 py-3">
@@ -756,6 +762,43 @@ export function IntegracaoTable() {
                   Fechar
                 </Button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Popup de Observacao */}
+      {observacaoPopup && (
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm"
+          onClick={() => setObservacaoPopup(null)}
+        >
+          <div
+            className="bg-background border border-border rounded-xl shadow-2xl w-full max-w-md mx-4 p-6"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-start justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <MessageSquareIcon className="h-5 w-5 text-primary flex-shrink-0" />
+                <div>
+                  <h3 className="text-base font-semibold text-foreground">Observacao</h3>
+                  <p className="text-xs text-muted-foreground mt-0.5">{observacaoPopup.nome}</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setObservacaoPopup(null)}
+                className="text-muted-foreground hover:text-foreground transition-colors p-1 rounded-md hover:bg-muted"
+              >
+                <XIcon className="h-4 w-4" />
+              </button>
+            </div>
+            <div className="bg-muted/50 rounded-lg p-4 border border-border">
+              <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">{observacaoPopup.texto}</p>
+            </div>
+            <div className="flex justify-end mt-4">
+              <Button variant="outline" size="sm" onClick={() => setObservacaoPopup(null)}>
+                Fechar
+              </Button>
             </div>
           </div>
         </div>
