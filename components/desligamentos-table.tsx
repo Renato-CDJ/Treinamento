@@ -85,7 +85,8 @@ export function DesligamentosTable() {
 
   const filteredData = useMemo(() => {
     return data.filter(item => {
-      const matchesSearch = item.nome.toLowerCase().includes(searchTerm.toLowerCase())
+      const nomeCompleto = (item.nome || item.nomeOperador).toLowerCase()
+      const matchesSearch = nomeCompleto.includes(searchTerm.toLowerCase())
       const matchesCarteira = filterCarteira === 'TODAS' || item.carteira === filterCarteira
       const matchesStatus = filterStatus === 'TODOS' || item.status === filterStatus
       const matchesMotivo = filterMotivo === 'TODOS' || item.motivo === filterMotivo
