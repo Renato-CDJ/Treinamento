@@ -555,31 +555,6 @@ export function DesligamentosTable() {
           </div>
         </div>
       )}
-                        </div>
-                      </TableCell>
-                    )}
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-          
-          {filteredData.length === 0 && (
-            <div className="text-center py-8">
-              <p className="text-muted-foreground">Nenhum registro encontrado</p>
-            </div>
-          )}
-
-          <div className="flex justify-between items-center pt-4 border-t">
-            <p className="text-sm text-muted-foreground">
-              Total: <span className="font-medium text-foreground">{filteredData.length}</span> desligamentos
-            </p>
-            <Button variant="outline" onClick={() => setIsTableDialogOpen(false)}>
-              Fechar
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
