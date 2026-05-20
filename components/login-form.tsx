@@ -136,36 +136,22 @@ export const LoginForm = memo(function LoginForm() {
 
       <CardContent className="pt-4 pb-8 px-8">
         {/* Logo */}
-        <div className="flex justify-center mb-6">
-          <div className="relative">
-            <div className="w-20 h-20 rounded-2xl overflow-hidden ring-4 ring-orange-100 dark:ring-orange-950/50 shadow-lg">
-              <Image
-                src="/images/grupo_roveri_logo.jpg"
-                alt="Grupo Roveri"
-                width={80}
-                height={80}
-                className="w-full h-full object-cover"
-                priority
-              />
-            </div>
-            {/* Indicador de status */}
-            <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-emerald-500 rounded-full border-3 border-white dark:border-zinc-900 shadow-sm" />
+        <div className="flex justify-center mb-8">
+          <div className="w-20 h-20 rounded-2xl overflow-hidden ring-4 ring-orange-100 dark:ring-orange-950/50 shadow-lg">
+            <Image
+              src="/images/grupo_roveri_logo.jpg"
+              alt="Grupo Roveri"
+              width={80}
+              height={80}
+              className="w-full h-full object-cover"
+              priority
+            />
           </div>
         </div>
 
         {/* Tela principal - Operador */}
         {loginMode === "main" && (
           <div className="space-y-6">
-            {/* Titulo e subtitulo */}
-            <div className="text-center space-y-2">
-              <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
-                Bem-vindo
-              </h2>
-              <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                Clique abaixo para iniciar seu atendimento
-              </p>
-            </div>
-
             {/* Botao principal de Operador */}
             <Button
               onClick={handleOperatorAccess}
@@ -195,37 +181,30 @@ export const LoginForm = memo(function LoginForm() {
                 <AlertDescription className="text-sm">{error}</AlertDescription>
               </Alert>
             )}
-
-            {/* Footer discreto */}
-            <p className="text-center text-xs text-zinc-400 dark:text-zinc-500 pt-2">
-              Sistema de Atendimento - Grupo Roveri
-            </p>
           </div>
         )}
 
         {/* Formulario de login ADM */}
         {loginMode === "admin" && (
-          <div className="space-y-5">
-            {/* Botao voltar */}
-            <button
-              onClick={handleBack}
-              className="flex items-center gap-2 text-sm text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200 transition-colors"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Voltar
-            </button>
-
-            {/* Header ADM */}
-            <div className="text-center space-y-2">
-              <div className="inline-flex items-center justify-center gap-2 px-3 py-1.5 bg-zinc-100 dark:bg-zinc-800 rounded-full">
-                <ShieldCheck className="h-4 w-4 text-zinc-600 dark:text-zinc-400" />
-                <span className="text-xs font-semibold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">
-                  Acesso Administrativo
+          <div className="space-y-6">
+            {/* Header com voltar e badge */}
+            <div className="flex items-center justify-between">
+              <button
+                onClick={handleBack}
+                className="flex items-center gap-1.5 text-sm text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200 transition-colors"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Voltar
+              </button>
+              <div className="flex items-center gap-1.5 px-2.5 py-1 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/50 rounded-full">
+                <ShieldCheck className="h-3.5 w-3.5 text-amber-600 dark:text-amber-500" />
+                <span className="text-xs font-medium text-amber-700 dark:text-amber-400">
+                  ADM
                 </span>
               </div>
             </div>
 
-            <form onSubmit={handleAdminSubmit} className="space-y-4">
+            <form onSubmit={handleAdminSubmit} className="space-y-5">
               {/* Usuario */}
               <div className="space-y-2">
                 <label htmlFor="email" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
@@ -248,9 +227,9 @@ export const LoginForm = memo(function LoginForm() {
                     required
                     autoComplete="username"
                     disabled={isLoading}
-                    className="h-12 pl-10 pr-4 flex-1 min-w-0 text-sm bg-zinc-50 dark:bg-zinc-800/50 border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 rounded-r-none border-r-0 transition-all"
+                    className="h-12 pl-10 pr-4 flex-1 min-w-0 text-sm bg-zinc-50 dark:bg-zinc-800/50 border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 focus:border-zinc-400 focus:ring-2 focus:ring-zinc-300/30 dark:focus:border-zinc-500 dark:focus:ring-zinc-500/20 rounded-l-xl rounded-r-none border-r-0 transition-all"
                   />
-                  <div className="h-12 px-2 sm:px-3 flex items-center bg-zinc-100 dark:bg-zinc-800 border border-l-0 border-zinc-200 dark:border-zinc-700 rounded-r-lg shrink-0">
+                  <div className="h-12 px-2 sm:px-3 flex items-center bg-zinc-100 dark:bg-zinc-800 border border-l-0 border-zinc-200 dark:border-zinc-700 rounded-r-xl shrink-0">
                     <span className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 whitespace-nowrap">@gruporoveri.com</span>
                   </div>
                 </div>
@@ -272,7 +251,7 @@ export const LoginForm = memo(function LoginForm() {
                     required
                     autoComplete="current-password"
                     disabled={isLoading}
-                    className="h-12 pl-10 text-sm bg-zinc-50 dark:bg-zinc-800/50 border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 rounded-lg transition-all"
+                    className="h-12 pl-10 text-sm bg-zinc-50 dark:bg-zinc-800/50 border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 focus:border-zinc-400 focus:ring-2 focus:ring-zinc-300/30 dark:focus:border-zinc-500 dark:focus:ring-zinc-500/20 rounded-xl transition-all"
                   />
                 </div>
               </div>
@@ -291,7 +270,7 @@ export const LoginForm = memo(function LoginForm() {
               {/* Botao Entrar */}
               <Button
                 type="submit"
-                className="w-full h-12 text-sm font-semibold bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-white dark:text-zinc-900 text-white transition-all duration-200 shadow-md hover:shadow-lg rounded-xl"
+                className="w-full h-12 text-sm font-semibold bg-zinc-800 hover:bg-zinc-700 dark:bg-zinc-200 dark:hover:bg-zinc-100 dark:text-zinc-900 text-white transition-all duration-200 shadow-md hover:shadow-lg rounded-xl flex items-center justify-center gap-2"
                 disabled={isLoading}
               >
                 {isLoading ? (
@@ -300,7 +279,10 @@ export const LoginForm = memo(function LoginForm() {
                     Entrando...
                   </span>
                 ) : (
-                  "Entrar"
+                  <>
+                    <LogIn className="h-4 w-4" />
+                    Entrar
+                  </>
                 )}
               </Button>
             </form>
