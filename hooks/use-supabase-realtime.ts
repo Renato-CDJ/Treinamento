@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState, useCallback, useMemo, useRef } from "react"
-import { createClient } from "@/lib/supabase/client"
+import { createClient, isSupabaseConfigured } from "@/lib/supabase/client"
 import { mapSupabaseUser } from "@/lib/auth-context"
 import type { User, QualityPost, QualityComment } from "@/lib/types"
 
@@ -15,7 +15,17 @@ export function useSupabaseUsers() {
   const mountedRef = useRef(true)
 
   const fetchUsers = useCallback(async () => {
+    if (!isSupabaseConfigured()) {
+      if (mountedRef.current) setLoading(false)
+      return
+    }
+    
     const supabase = createClient()
+    if (!supabase) {
+      if (mountedRef.current) setLoading(false)
+      return
+    }
+    
     const { data, error } = await supabase
       .from("users")
       .select("*")
@@ -95,7 +105,16 @@ export function useQualityPosts(includeArchived: boolean = false) {
   }, [])
 
   const fetchPosts = useCallback(async () => {
+    if (!isSupabaseConfigured()) {
+      if (mountedRef.current) setLoading(false)
+      return
+    }
+    
     const supabase = createClient()
+    if (!supabase) {
+      if (mountedRef.current) setLoading(false)
+      return
+    }
     
     // Fetch posts
     const { data: postsData, error } = await supabase
@@ -196,7 +215,17 @@ export function useAdminQuestions(filterByUserId?: string) {
   const mountedRef = useRef(true)
 
   const fetchQuestions = useCallback(async () => {
+    if (!isSupabaseConfigured()) {
+      if (mountedRef.current) setLoading(false)
+      return
+    }
+    
     const supabase = createClient()
+    if (!supabase) {
+      if (mountedRef.current) setLoading(false)
+      return
+    }
+    
     let query = supabase
       .from("admin_questions")
       .select("*")
@@ -314,7 +343,10 @@ export async function updateOperatorPresence(userId: string, data?: {
   lastScriptAccess?: boolean
 }) {
   try {
+    if (!isSupabaseConfigured()) return { error: "Supabase not configured" }
+    
     const supabase = createClient()
+    if (!supabase) return { error: "Supabase not configured" }
     
     const updates: any = {
       last_activity: new Date().toISOString(),
@@ -367,7 +399,10 @@ export async function createQualityPostSupabase(post: {
   backgroundColor?: string
 }): Promise<QualityPost | null> {
   try {
+    if (!isSupabaseConfigured()) return null
+    
     const supabase = createClient()
+    if (!supabase) return null
     
     const { data, error } = await supabase
       .from("quality_posts")
@@ -413,7 +448,10 @@ export async function createQualityPostSupabase(post: {
 }
 
 export async function likePostSupabase(postId: string, userId: string): Promise<void> {
+  if (!isSupabaseConfigured()) return
+  
   const supabase = createClient()
+  if (!supabase) return
   
   const { data: post } = await supabase
     .from("quality_posts")
@@ -437,7 +475,10 @@ export async function voteOnQuizSupabase(
   optionId: string,
   userId: string
 ): Promise<void> {
+  if (!isSupabaseConfigured()) return
+  
   const supabase = createClient()
+  if (!supabase) return
   
   const { data: post } = await supabase
     .from("quality_posts")
@@ -464,7 +505,14 @@ export async function getQualityStatsSupabase(): Promise<{
   totalUsers: number
   onlineCount: number
 }> {
+  if (!isSupabaseConfigured()) {
+    return { totalPosts: 0, totalLikes: 0, totalComments: 0, totalUsers: 0, onlineCount: 0 }
+  }
+  
   const supabase = createClient()
+  if (!supabase) {
+    return { totalPosts: 0, totalLikes: 0, totalComments: 0, totalUsers: 0, onlineCount: 0 }
+  }
 
   const { data: posts, count: postsCount } = await supabase
     .from("quality_posts")
@@ -496,7 +544,17 @@ export function useFeedbacks() {
   const mountedRef = useRef(true)
 
   const fetchFeedbacks = useCallback(async () => {
+    if (!isSupabaseConfigured()) {
+      if (mountedRef.current) setLoading(false)
+      return
+    }
+    
     const supabase = createClient()
+    if (!supabase) {
+      if (mountedRef.current) setLoading(false)
+      return
+    }
+    
     const { data, error } = await supabase
       .from("feedbacks")
       .select("*")
@@ -567,7 +625,10 @@ export async function answerAdminQuestion(
   adminId: string,
   adminName: string
 ): Promise<void> {
+  if (!isSupabaseConfigured()) return
+  
   const supabase = createClient()
+  if (!supabase) return
   
   await supabase.from("admin_questions").update({
     reply,
@@ -584,7 +645,10 @@ export async function answerAdminQuestionSecond(
   adminId: string,
   adminName: string
 ): Promise<void> {
+  if (!isSupabaseConfigured()) return
+  
   const supabase = createClient()
+  if (!supabase) return
   
   await supabase.from("admin_questions").update({
     second_reply: secondReply,
@@ -598,7 +662,10 @@ export async function markQuestionUnderstood(
   questionId: string,
   understood: boolean
 ): Promise<void> {
+  if (!isSupabaseConfigured()) return
+  
   const supabase = createClient()
+  if (!supabase) return
 
   const { data: question } = await supabase
     .from("admin_questions")
@@ -620,7 +687,10 @@ export async function createAdminQuestion(data: {
   authorId: string
   authorName: string
 }): Promise<void> {
+  if (!isSupabaseConfigured()) return
+  
   const supabase = createClient()
+  if (!supabase) return
   
   await supabase.from("admin_questions").insert({
     question: data.question,
@@ -634,7 +704,10 @@ export async function createAdminQuestion(data: {
 
 // Delete quality post
 export async function deleteQualityPostSupabase(postId: string): Promise<void> {
+  if (!isSupabaseConfigured()) return
+  
   const supabase = createClient()
+  if (!supabase) return
   
   // Delete post
   await supabase.from("quality_posts").delete().eq("id", postId)
@@ -642,7 +715,10 @@ export async function deleteQualityPostSupabase(postId: string): Promise<void> {
 
 // Edit quality post
 export async function editQualityPostSupabase(postId: string, content: string, backgroundColor?: string): Promise<void> {
+  if (!isSupabaseConfigured()) return
+  
   const supabase = createClient()
+  if (!supabase) return
   
   const updates: any = { content, updated_at: new Date().toISOString() }
   if (backgroundColor !== undefined) {
@@ -654,7 +730,11 @@ export async function editQualityPostSupabase(postId: string, content: string, b
 
 // Mark feedback as read
 export async function markFeedbackAsRead(feedbackId: string): Promise<void> {
+  if (!isSupabaseConfigured()) return
+  
   const supabase = createClient()
+  if (!supabase) return
+  
   await supabase.from("feedbacks").update({ is_read: true }).eq("id", feedbackId)
 }
 
@@ -673,7 +753,10 @@ export async function createFeedbackSupabase(feedback: {
   positivePoints?: string
   improvementPoints?: string
 }): Promise<void> {
+  if (!isSupabaseConfigured()) return
+  
   const supabase = createClient()
+  if (!supabase) return
 
   // Insert into feedbacks table
   await supabase.from("feedbacks").insert({
@@ -716,7 +799,10 @@ export async function createFeedbackSupabase(feedback: {
 
 // User management functions
 export async function getUserByUsername(username: string): Promise<User | null> {
+  if (!isSupabaseConfigured()) return null
+  
   const supabase = createClient()
+  if (!supabase) return null
   
   const { data, error } = await supabase
     .from("users")
@@ -730,7 +816,10 @@ export async function getUserByUsername(username: string): Promise<User | null> 
 }
 
 export async function updateUserOnlineStatus(userId: string, isOnline: boolean): Promise<void> {
+  if (!isSupabaseConfigured()) return
+  
   const supabase = createClient()
+  if (!supabase) return
   
   await supabase.from("users").update({
     is_online: isOnline,
@@ -739,7 +828,10 @@ export async function updateUserOnlineStatus(userId: string, isOnline: boolean):
 }
 
 export async function getAllUsersFromSupabase(): Promise<User[]> {
+  if (!isSupabaseConfigured()) return []
+  
   const supabase = createClient()
+  if (!supabase) return []
   
   const { data, error } = await supabase
     .from("users")
