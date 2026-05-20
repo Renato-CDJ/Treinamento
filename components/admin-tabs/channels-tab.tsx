@@ -13,8 +13,6 @@ import {
   Trash2, 
   Save, 
   X, 
-  ExternalLink, 
-  Copy, 
   Loader2,
   Phone,
   Mail,
@@ -154,21 +152,6 @@ export function ChannelsTab() {
   const handleCancel = () => {
     setEditingItem(null)
     setIsCreating(false)
-  }
-
-  const isUrl = (text: string | undefined) => {
-    if (!text) return false
-    return text.startsWith("http://") || text.startsWith("https://")
-  }
-
-  const handleCopy = (text: string) => {
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(text)
-      toast({
-        title: "Copiado!",
-        description: "Contato copiado para a area de transferencia.",
-      })
-    }
   }
 
   if (loading) {
@@ -420,38 +403,7 @@ export function ChannelsTab() {
                             </div>
                           </div>
                           
-                          {/* Contact Info */}
-                          {channel.contact && (
-                            <div className="mt-3 p-2.5 rounded-lg bg-muted/50 border border-border/50">
-                              <div className="flex items-start justify-between gap-2">
-                                <code className={`text-xs break-all whitespace-pre-wrap leading-relaxed ${
-                                  !channel.isActive && "text-muted-foreground"
-                                }`}>
-                                  {channel.contact}
-                                </code>
-                                <div className="flex gap-0.5 shrink-0">
-                                  <Button
-                                    size="icon"
-                                    variant="ghost"
-                                    className="h-7 w-7 hover:bg-background"
-                                    onClick={() => handleCopy(channel.contact || "")}
-                                  >
-                                    <Copy className="h-3 w-3" />
-                                  </Button>
-                                  {isUrl(channel.contact) && (
-                                    <Button
-                                      size="icon"
-                                      variant="ghost"
-                                      className="h-7 w-7 hover:bg-background"
-                                      onClick={() => window.open(channel.contact, "_blank")}
-                                    >
-                                      <ExternalLink className="h-3 w-3" />
-                                    </Button>
-                                  )}
-                                </div>
-                              </div>
-                            </div>
-                          )}
+
                         </div>
                       </div>
                     </CardContent>
