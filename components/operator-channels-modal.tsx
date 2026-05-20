@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Badge } from "@/components/ui/badge"
 import { useCachedChannels } from "@/hooks/use-cached-data"
-import { Search, X, Phone, ExternalLink } from "lucide-react"
+import { Search, X, Phone } from "lucide-react"
 
 interface OperatorChannelsModalProps {
   open: boolean
@@ -17,7 +17,6 @@ interface ChannelData {
   id: string
   name: string
   description?: string
-  contact?: string
 }
 
 export const OperatorChannelsModal = memo(function OperatorChannelsModal({
@@ -35,7 +34,6 @@ export const OperatorChannelsModal = memo(function OperatorChannelsModal({
         id: c.id,
         name: c.name,
         description: c.description || "",
-        contact: c.icon || "",
       }))
   , [channelsRaw])
 
@@ -44,8 +42,7 @@ export const OperatorChannelsModal = memo(function OperatorChannelsModal({
     const query = search.toLowerCase()
     return channels.filter(item => 
       item.name.toLowerCase().includes(query) ||
-      item.description?.toLowerCase().includes(query) ||
-      item.contact?.toLowerCase().includes(query)
+      item.description?.toLowerCase().includes(query)
     )
   }, [channels, search])
 
@@ -59,52 +56,12 @@ export const OperatorChannelsModal = memo(function OperatorChannelsModal({
   const leftColumn = filteredChannels.slice(0, midPoint)
   const rightColumn = filteredChannels.slice(midPoint)
 
-  // Helper to check if contact is a URL
-  const isUrl = (text: string) => {
-    return text.startsWith("http://") || text.startsWith("https://") || text.startsWith("www.")
-  }
-
-  // Helper to format contact display
-  const formatContact = (contact: string) => {
-    if (!contact) return null
-    
-    const lines = contact.split("\n").filter(line => line.trim())
-    return lines.map((line, idx) => {
-      const trimmedLine = line.trim()
-      const isLink = isUrl(trimmedLine)
-      
-      return (
-        <div key={idx} className="flex items-start gap-2">
-          {isLink ? (
-            <a 
-              href={trimmedLine.startsWith("http") ? trimmedLine : `https://${trimmedLine}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm text-orange-600 hover:text-orange-700 hover:underline break-all flex items-center gap-1"
-            >
-              {trimmedLine}
-              <ExternalLink className="h-3 w-3 flex-shrink-0" />
-            </a>
-          ) : (
-            <span className="text-sm text-foreground font-medium">{trimmedLine}</span>
-          )}
-        </div>
-      )
-    })
-  }
-
   // Render a single channel card
   const ChannelCard = ({ channel }: { channel: ChannelData }) => (
     <div className="mb-6">
       <h3 className="text-base font-bold text-orange-600 mb-2 border-b border-orange-200 pb-1">
         {channel.name}
       </h3>
-      
-      {channel.contact && (
-        <div className="space-y-1 mb-2">
-          {formatContact(channel.contact)}
-        </div>
-      )}
       
       {channel.description && (
         <div className="space-y-1">
