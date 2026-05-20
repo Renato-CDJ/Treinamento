@@ -5,41 +5,85 @@ import { useRouter } from "next/navigation"
 import { useAuth } from "@/lib/auth-context"
 import { LoginForm } from "@/components/login-form"
 
-// Componente animado para o titulo "Roteiro" com efeito de hover impactante
+// Componente animado para o titulo "Roteiro" com efeito de revelacao
 function AnimatedTitle() {
+  const letters = "Roteiro".split("")
+  
   return (
     <div className="relative cursor-default select-none py-8">
-      <h1 className="relative text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tight mb-4 group">
-        <span 
-          className="inline-block bg-gradient-to-r from-orange-500 via-orange-400 to-orange-500 bg-clip-text text-transparent bg-[length:200%_100%] transition-all duration-500 ease-out group-hover:scale-110 group-hover:drop-shadow-[0_0_25px_rgba(249,115,22,0.5)]"
-          style={{
-            animation: "shimmer 4s ease-in-out infinite",
-          }}
-        >
-          Roteiro
+      <h1 className="relative text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tight mb-4">
+        <span className="relative inline-flex overflow-hidden">
+          {/* Texto base - invisivel inicialmente, revelado pela animacao */}
+          {letters.map((letter, index) => (
+            <span
+              key={index}
+              className="relative inline-block"
+              style={{
+                animation: `revealLetter 0.6s ease-out ${index * 0.12}s forwards`,
+                opacity: 0,
+                transform: "translateY(20px)",
+              }}
+            >
+              <span className="bg-gradient-to-b from-orange-400 via-orange-500 to-orange-600 bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(249,115,22,0.3)]">
+                {letter}
+              </span>
+            </span>
+          ))}
+          
+          {/* Barra escura que passa revelando o texto */}
+          <span
+            className="absolute inset-y-0 w-[120%] bg-gradient-to-r from-transparent via-zinc-900/90 dark:via-zinc-100/90 to-transparent pointer-events-none"
+            style={{
+              animation: "sweepReveal 1.2s ease-in-out forwards",
+              left: "-120%",
+            }}
+          />
         </span>
       </h1>
       
       {/* Linha de luz animada abaixo do titulo */}
       <div 
-        className="absolute bottom-4 left-1/2 -translate-x-1/2 w-32 h-[3px] overflow-hidden rounded-full"
-        style={{ opacity: 0.7 }}
+        className="absolute bottom-4 left-1/2 -translate-x-1/2 w-40 h-[3px] overflow-hidden rounded-full"
+        style={{ 
+          opacity: 0,
+          animation: "fadeIn 0.5s ease-out 1s forwards"
+        }}
       >
         <div 
           className="h-full w-full bg-gradient-to-r from-transparent via-orange-500 to-transparent"
           style={{
-            animation: "pulse 2s ease-in-out infinite",
+            animation: "pulse 2.5s ease-in-out 1.2s infinite",
           }}
         />
       </div>
       
       <style jsx>{`
-        @keyframes shimmer {
-          0%, 100% {
-            backgroundPosition: 0% 50%;
+        @keyframes revealLetter {
+          0% {
+            opacity: 0;
+            transform: translateY(20px) scale(0.8);
+            filter: blur(4px);
           }
-          50% {
-            backgroundPosition: 100% 50%;
+          100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0);
+          }
+        }
+        @keyframes sweepReveal {
+          0% {
+            left: -120%;
+          }
+          100% {
+            left: 120%;
+          }
+        }
+        @keyframes fadeIn {
+          0% {
+            opacity: 0;
+          }
+          100% {
+            opacity: 0.7;
           }
         }
         @keyframes pulse {
