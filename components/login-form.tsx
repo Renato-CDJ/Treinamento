@@ -102,15 +102,8 @@ export const LoginForm = memo(function LoginForm() {
 
   return (
     <Card className="w-full max-w-md mx-auto bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl border border-zinc-200/50 dark:border-zinc-700/50 shadow-2xl shadow-zinc-300/30 dark:shadow-black/40 overflow-hidden relative rounded-3xl">
-      {/* Efeito de brilho animado no topo */}
-      <div className="absolute inset-x-0 top-0 h-1 overflow-hidden">
-        {/* Camada base do gradiente */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-orange-500/60 to-transparent" />
-        {/* Camada de brilho animado */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-300/80 to-transparent animate-[shimmer_3s_ease-in-out_infinite]" />
-        {/* Glow effect */}
-        <div className="absolute inset-x-0 top-0 h-8 bg-gradient-to-b from-orange-500/20 to-transparent blur-sm" />
-      </div>
+      {/* Efeito de brilho sutil no topo */}
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-orange-400/50 to-transparent" />
       
       {/* Header com botoes de tema e ADM */}
       <div className="flex items-center justify-between px-5 pt-5">
