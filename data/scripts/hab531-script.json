@@ -1,0 +1,283 @@
+{
+  "marcas": {
+    "HABITACIONAL 531": {
+      "hab531_abordagem": {
+        "id": "hab531_abordagem",
+        "title": "Abordagem",
+        "body": "Olá, falo com [Nome do cliente]?",
+        "buttons": [
+          { "label": "SIM, É O CLIENTE", "next": "hab531_identificacao", "primary": true },
+          { "label": "NÃO É O CLIENTE", "next": "hab531_terceiro" },
+          { "label": "SEM RESPOSTA", "next": "hab531_sem_resposta" }
+        ]
+      },
+      "hab531_terceiro": {
+        "id": "hab531_terceiro",
+        "title": "Terceiro",
+        "body": "Você conhece [Nome completo do cliente]?",
+        "buttons": [
+          { "label": "SIM", "next": "hab531_terceiro_conhece", "primary": true },
+          { "label": "NÃO CONHECE", "next": "hab531_nao_conhece" },
+          { "label": "FALECIDO", "next": "hab531_faleceu" }
+        ]
+      },
+      "hab531_sem_resposta": {
+        "id": "hab531_sem_resposta",
+        "title": "Cliente/Terceiro não responde",
+        "body": "Por falta de comunicação encerro o contato.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "hab531_fim", "primary": true }
+        ]
+      },
+      "hab531_desconhecido": {
+        "id": "hab531_nao_conhece",
+        "title": "Finalização",
+        "body": "Peço desculpas pelo incômodo. A CAIXA agradece, tenha um bom dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "hab531_fim", "primary": true }
+        ]
+      },
+      "hab531_terceiro_conhece": {
+        "id": "hab531_terceiro_conhece",
+        "title": "Terceiro",
+        "body": "Teria um melhor número ou horário para falar com o (Primeiro nome do cliente)?",
+        "buttons": [
+          { "label": "SIM", "next": "hab531_recado", "primary": true },
+          { "label": "NÃO", "next": "hab531_finalizacao_terceiro" }
+        ]
+      },
+      "hab531_falecido": {
+        "id": "hab531_faleceu",
+        "title": "Falecido",
+        "body": "Peça que o herdeiro ou inventariante leve o atestado de óbito na agência",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "hab531_fim", "primary": true }
+        ]
+      },
+      "hab531_terceiro_recado": {
+        "id": "hab531_recado",
+        "title": "Recado",
+        "body": "Por favor, solicite que o (Cliente) entre em contato com a Central de Negócios da CAIXA, nos telefones 0800 025 8833 ou 4020-0088<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "hab531_fim", "primary": true }
+        ]
+      },
+      "hab531_finalizacao_terceiro": {
+        "id": "hab531_finalizacao_terceiro",
+        "title": "Finalização",
+        "body": "Por favor, solicite que o (Cliente) entre em contato com a Central de Negócios da CAIXA, nos telefones 0800 025 8833 ou 4020-0088<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "hab531_fim", "primary": true }
+        ]
+      },
+      "hab531_identificacao": {
+        "id": "hab531_identificacao",
+        "title": "Identifique-se",
+        "body": "Aqui é o [nome do operador] eu falo da Central de Negócios da CAIXA. Tudo bem?",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "hab531_identificacao_parte2", "primary": true }
+        ]
+      },
+      "hab531_identificacao_parte2": {
+        "id": "hab531_identificacao_parte2",
+        "title": "Identificação Positiva CPF",
+        "body": "Para sua segurança, essa ligação está sendo gravada.<br>Eu sou do Grupo Roveri e, por questões de sigilo bancário, preciso confirmar alguns dados.<br>Vou te dizer os (6) seis primeiros números do seu CPF e você completa com os demais, os primeiros números são: [XXX.XXX], qual o restante?",
+        "buttons": [
+          { "label": "CONFIRMOU CPF", "next": "hab531_nome_completo_cliente", "primary": true },
+          { "label": "RECUSOU CONFIRMAR", "next": "hab531_nao_confirma" }
+        ]
+      },
+      "hab531_nao_confirma": {
+        "id": "hab531_nao_confirma",
+        "title": "Cliente não quer confirmar o CPF",
+        "body": "Esse contato é sobre o relacionamento com a CAIXA, após a confirmação dos dados, irei fornecer todos os detalhes. Os 6 primeiros números do CPF são: (XXX.XXX), qual o restante?",
+        "buttons": [
+          { "label": "CONFIRMOU CPF", "next": "hab531_nome_completo_cliente", "primary": true },
+          { "label": "RECUSOU CONFIRMAR", "next": "hab531_nao_confirmou" }
+        ]
+      },
+      "hab531_nao_confirmou": {
+        "id": "hab531_nao_confirmou",
+        "title": "Finalização",
+        "body": "(Nome do cliente), então você pode entrar em contato com esses números que vou te passar para saber o assunto que é: 0800 104 0104, 0800 025 8833 ou 4020 0088.",
+        "buttons": [
+          { "label": "CONFIRMOU CPF", "next": "hab531_nome_completo_cliente", "primary": true },
+          { "label": "CLIENTE INSEGURO SOBRE NOSSA EMPRESA", "next": "hab531_questiona_origem" },
+          { "label": "FINALIZAR", "next": "hab531_fim", "primary": true }
+        ]
+      },
+      "hab531_questiona_origem": {
+        "id": "hab531_questiona_origem",
+        "title": "Cliente questiona origem do contato",
+        "body": "A Roveri é autorizada pela CAIXA a realizar o contato. Se você estiver inseguro sobre a nossa empresa, você pode acessar o site da CAIXA e confirmar www.caixa.gov.br/voce/negociacao/telefones e ver em Empresas terceirizadas o nome da ROVERI.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "hab531_fim", "primary": true }
+        ]
+      },
+      "hab531_nome_completo_cliente": {
+        "id": "hab531_nome_completo_cliente",
+        "title": "Nome completo do cliente",
+        "body": "Obrigado(a), pela confirmação. Seu nome completo é (nome completo do cliente)?",
+        "buttons": [
+          { "label": "APRESENTAR DIVIDA", "next": "hab531_apresentacao", "primary": true }
+        ]
+      },
+      "hab531_apresentacao": {
+        "id": "hab531_apresentacao",
+        "title": "Apresentação da Dívida",
+        "body": "O motivo do meu contato é confirmar o pagamento referente ao seu financiamento habitacional, com X parcelas vencidas, no valor aproximado de R$ XX,XX.<br><br>Você já fez o pagamento?",
+        "buttons": [
+          { "label": "SIM", "next": "hab531_pagamento_efetuado", "primary": true },
+          { "label": "NÃO", "next": "hab531_negociacao" }
+        ]
+      },
+      "hab531_pagamento_efetuado": {
+        "id": "hab531_pagamento_efetuado",
+        "title": "Fraseologia de Pagamento Efetuado",
+        "body": "Caso seu pagamento tenha sido efetuado há menos de 5 dias úteis, possivelmente não foi atualizado pelo sistema, mas caso tenha mais de 5 dias úteis você pode esclarecer pelo WhatsApp 0800 104 0104.<br><br>ATENÇÃO!<br>Não pergunte qual foi a forma de pagamento e nem a data em que foi realizado, pois o script já informa o necessário.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "hab531_atualizacao_cadastral" }
+        ]
+      },
+      "hab531_negociacao": {
+        "id": "hab531_negociacao",
+        "title": "Incorporação Expressa com pausa 3 Meses - Boleto pré-formatado do CRM.",
+        "body": "A CAIXA está te oferecendo a oportunidade de você ficar em dia com o seu financiamento habitacional.<br>As prestações em atraso serão incorporadas ao saldo devedor, e o valor será diluído no restante das prestações a vencer até o fim do contrato.<br>Além disso, as próximas 3 prestações serão pausadas e incorporadas ao saldo devedor do contrato.Funciona assim: Após o pagamento da entrada, seu contrato será analisado e caso atenda as condições necessárias o valor em atraso, as prestações pausadas e os juros e encargos por atraso serão incorporados e diluídos nas parcelas a vencer até o fim do financiamento.<br>A data de vencimento da sua prestação não altera.<br><br>Você aceita a proposta?<br>A implantação da Pausa poderá ocorrer em até 10 dias.",
+        "buttons": [
+          { "label": "ACEITOU", "next": "hab531_ratificacao_aceite", "primary": true },
+          { "label": "NÃO", "next": "hab531_recusa2" }
+        ]
+      },
+      "hab531_recusa2": {
+        "id": "hab531_recusa2",
+        "title": "Informe:",
+        "body": "Essa proposta é por tempo limitado caso mude de ideia ligar para os números 0800 025 8833 ou 4020-0088.",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "hab531_recusa_consequencias" }
+        ]
+      },
+      "hab531_recusa_consequencias": {
+        "id": "hab531_recusa_consequencias",
+        "title": "Ações de cobrança",
+        "body": "Informo que as ações de cobrança terão continuidade e os juros são diários.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "hab531_atualizacao_cadastral_recusa" }
+        ]
+      },
+      "hab531_atualizacao_cadastral_recusa": {
+        "id": "hab531_atualizacao_cadastral_recusa",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab531_pesquisa_satisfacao_recusa", "primary": true }
+        ]
+      },
+      "hab531_pesquisa_satisfacao_recusa": {
+        "id": "hab531_pesquisa_satisfacao_recusa",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "hab531_fim", "primary": true }
+        ]
+      },
+      "hab531_ratificacao_aceite": {
+        "id": "hab531_ratificacao_aceite",
+        "title": "Seguir com a gravação vocal do aceite",
+        "body": "Para sua segurança, estamos gravando que hoje __/__/____ o(a) Sr.(a)___________ [nome do(a) cliente] está autorizando a CAIXA a regularizar o(s) seu(s) contrato(s) de nº ................... por meio da incorporação de XX prestações em atraso e a pausa das próximas 03 prestações, após pagamento da entrada.<br><br>O Sr(a)__________ [nome do(a) cliente] confirma a proposta?",
+        "buttons": [
+          { "label": "SIM", "next": "hab531_boleto pre-Formatado_aceite" },
+          { "label": "BOLETO INDISPONÍVEL", "next": "hab531_boleto_indisponivel" }
+        ]
+      },
+      "hab531_boleto_indisponivel": {
+        "id": "hab531_boleto_indisponivel",
+        "title": "Em caso de boleto indisponível",
+        "body": "O boleto dessa proposta no momento não está disponível para emissão por esse canal. Você pode solicitar/consultar pelo WhatsApp 0800 104 0104 a emissão do boleto.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "hab531_atualizacao_cadastral_boleto_indisponivel" }
+        ]
+      },
+      "hab531_atualizacao_cadastral_boleto_indisponivel": {
+        "id": "hab531_atualizacao_cadastral_boleto_indisponivel",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab531_pesquisa_satisfacao_boleto_indisponivel", "primary": true }
+        ]
+      },
+      "hab531_pesquisa_satisfacao_boleto_indisponivel": {
+        "id": "hab531_pesquisa_satisfacao_boleto_indisponivel",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "hab531_fim", "primary": true }
+        ]
+      },
+      "hab531_boleto pre-Formatado_aceite": {
+        "id": "hab531_boleto pre-Formatado_aceite",
+        "title": "Boleto Pré-Formatado",
+        "body": "Encaminhar o boleto Pré-Formatado para o cliente.<br><br>Caso o cliente não possua e-mail, ofereça o envio do boleto pelo WhatsApp.",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "hab531_impedimento" },
+          { "label": "BOLETO IGUAL OU SUPERIOR R$ 10.000,00 [DEZ MIL REAIS]", "next": "hab531_boleto_superior10k" }
+        ]
+      },
+      "hab531_boleto_superior10k": {
+        "id": "hab531_boleto_superior10k",
+        "title": "Caso o valor do boleto seja igual ou superior R$ 10.000,00 [dez mil reais]",
+        "body": "Conforme resolução do Banco Central do Brasil, é vedado às instituições financeiras o recebimento em espécie de boletos com valores iguais ou superiores a R$ 10.000,00.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "hab531_atualizacao_cadastral_aceitou" }
+        ]
+      },
+      "hab531_impedimento": {
+        "id": "hab531_impedimento",
+        "title": "ATENÇÃO:",    
+        "body": "Reforçar que caso o contrato possua algum impedimento a incorporação não será acatada.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "hab531_atualizacao_cadastral_aceitou" }
+        ]
+      },
+      "hab531_atualizacao_cadastral_aceitou": {
+        "id": "hab531_atualizacao_cadastral_aceitou",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab531_pesquisa_satisfacao_aceitou", "primary": true }
+        ]
+      },
+      "hab531_pesquisa_satisfacao_aceitou": {
+        "id": "hab531_pesquisa_satisfacao_aceitou",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "hab531_fim", "primary": true }
+        ]
+      },
+      "hab531_pesquisa_satisfacao_aceite": {
+        "id": "hab531_pesquisa_satisfacao_aceite",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "hab531_fim", "primary": true }
+        ]
+      },
+      "hab531_atualizacao_cadastral": {
+        "id": "hab531_atualizacao_cadastral",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab531_pesquisa_satisfacao", "primary": true }
+        ]
+      },
+      "hab531_pesquisa_satisfacao": {
+        "id": "hab531_pesquisa_satisfacao",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "hab531_fim", "primary": true }
+        ]
+      }
+    }
+  }
+}

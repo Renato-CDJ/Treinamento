@@ -1,0 +1,21 @@
+{
+  "marcas": {
+    "EXEMPLO": {
+      "exemplo_inicio": {
+        "title": "Tela Inicial",
+        "content": "Olá! Este é um exemplo de roteiro.\n\nVocê pode adicionar múltiplas linhas de texto.",
+        "buttons": [
+          {
+            "label": "PRÓXIMO",
+            "nextStepId": "exemplo_fim"
+          }
+        ]
+      },
+      "exemplo_fim": {
+        "title": "Tela Final",
+        "content": "Fim do exemplo de roteiro.",
+        "buttons": []
+      }
+    }
+  }
+}

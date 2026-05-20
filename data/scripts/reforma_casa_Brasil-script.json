@@ -1,0 +1,293 @@
+{
+  "marcas": {
+    "REFORMA CASA BRASIL - 1578 e 1579": {
+      "reforma_casa_brasil_abordagem": {
+        "id": "reforma_casa_brasil_abordagem",
+        "title": "Abordagem",
+        "body": "Olá, falo com [Nome do cliente]?",
+        "buttons": [
+          { "label": "SIM, É O CLIENTE", "next": "reforma_casa_brasil_identificacao", "primary": true },
+          { "label": "NÃO É O CLIENTE", "next": "reforma_casa_brasil_terceiro" },
+          { "label": "SEM RESPOSTA", "next": "reforma_casa_brasil_sem_resposta" }
+        ]
+      },
+      "reforma_casa_brasil_terceiro": {
+        "id": "reforma_casa_brasil_terceiro",
+        "title": "Terceiro",
+        "body": "Você conhece [Nome completo do cliente]?",
+        "buttons": [
+          { "label": "SIM", "next": "reforma_casa_brasil_terceiro_conhece", "primary": true },
+          { "label": "NÃO CONHECE", "next": "reforma_casa_brasil_desconhecido" },
+          { "label": "FALECIDO", "next": "reforma_casa_brasil_falecido" }
+        ]
+      },
+      "reforma_casa_brasil_sem_resposta": {
+        "id": "reforma_casa_brasil_sem_resposta",
+        "title": "Cliente/Terceiro não responde",
+        "body": "Por falta de comunicação encerro o contato.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "reforma_casa_brasil_fim", "primary": true }
+        ]
+      },
+      "reforma_casa_brasil_desconhecido": {
+        "id": "reforma_casa_brasil_desconhecido",
+        "title": "Finalização",
+        "body": "Peço desculpas pelo incômodo. A CAIXA agradece, tenha um bom dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "reforma_casa_brasil_fim", "primary": true }
+        ]
+      },
+      "reforma_casa_brasil_terceiro_conhece": {
+        "id": "reforma_casa_brasil_terceiro_conhece",
+        "title": "Terceiro",
+        "body": "Teria um melhor número ou horário para falar com o (Primeiro nome do cliente)?",
+        "buttons": [
+          { "label": "SIM", "next": "reforma_casa_brasil_terceiro_recado", "primary": true },
+          { "label": "NÃO", "next": "reforma_casa_brasil_finalizacao_terceiro" }
+        ]
+      },
+      "reforma_casa_brasil_falecido": {
+        "id": "reforma_casa_brasil_falecido",
+        "title": "Falecido",
+        "body": "Peça que o herdeiro ou inventariante leve o atestado de óbito na agência",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "reforma_casa_brasil_fim", "primary": true }
+        ]
+      },
+      "reforma_casa_brasil_terceiro_recado": {
+        "id": "reforma_casa_brasil_recado",
+        "title": "Recado",
+        "body": "Por favor, solicite que o (Cliente) entre em contato com a Central de Negócios da CAIXA, nos telefones 0800 025 8833 ou 4020-0088<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "reforma_casa_brasil_fim", "primary": true }
+        ]
+      },
+      "reforma_casa_brasil_finalizacao_terceiro": {
+        "id": "reforma_casa_brasil_finalizacao_terceiro",
+        "title": "Finalização",
+        "body": "Por favor, solicite que o (Cliente) entre em contato com a Central de Negócios da CAIXA, nos telefones 0800 025 8833 ou 4020-0088<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "reforma_casa_brasil_fim", "primary": true }
+        ]
+      },
+      "reforma_casa_brasil_identificacao": {
+        "id": "reforma_casa_brasil_identificacao",
+        "title": "Identifique-se",
+        "body": "Aqui é o [nome do operador] eu falo da Central de Negócios da CAIXA. Tudo bem?",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "reforma_casa_brasil_identificacao_parte2", "primary": true }
+        ]
+      },
+      "reforma_casa_brasil_identificacao_parte2": {
+        "id": "reforma_casa_brasil_identificacao_parte2",
+        "title": "Identificação Positiva CPF",
+        "body": "Para sua segurança, essa ligação está sendo gravada.<br>Eu sou do Grupo Roveri e, por questões de sigilo bancário, preciso confirmar alguns dados.<br>Vou te dizer os (6) seis primeiros números do seu CPF e você completa com os demais, os primeiros números são: [XXX.XXX], qual o restante?",
+        "buttons": [
+          { "label": "CONFIRMOU CPF", "next": "reforma_casa_brasil_nome_completo_cliente", "primary": true },
+          { "label": "RECUSOU CONFIRMAR", "next": "reforma_casa_brasil_nao_confirma" }
+        ]
+      },
+      "reforma_casa_brasil_nao_confirma": {
+        "id": "reforma_casa_brasil_nao_confirma",
+        "title": "Cliente não quer confirmar o CPF",
+        "body": "Esse contato é sobre o relacionamento com a CAIXA, após a confirmação dos dados, irei fornecer todos os detalhes. Os 6 primeiros números do CPF são: (XXX.XXX), qual o restante?",
+        "buttons": [
+          { "label": "CONFIRMOU CPF", "next": "reforma_casa_brasil_nome_completo_cliente", "primary": true },
+          { "label": "RECUSOU CONFIRMAR", "next": "reforma_casa_brasil_nao_confirmou" }
+        ]
+      },
+      "reforma_casa_brasil_nao_confirmou": {
+        "id": "reforma_casa_brasil_nao_confirmou",
+        "title": "Finalização",
+        "body": "(Nome do cliente), então você pode entrar em contato com esses números que vou te passar para saber o assunto que é: 0800 104 0104, 0800 025 8833 ou 4020 0088.",
+        "buttons": [
+          { "label": "CONFIRMOU CPF", "next": "reforma_casa_brasil_nome_completo_cliente", "primary": true },
+          { "label": "CLIENTE INSEGURO SOBRE NOSSA EMPRESA", "next": "reforma_casa_brasil_questiona_origem" },
+          { "label": "FINALIZAR", "next": "reforma_casa_brasil_fim", "primary": true }
+        ]
+      },
+      "reforma_casa_brasil_questiona_origem": {
+        "id": "reforma_casa_brasil_questiona_origem",
+        "title": "Cliente questiona origem do contato",
+        "body": "A Roveri é autorizada pela CAIXA a realizar o contato. Se você estiver inseguro sobre a nossa empresa, você pode acessar o site da CAIXA e confirmar www.caixa.gov.br/voce/negociacao/telefones e ver em Empresas terceirizadas o nome da ROVERI.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "reforma_casa_brasil_fim", "primary": true }
+        ]
+      },
+      "reforma_casa_brasil_nome_completo_cliente": {
+        "id": "reforma_casa_brasil_nome_completo_cliente",
+        "title": "Nome completo do cliente",
+        "body": "Obrigado(a), pela confirmação. Seu nome completo é (nome completo do cliente)?",
+        "buttons": [
+          { "label": "APRESENTAR DIVIDA", "next": "reforma_casa_brasil_opcao_apresentacao", "primary": true }
+        ]
+      },
+      "reforma_casa_brasil_opcao_apresentacao": {
+        "id": "reforma_casa_brasil_opcao_apresentacao",
+        "title": "Faixa de Atraso",
+        "body": "Selecione a opção de acordo com os dias em atraso",
+        "buttons": [
+          { "label": "ATRASO DE ATÉ 15 DIAS", "next": "reforma_casa_brasil_apresentacao15dias", "primary": true },
+          { "label": "ATRASO ACIMA DE 15 DIAS", "next": "reforma_casa_brasil_apresentacao30dias" }
+        ]
+      },
+      "reforma_casa_brasil_apresentacao15dias": {
+        "id": "reforma_casa_brasil_apresentacao15dias",
+        "title": "Apresentação da Dívida",
+        "body": "O motivo do meu contato é para avisar sobre o vencimento do seu Reforma Casa Brasil, vencido há XX dias no valor aproximado de R$XX,XX.<br>Já houve o pagamento?",
+        "buttons": [
+          { "label": "SIM", "next": "reforma_casa_brasil_pagamento_efetuado", "primary": true },
+          { "label": "NÃO", "next": "reforma_casa_brasil_negociacao" }
+        ]
+      },
+      "reforma_casa_brasil_apresentacao30dias": {
+        "id": "reforma_casa_brasil_apresentacao30dias",
+        "title": "Apresentação da Dívida",
+        "body": "O motivo do meu contato é para confirmar o pagamento do seu financiamento habitacional, vencido há XX dias no valor aproximado de R$XX,XX.<br>Já houve o pagamento?",
+        "buttons": [
+          { "label": "SIM", "next": "reforma_casa_brasil_pagamento_efetuado", "primary": true },
+          { "label": "NÃO", "next": "reforma_casa_brasil_negociacao" }
+        ]
+      },
+      "reforma_casa_brasil_pagamento_efetuado": {
+        "id": "reforma_casa_brasil_pagamento_efetuado",
+        "title": "Fraseologia de Pagamento Efetuado",
+        "body": "Caso seu pagamento tenha sido efetuado há menos de 5 dias úteis, possivelmente não foi atualizado pelo sistema, mas caso tenha mais de 5 dias úteis você pode esclarecer pelo WhatsApp 0800 104 0104.ATENÇÃO!<br><br>Não pergunte qual foi a forma de pagamento e nem a data em que foi realizado, pois o script já informa o necessário.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "reforma_casa_brasil_atualizacao_cadastral" }
+        ]
+      },
+      "reforma_casa_brasil_negociacao": {
+        "id": "reforma_casa_brasil_negociacao",
+        "title": "Negociação (Habitacional)",
+        "body": "Pagamento hoje ficaria bom para você?",
+        "buttons": [
+          { "label": "ACEITOU", "next": "reforma_casa_brasil_ratificacao_aceite", "primary": true },
+          { "label": "NÃO", "next": "reforma_casa_brasil_recusa" }
+        ]
+      },
+      "reforma_casa_brasil_recusa": {
+        "id": "reforma_casa_brasil_recusa",
+        "title": "Oferte o pagamento dentro do prazo máximo que é D+9 de forma gradativa! Lembrando que são dias corridos e não dias úteis.",
+        "body": "Vi aqui que você tem XX parcelas em atraso, ficaria bom pra você o pagamento até dia XX/XX?<br><br>CONTRATO COM ATRASO MAIOR QUE 31 DIAS, ARGUMENTE:<br>Como você possui XX parcelas atrasadas, para te ajudar, posso confirmar o pagamento da mais antiga? Assim você regulariza aos poucos",
+        "buttons": [
+          { "label": "ACEITOU", "next": "reforma_casa_brasil_ratificacao_aceite" },
+          { "label": "RECUSOU", "next": "reforma_casa_brasil_recusa_novamente" }
+        ]
+      },
+      "reforma_casa_brasil_recusa_novamente": {
+        "id": "reforma_casa_brasil_recusa_novamente",
+        "title": "Ouça o que o cliente disser e adapte a sua argumentação",
+        "body": "Pergunte sobre a situação financeira do cliente:(Texto)<br><br>Atraso até 30 dias:(Texto)<br><br>Atraso de 31 a 119 dias:(Texto)<br><br>Atraso acima de 120 dias:(Texto)",
+        "buttons": [
+          { "label": "ACEITOU", "next": "reforma_casa_brasil_ratificacao_aceite" },
+          { "label": "RECUSOU", "next": "reforma_casa_brasil_fgts_recusa" }
+        ]
+      },
+      "reforma_casa_brasil_fgts_recusa": {
+        "id": "reforma_casa_brasil_fgts_recusa",
+        "title": "Fraseologia do FGTS",
+        "body": "Você pode verificar a possibilidade de negociar seu contrato ou utilizar o FGTS para abater até 80% das prestações por 12 meses ligando no 4004 0104 / 0800 104 0104 ou pelo App Habitação CAIXA.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "reforma_casa_brasil_atualizacao_cadastral_recusa", "primary": true }
+        ]
+      },
+      "reforma_casa_brasil_atualizacao_cadastral_recusa": {
+        "id": "reforma_casa_brasil_atualizacao_cadastral_recusa",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "reforma_casa_brasil_pesquisa_satisfacao_recusa", "primary": true }
+        ]
+      },
+      "reforma_casa_brasil_pesquisa_satisfacao_recusa": {
+        "id": "reforma_casa_brasil_pesquisa_satisfacao_recusa",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "reforma_casa_brasil_fim", "primary": true }
+        ]
+      },
+      "reforma_casa_brasil_ratificacao_aceite": {
+        "id": "reforma_casa_brasil_ratificacao_aceite",
+        "title": "Ratificação",
+        "body": "Certo, vou registrar seu pagamento para o dia XX/XX.<br>CASO O ATENDIMENTO SEJA NO SÁBADO:<br>Como hoje não é dia útil, vou agendar seu pagamento para XX/XX que seria segunda-feira.",
+        "buttons": [
+          { "label": "PAGAMENTO TOTAL", "next": "reforma_casa_brasil_pagamento_total" },
+          { "label": "PAGAMENTO PARCIAL", "next": "reforma_casa_brasil_pagamento_parcial" }
+        ]
+      },
+      "reforma_casa_brasil_pagamento_total": {
+        "id": "reforma_casa_brasil_pagamento_total",
+        "title": "Pagamento Total",
+        "body": "Agradeço a confirmação, contamos com seu pagamento.<br><br>Precisa da emissão do boleto?",
+        "buttons": [
+          { "label": "SIM", "next": "reforma_casa_brasil_opcao_boleto" },
+          { "label": "NÃO", "next": "reforma_casa_brasil_fgts_recusa" }
+        ]
+      },
+      "reforma_casa_brasil_opcao_boleto": {
+        "id": "reforma_casa_brasil_opcao_boleto",
+        "title": "Opções de envio",
+        "body": "ENVIO DE BOLETO VIA E-MAIL:<br>Estou encaminhando o boleto para o seu e-mail, ele pode chegar até o dia do vencimento.<br><br>SE FOR VIA WHATSAPP:<br>Você autoriza o envio do boleto por WhatsApp?",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "reforma_casa_brasil_fgts_aceite" }
+        ]
+      },
+      "reforma_casa_brasil_fgts_aceite": {
+        "id": "reforma_casa_brasil_fgts_aceite",
+        "title": "Fraseologia do FGTS",
+        "body": "Você pode verificar a possibilidade de negociar seu contrato ou utilizar o FGTS para abater até 80% das prestações por 12 meses ligando no 4004 0104 / 0800 104 0104 ou pelo App Habitação CAIXA.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "reforma_casa_brasil_atualizacao_cadastral_aceite", "primary": true }
+        ]
+      },
+      "reforma_casa_brasil_atualizacao_cadastral_aceite": {
+        "id": "reforma_casa_brasil_atualizacao_cadastral_aceite",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "reforma_casa_brasil_pesquisa_satisfacao_aceite", "primary": true }
+        ]
+      },
+      "reforma_casa_brasil_pesquisa_satisfacao_aceite": {
+        "id": "reforma_casa_brasil_pesquisa_satisfacao_aceite",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "reforma_casa_brasil_fim", "primary": true }
+        ]
+      },
+      "reforma_casa_brasil_fim": {
+        "id": "reforma_casa_brasil_fim",
+        "title": "Fim do Atendimento",
+        "body": "Atendimento finalizado. Obrigado por utilizar nossos serviços.",
+        "buttons": []
+      },
+      "reforma_casa_brasil_pagamento_parcial": {
+        "id": "reforma_casa_brasil_pagamento_parcial",
+        "title": "Ações de cobrança",
+        "body": "Seu contrato continua em aberto até que toda a dívida seja quitada. Enquanto isso, seguem as ações de cobrança: ligações, registro no SPC/Serasa e risco de retomada ou leilão do imóvel.<br><br>Se o processo de execução já começou, ele segue normalmente até a quitação total.",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "reforma_casa_brasil_pagamento_total" }
+        ]
+      },
+      "reforma_casa_brasil_atualizacao_cadastral": {
+        "id": "reforma_casa_brasil_atualizacao_cadastral",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "reforma_casa_brasil_pesquisa_satisfacao", "primary": true }
+        ]
+      },
+      "reforma_casa_brasil_pesquisa_satisfacao": {
+        "id": "reforma_casa_brasil_pesquisa_satisfacao",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "reforma_casa_brasil_fim", "primary": true }
+        ]
+      }
+    }
+  }
+}

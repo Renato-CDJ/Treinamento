@@ -1,0 +1,284 @@
+{
+  "marcas": {
+    "MARCA-228": {
+      "comercial228_abordagem": {
+        "id": "comercial228_abordagem",
+        "title": "Abordagem",
+        "body": "Olá, falo com [Nome do cliente]?",
+        "buttons": [
+          { "label": "SIM, É O CLIENTE", "next": "comercial228_identificacao", "primary": true },
+          { "label": "NÃO É O CLIENTE", "next": "comercial228_terceiro" },
+          { "label": "SEM RESPOSTA", "next": "comercial228_sem_resposta" }
+        ]
+      },
+      "comercial228_terceiro": {
+        "id": "comercial228_terceiro",
+        "title": "Terceiro",
+        "body": "Você conhece [Nome completo do cliente]?",
+        "buttons": [
+          { "label": "SIM", "next": "comercial228_terceiro_conhece", "primary": true },
+          { "label": "NÃO CONHECE", "next": "comercial228_nao_conhece" },
+          { "label": "FALECIDO", "next": "comercial228_faleceu" }
+        ]
+      },
+      "comercial228_sem_resposta": {
+        "id": "comercial228_sem_resposta",
+        "title": "Cliente/Terceiro não responde",
+        "body": "Por falta de comunicação encerro o contato.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "comercial228_fim", "primary": true }
+        ]
+      },
+      "comercial228_desconhecido": {
+        "id": "comercial228_nao_conhece",
+        "title": "Finalização",
+        "body": "Peço desculpas pelo incômodo. A CAIXA agradece, tenha um bom dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "comercial228_fim", "primary": true }
+        ]
+      },
+      "comercial228_terceiro_conhece": {
+        "id": "comercial228_terceiro_conhece",
+        "title": "Terceiro",
+        "body": "Teria um melhor número ou horário para falar com o (Primeiro nome do cliente)?",
+        "buttons": [
+          { "label": "SIM", "next": "comercial228_recado", "primary": true },
+          { "label": "NÃO", "next": "comercial228_finalizacao_terceiro" }
+        ]
+      },
+      "comercial228_falecido": {
+        "id": "comercial228_faleceu",
+        "title": "Falecido",
+        "body": "Peça que o herdeiro ou inventariante leve o atestado de óbito na agência",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "comercial228_fim", "primary": true }
+        ]
+      },
+      "comercial228_terceiro_recado": {
+        "id": "comercial228_recado",
+        "title": "Recado",
+        "body": "Por favor, solicite que o (Cliente) entre em contato com a Central de Negócios da CAIXA, nos telefones 0800 025 8833 ou 4020-0088<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "comercial228_fim", "primary": true }
+        ]
+      },
+      "comercial228_finalizacao_terceiro": {
+        "id": "comercial228_finalizacao_terceiro",
+        "title": "Finalização",
+        "body": "Por favor, solicite que o (Cliente) entre em contato com a Central de Negócios da CAIXA, nos telefones 0800 025 8833 ou 4020-0088<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "comercial228_fim", "primary": true }
+        ]
+      },
+      "comercial228_identificacao": {
+        "id": "comercial228_identificacao",
+        "title": "Identifique-se",
+        "body": "Aqui é o [nome do operador] eu falo da Central de Negócios da CAIXA. Tudo bem?",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "comercial228_identificacao_parte2", "primary": true }
+        ]
+      },
+      "comercial228_identificacao_parte2": {
+        "id": "comercial228_identificacao_parte2",
+        "title": "Identificação Positiva CPF",
+        "body": "Para sua segurança, essa ligação está sendo gravada.<br>Eu sou do Grupo Roveri e, por questões de sigilo bancário, preciso confirmar alguns dados.<br>Vou te dizer os (6) seis primeiros números do seu CPF e você completa com os demais, os primeiros números são: [XXX.XXX], qual o restante?",
+        "buttons": [
+          { "label": "CONFIRMOU CPF", "next": "comercial228_nome_completo_cliente", "primary": true },
+          { "label": "RECUSOU CONFIRMAR", "next": "comercial228_nao_confirma" }
+        ]
+      },
+      "comercial228_nao_confirma": {
+        "id": "comercial228_nao_confirma",
+        "title": "Cliente não quer confirmar o CPF",
+        "body": "Esse contato é sobre o relacionamento com a CAIXA, após a confirmação dos dados, irei fornecer todos os detalhes. Os 6 primeiros números do CPF são: (XXX.XXX), qual o restante?",
+        "buttons": [
+          { "label": "CONFIRMOU CPF", "next": "comercial228_nome_completo_cliente", "primary": true },
+          { "label": "RECUSOU CONFIRMAR", "next": "comercial228_nao_confirmou" }
+        ]
+      },
+      "comercial228_nao_confirmou": {
+        "id": "comercial228_nao_confirmou",
+        "title": "Finalização",
+        "body": "(Nome do cliente), então você pode entrar em contato com esses números que vou te passar para saber o assunto que é: 0800 104 0104, 0800 025 8833 ou 4020 0088.",
+        "buttons": [
+          { "label": "CONFIRMOU CPF", "next": "comercial228_nome_completo_cliente", "primary": true },
+          { "label": "CLIENTE INSEGURO SOBRE NOSSA EMPRESA", "next": "comercial228_questiona_origem" },
+          { "label": "FINALIZAR", "next": "comercial228_fim", "primary": true }
+        ]
+      },
+      "comercial228_questiona_origem": {
+        "id": "comercial228_questiona_origem",
+        "title": "Cliente questiona origem do contato",
+        "body": "A Roveri é autorizada pela CAIXA a realizar o contato. Se você estiver inseguro sobre a nossa empresa, você pode acessar o site da CAIXA e confirmar www.caixa.gov.br/voce/negociacao/telefones e ver em Empresas terceirizadas o nome da ROVERI.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "comercial228_fim", "primary": true }
+        ]
+      },
+      "comercial228_nome_completo_cliente": {
+        "id": "comercial228_nome_completo_cliente",
+        "title": "Nome completo do cliente",
+        "body": "Obrigado(a), pela confirmação. Seu nome completo é (nome completo do cliente)?",
+        "buttons": [
+          { "label": "APRESENTAR DIVIDA", "next": "comercial228_apresentacao", "primary": true }
+        ]
+      },
+      "comercial228_apresentacao": {
+        "id": "comercial228_apresentacao",
+        "title": "Apresentação da Dívida",
+        "body": "O motivo do meu contato é para confirmar o pagamento do seu [nome do contrato], vencido há XX dias.<br><br>Já houve o pagamento?",
+        "buttons": [
+          { "label": "SIM", "next": "comercial228_pagamento_efetuado", "primary": true },
+          { "label": "NÃO", "next": "comercial228_negociacao" }
+        ]
+      },
+      "comercial228_pagamento_efetuado": {
+        "id": "comercial228_pagamento_efetuado",
+        "title": "Fraseologia de Pagamento Efetuado",
+        "body": "Caso seu pagamento tenha sido efetuado há menos de 5 dias úteis, possivelmente não foi atualizado pelo sistema, mas caso tenha mais de 5 dias úteis você pode esclarecer pelo WhatsApp 0800 104 0104.<br><br>ATENÇÃO!<br>Não pergunte qual foi a forma de pagamento e nem a data em que foi realizado, pois o script já informa o necessário.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "comercial228_atualizacao_cadastral" }
+        ]
+      },
+      "comercial228_negociacao": {
+        "id": "comercial228_negociacao",
+        "title": "Ação de desconto - Boleto pré-formatado",
+        "body": "Foi disponiblizado  um desconto especial para que você possa quitar seus contratos em atraso há XX dias. O valor atualizado é de R$ XX,XX, e com o desconto você pode pagar à vista por aproximadamente R$ XX,XX.<br>Podemos enviar o boleto para seu telefone ou e-mail?",
+        "buttons": [
+          { "label": "ACEITOU", "next": "comercial228_ratificacao_aceite", "primary": true },
+          { "label": "NÃO", "next": "comercial228_recusa" }
+        ]
+      },
+      "comercial228_recusa": {
+        "id": "comercial228_recusa",
+        "title": "Boleto para análise",
+        "body": "Para que possa analisar melhor a nossa proposta enviaremos o boleto para o senhor(a). Caso mude de ideia, leia atentamente as informações constantes no boleto, e o pagamento será efetuado em 10 dias úteis",
+        "buttons": [
+          { "label": "ACEITOU", "next": "comercial228_ratificacao_aceite" },
+          { "label": "RECUSOU", "next": "comercial228_recusa2" }
+        ]
+      },
+      "comercial228_recusa2": {
+        "id": "comercial228_recusa2",
+        "title": "Informe:",
+        "body": "Essa proposta é por tempo limitado caso mude de ideia ligar para os números 0800 025 8833 ou 4020-0088.",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "comercial228_recusa_consequencias" }
+        ]
+      },
+      "comercial228_recusa_consequencias": {
+        "id": "comercial228_recusa_consequencias",
+        "title": "Ações de cobrança",
+        "body": "Informo que as ações de cobrança terão continuidade e os juros são diários.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "comercial228_atualizacao_cadastral_recusa" }
+        ]
+      },
+      "comercial228_atualizacao_cadastral_recusa": {
+        "id": "comercial228_atualizacao_cadastral_recusa",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "comercial228_pesquisa_satisfacao_recusa", "primary": true }
+        ]
+      },
+      "comercial228_pesquisa_satisfacao_recusa": {
+        "id": "comercial228_pesquisa_satisfacao_recusa",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "comercial228_fim", "primary": true }
+        ]
+      },
+      "comercial228_ratificacao_aceite": {
+        "id": "comercial228_ratificacao_aceite",
+        "title": "Obrigatório informar ao cliente",
+        "body": "Devido o desconto concedido e considerando que o valor do boleto é inferior ao valor original da dívida, não será possível obter novos créditos com a CAIXA pelo periodo de 5 anos, é necessário que você fique ciente desde já.",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "comercial228_boleto_superior10k" },
+          { "label": "BOLETO INDISPONÍVEL", "next": "comercial228_boleto_indisponivel" },
+          { "label": "CLIENTE QUER MANTER O RELACIONAMENTO COM A CAIXA", "next": "comercial228_manter_o_relacionamento" }
+        ]
+      },
+      "comercial228_boleto_indisponivel": {
+        "id": "comercial228_boleto_indisponivel",
+        "title": "Em caso de boleto indisponível",
+        "body": "O boleto dessa proposta no momento não está disponível para emissão por esse canal. Você pode solicitar/consultar pelo WhatsApp 0800 104 0104 a emissão do boleto.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "comercial228_atualizacao_cadastral_boleto_indisponivel" }
+        ]
+      },
+      "comercial228_atualizacao_cadastral_boleto_indisponivel": {
+        "id": "comercial228_atualizacao_cadastral_boleto_indisponivel",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "comercial228_pesquisa_satisfacao_boleto_indisponivel", "primary": true }
+        ]
+      },
+      "comercial228_pesquisa_satisfacao_boleto_indisponivel": {
+        "id": "comercial228_pesquisa_satisfacao_boleto_indisponivel",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "hab532_fim", "primary": true }
+        ]
+      },
+      "comercial228_boleto_superior10k": {
+        "id": "comercial228_boleto_superior10k",
+        "title": "Caso o valor do boleto seja igual ou superior R$ 10.000,00 [dez mil reais]",
+        "body": "Conforme resolução do Banco Central do Brasil, é vedado às instituições financeiras o recebimento em espécie de boletos com valores iguais ou superiores a R$ 10.000,00.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "comercial228_atualizacao_cadastral_aceitou" }
+        ]
+      },
+      "comercial228_atualizacao_cadastral_aceitou": {
+        "id": "comercial228_atualizacao_cadastral_aceitou",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "comercial228_pesquisa_satisfacao_aceitou", "primary": true }
+        ]
+      },
+      "comercial228_pesquisa_satisfacao_aceitou": {
+        "id": "comercial228_pesquisa_satisfacao_aceitou",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "comercial228_fim", "primary": true }
+        ]
+      },
+      "comercial228_manter_o_relacionamento": {
+        "id": "comercial228_manter_o_relacionamento",
+        "title": "Para manter o relacionamento com a CAIXA",
+        "body": "Para seguir com o relacionamento com a CAIXA, é necessário pagar o valor de R$ XX,XX [indicado no boleto como 'à prazo']. Para negociar nessas condições, basta acessar o site negociardividas.caixa.gov.br. Pagando esse valor você continua aproveitando os serviços e comodidade que a CAIXA oferece.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "comercial228_pesquisa_satisfacao_aceite", "primary": true }
+        ]
+      },
+      "comercial228_pesquisa_satisfacao_aceite": {
+        "id": "comercial228_pesquisa_satisfacao_aceite",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "comercial228_fim", "primary": true }
+        ]
+      },
+      "comercial228_atualizacao_cadastral": {
+        "id": "comercial228_atualizacao_cadastral",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "comercial228_pesquisa_satisfacao", "primary": true }
+        ]
+      },
+      "comercial228_pesquisa_satisfacao": {
+        "id": "comercial228_pesquisa_satisfacao",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "comercial228_fim", "primary": true }
+        ]
+      }
+    }
+  }
+}

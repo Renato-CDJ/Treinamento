@@ -1,0 +1,207 @@
+{
+  "marcas": {
+    "CDES1 - DESENROLA BRASIL RECEPTIVO": {
+      "cdes1_abordagem_receptivo": {
+        "id": "cdes1_abordagem_receptivo",
+        "title": "Abordagem Receptiva",
+        "body": "Bem-vindo a Central de negócios da CAIXA! Aqui é o [nome do operador] eu falo do Grupo Roveri. Com quem estou falando?",
+        "buttons": [
+          { "label": "SIM, É O CLIENTE", "next": "receptivo_identificacao", "primary": true },
+          { "label": "CASO NÃO SEJA O CLIENTE", "next": "receptivo_terceiro" },
+          { "label": "SEM RESPOSTA", "next": "receptivo_sem_resposta" }
+        ]
+      },
+      "receptivo_terceiro": {
+        "id": "receptivo_terceiro",
+        "title": "Terceiro",
+        "body": "Eu só posso passar as informações para o titular. Por favor, pede para ele entrar em contato conosco. Nosso horário de atendimento é de segunda a sexta-feira, das 8h às 20h e aos sábados, das 8h às 15h.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "receptivo_fim", "primary": true }
+        ]
+      },
+      "receptivo_sem_resposta": {
+        "id": "receptivo_sem_resposta",
+        "title": "Cliente/Terceiro não responde",
+        "body": "Por falta de comunicação encerro o contato.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "receptivo_fim", "primary": true }
+        ]
+      },
+      "receptivo_identificacao": {
+        "id": "receptivo_identificacao",
+        "title": "Localizar a Ficha do cliente",
+        "body": "Informo que a ligação é gravada. Para localizar o seu cadastro, qual seu CPF/CNPJ e nome completo?",
+        "buttons": [
+          { "label": "CONFIRMOU DADOS", "next": "cdes1_abordagem_desenrola", "primary": true },
+          { "label": "NÃO TEM DÍVIDA NO WEDOO", "next": "receptivo_sem_divida" },
+          { "label": "NÃO LOCALIZADO", "next": "receptivo_nao_localizado" },
+          { "label": "CASO NÃO SEJA CLIENTE", "next": "receptivo_terceiro" }
+        ]
+      },
+      "receptivo_sem_divida": {
+        "id": "receptivo_sem_divida",
+        "title": "Sem contrato Ativo",
+        "body": "Seu contrato não consta em nosso sistema. Para mais informações sobre ele você pode entrar em contato com a CAIXA pelo site www.caixa.gov.br/negociar ou pelos telefones 4004 0104 ou 0800 104 0104.<br><br>A caixa agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "receptivo_atualizacao_cadastral_sem_divida", "primary": true }
+        ]
+      },
+      "receptivo_atualizacao_cadastral_sem_divida": {
+        "id": "receptivo_atualizacao_cadastral_sem_divida",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "receptivo_pesquisa_satisfacao_sem_divida", "primary": true }
+        ]
+      },
+      "receptivo_pesquisa_satisfacao_sem_divida": {
+        "id": "receptivo_pesquisa_satisfacao_sem_divida",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "receptivo_fim", "primary": true }
+        ]
+      },
+      "receptivo_nao_localizado": {
+        "id": "receptivo_nao_localizado",
+        "title": "CADASTRO NÃO LOCALIZADO",
+        "body": "Não foi possível identificar os dados do(a) Sr(a) na nossa base de clientes. Dessa forma, você deve entrar em contato com a CAIXA pelos telefones 4004 0104 ou 0800 104 0104.<br><br>A caixa agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "receptivo_fim", "primary": true }
+        ]
+      },
+      "cdes1_abordagem_desenrola": {
+        "id": "cdes1_abordagem_desenrola",
+        "title": "Novo Desenrola Brasil",
+        "body": "Aqui em nosso sistema consta o seu [nome do contrato] em aberto há aproximadamente XX dias, no valor de R$XX,XX.<br>Já houve o pagamento?",
+        "buttons": [
+          { "label": "CLIENTE ELEGÍVEL", "next": "cdes1_cliente_elegivel", "primary": true },
+          { "label": "CLIENTE NÃO ELEGÍVEL", "next": "cdes1_cliente_nao_elegivel" },
+          { "label": "JÁ PAGOU", "next": "cdes1_pagamento_efetuado" }
+        ]
+      },
+      "cdes1_cliente_elegivel": {
+        "id": "cdes1_cliente_elegivel",
+        "title": "Cliente Elegível",
+        "body": "[Primeiro nome do cliente], você faz parte de um grupo de clientes elegíveis que pode aproveitar o Novo Desenrola Brasil para regularização de dívidas com condições especiais e temporárias.",
+        "buttons": [
+          { "label": "APRESENTAR OFERTA", "next": "cdes1_apresentacao_oferta", "primary": true }
+        ]
+      },
+      "cdes1_cliente_nao_elegivel": {
+        "id": "cdes1_cliente_nao_elegivel",
+        "title": "Cliente Não Elegível",
+        "body": "Nesse momento específico, o Novo Desenrola Brasil, não está disponível para esse contrato, mas eu já consigo verificar as melhores condições vigentes no nosso sistema para você regularizar agora.",
+        "buttons": [
+          { "label": "OFERTA COMUM - Cliente NÂO Elegível", "next": "cdes1_oferta_comum", "primary": true },
+          { "label": "RECUSOU", "next": "cdes1_cliente_recusou_oferta_comum", "primary": true }
+        ]
+      },
+      "cdes1_cliente_recusou_oferta_comum": {
+        "id": "cdes1_cliente_recusou_oferta_comum",
+        "title": "Cliente NÂO Elegível",
+        "body": "Sem problemas!<br>Fica registrado que hoje você optou por não seguir com a regularização. Sempre que quiser, a CAIXA permanece à disposição para te apoiar na reorganização financeira.<br><br>Peço que você aguarde em linha para avaliar a qualidade do nosso atendimento. A CAIXA agradece a sua atenção edeseja um ótimo(a) dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes1_fim", "primary": true }
+        ]
+      },
+      "cdes1_oferta_comum": {
+        "id": "cdes1_oferta_comum",
+        "title": "OFERTA COMUM - Cliente NÂO Elegível",
+        "body": "Peça um momento ao Cliente e utilize o script [RECEPTIVO] para apresentar as condições disponíveis para o cliente",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes1_fim", "primary": true }
+        ]
+      },
+      "cdes1_apresentacao_oferta": {
+        "id": "cdes1_apresentacao_oferta",
+        "title": "Apresentação da Oferta",
+        "body": "Você faz parte de um grupo de clientes elegíveis que pode aproveitar o Novo Desenrola Brasil,, criada para ajudar na regularização de dívidas com condições especiais e temporárias. Você precisa fazer o pagamento à vista no valor R$ XX,XX.",
+        "buttons": [
+          { "label": "ACEITOU", "next": "cdes1_aceite_boleto", "primary": true },
+          { "label": "BOLETO INDISPONÍVEL", "next": "cdes1_aceite_sem_boleto" },
+          { "label": "RECUSOU", "next": "cdes1_recusa" },
+          { "label": "JÁ PAGOU", "next": "cdes1_pagamento_efetuado" }
+        ]
+      },
+      "cdes1_aceite_boleto": {
+        "id": "cdes1_aceite_boleto",
+        "title": "Aceite com Emissão de Boleto",
+        "body": "Perfeito, [Primeiro nome do cliente].<br><br>Vou registrar seu aceite e emitir o boleto agora mesmo.<br><br>Você prefere receber o boleto por [E-mail/Whatsapp]?<br><br>Assim que o pagamento for identificado, o contrato entra em processo de regularização.",
+        "buttons": [
+          { "label": "CONTINUAR", "next": "cdes1_restricao_apostas", "primary": true }
+        ]
+      },
+      "cdes1_aceite_sem_boleto": {
+        "id": "cdes1_aceite_sem_boleto",
+        "title": "Aceite sem Emissão de Boleto",
+        "body": "Ótimo, vou registrar seu aceite.<br><br>Como o boleto não está disponível, seu atendimento será encaminhado ao segundo nível para continuidade.<br><br>Por favor, confirme seu WhatsApp e E-mail.",
+        "buttons": [
+          { "label": "CONTINUAR", "next": "cdes1_restricao_apostas", "primary": true }
+        ]
+      },
+      "cdes1_restricao_apostas": {
+        "id": "cdes1_restricao_apostas",
+        "title": "Frase Obrigatória",
+        "body": "Caso haja algum impedimento, o acordo não será acatado.<br><br>[Primeiro nome do cliente], você está ciente de que ficará impedido de fazer apostas em jogos online por um ano?",
+        "buttons": [
+          { "label": "CIENTE", "next": "cdes1_finalizacao_aceite", "primary": true }
+        ]
+      },
+      "cdes1_recusa": {
+        "id": "cdes1_recusa",
+        "title": "Recusa",
+        "body": "Sem problemas, [Primeiro nome do cliente]. A CAIXA permanece à disposição para apoiar sua reorganização financeira.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes1_pesquisa_satisfacao_recusa", "primary": true }
+        ]
+      },
+      "cdes1_pesquisa_satisfacao_recusa": {
+        "id": "cdes1_pesquisa_satisfacao_recusa",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar a qualidade do nosso atendimento.<br><br>A CAIXA agradece a sua atenção e deseja um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes1_fim", "primary": true }
+        ]
+      },
+      "cdes1_pagamento_efetuado": {
+        "id": "cdes1_pagamento_efetuado",
+        "title": "Pagamento Já Efetuado",
+        "body": "Caso seu pagamento tenha sido efetuado há menos de 5 dias úteis, possivelmente não foi atualizado pelo sistema, mas caso tenha mais de 5 dias úteis você pode esclarecer pelo WhatsApp 0800 104 0104.<br><br>ATENÇÃO!<br><br>Não pergunte qual foi a forma de pagamento e nem a data em que foi realizado, pois o script já informa o necessário.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes1_pesquisa_satisfacao_pagamento_efetuado", "primary": true }
+        ]
+      },
+      "cdes1_pesquisa_satisfacao_pagamento_efetuado": {
+        "id": "cdes1_pesquisa_satisfacao_pagamento_efetuado",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar a qualidade do nosso atendimento.<br><br>A CAIXA agradece a sua atenção e deseja um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes1_fim", "primary": true }
+        ]
+      },
+      "cdes1_finalizacao_aceite": {
+        "id": "cdes1_finalizacao_aceite",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar a qualidade do nosso atendimento.<br><br>A CAIXA agradece a sua atenção e deseja um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes1_fim", "primary": true }
+        ]
+      },
+      "cdes1_finalizacao_recusa": {
+        "id": "cdes1_finalizacao_recusa",
+        "title": "Finalização",
+        "body": "A CAIXA agradece a sua atenção e deseja um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes1_fim", "primary": true }
+        ]
+      },
+      "cdes1_fim": {
+        "id": "cdes1_fim",
+        "title": "Fim",
+        "body": "Atendimento encerrado.",
+        "buttons": []
+      }
+    }
+  }
+}

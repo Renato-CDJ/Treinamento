@@ -5,18 +5,10 @@ import { Slot } from '@radix-ui/react-slot'
 import { cva, VariantProps } from 'class-variance-authority'
 import { PanelLeftIcon } from 'lucide-react'
 
-import { useIsMobile } from '@/hooks/use-mobile'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from '@/components/ui/sheet'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
   Tooltip,
@@ -28,7 +20,6 @@ import {
 const SIDEBAR_COOKIE_NAME = 'sidebar_state'
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
 const SIDEBAR_WIDTH = '16rem'
-const SIDEBAR_WIDTH_MOBILE = '18rem'
 const SIDEBAR_WIDTH_ICON = '3rem'
 const SIDEBAR_KEYBOARD_SHORTCUT = 'b'
 
@@ -36,9 +27,6 @@ type SidebarContextProps = {
   state: 'expanded' | 'collapsed'
   open: boolean
   setOpen: (open: boolean) => void
-  openMobile: boolean
-  setOpenMobile: (open: boolean) => void
-  isMobile: boolean
   toggleSidebar: () => void
 }
 
@@ -66,9 +54,6 @@ function SidebarProvider({
   open?: boolean
   onOpenChange?: (open: boolean) => void
 }) {
-  const isMobile = useIsMobile()
-  const [openMobile, setOpenMobile] = React.useState(false)
-
   // This is the internal state of the sidebar.
   // We use openProp and setOpenProp for control from outside the component.
   const [_open, _setOpen] = React.useState(defaultOpen)
@@ -90,8 +75,8 @@ function SidebarProvider({
 
   // Helper to toggle the sidebar.
   const toggleSidebar = React.useCallback(() => {
-    return isMobile ? setOpenMobile((open) => !open) : setOpen((open) => !open)
-  }, [isMobile, setOpen, setOpenMobile])
+    return setOpen((open) => !open)
+  }, [setOpen])
 
   // Adds a keyboard shortcut to toggle the sidebar.
   React.useEffect(() => {
@@ -118,12 +103,9 @@ function SidebarProvider({
       state,
       open,
       setOpen,
-      isMobile,
-      openMobile,
-      setOpenMobile,
       toggleSidebar,
     }),
-    [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar],
+    [state, open, setOpen, toggleSidebar],
   )
 
   return (
@@ -163,7 +145,7 @@ function Sidebar({
   variant?: 'sidebar' | 'floating' | 'inset'
   collapsible?: 'offcanvas' | 'icon' | 'none'
 }) {
-  const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
+  const { state } = useSidebar()
 
   if (collapsible === 'none') {
     return (
@@ -180,34 +162,9 @@ function Sidebar({
     )
   }
 
-  if (isMobile) {
-    return (
-      <Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>
-        <SheetContent
-          data-sidebar="sidebar"
-          data-slot="sidebar"
-          data-mobile="true"
-          className="bg-sidebar text-sidebar-foreground w-(--sidebar-width) p-0 [&>button]:hidden"
-          style={
-            {
-              '--sidebar-width': SIDEBAR_WIDTH_MOBILE,
-            } as React.CSSProperties
-          }
-          side={side}
-        >
-          <SheetHeader className="sr-only">
-            <SheetTitle>Sidebar</SheetTitle>
-            <SheetDescription>Displays the mobile sidebar.</SheetDescription>
-          </SheetHeader>
-          <div className="flex h-full w-full flex-col">{children}</div>
-        </SheetContent>
-      </Sheet>
-    )
-  }
-
   return (
     <div
-      className="group peer text-sidebar-foreground hidden md:block"
+      className="group peer text-sidebar-foreground"
       data-state={state}
       data-collapsible={state === 'collapsed' ? collapsible : ''}
       data-variant={variant}
@@ -229,7 +186,7 @@ function Sidebar({
       <div
         data-slot="sidebar-container"
         className={cn(
-          'fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear md:flex',
+          'fixed inset-y-0 z-10 flex h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear',
           side === 'left'
             ? 'left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]'
             : 'right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]',
@@ -291,7 +248,7 @@ function SidebarRail({ className, ...props }: React.ComponentProps<'button'>) {
       onClick={toggleSidebar}
       title="Toggle Sidebar"
       className={cn(
-        'hover:after:bg-sidebar-border absolute inset-y-0 z-20 hidden w-4 -translate-x-1/2 transition-all ease-linear group-data-[side=left]:-right-4 group-data-[side=right]:left-0 after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] sm:flex',
+        'hover:after:bg-sidebar-border absolute inset-y-0 z-20 flex w-4 -translate-x-1/2 transition-all ease-linear group-data-[side=left]:-right-4 group-data-[side=right]:left-0 after:absolute after:inset-y-0 after:left-1/2 after:w-[2px]',
         'in-data-[side=left]:cursor-w-resize in-data-[side=right]:cursor-e-resize',
         '[[data-side=left][data-state=collapsed]_&]:cursor-e-resize [[data-side=right][data-state=collapsed]_&]:cursor-w-resize',
         'hover:group-data-[collapsible=offcanvas]:bg-sidebar group-data-[collapsible=offcanvas]:translate-x-0 group-data-[collapsible=offcanvas]:after:left-full',
@@ -310,7 +267,7 @@ function SidebarInset({ className, ...props }: React.ComponentProps<'main'>) {
       data-slot="sidebar-inset"
       className={cn(
         'bg-background relative flex w-full flex-1 flex-col',
-        'md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-sm md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2',
+        'peer-data-[variant=inset]:m-2 peer-data-[variant=inset]:ml-0 peer-data-[variant=inset]:rounded-xl peer-data-[variant=inset]:shadow-sm peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2',
         className,
       )}
       {...props}
@@ -427,8 +384,6 @@ function SidebarGroupAction({
       data-sidebar="group-action"
       className={cn(
         'text-sidebar-foreground ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground absolute top-3.5 right-3 flex aspect-square w-5 items-center justify-center rounded-md p-0 outline-hidden transition-transform focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0',
-        // Increases the hit area of the button on mobile.
-        'after:absolute after:-inset-2 md:after:hidden',
         'group-data-[collapsible=icon]:hidden',
         className,
       )}
@@ -509,7 +464,7 @@ function SidebarMenuButton({
   tooltip?: string | React.ComponentProps<typeof TooltipContent>
 } & VariantProps<typeof sidebarMenuButtonVariants>) {
   const Comp = asChild ? Slot : 'button'
-  const { isMobile, state } = useSidebar()
+  const { state } = useSidebar()
 
   const button = (
     <Comp
@@ -538,7 +493,7 @@ function SidebarMenuButton({
       <TooltipContent
         side="right"
         align="center"
-        hidden={state !== 'collapsed' || isMobile}
+        hidden={state !== 'collapsed'}
         {...tooltip}
       />
     </Tooltip>
@@ -562,14 +517,12 @@ function SidebarMenuAction({
       data-sidebar="menu-action"
       className={cn(
         'text-sidebar-foreground ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer-hover/menu-button:text-sidebar-accent-foreground absolute top-1.5 right-1 flex aspect-square w-5 items-center justify-center rounded-md p-0 outline-hidden transition-transform focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0',
-        // Increases the hit area of the button on mobile.
-        'after:absolute after:-inset-2 md:after:hidden',
         'peer-data-[size=sm]/menu-button:top-1',
         'peer-data-[size=default]/menu-button:top-1.5',
         'peer-data-[size=lg]/menu-button:top-2.5',
         'group-data-[collapsible=icon]:hidden',
         showOnHover &&
-          'peer-data-[active=true]/menu-button:text-sidebar-accent-foreground group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100 md:opacity-0',
+          'peer-data-[active=true]/menu-button:text-sidebar-accent-foreground group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100',
         className,
       )}
       {...props}

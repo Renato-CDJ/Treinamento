@@ -1,0 +1,249 @@
+{
+  "marcas": {
+    "COMERCIAL": {
+      "comercial_abordagem": {
+        "id": "comercial_abordagem",
+        "title": "Abordagem",
+        "body": "Olá, falo com [Nome do cliente]?",
+        "buttons": [
+          { "label": "É O CLIENTE", "next": "comercial_identificacao", "primary": true },
+          { "label": "NÃO É O CLIENTE", "next": "comercial_terceiro" },
+          { "label": "SEM RESPOSTA", "next": "comercial_sem_resposta" }
+        ]
+      },
+      "comercial_terceiro": {
+        "id": "comercial_terceiro",
+        "title": "Terceiro",
+        "body": "Você conhece [Nome completo do cliente]?",
+        "buttons": [
+          { "label": "SIM", "next": "comercial_terceiro_conhece", "primary": true },
+          { "label": "NÃO CONHECE", "next": "comercial_nao_conhece" },
+          { "label": "FALECIDO", "next": "comercial_faleceu" }
+        ]
+      },
+      "comercial_sem_resposta": {
+        "id": "comercial_sem_resposta",
+        "title": "Cliente/Terceiro não responde",
+        "body": "Por falta de comunicação encerro o contato.",
+        "buttons": [{ "label": "FINALIZAR", "next": "fim", "primary": true }]
+      },
+      "comercial_desconhecido": {
+        "id": "comercial_nao_conhece",
+        "title": "Finalização",
+        "body": "Peço desculpas pelo incômodo. A CAIXA agradece, tenha um bom dia/tarde/noite.",
+        "buttons": [{ "label": "FINALIZAR", "next": "fim", "primary": true }]
+      },
+      "comercial_terceiro_conhece": {
+        "id": "comercial_terceiro_conhece",
+        "title": "Terceiro",
+        "body": "Teria um melhor número ou horário para falar com o (Primeiro nome do cliente)?",
+        "buttons": [
+          { "label": "SIM", "next": "comercial_recado", "primary": true },
+          { "label": "NÃO", "next": "comercial_finalizacao_terceiro" }
+        ]
+      },
+      "comercial_falecido": {
+        "id": "comercial_faleceu",
+        "title": "Falecido",
+        "body": "Peça que o herdeiro ou inventariante leve o atestado de óbito na agência",
+        "buttons": [{ "label": "FINALIZAR", "next": "fim", "primary": true }]
+      },
+      "comercial_terceiro_recado": {
+        "id": "comercial_recado",
+        "title": "Recado",
+        "body": "Por favor, solicite que o (Cliente) entre em contato com a Central de Negócios da CAIXA, nos telefones 0800 025 8833 ou 4020-0088<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [{ "label": "FINALIZAR", "next": "fim", "primary": true }]
+      },
+      "comercial_finalizacao_terceiro": {
+        "id": "comercial_finalizacao_terceiro",
+        "title": "Finalização",
+        "body": "OK! A CAIXA agradece, tenha um bom dia/tarde/noite.",
+        "buttons": [{ "label": "FINALIZAR", "next": "fim", "primary": true }]
+      },
+      "comercial_identificacao": {
+        "id": "comercial_identificacao",
+        "title": "Identifique-se",
+        "body": "Aqui é o [nome do operador] eu falo em nome da CAIXA. Tudo bem?",
+        "buttons": [{ "label": "AVANÇAR", "next": "comercial_identificacao_parte2", "primary": true }]
+      },
+      "comercial_identificacao_parte2": {
+        "id": "comercial_identificacao_parte2",
+        "title": "Identificação Positiva CPF",
+        "body": "Para sua segurança, essa ligação está sendo gravada.<br>Eu sou do Grupo Roveri e, por questões de sigilo bancário, preciso confirmar alguns dados.<br>Vou te dizer os (6) seis primeiros números do seu CPF e você completa com os demais, os primeiros números são: [XXX.XXX], qual o restante?",
+        "buttons": [
+          { "label": "CONFIRMOU CPF", "next": "comercial_nome_completo_cliente", "primary": true },
+          { "label": "RECUSOU CONFIRMAR", "next": "comercial_nao_confirma" }
+        ]
+      },
+      "comercial_nao_confirma": {
+        "id": "comercial_nao_confirma",
+        "title": "Cliente não quer confirmar o CPF",
+        "body": "Esse contato é sobre o relacionamento com a CAIXA, após a confirmação dos dados, irei fornecer todos os detalhes. Os 6 primeiros números do CPF são: (XXX.XXX), qual o restante?",
+        "buttons": [
+          { "label": "CONFIRMOU CPF", "next": "comercial_nome_completo_cliente", "primary": true },
+          { "label": "RECUSOU CONFIRMAR", "next": "comercial_nao_confirmou" }
+        ]
+      },
+      "nao_confirmou": {
+        "id": "comercial_nao_confirmou",
+        "title": "Finalização",
+        "body": "(Nome do cliente), então você pode entrar em contato com esses números que vou te passar para saber o assunto que é: 0800 104 0104, 0800 025 8833 ou 4020 0088.",
+        "buttons": [
+          { "label": "CONFIRMOU CPF", "next": "comercial_nome_completo_cliente", "primary": true },
+          { "label": "CLIENTE INSEGURO SOBRE NOSSA EMPRESA", "next": "comercial_questiona_origem" },
+          { "label": "FINALIZAR", "next": "fim", "primary": true }
+        ]
+      },
+      "questiona_origem": {
+        "id": "comercial_questiona_origem",
+        "title": "Cliente questiona origem do contato",
+        "body": "A Roveri é autorizada pela CAIXA a realizar o contato. Se você estiver inseguro sobre a nossa empresa, você pode acessar o site da CAIXA e confirmar www.caixa.gov.br/voce/negociacao/telefones e ver em Empresas terceirizadas o nome da ROVERI.",
+        "buttons": [{ "label": "FINALIZAR", "next": "fim", "primary": true }]
+      },
+      "comercial_nome_completo_cliente": {
+        "id": "comercial_nome_completo_cliente",
+        "title": "Nome completo do cliente",
+        "body": "Obrigado(a), pela confirmação. Seu nome completo é (nome completo do cliente)?",
+        "buttons": [{ "label": "APRESENTAR DIVIDA", "next": "opcao_apresentacao", "primary": true }]
+      },
+      "opcao_apresentacao": {
+        "id": "opcao_apresentacao",
+        "title": "Faixa de Atraso",
+        "body": "Selecione a opção de acordo com os dias em atraso",
+        "buttons": [
+          { "label": "ATRASO DE ATÉ 15 DIAS", "next": "apresentacao15dias", "primary": true },
+          { "label": "ATRASO ACIMA DE 15 DIAS", "next": "apresentacao30dias" }
+        ]
+      },
+      "apresentacao15dias": {
+        "id": "apresentacao15dias",
+        "title": "Apresentação da Dívida",
+        "body": "O motivo do meu contato é para avisar sobre o vencimento do seu [nome do contrato], há XX dias no valor aproximado de R$ XX, XX.<br>Já houve o pagamento?",
+        "buttons": [
+          { "label": "SIM", "next": "comercial_pagamento_efetuado", "primary": true },
+          { "label": "NÃO", "next": "comercial_negociacao" }
+        ]
+      },
+      "apresentacao30dias": {
+        "id": "apresentacao30dias",
+        "title": "Apresentação da Dívida",
+        "body": "O motivo do meu contato é para confirmar o pagamento do seu [nome do contrato], vencido há XX dias no valor aproximado de R$ XX, XX.<br>Já houve o pagamento?",
+        "buttons": [
+          { "label": "SIM", "next": "comercial_pagamento_efetuado", "primary": true },
+          { "label": "NÃO", "next": "comercial_negociacao" }
+        ]
+      },
+      "pagamento_efetuado": {
+        "id": "comercial_pagamento_efetuado",
+        "title": "Fraseologia de Pagamento Efetuado",
+        "body": "Caso seu pagamento tenha sido efetuado há menos de 5 dias úteis, possivelmente não foi atualizado pelo sistema, mas caso tenha mais de 5 dias úteis você pode esclarecer pelo WhatsApp 0800 104 0104.<br><br>ATENÇÃO!<br>Não pergunte qual foi a forma de pagamento e nem a data em que foi realizado, pois o script já informa o necessário.",
+        "buttons": [{ "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "comercial_atualizacao_cadastral" }]
+      },
+      "negociacao": {
+        "id": "comercial_negociacao",
+        "title": "Negociação (Comercial)",
+        "body": "Pagamento hoje ficaria bom para você?",
+        "buttons": [
+          { "label": "ACEITOU", "next": "ratificacao_aceite", "primary": true },
+          { "label": "NÃO", "next": "comercial_recusa" }
+        ]
+      },
+      "recusa": {
+        "id": "comercial_recusa",
+        "title": "Oferte o pagamento dentro do prazo máximo que é D+9 de forma gradativa",
+        "body": "Vi aqui que você tem XX parcelas em atraso, ficaria bom pra você o pagamento até dia XX/XX?<br><br>CONTRATO COM ATRASO MAIOR QUE 31 DIAS, ARGUMENTE:<br>Como você possui XX parcelas atrasadas, para te ajudar, posso confirmar o pagamento da mais antiga? Assim você regulariza aos poucos",
+        "buttons": [
+          { "label": "ACEITOU", "next": "ratificacao_aceite" },
+          { "label": "RECUSOU", "next": "recusa_novamente" }
+        ]
+      },
+      "atualizacao_cadastral_recusa": {
+        "id": "recusa_novamente",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "comercial_pesquisa_satisfacao_recusa", "primary": true }
+        ]
+      },
+      "pesquisa_satisfacao_recusa": {
+        "id": "comercial_pesquisa_satisfacao_recusa",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [{ "label": "FINALIZAR", "next": "fim", "primary": true }]
+      },
+      "ratificacao_aceite": {
+        "id": "ratificacao_aceite",
+        "title": "Ratificação",
+        "body": "Certo, vou registrar seu pagamento para o dia XX/XX.<br>CASO O ATENDIMENTO SEJA NO SÁBADO:<br>Como hoje não é dia útil, vou agendar seu pagamento para XX/XX que seria segunda-feira.",
+        "buttons": [
+          { "label": "PAGAMENTO TOTAL", "next": "comercial_pagamento_total" },
+          { "label": "PAGAMENTO PARCIAL", "next": "comercial_pagamento_parcial" }
+        ]
+      },
+      "comercial_pagamento_total": {
+        "id": "comercial_pagamento_total",
+        "title": "Pagamento Total",
+        "body": "Agradeço a confirmação, contamos com seu pagamento.<br><br>Precisa da emissão do boleto?",
+        "buttons": [
+          { "label": "SIM", "next": "comercial_opcao_boleto" },
+          { "label": "NÃO", "next": "comercial_atualizacao_cadastral_aceite" }
+        ]
+      },
+      "comercial_opcao_boleto": {
+        "id": "comercial_opcao_boleto",
+        "title": "Opções de envio",
+        "body": "ENVIO DE BOLETO VIA E-MAIL:<br>Estou encaminhando o boleto para o seu e-mail, ele pode chegar até o dia do vencimento.<br><br>SE FOR VIA WHATSAPP:<br>Você autoriza o envio do boleto por WhatsApp?",
+        "buttons": [{ "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "comercial_atualizacao_cadastral_aceite" }]
+      },
+      "comercial_atualizacao_cadastral_aceite": {
+        "id": "comercial_atualizacao_cadastral_aceite",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "comercial_pesquisa_satisfacao_aceite", "primary": true }
+        ]
+      },
+      "comercial_pesquisa_satisfacao_aceite": {
+        "id": "comercial_pesquisa_satisfacao_aceite",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [{ "label": "FINALIZAR", "next": "fim", "primary": true }]
+      },
+      "comercial_pagamento_parcial": {
+        "id": "comercial_pagamento_parcial",
+        "title": "Ações de cobrança",
+        "body": "Lembrando que é importante efetuar o pagamento para evitar os juros diários, ligações de cobrança e a restrição do CPF/CNPJ no SPC/SERASA.",
+        "buttons": [{ "label": "AVANÇAR", "next": "comercial_pagamento_parcial2" }]
+      },
+      "comercial_pagamento_parcial2": {
+        "id": "comercial_pagamento_parcial2",
+        "title": "Pagamento Parcial",
+        "body": "Precisa da emissão do boleto?",
+        "buttons": [
+          { "label": "SIM", "next": "comercial_opcao_boleto" },
+          { "label": "NÃO", "next": "comercial_atualizacao_cadastral_aceite" }
+        ]
+      },
+      "comercial_opcao_boleto2": {
+        "id": "comercial_opcao_boleto",
+        "title": "Opções de envio",
+        "body": "ENVIO DE BOLETO VIA E-MAIL:<br>Estou encaminhando o boleto para o seu e-mail, ele pode chegar até o dia do vencimento.<br><br>SE FOR VIA WHATSAPP:<br>Você autoriza o envio do boleto por WhatsApp?",
+        "buttons": [{ "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "comercial_atualizacao_cadastral_aceite" }]
+      },
+      "comercial_atualizacao_cadastral": {
+        "id": "comercial_atualizacao_cadastral",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "comercial_pesquisa_satisfacao", "primary": true }
+        ]
+      },
+      "comercial_pesquisa_satisfacao": {
+        "id": "comercial_pesquisa_satisfacao",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [{ "label": "FINALIZAR", "next": "fim", "primary": true }]
+      }
+    }
+  }
+}

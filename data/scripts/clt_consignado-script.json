@@ -1,0 +1,302 @@
+{
+  "marcas": {
+    "CONSIGNADO CLT": {
+      "clt_abordagem": {
+        "id": "clt_abordagem",
+        "title": "Abordagem",
+        "body": "Olá, falo com [Nome do cliente]?",
+        "buttons": [
+          { "label": "SIM, É O CLIENTE", "next": "clt_identificacao", "primary": true },
+          { "label": "NÃO É O CLIENTE", "next": "clt_terceiro" },
+          { "label": "SEM RESPOSTA", "next": "clt_sem_resposta" }
+        ]
+      },
+      "clt_terceiro": {
+        "id": "clt_terceiro",
+        "title": "Terceiro",
+        "body": "Você conhece [Nome completo do cliente]?",
+        "buttons": [
+          { "label": "SIM", "next": "clt_terceiro_conhece", "primary": true },
+          { "label": "NÃO CONHECE", "next": "clt_nao_conhece" },
+          { "label": "FALECIDO", "next": "clt_faleceu" }
+        ]
+      },
+      "clt_sem_resposta": {
+        "id": "clt_sem_resposta",
+        "title": "Cliente/Terceiro não responde",
+        "body": "Por falta de comunicação encerro o contato.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "clt_fim", "primary": true }
+        ]
+      },
+      "clt_nao_conhece": {
+        "id": "clt_nao_conhece",
+        "title": "Finalização",
+        "body": "Peço desculpas pelo incômodo. A CAIXA agradece, tenha um bom dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "clt_fim", "primary": true }
+        ]
+      },
+      "clt_terceiro_conhece": {
+        "id": "clt_terceiro_conhece",
+        "title": "Terceiro",
+        "body": "Teria um melhor número ou horário para falar com o (Primeiro nome do cliente)?",
+        "buttons": [
+          { "label": "SIM", "next": "clt_recado", "primary": true },
+          { "label": "NÃO", "next": "clt_finalizacao_terceiro" }
+        ]
+      },
+      "clt_falecido": {
+        "id": "clt_faleceu",
+        "title": "Falecido",
+        "body": "Peça que o herdeiro ou inventariante leve o atestado de óbito na agência",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "clt_fim", "primary": true }
+        ]
+      },
+      "clt_recado": {
+        "id": "clt_recado",
+        "title": "Recado",
+        "body": "Por favor, solicite que o (Cliente) entre em contato com a Central de Negócios da CAIXA, nos telefones 0800 025 8833 ou 4020-0088<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "clt_fim", "primary": true }
+        ]
+      },
+      "clt_finalizacao_terceiro": {
+        "id": "clt_finalizacao_terceiro",
+        "title": "Finalização",
+        "body": "Por favor, solicite que o (Cliente) entre em contato com a Central de Negócios da CAIXA, nos telefones 0800 025 8833 ou 4020-0088<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "clt_fim", "primary": true }
+        ]
+      },
+      "clt_identificacao": {
+        "id": "clt_identificacao",
+        "title": "Identifique-se",
+        "body": "Aqui é o [nome do operador] eu falo da Central de Negócios da CAIXA. Tudo bem?",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "clt_identificacao_parte2", "primary": true }
+        ]
+      },
+      "clt_identificacao_parte2": {
+        "id": "clt_identificacao_parte2",
+        "title": "Identificação Positiva CPF",
+        "body": "Para sua segurança, essa ligação está sendo gravada.<br>Eu sou do Grupo Roveri e, por questões de sigilo bancário, preciso confirmar alguns dados.<br>Vou te dizer os (6) seis primeiros números do seu CPF e você completa com os demais, os primeiros números são: [XXX.XXX], qual o restante?",
+        "buttons": [
+          { "label": "CONFIRMOU CPF", "next": "clt_nome_completo_cliente", "primary": true },
+          { "label": "RECUSOU CONFIRMAR", "next": "clt_nao_confirma" }
+        ]
+      },
+      "clt_nao_confirma": {
+        "id": "clt_nao_confirma",
+        "title": "Cliente não quer confirmar o CPF",
+        "body": "Esse contato é sobre o relacionamento com a CAIXA, após a confirmação dos dados, irei fornecer todos os detalhes. Os 6 primeiros números do CPF são: (XXX.XXX), qual o restante?",
+        "buttons": [
+          { "label": "CONFIRMOU CPF", "next": "clt_nome_completo_cliente", "primary": true },
+          { "label": "RECUSOU CONFIRMAR", "next": "clt_nao_confirmou" }
+        ]
+      },
+      "clt_nao_confirmou": {
+        "id": "clt_nao_confirmou",
+        "title": "Finalização",
+        "body": "(Nome do cliente), então você pode entrar em contato com esses números que vou te passar para saber o assunto que é: 0800 104 0104, 0800 025 8833 ou 4020 0088.",
+        "buttons": [
+          { "label": "CONFIRMOU CPF", "next": "clt_nome_completo_cliente", "primary": true },
+          { "label": "CLIENTE INSEGURO SOBRE NOSSA EMPRESA", "next": "clt_questiona_origem" },
+          { "label": "FINALIZAR", "next": "clt_fim", "primary": true }
+        ]
+      },
+      "clt_questiona_origem": {
+        "id": "clt_questiona_origem",
+        "title": "Cliente questiona origem do contato",
+        "body": "A Roveri é autorizada pela CAIXA a realizar o contato. Se você estiver insegur o sobre a nossa empresa, você pode acessar o site da CAIXA e confirmar www.caixa.gov.br/voce/negociacao/telefones e ver em Empresas terceirizadas o nome da ROVERI.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "clt_fim", "primary": true }
+        ]
+      },
+      "clt_nome_completo_cliente": {
+        "id": "clt_nome_completo_cliente",
+        "title": "Nome completo do cliente",
+        "body": "Obrigado(a), pela confirmação. Seu nome completo é (nome completo do cliente)?",
+        "buttons": [
+          { "label": "APRESENTAR DIVIDA", "next": "clt_apresentacao", "primary": true }
+        ]
+      },
+      "clt_apresentacao": {
+        "id": "clt_apresentacao",
+        "title": "Apresentação da Dívida",
+        "body": "Estamos entrando em contato para confirmar se o(a) senhor(a) está ciente da contratação do crédito consignado CLT, que é aquele empréstimo com desconto direto na folha de pagamento. Também queremos te orientar sobre os canais disponíveis para emissão de boletos em sobre o acompanhamento do contrato.<br><br>Aqui em nosso sistema consta que há um vencimento em aberto há aproximadamente XX dias, no valor de R$ XX,XX. Você já realizou esse pagamento ou precisa de ajuda para emitir o boleto?",
+        "buttons": [
+          { "label": "JA PAGOU", "next": "clt_pagamento_efetuado", "primary": true },
+          { "label": "NÃO PAGOU", "next": "clt_negociacao" },
+          { "label": "NÃO RECONHECE O CONTRATO", "next": "clt_nao_reconhece", "primary": true },
+          { "label": "NÃO HOUVE DESCONTO EM FOLHA", "next": "clt_nao_houve_desconto_em_folha", "primary": true },
+          { "label": "CONTESTAÇÃO DA DIVIDA", "next": "clt_contestacao_da_dívida", "primary": true },
+          { "label": "DESCONTADA MAS NÃO REPASSADA", "next": "clt_descontada_mas_não_repassada", "primary": true }
+          
+        ]
+      },
+      "clt_pagamento_efetuado": {
+        "id": "clt_pagamento_efetuado",
+        "title": "Fraseologia de Pagamento Efetuado",
+        "body": "Caso seu pagamento tenha sido efetuado há menos de 5 dias úteis, possivelmente não foi atualizado pelo sistema, mas caso tenha mais de 5 dias úteis você pode esclarecer pelo WhatsApp 0800 104 0104.<br><br>ATENÇÃO!<br>Não pergunte qual foi a forma de pagamento e nem a data em que foi realizado, pois o script já informa o necessário.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "clt_atualizacao_cadastral" }
+        ]
+      },
+      "clt_nao_reconhece": {
+        "id": "clt_nao_reconhece",
+        "title": "Ação de desconto - Boleto pré-formatado",
+        "body": "Entendo, [Nome do Cliente]. Alguns clientes têm dúvidas sobre a natureza do crédito consignado CLT. Esse tipo de crédito é descontado diretamente da folha de pagamento. Podemos registrar sua contestação e orientar sobre os canais de atendimento.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "clt_atualizacao_cadastral_nao_reconhece", "primary": true }
+        ]
+      },
+      "clt_atualizacao_cadastral_nao_reconhece": {
+        "id": "clt_atualizacao_cadastral_nao_reconhece",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "clt_pesquisa_satisfacao_nao_reconhece", "primary": true }
+        ]
+      },
+      "clt_pesquisa_satisfacao_nao_reconhece": {
+        "id": "clt_pesquisa_satisfacao_nao_reconhece",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "clt_fim", "primary": true }
+        ]
+      },
+      "clt_nao_houve_desconto_em_folha": {
+        "id": "clt_nao_houve_desconto_em_folha",
+        "title": "Ação de desconto - Boleto pré-formatado",
+        "body": "Isso pode ocorrer por ausência de escrituração ou desaverbação indevida. Recomendamos que o senhor(a) consulte seu contracheque e, se necessário, acesse os canais disponíveis para emissão do boleto para não ficar inadimplente e ter seu nome negativado. Posso registrar que o SR(a) vai realizar o pagamento?<br><br>Se sim<br>Tabulação: RA3-12 - Aceita Ação/Campanha sem emissão de boleto",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "clt_atualizacao_cadastral_nao_houve_desconto_em_folha", "primary": true }
+        ]
+      },
+      "clt_atualizacao_cadastral_nao_houve_desconto_em_folha": {
+        "id": "clt_atualizacao_cadastral_nao_houve_desconto_em_folha",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "clt_pesquisa_satisfacao_nao_houve_desconto_em_folha", "primary": true }
+        ]
+      },
+      "clt_pesquisa_satisfacao_nao_houve_desconto_em_folha": {
+        "id": "clt_pesquisa_satisfacao_nao_houve_desconto_em_folha",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "clt_fim", "primary": true }
+        ]
+      },
+      "clt_contestacao_da_dívida": {
+        "id": "clt_contestacao_da_dívida",
+        "title": "Contestação da Dívida",
+        "body": "Isso pode ocorrer por ausência de escrituração ou desaverbação indevida. Recomendamos que o senhor(a) consulte seu contracheque e, se necessário, acesse os canais disponíveis para emissão do boleto para não ficar inadimplente e ter seu nome negativado. Posso registrar que o SR(a) vai realizar o pagamento?<br><br>Se sim<br>Tabulação: RA3-12 - Aceita Ação/Campanha sem emissão de boleto",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "clt_atualizacao_cadastral_contestacao_da_dívida", "primary": true }
+        ]
+      },
+      "clt_atualizacao_cadastral_contestacao_da_dívida": {
+        "id": "clt_atualizacao_cadastral_contestacao_da_dívida",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "clt_pesquisa_satisfacao_contestacao_da_dívida", "primary": true }
+        ]
+      },
+      "clt_pesquisa_satisfacao_contestacao_da_dívida": {
+        "id": "clt_pesquisa_satisfacao_contestacao_da_dívida",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "clt_fim", "primary": true }
+        ]
+      },
+      "clt_descontada_mas_não_repassada": {
+        "id": "clt_descontada_mas_não_repassada",
+        "title": "Parcela foi descontada, mas não repassada",
+        "body": "Essa situação pode ocorrer quando o empregador não realiza o repasse à CAIXA. Nesse caso orientar o cliente a 1. Consultar o RH da empresa<br>• O setor de Recursos Humanos pode esclarecer se há contrato ativo, qual instituição está envolvida, e como está sendo feito o desconto em folha.<br>• Também pode fornecer cópia do contrato ou termo de autorização.<br><br>2. Verificar o contracheque<br>• Conferir se o valor está sendo descontado corretamente.<br>• Se houver desconto sem autorização ou valor diferente do acordado, é importante registrar e questionar.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "clt_atualizacao_cadastral_descontada_mas_não_repassada", "primary": true }
+        ]
+      },
+      "clt_atualizacao_cadastral_descontada_mas_não_repassada": {
+        "id": "clt_atualizacao_cadastral_descontada_mas_não_repassada",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "clt_pesquisa_satisfacao_descontada_mas_não_repassada", "primary": true }
+        ]
+      },
+      "clt_pesquisa_satisfacao_descontada_mas_não_repassada": {
+        "id": "clt_pesquisa_satisfacao_descontada_mas_não_repassada",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "clt_fim", "primary": true }
+        ]
+      },
+      "clt_negociacao": {
+        "id": "clt_negociacao",
+        "title": "Oferta",
+        "body": "Você consegue realizar o pagamento na data de hoje? Você pode pegar a segundavia do boleto no site da caixa www.caixa.gov.br/2via ou WhatsApp caixa na opção 2 segunda via. O número é o número 0800 104 0104.",
+        "buttons": [
+          { "label": "ACEITOU", "next": "clt_boleto_superior10k", "primary": true },
+          { "label": "NÃO", "next": "clt_recusa_consequencias" }
+        ]
+      },
+      "clt_recusa_consequencias": {
+        "id": "clt_recusa_consequencias",
+        "title": "Ações de cobrança",
+        "body": "Informo que as ações de cobrança terão continuidade e os juros são diários.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "clt_atualizacao_cadastral_recusa" }
+        ]
+      },
+      "clt_atualizacao_cadastral_recusa": {
+        "id": "clt_atualizacao_cadastral_recusa",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "clt_pesquisa_satisfacao_recusa", "primary": true }
+        ]
+      },
+      "clt_pesquisa_satisfacao_recusa": {
+        "id": "clt_pesquisa_satisfacao_recusa",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "clt_fim", "primary": true }
+        ]
+      },
+      "clt_boleto_superior10k": {
+        "id": "clt_boleto_superior10k",
+        "title": "Caso o valor do boleto seja igual ou superior R$ 10.000,00 [dez mil reais]",
+        "body": "Conforme resolução do Banco Central do Brasil, é vedado às instituições financeiras o recebimento em espécie de boletos com valores iguais ou superiores a R$ 10.000,00.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "clt_atualizacao_cadastral_aceitou" }
+        ]
+      },
+      "clt_atualizacao_cadastral_aceitou": {
+        "id": "clt_atualizacao_cadastral_aceitou",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "clt_pesquisa_satisfacao_aceitou", "primary": true }
+        ]
+      },
+      "clt_pesquisa_satisfacao_aceitou": {
+        "id": "clt_pesquisa_satisfacao_aceitou",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "clt_fim", "primary": true }
+        ]
+      }
+    }
+  }
+}

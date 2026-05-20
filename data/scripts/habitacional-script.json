@@ -1,0 +1,246 @@
+{
+  "marcas": {
+    "HABITACIONAL": {
+      "hab_abordagem": {
+        "id": "hab_abordagem",
+        "title": "Abordagem",
+        "body": "Olá, falo com [Nome do cliente]?",
+        "buttons": [
+          { "label": "É O CLIENTE", "next": "hab_identificacao", "primary": true },
+          { "label": "NÃO É O CLIENTE", "next": "hab_terceiro" },
+          { "label": "SEM RESPOSTA", "next": "hab_sem_resposta" }
+        ]
+      },
+      "hab_terceiro": {
+        "id": "hab_terceiro",
+        "title": "Terceiro",
+        "body": "Você conhece [Nome completo do cliente]?",
+        "buttons": [
+          { "label": "SIM", "next": "hab_terceiro_conhece", "primary": true },
+          { "label": "NÃO CONHECE", "next": "hab_nao_conhece" },
+          { "label": "FALECIDO", "next": "hab_faleceu" }
+        ]
+      },
+      "hab_sem_resposta": {
+        "id": "hab_sem_resposta",
+        "title": "Cliente/Terceiro não responde",
+        "body": "Por falta de comunicação encerro o contato.",
+        "buttons": [{ "label": "FINALIZAR", "next": "fim", "primary": true }]
+      },
+      "hab_desconhecido": {
+        "id": "hab_nao_conhece",
+        "title": "Finalização",
+        "body": "Peço desculpas pelo incômodo. A CAIXA agradece, tenha um bom dia/tarde/noite.",
+        "buttons": [{ "label": "FINALIZAR", "next": "fim", "primary": true }]
+      },
+      "hab_terceiro_conhece": {
+        "id": "hab_terceiro_conhece",
+        "title": "Terceiro",
+        "body": "Teria um melhor número ou horário para falar com o (Primeiro nome do cliente)?",
+        "buttons": [
+          { "label": "SIM", "next": "hab_recado", "primary": true },
+          { "label": "NÃO", "next": "hab_finalizacao_terceiro" }
+        ]
+      },
+      "hab_falecido": {
+        "id": "hab_faleceu",
+        "title": "Falecido",
+        "body": "Peça que o herdeiro ou inventariante leve o atestado de óbito na agência",
+        "buttons": [{ "label": "FINALIZAR", "next": "fim", "primary": true }]
+      },
+      "hab_terceiro_recado": {
+        "id": "hab_recado",
+        "title": "Recado",
+        "body": "Por favor, solicite que o (Cliente) entre em contato com a Central de Negócios da CAIXA, nos telefones 0800 025 8833 ou 4020-0088<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [{ "label": "FINALIZAR", "next": "fim", "primary": true }]
+      },
+      "hab_finalizacao_terceiro": {
+        "id": "hab_finalizacao_terceiro",
+        "title": "Finalização",
+        "body": "OK! A CAIXA agradece, tenha um bom dia/tarde/noite.",
+        "buttons": [{ "label": "FINALIZAR", "next": "fim", "primary": true }]
+      },
+      "hab_identificacao": {
+        "id": "hab_identificacao",
+        "title": "Identifique-se",
+        "body": "Aqui é o [nome do operador] eu falo em nome da CAIXA. Tudo bem?",
+        "buttons": [{ "label": "AVANÇAR", "next": "hab_identificacao_parte2", "primary": true }]
+      },
+      "hab_identificacao_parte2": {
+        "id": "hab_identificacao_parte2",
+        "title": "Identificação Positiva CPF",
+        "body": "Para sua segurança, essa ligação está sendo gravada.<br>Eu sou do Grupo Roveri e, por questões de sigilo bancário, preciso confirmar alguns dados.<br>Vou te dizer os (6) seis primeiros números do seu CPF e você completa com os demais, os primeiros números são: [XXX.XXX], qual o restante?<br><br>OBS: Caso o cliente se manifeste como coobrigado do contrato, a confirmação do 'CPF e Nome' poderá ser feita no CIWEB.",
+        "buttons": [
+          { "label": "CONFIRMOU CPF", "next": "hab_nome_completo_cliente", "primary": true },
+          { "label": "RECUSOU CONFIRMAR", "next": "hab_nao_confirma" }
+        ]
+      },
+      "hab_nao_confirma": {
+        "id": "hab_nao_confirma",
+        "title": "Cliente não quer confirmar o CPF",
+        "body": "Esse contato é sobre o relacionamento com a CAIXA, após a confirmação dos dados, irei fornecer todos os detalhes. Os 6 primeiros números do CPF são: (XXX.XXX), qual o restante?",
+        "buttons": [
+          { "label": "CONFIRMOU CPF", "next": "hab_nome_completo_cliente", "primary": true },
+          { "label": "RECUSOU CONFIRMAR", "next": "hab_nao_confirmou" }
+        ]
+      },
+      "nao_confirmou": {
+        "id": "hab_nao_confirmou",
+        "title": "Finalização",
+        "body": "(Nome do cliente), então você pode entrar em contato com esses números que vou te passar para saber o assunto que é: 0800 104 0104, 0800 025 8833 ou 4020 0088.",
+        "buttons": [
+          { "label": "CONFIRMOU CPF", "next": "hab_nome_completo_cliente", "primary": true },
+          { "label": "CLIENTE INSEGURO SOBRE NOSSA EMPRESA", "next": "hab_questiona_origem" },
+          { "label": "FINALIZAR", "next": "fim", "primary": true }
+        ]
+      },
+      "questiona_origem": {
+        "id": "hab_questiona_origem",
+        "title": "Cliente questiona origem do contato",
+        "body": "A Roveri é autorizada pela CAIXA a realizar o contato. Se você estiver inseguro sobre a nossa empresa, você pode acessar o site da CAIXA e confirmar www.caixa.gov.br/voce/negociacao/telefones e ver em Empresas terceirizadas o nome da ROVERI.",
+        "buttons": [{ "label": "FINALIZAR", "next": "fim", "primary": true }]
+      },
+      "nome_completo_cliente": {
+        "id": "hab_nome_completo_cliente",
+        "title": "Nome completo do cliente",
+        "body": "Obrigado(a), pela confirmação. Seu nome completo é (nome completo do cliente)?",
+        "buttons": [{ "label": "APRESENTAR DIVIDA", "next": "opcao_apresentacao", "primary": true }]
+      },
+      "opcao_apresentacao": {
+        "id": "opcao_apresentacao",
+        "title": "Faixa de Atraso",
+        "body": "Selecione a opção de acordo com os dias em atraso",
+        "buttons": [
+          { "label": "ATRASO DE ATÉ 15 DIAS", "next": "apresentacao15dias", "primary": true },
+          { "label": "ATRASO ACIMA DE 15 DIAS", "next": "apresentacao30dias" }
+        ]
+      },
+      "apresentacao15dias": {
+        "id": "apresentacao15dias",
+        "title": "Apresentação da Dívida",
+        "body": "O motivo do meu contato é para avisar sobre o vencimento do seu financiamento habitacional, vencido há XX dias no valor aproximado de R$XX,XX.<br>Já houve o pagamento?",
+        "buttons": [
+          { "label": "SIM", "next": "hab_pagamento_efetuado", "primary": true },
+          { "label": "NÃO", "next": "hab_negociacao" }
+        ]
+      },
+      "apresentacao30dias": {
+        "id": "apresentacao30dias",
+        "title": "Apresentação da Dívida",
+        "body": "O motivo do meu contato é para confirmar o pagamento do seu financiamento habitacional, vencido há XX dias no valor aproximado de R$XX,XX.<br>Já houve o pagamento?",
+        "buttons": [
+          { "label": "SIM", "next": "hab_pagamento_efetuado", "primary": true },
+          { "label": "NÃO", "next": "hab_negociacao" }
+        ]
+      },
+      "pagamento_efetuado": {
+        "id": "hab_pagamento_efetuado",
+        "title": "Fraseologia de Pagamento Efetuado",
+        "body": "Caso seu pagamento tenha sido efetuado há menos de 5 dias úteis, possivelmente não foi atualizado pelo sistema, mas caso tenha mais de 5 dias úteis você pode esclarecer pelo WhatsApp 0800 104 0104.ATENÇÃO!<br><br>Não pergunte qual foi a forma de pagamento e nem a data em que foi realizado, pois o script já informa o necessário.",
+        "buttons": [{ "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "hab_atualizacao_cadastral" }]
+      },
+      "negociacao": {
+        "id": "hab_negociacao",
+        "title": "Negociação (Habitacional)",
+        "body": "Pagamento hoje ficaria bom para você?",
+        "buttons": [
+          { "label": "ACEITOU", "next": "ratificacao_aceite", "primary": true },
+          { "label": "NÃO", "next": "hab_recusa" }
+        ]
+      },
+      "recusa": {
+        "id": "hab_recusa",
+        "title": "Oferte o pagamento dentro do prazo máximo que é D+9 de forma gradativa",
+        "body": "Vi aqui que você tem XX parcelas em atraso, ficaria bom pra você o pagamento até dia XX/XX?<br><br>CONTRATO COM ATRASO MAIOR QUE 31 DIAS, ARGUMENTE:<br>Como você possui XX parcelas atrasadas, para te ajudar, posso confirmar o pagamento da mais antiga? Assim você regulariza aos poucos",
+        "buttons": [
+          { "label": "ACEITOU", "next": "ratificacao_aceite" },
+          { "label": "RECUSOU", "next": "recusa_novamente" }
+        ]
+      },
+      "recusa_novamente": {
+        "id": "recusa_novamente",
+        "title": "Ouça o que o cliente disser e adapte a sua argumentação",
+        "body": "Pergunte sobre a situação financeira do cliente:(Texto)<br><br>Atraso até 30 dias:(Texto)<br><br>Atraso de 31 a 119 dias:(Texto)<br><br>Atraso acima de 120 dias:(Texto)",
+        "buttons": [
+          { "label": "ACEITOU", "next": "ratificacao_aceite" },
+          { "label": "RECUSOU", "next": "hab_fgts_recusa" }
+        ]
+      },
+      "fgts_recusa": {
+        "id": "hab_fgts_recusa",
+        "title": "Fraseologia do FGTS",
+        "body": "Você pode verificar a possibilidade de negociar seu contrato ou utilizar o FGTS para abater até 80% das prestações por 12 meses ligando no 4004 0104 / 0800 104 0104 ou pelo App Habitação CAIXA.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "hab_atualizacao_cadastral_recusa", "primary": true }
+        ]
+      },
+      "atualizacao_cadastral_recusa": {
+        "id": "hab_atualizacao_cadastral_recusa",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab_pesquisa_satisfacao_recusa", "primary": true }
+        ]
+      },
+      "pesquisa_satisfacao_recusa": {
+        "id": "hab_pesquisa_satisfacao_recusa",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [{ "label": "FINALIZAR", "next": "fim", "primary": true }]
+      },
+      "ratificacao_aceite": {
+        "id": "ratificacao_aceite",
+        "title": "Ratificação",
+        "body": "Certo, vou registrar seu pagamento para o dia XX/XX.<br>CASO O ATENDIMENTO SEJA NO SÁBADO:<br>Como hoje não é dia útil, vou agendar seu pagamento para XX/XX que seria segunda-feira.",
+        "buttons": [
+          { "label": "PAGAMENTO TOTAL", "next": "hab_pagamento_total" },
+          { "label": "PAGAMENTO PARCIAL", "next": "hab_pagamento_parcial" }
+        ]
+      },
+      "hab_pagamento_total": {
+        "id": "hab_pagamento_total",
+        "title": "Pagamento Total",
+        "body": "Agradeço a confirmação, contamos com seu pagamento.<br><br>Precisa da emissão do boleto?",
+        "buttons": [{ "label": "SIM", "next": "hab_opcao_boleto" }, { "label": "NÃO", "next": "hab_fgts_recusa" }]
+      },
+      "hab_opcao_boleto": {
+        "id": "hab_opcao_boleto",
+        "title": "Opções de envio",
+        "body": "ENVIO DE BOLETO VIA E-MAIL:<br>Estou encaminhando o boleto para o seu e-mail, ele pode chegar até o dia do vencimento.<br><br>SE FOR VIA WHATSAPP:<br>Você autoriza o envio do boleto por WhatsApp?",
+        "buttons": [{ "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "hab_atualizacao_cadastral_aceite" }]
+      },
+      "hab_atualizacao_cadastral_aceite": {
+        "id": "hab_atualizacao_cadastral_aceite",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab_pesquisa_satisfacao_aceite", "primary": true }
+        ]
+      },
+      "hab_pesquisa_satisfacao_aceite": {
+        "id": "hab_pesquisa_satisfacao_aceite",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [{ "label": "FINALIZAR", "next": "fim", "primary": true }]
+      },
+      "hab_pagamento_parcial": {
+        "id": "hab_pagamento_parcial",
+        "title": "Ações de cobrança",
+        "body": "Seu contrato continua em aberto até que toda a dívida seja quitada. Enquanto isso, seguem as ações de cobrança: ligações, registro no SPC/Serasa e risco de retomada ou leilão do imóvel.<br><br>Se o processo de execução já começou, ele segue normalmente até a quitação total.",
+        "buttons": [{ "label": "AVANÇAR", "next": "hab_pagamento_total" }]
+      },
+      "hab_atualizacao_cadastral": {
+        "id": "hab_atualizacao_cadastral",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [{ "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab_pesquisa_satisfacao", "primary": true }]
+      },
+      "hab_pesquisa_satisfacao": {
+        "id": "hab_pesquisa_satisfacao",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [{ "label": "FINALIZAR", "next": "fim", "primary": true }]
+      }
+    }
+  }
+}

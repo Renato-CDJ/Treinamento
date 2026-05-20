@@ -1,0 +1,1063 @@
+{
+  "marcas": {
+    "ATENDIMENTO RECEPTIVO": {
+      "receptivo_abordagem": {
+        "id": "receptivo_abordagem",
+        "title": "Abordagem RECEPTIVO",
+        "body": "Bem-vindo a Central de negócios da CAIXA! Aqui é o (nome do operador) eu falo do Grupo Roveri. Com quem estou falando?",
+        "buttons": [
+          { "label": "SIM, É O CLIENTE", "next": "receptivo_identificacao", "primary": true },
+          { "label": "CASO NÃO SEJA O CLIENTE", "next": "receptivo_terceiro" },
+          { "label": "SEM RESPOSTA", "next": "receptivo_sem_resposta" }
+        ]
+      },
+      "receptivo_terceiro": {
+        "id": "receptivo_terceiro",
+        "title": "Terceiro",
+        "body": "Eu só posso passar as informações para o titular. Por favor, pede para ele entrar em contato conosco. Nosso horário de atendimento é de segunda a sexta-feira, das 8h às 20h e aos sábados, das 8h às 15h.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "receptivo_fim", "primary": true }
+        ]
+      },
+      "receptivo_sem_resposta": {
+        "id": "receptivo_sem_resposta",
+        "title": "Cliente/Terceiro não responde",
+        "body": "Por falta de comunicação encerro o contato.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "receptivo_fim", "primary": true }
+        ]
+      },
+      "receptivo_identificacao": {
+        "id": "receptivo_identificacao",
+        "title": "Localizar a Ficha do cliente",
+        "body": "Informo que a ligação é gravada. Para localizar o seu cadastro, qual seu CPF/CNPJ e nome completo?",
+        "buttons": [
+          { "label": "LOCALIZEI O CLIENTE NO WEDOO", "next": "recepivo_selecione_o_produto", "primary": true },
+          { "label": "CASO NÃO HAJA DÍVIDA NO WEDOO", "next": "receptivo_sem_divida" },
+          { "label": "NÃO LOCALIZEI O CADASTRO", "next": "receptivo_nao_localizado" },
+          { "label": "CASO NÃO SEJA CLIENTE", "next": "receptivo_terceiro" }
+        ]
+      },
+      "receptivo_sem_divida": {
+        "id": "receptivo_sem_divida",
+        "title": "Sem contrato Ativo",
+        "body": "Seu contrato não consta em nosso sistema. Para mais informações sobre ele você pode entrar em contato com a CAIXA pelo site www.caixa.gov.br/negociar ou pelos telefones 4004 0104 ou 0800 104 0104. A caixa agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "receptivo_atualizacao_cadastral_sem_divida", "primary": true }
+        ]
+      },
+      "receptivo_atualizacao_cadastral_sem_divida": {
+        "id": "receptivo_atualizacao_cadastral_sem_divida",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "receptivo_pesquisa_satisfacao_sem_divida", "primary": true }
+        ]
+      },
+      "receptivo_pesquisa_satisfacao_sem_divida": {
+        "id": "receptivo_pesquisa_satisfacao_sem_divida",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "receptivo_fim", "primary": true }
+        ]
+      },
+      "receptivo_nao_localizado": {
+        "id": "receptivo_nao_localizado",
+        "title": "CADASTRO NÃO LOCALIZADO",
+        "body": "Não foi possível localizar o seu cadastro em nosso sistema. Você precisa entrar em contato com a CAIXA pelo site www.caixa.gov.br/negociar ou pelos telefones 4004 0104 ou 0800 104 0104. A caixa agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "receptivo_fim", "primary": true }
+        ]
+      },
+      "recepivo_selecione_o_produto": {
+        "id": "recepivo_selecione_o_produto",
+        "title": "Selecione o Contrato que o cliente possui",
+        "body": "Veja no sistema qual é o contrato que consta em atraso e selecione a opção correspondente.",
+        "buttons": [
+          { "label": "HABITACIONAL", "next": "receptivo_hab_apresentacao", "primary": true },
+          { "label": "HABITACIONAL 532", "next": "receptivo_hab532_apresentacao" },
+          { "label": "COMERCIAL", "next": "recepivo_comercial_apresentacao" },
+          { "label": "CARTÃO FASE 1", "next": "recepivo_cartao1_apresentacao" },
+          { "label": "CARTÃO FASE 2", "next": "recepivo_cartao2_apresentacao" }
+        ]
+      },
+      "receptivo_hab_apresentacao": {
+        "id": "receptivo_hab_apresentacao",
+        "title": "Apresentação da Dívida",
+        "body": "Verifiquei no sistema e consta seu financiamento habitacional, vencido há XX dias no valor aproximado de R$XX,XX.<br>Já houve o pagamento?",
+        "buttons": [
+          { "label": "SIM", "next": "receptivo_hab_pagamento_efetuado", "primary": true },
+          { "label": "NÃO", "next": "receptivo_hab_negociacao" }
+        ]
+      },
+      "receptivo_hab_pagamento_efetuado": {
+        "id": "receptivo_hab_pagamento_efetuado",
+        "title": "Fraseologia de Pagamento Efetuado",
+        "body": "Caso seu pagamento tenha sido efetuado há menos de 5 dias úteis, possivelmente não foi atualizado pelo sistema, mas caso tenha mais de 5 dias úteis você pode esclarecer pelo WhatsApp 0800 104 0104.<br><br>ATENÇÃO!<br><br>Não pergunte qual foi a forma de pagamento e nem a data em que foi realizado, pois o script já informa o necessário.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "receptivo_hab_atualizacao_cadastral" }
+        ]
+      },
+      "receptivo_hab_negociacao": {
+        "id": "receptivo_hab_negociacao",
+        "title": "Negociação (Habitacional)",
+        "body": "Pagamento hoje ficaria bom para você?",
+        "buttons": [
+          { "label": "ACEITOU", "next": "receptivo_hab_ratificacao_aceite", "primary": true },
+          { "label": "NÃO", "next": "receptivo_hab_recusa" }
+        ]
+      },
+      "receptivo_hab_recusa": {
+        "id": "receptivo_hab_recusa",
+        "title": "Oferte o pagamento dentro do prazo máximo que é D+9 de forma gradativa! Lembrando que são dias corridos e não dias úteis.",
+        "body": "Vi aqui que você tem XX parcelas em atraso, ficaria bom pra você o pagamento até dia XX/XX?<br><br>CONTRATO COM ATRASO MAIOR QUE 31 DIAS, ARGUMENTE:<br>Como você possui XX parcelas atrasadas, para te ajudar, posso confirmar o pagamento da mais antiga? Assim você regulariza aos poucos",
+        "buttons": [
+          { "label": "ACEITOU", "next": "receptivo_hab_ratificacao_aceite" },
+          { "label": "RECUSOU", "next": "receptivo_hab_recusa_novamente" }
+        ]
+      },
+      "receptivo_hab_recusa_novamente": {
+        "id": "receptivo_hab_recusa_novamente",
+        "title": "Ouça o que o cliente disser e adapte a sua argumentação",
+        "body": "Pergunte sobre a situação financeira do cliente:Entendo que imprevistos podem acontecer. Houve alguma mudança recente na sua situação financeira?<br><br>Atraso até 30 dias:Só para reforçar: os juros diários seguem acumulando, e há risco de negativação no CPF e ligações de cobrança.<br><br>Atraso de 31 a 119 dias:Pagando a parcela mais antiga, você evita a retomada do imóvel. O pagamento para o dia XX/XX fica bom para você?<br><br>Atraso acima de 120 dias:Mesmo pagando uma parcela, o risco de retomada continua. O pagamento da parcela mais antiga para o dia XX/XX fica bom para você? Assim você vai regularizando aos poucos.",
+        "buttons": [
+          { "label": "ACEITOU", "next": "receptivo_hab_ratificacao_aceite" },
+          { "label": "RECUSOU", "next": "receptivo_hab_fgts_recusa" }
+        ]
+      },
+      "receptivo_hab_fgts_recusa": {
+        "id": "receptivo_hab_fgts_recusa",
+        "title": "Fraseologia do FGTS",
+        "body": "Você pode verificar a possibilidade de negociar seu contrato ou utilizar o FGTS para abater até 80% das prestações por 12 meses ligando no 4004 0104 / 0800 104 0104 ou pelo App Habitação CAIXA.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "receptivo_hab_atualizacao_cadastral_recusa", "primary": true }
+        ]
+      },
+      "receptivo_hab_atualizacao_cadastral_recusa": {
+        "id": "receptivo_hab_atualizacao_cadastral_recusa",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "receptivo_hab_pesquisa_satisfacao_recusa", "primary": true }
+        ]
+      },
+      "receptivo_hab_pesquisa_satisfacao_recusa": {
+        "id": "receptivo_hab_pesquisa_satisfacao_recusa",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "receptivo_hab_fim", "primary": true }
+        ]
+      },
+      "receptivo_hab_ratificacao_aceite": {
+        "id": "receptivo_hab_ratificacao_aceite",
+        "title": "Ratificação",
+        "body": "Certo, vou registrar seu pagamento para o dia XX/XX.",
+        "buttons": [
+          { "label": "PAGAMENTO TOTAL", "next": "receptivo_hab_pagamento_total" },
+          { "label": "PAGAMENTO PARCIAL", "next": "receptivo_hab_pagamento_parcial" }
+        ]
+      },
+      "receptivo_hab_pagamento_total": {
+        "id": "receptivo_hab_pagamento_total",
+        "title": "Pagamento Total",
+        "body": "Agradeço a confirmação, contamos com seu pagamento.<br><br>Precisa da emissão do boleto?",
+        "buttons": [
+          { "label": "SIM", "next": "receptivo_hab_opcao_boleto" },
+          { "label": "NÃO", "next": "receptivo_hab_fgts_recusa" }
+        ]
+      },
+      "receptivo_hab_opcao_boleto": {
+        "id": "receptivo_hab_opcao_boleto",
+        "title": "Opções de envio",
+        "body": "ENVIO DE BOLETO VIA E-MAIL:<br>Estou encaminhando o boleto para o seu e-mail, ele pode chegar até o dia do vencimento.<br><br>SE FOR VIA WHATSAPP:<br>Você autoriza o envio do boleto por WhatsApp?",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "receptivo_hab_fgts_aceite" }
+        ]
+      },
+      "receptivo_hab_fgts_aceite": {
+        "id": "receptivo_hab_fgts_aceite",
+        "title": "Fraseologia do FGTS",
+        "body": "Você pode verificar a possibilidade de negociar seu contrato ou utilizar o FGTS para abater até 80% das prestações por 12 meses ligando no 4004 0104 / 0800 104 0104 ou pelo App Habitação CAIXA.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "receptivo_hab_atualizacao_cadastral_aceite", "primary": true }
+        ]
+      },
+      "receptivo_hab_atualizacao_cadastral_aceite": {
+        "id": "receptivo_hab_atualizacao_cadastral_aceite",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "receptivo_hab_pesquisa_satisfacao_aceite", "primary": true }
+        ]
+      },
+      "receptivo_hab_pesquisa_satisfacao_aceite": {
+        "id": "receptivo_hab_pesquisa_satisfacao_aceite",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "receptivo_hab_fim", "primary": true }
+        ]
+      },
+      "receptivo_hab_pagamento_parcial": {
+        "id": "receptivo_hab_pagamento_parcial",
+        "title": "Ações de cobrança",
+        "body": "Seu contrato continua em aberto até que toda a dívida seja quitada. Enquanto isso, seguem as ações de cobrança: ligações, registro no SPC/Serasa e risco de retomada ou leilão do imóvel.<br><br>Se o processo de execução já começou, ele segue normalmente até a quitação total.",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "receptivo_hab_pagamento_total" }
+        ]
+      },
+      "receptivo_hab_atualizacao_cadastral": {
+        "id": "receptivo_hab_atualizacao_cadastral",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "receptivo_hab_pesquisa_satisfacao", "primary": true }
+        ]
+      },
+      "receptivo_hab_pesquisa_satisfacao": {
+        "id": "receptivo_hab_pesquisa_satisfacao",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "receptivo_hab_fim", "primary": true }
+        ]
+      },
+      "receptivo_hab532_apresentacao": {
+        "id": "receptivo_hab532_apresentacao",
+        "title": "Apresentação da Dívida",
+        "body": "Verifiquei no sistema e consta o seu financiamento habitacional, consta XX prestações vencida(s).<br>Já houve o pagamento dela?",
+        "buttons": [
+          { "label": "SIM", "next": "receptivo_hab532_pagamento_efetuado", "primary": true },
+          { "label": "NÃO", "next": "receptivo_hab532_negociacao" }
+        ]
+      },
+      "receptivo_hab532_pagamento_efetuado": {
+        "id": "receptivo_hab532_pagamento_efetuado",
+        "title": "Fraseologia de Pagamento Efetuado",
+        "body": "Caso seu pagamento tenha sido efetuado há menos de 5 dias úteis, possivelmente não foi atualizado pelo sistema, mas caso tenha mais de 5 dias úteis você pode esclarecer pelo WhatsApp 0800 104 0104.<br><br>ATENÇÃO!<br>Não pergunte qual foi a forma de pagamento e nem a data em que foi realizado, pois o script já informa o necessário.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "receptivo_hab532_atualizacao_cadastral" }
+        ]
+      },
+      "receptivo_hab532_negociacao": {
+        "id": "receptivo_hab532_negociacao",
+        "title": "Negociação",
+        "body": "O pagamento total hoje fica bom pra você?",
+        "buttons": [
+          { "label": "ACEITOU", "next": "receptivo_hab532_ratificacao_aceite", "primary": true },
+          { "label": "NÃO", "next": "receptivo_hab532_recusa" },
+          { "label": "CLIENTE INFORMOU DATA QUE VAI PAGAR", "next": "receptivo_hab532_ratificacao_aceite" }
+        ]
+      },
+      "receptivo_hab532_recusa": {
+        "id": "receptivo_hab532_recusa",
+        "title": "Oferte a campanha utilizando o CIWEB",
+        "body": "A CAIXA está com uma oportunidade de você ficar em dia com o seu financiamento habitacional, dispensando os encargos [multa e/ou juros moratórios.]<br>Funciona assim: basta pagar o boleto que vamos te enviar com as isenções de encargos no valor aproximado de R$ XX.<br>Posso confirmar o pagamento da prestação?",
+        "buttons": [
+          { "label": "ACEITOU", "next": "receptivo_hab532_ratificacao_aceite" },
+          { "label": "RECUSOU", "next": "receptivo_hab532_recusa_novamente" }
+        ]
+      },
+      "receptivo_hab532_recusa_novamente": {
+        "id": "receptivo_hab532_recusa_novamente",
+        "title": "INFORME",
+        "body": "Informo que a proposta é por tempo limitado e caso mude de ideia ligar para a números 0800 025 8833 ou 4020-0088 ou pelo WhatsApp 0800 104 0104.",
+        "buttons": [
+          { "label": "ACEITOU", "next": "receptivo_hab532_ratificacao_aceite" },
+          { "label": "RECUSOU", "next": "receptivo_hab532_consequencias_recusa" }
+        ]
+      },
+      "receptivo_hab532_consequencias_recusa": {
+        "id": "receptivo_hab532_consequencias_recusa",
+        "title": "Consequências do NÃO pagamento",
+        "body": "Reforço que as ações de cobrança terão continuidade e os juros são diários e também retirar/evitar a restrição do CPF no SPC/SERASA.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "receptivo_hab532_atualizacao_cadastral_recusa", "primary": true }
+        ]
+      },
+      "receptivo_hab532_atualizacao_cadastral_recusa": {
+        "id": "receptivo_hab532_atualizacao_cadastral_recusa",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "receptivo_hab532_pesquisa_satisfacao_recusa", "primary": true }
+        ]
+      },
+      "receptivo_hab532_pesquisa_satisfacao_recusa": {
+        "id": "receptivo_hab532_pesquisa_satisfacao_recusa",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "receptivo_hab532_fim", "primary": true }
+        ]
+      },
+      "receptivo_hab532_ratificacao_aceite": {
+        "id": "receptivo_hab532_ratificacao_aceite",
+        "title": "Verificar valores no CIWEB",
+        "body": "Observe se o boleto está disponível.<br><br>[Se aparecer a mensagem “não calculou mora”, significa que não estará disponível]",
+        "buttons": [
+          { "label": "PAGAMENTO TOTAL", "next": "receptivo_hab532_pagamento_total" },
+          { "label": "PAGAMENTO PARCIAL", "next": "receptivo_hab532_pagamento_parcial" },
+          { "label": "BOLETO INDISPONÍVEL", "next": "receptivo_hab532_boleto_indisponivel" }
+        ]
+      },
+      "receptivo_hab532_boleto_indisponivel": {
+        "id": "receptivo_hab532_ratificacao_aceite",
+        "title": "Em caso de boleto indisponível",
+        "body": "O boleto dessa proposta no momento não está disponível para emissão por esse canal. Você pode solicitar/consultar pelo WhatsApp 0800 104 0104 a emissão do boleto.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "receptivo_hab532_atualizacao_cadastral_boleto_indisponivel" }
+        ]
+      },
+      "receptivo_hab532_atualizacao_cadastral_boleto_indisponivel": {
+        "id": "receptivo_hab532_atualizacao_cadastral_boleto_indisponivel",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "receptivo_hab532_pesquisa_satisfacao_boleto_indisponivel", "primary": true }
+        ]
+      },
+      "receptivo_hab532_pesquisa_satisfacao_boleto_indisponivel": {
+        "id": "receptivo_hab532_pesquisa_satisfacao_boleto_indisponivel",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "receptivo_hab532_fim", "primary": true }
+        ]
+      },
+      "receptivo_hab532_pagamento_total": {
+        "id": "receptivo_hab532_pagamento_total",
+        "title": "Pagamento Total",
+        "body": "Agradeço a confirmação, contamos com seu pagamento.",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "receptivo_hab532_atualizacao_cadastral_aceite" }
+        ]
+      },
+      "receptivo_hab532_atualizacao_cadastral_aceite": {
+        "id": "receptivo_hab532_atualizacao_cadastral_aceite",
+        "title": "Atualização Cadastral",
+        "body": "Gostaria de atualizar o seu e-mail?<br><br>E o número para contato permanece o mesmo?",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "receptivo_hab532_pesquisa_satisfacao_aceite", "primary": true }
+        ]
+      },
+      "receptivo_hab532_pesquisa_satisfacao_aceite": {
+        "id": "receptivo_hab532_pesquisa_satisfacao_aceite",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "receptivo_hab532_fim", "primary": true }
+        ]
+      },
+      "receptivo_hab532_pagamento_parcial": {
+        "id": "receptivo_hab532_pagamento_parcial",
+        "title": "Parcial [no mínimo, uma prestação mais antiga]",
+        "body": "Como não se trata do pagamento de total e sim parcial, permanecem os juros diários, ligações de cobrança e a restrição do CPF/CNPJ no SPC/SERASA.<br><br>CASO O ENVIO DO BOLETO NÃO ESTEJA DISPONÍVEL NO CIWEB:<br>O boleto dessa proposta no momento não está disponível para emissão por esse canal. Você pode solicitar/consultar pelo WhatsApp 0800 104 0104 a emissão do boleto.",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "receptivo_hab532_atualizacao_cadastral_aceite" }
+        ]
+      },
+      "receptivo_hab532_atualizacao_cadastral": {
+        "id": "receptivo_hab532_atualizacao_cadastral",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "receptivo_hab532_pesquisa_satisfacao", "primary": true }
+        ]
+      },
+      "receptivo_hab532_pesquisa_satisfacao": {
+        "id": "receptivo_hab532_pesquisa_satisfacao",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "receptivo_hab532_fim", "primary": true }
+        ]
+      },
+      "recepivo_comercial_apresentacao": {
+        "id": "recepivo_comercial_apresentacao",
+        "title": "Apresentação da Dívida",
+        "body": "Verifiquei no sistema e consta o seu [nome do contrato], vencido há XX dias no valor aproximado de R$ XX, XX.<br>Já houve o pagamento?",
+        "buttons": [
+          { "label": "SIM", "next": "recepivo_comercial_pagamento_efetuado", "primary": true },
+          { "label": "NÃO", "next": "recepivo_comercial_negociacao" }
+        ]
+      },
+      "recepivo_comercial_pagamento_efetuado": {
+        "id": "recepivo_comercial_pagamento_efetuado",
+        "title": "Fraseologia de Pagamento Efetuado",
+        "body": "Caso seu pagamento tenha sido efetuado há menos de 5 dias úteis, possivelmente não foi atualizado pelo sistema, mas caso tenha mais de 5 dias úteis você pode esclarecer pelo WhatsApp 0800 104 0104.<br><br>ATENÇÃO!<br>Não pergunte qual foi a forma de pagamento e nem a data em que foi realizado, pois o script já informa o necessário.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "recepivo_comercial_atualizacao_cadastral" }
+        ]
+      },
+      "recepivo_comercial_negociacao": {
+        "id": "recepivo_comercial_negociacao",
+        "title": "Negociação (Comercial)",
+        "body": "Pagamento hoje ficaria bom para você?",
+        "buttons": [
+          { "label": "ACEITOU", "next": "recepivo_comercial_ratificacao_aceite", "primary": true },
+          { "label": "NÃO", "next": "recepivo_comercial_recusa" }
+        ]
+      },
+      "recepivo_comercial_recusa": {
+        "id": "recepivo_comercial_recusa",
+        "title": "Oferte o pagamento dentro do prazo máximo que é D+9 de forma gradativa! Lembrando que são dias corridos e não dias úteis.",
+        "body": "Vi aqui que você tem XX parcelas em atraso, ficaria bom pra você o pagamento até dia XX/XX?<br><br>CONTRATO COM ATRASO MAIOR QUE 31 DIAS, ARGUMENTE:<br>Como você possui XX parcelas atrasadas, para te ajudar, posso confirmar o pagamento da mais antiga? Assim você regulariza aos poucos",
+        "buttons": [
+          { "label": "ACEITOU", "next": "recepivo_comercial_ratificacao_aceite" },
+          { "label": "RECUSOU", "next": "recepivo_comercial_recusa_novamente" }
+        ]
+      },
+      "recepivo_comercial_atualizacao_cadastral_recusa": {
+        "id": "recepivo_comercial_recusa_novamente",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "recepivo_comercial_pesquisa_satisfacao_recusa", "primary": true }
+        ]
+      },
+      "recepivo_comercial_pesquisa_satisfacao_recusa": {
+        "id": "recepivo_comercial_pesquisa_satisfacao_recusa",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "recepivo_comercial_fim", "primary": true }
+        ]
+      },
+      "recepivo_comercial_ratificacao_aceite": {
+        "id": "recepivo_comercial_ratificacao_aceite",
+        "title": "Ratificação",
+        "body": "Certo, vou registrar seu pagamento para o dia XX/XX.",
+        "buttons": [
+          { "label": "PAGAMENTO TOTAL", "next": "recepivo_comercial_pagamento_total" },
+          { "label": "PAGAMENTO PARCIAL", "next": "recepivo_comercial_pagamento_parcial" }
+        ]
+      },
+      "recepivo_comercial_pagamento_total": {
+        "id": "recepivo_comercial_pagamento_total",
+        "title": "Pagamento Total",
+        "body": "Agradeço a confirmação, contamos com seu pagamento.<br><br>Precisa da emissão do boleto?",
+        "buttons": [
+          { "label": "SIM", "next": "recepivo_comercial_opcao_boleto" },
+          { "label": "NÃO", "next": "recepivo_comercial_atualizacao_cadastral_aceite" }
+        ]
+      },
+      "recepivo_comercial_opcao_boleto": {
+        "id": "recepivo_comercial_opcao_boleto",
+        "title": "Opções de envio",
+        "body": "ENVIO DE BOLETO VIA E-MAIL:<br>Estou encaminhando o boleto para o seu e-mail, ele pode chegar até o dia do vencimento.<br><br>SE FOR VIA WHATSAPP:<br>Você autoriza o envio do boleto por WhatsApp?",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "recepivo_comercial_atualizacao_cadastral_aceite" }
+        ]
+      },
+      "recepivo_comercial_atualizacao_cadastral_aceite": {
+        "id": "recepivo_comercial_atualizacao_cadastral_aceite",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "recepivo_comercial_pesquisa_satisfacao_aceite", "primary": true }
+        ]
+      },
+      "recepivo_comercial_pesquisa_satisfacao_aceite": {
+        "id": "recepivo_comercial_pesquisa_satisfacao_aceite",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "recepivo_comercial_fim", "primary": true }
+        ]
+      },
+      "recepivo_comercial_pagamento_parcial": {
+        "id": "recepivo_comercial_pagamento_parcial",
+        "title": "Ações de cobrança",
+        "body": "Lembrando que é importante efetuar o pagamento para evitar os juros diários, ligações de cobrança e a restrição do CPF/CNPJ no SPC/SERASA.",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "recepivo_comercial_pagamento_parcial2" }
+        ]
+      },
+      "recepivo_comercial_pagamento_parcial2": {
+        "id": "recepivo_comercial_pagamento_parcial2",
+        "title": "Pagamento Parcial",
+        "body": "Precisa da emissão do boleto?",
+        "buttons": [
+          { "label": "SIM", "next": "recepivo_comercial_opcao_boleto" },
+          { "label": "NÃO", "next": "recepivo_comercial_atualizacao_cadastral_aceite" }
+        ]
+      },
+      "recepivo_comercial_opcao_boleto2": {
+        "id": "recepivo_comercial_opcao_boleto",
+        "title": "Opções de envio",
+        "body": "ENVIO DE BOLETO VIA E-MAIL:<br>Estou encaminhando o boleto para o seu e-mail, ele pode chegar até o dia do vencimento.<br><br>SE FOR VIA WHATSAPP:<br>Você autoriza o envio do boleto por WhatsApp?",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "recepivo_comercial_atualizacao_cadastral_aceite" }
+        ]
+      },
+      "recepivo_comercial_atualizacao_cadastral": {
+        "id": "recepivo_comercial_atualizacao_cadastral",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "recepivo_comercial_pesquisa_satisfacao", "primary": true }
+        ]
+      },
+      "recepivo_comercial_pesquisa_satisfacao": {
+        "id": "recepivo_comercial_pesquisa_satisfacao",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "recepivo_comercial_fim", "primary": true }
+        ]
+      },
+      "recepivo_cartao1_apresentacao": {
+        "id": "recepivo_cartao1_apresentacao",
+        "title": "Apresentação da Dívida",
+        "body": "Verifiquei no sistema e consta o seu cartão, vencido há XX dias no valor aproximado de R$ XX, XX.<br>Já houve o pagamento?",
+        "buttons": [
+          { "label": "SIM", "next": "recepivo_cartao1_pagamento_efetuado", "primary": true },
+          { "label": "NÃO", "next": "recepivo_cartao1_negociacao" }
+        ]
+      },
+      "recepivo_cartao1_pagamento_efetuado": {
+        "id": "recepivo_cartao1_pagamento_efetuado",
+        "title": "Fraseologia de Pagamento Efetuado",
+        "body": "Caso seu pagamento tenha sido efetuado há menos de 5 dias úteis, possivelmente não foi atualizado pelo sistema, mas caso tenha mais de 5 dias úteis você pode esclarecer pelo WhatsApp 0800 104 0104.<br><br>ATENÇÃO!<br>Não pergunte qual foi a forma de pagamento e nem a data em que foi realizado, pois o script já informa o necessário.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "recepivo_cartao1_atualizacao_cadastral_pagamento_efetuado" }
+        ]
+      },
+      "recepivo_cartao1_negociacao": {
+        "id": "recepivo_cartao1_negociacao",
+        "title": "Negociação (Cartao de Credito)",
+        "body": "O pagamento total da fatura hoje fica bom pra você?",
+        "buttons": [
+          { "label": "ACEITOU", "next": "recepivo_cartao1_ratificacao_aceite", "primary": true },
+          { "label": "RECUSOU", "next": "recepivo_cartao1_recusa" }
+        ]
+      },
+      "recepivo_cartao1_recusa": {
+        "id": "recepivo_cartao1_recusa",
+        "title": "Argumentações",
+        "body": "Evitar cobranças e bloqueio:Texto / Negativação com 14 dias de atraso: Texto / Restrição dificulta crédito: Texto / Cancelamento entre 96 a 99 dias: Texto",
+        "buttons": [
+          { "label": "ACEITOU", "next": "recepivo_cartao1_pagamento_total" },
+          { "label": "RECUSOU", "next": "recepivo_cartao1_recusa_oferta_pagamento_minimo" }
+        ]
+      },
+      "recepivo_cartao1_recusa_oferta_pagamento_minimo": {
+        "id": "recepivo_cartao1_recusa_oferta_pagamento_minimo",
+        "title": "Pagamento Mínimo",
+        "body": "E o pagamento mínimo? Você consegue fazer hoje? Ai você pode voltar a usar seu cartão normalmente.",
+        "buttons": [
+          { "label": "ACEITOU", "next": "recepivo_cartao1_ratificacao_aceite" },
+          { "label": "OFERTE O PARCELAMENTO", "next": "recepivo_cartao1_oferta_parcelamento" },
+          { "label": "NÃO É POSSÍVEL REALIZAR PARCELAMENTO", "next": "recepivo_cartao1_nao_e_possivel_parcelar" }
+        ]
+      },
+      "recepivo_cartao1_atualizacao_cadastral_recusa": {
+        "id": "recepivo_cartao1_recusa_novamente",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "recepivo_cartao1_pesquisa_satisfacao_recusa", "primary": true }
+        ]
+      },
+      "recepivo_cartao1_pesquisa_satisfacao_recusa": {
+        "id": "recepivo_cartao1_pesquisa_satisfacao_recusa",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "recepivo_cartao1_fim", "primary": true }
+        ]
+      },
+      "recepivo_cartao1_ratificacao_aceite": {
+        "id": "recepivo_cartao1_ratificacao_aceite",
+        "title": "Ratificação",
+        "body": "Certo, você confirma então o pagamento para o dia XX/XX?",
+        "buttons": [
+          { "label": "SIM", "next": "recepivo_cartao1_pagamento_total" }
+        ]
+      },
+      "recepivo_cartao1_pagamento_total": {
+        "id": "recepivo_cartao1_pagamento_total",
+        "title": "Formas de Pagamento",
+        "body": "Agradeço a confirmação!<br><br>Para fazer o pagamento você pode utilizar o código de barras da sua última fatura, pelo internet Banking ou Auto atendimento, pode gerar sua última fatura pelo APP Cartões CAIXA ou com seu cartão de crédito em qualquer casa lotérica ou agência da CAIXA.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "recepivo_cartao1_atualizacao_cadastral_pagamento_total" }
+        ]
+      },
+      "recepivo_cartao1_atualizacao_cadastral_pagamento_total": {
+        "id": "recepivo_cartao1_atualizacao_cadastral_pagamento_total",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "recepivo_cartao1_pesquisa_satisfacao_pagamento_total" }
+        ]
+      },
+      "recepivo_cartao1_pesquisa_satisfacao_pagamento_total": {
+        "id": "recepivo_cartao1_pesquisa_satisfacao_pagamento_total",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "recepivo_cartao1_fim", "primary": true }
+        ]
+      },
+      "recepivo_cartao1_oferta_parcelamento": {
+        "id": "recepivo_cartao1_oferta_parcelamento",
+        "title": "Oferta de Parcelamento",
+        "body": "Este parcelamento se refere apenas à fatura atual.",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "recepivo_cartao1_confirmacao_do_parcelamento", "primary": true }
+        ]
+      },
+      "recepivo_cartao1_confirmacao_do_parcelamento": {
+        "id": "recepivo_cartao1_confirmacao_do_parcelamento",
+        "title": "Confirmação do Parcelamento",
+        "body": "O parcelamento ficou em XX vezes de R$ XX,XX. A primeira parcela virá com IOF e terá o valor de R$ XX,XX.<br>As demais parcelas serão fixas. O pagamento deve ser feito no valor EXATO , com os centavos. Qualquer valor diferente será usado apenas para abatimento da dívida, sem ativar o acordo.",
+        "buttons": [
+          { "label": "FECHAMOS O PARCELAMENTO", "next": "recepivo_cartao1_atualizacao_cadastral_parcelamento_aceite", "primary": true },
+          { "label": "NÃO FECHAMOS O PARCELAMENTO", "next": "recepivo_cartao1_recusou_parcelamento_consequencias", "primary": true }
+        ]
+      },
+      "recepivo_cartao1_atualizacao_cadastral_parcelamento_aceite": {
+        "id": "recepivo_cartao1_atualizacao_cadastral_parcelamento_aceite",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "recepivo_cartao1_pesquisa_satisfacao_parcelamento_aceite", "primary": true }
+        ]
+      },
+      "recepivo_cartao1_pesquisa_satisfacao_parcelamento_aceite": {
+        "id": "recepivo_cartao1_pesquisa_satisfacao_parcelamento_aceite",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "recepivo_cartao1_fim", "primary": true }
+        ]
+      },
+      "recepivo_cartao1_recusou_parcelamento_consequencias": {
+        "id": "recepivo_cartao1_recusou_parcelamento_consequencias",
+        "title": "Ações de cobrança",
+        "body": "Reforço que é importante efetuar o pagamento o quanto antes para evitar os juros diários e a continuidade das ações de cobrança. Você pode parcelar sua fatura pelo app Cartões CAIXA, Internet Banking ou ligando para a Central — o número está no verso do seu cartão.",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "recepivo_cartao1_atualizacao_cadastral_recusou_parcelamento" }
+        ]
+      },
+      "recepivo_cartao1_atualizacao_cadastral_recusou_parcelamento": {
+        "id": "recepivo_cartao1_atualizacao_cadastral_recusou_parcelamento",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "recepivo_cartao1_pesquisa_satisfacao_recusou_parcelamento", "primary": true }
+        ]
+      },
+      "recepivo_cartao1_pesquisa_satisfacao_recusou_parcelamento": {
+        "id": "recepivo_cartao1_pesquisa_satisfacao_recusou_parcelamento",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "recepivo_cartao1_fim", "primary": true }
+        ]
+      },
+      "recepivo_cartao1_fim": {
+        "id": "recepivo_cartao1_fim",
+        "title": "Fim do Atendimento",
+        "body": "Atendimento finalizado. A CAIXA agradece.",
+        "buttons": [
+          { "label": "ENCERRAR", "next": null, "primary": true }
+        ]
+      },
+      "recepivo_cartao1_nao_e_possivel_parcelar": {
+        "id": "recepivo_cartao1_nao_e_possivel_parcelar",
+        "title": "Selecione o Motivo",
+        "body": "Opcionais",
+        "buttons": [
+          { "label": "PRIMEIRO DIA APÓS DATA DE VENCIMENTO", "next": "recepivo_cartao1_parcelamento_indisponivel_apos_vencimento", "primary": true },
+          { "label": "ATRASO COM 69 DIAS", "next": "recepivo_cartao1_faixa_de_atraso_69_dias", "primary": true },
+          { "label": "ATRASO ENTRE 61 e 67 DIAS", "next": "recepivo_cartao1_faixa_de_atraso_61_e_67", "primary": true },
+          { "label": "ATRASO ENTRE 66 e 69 DIAS", "next": "recepivo_cartao1_faixa_de_atraso_66_e_69_risco_cancelamento", "primary": true },
+          { "label": "CARTÃO SIMPLES CONSIGNADO", "next": "recepivo_cartao1_simples_consignado", "primary": true }
+        ]
+      },
+      "recepivo_cartao1_parcelamento_indisponivel_apos_vencimento": {
+        "id": "recepivo_cartao1_parcelamento_indisponivel_apos_vencimento",
+        "title": "Primeiro dia após data de vencimento",
+        "body": "Como sua fatura venceu ontem, hoje o parcelamento não está disponível. Peço, por gentileza, que entre em contato novamente amanhã. Você pode ligar pelo 0800 025 8833 ou 4020 0088.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "recepivo_cartao1_parcelamento_atualizacao_cadastral_apos_vencimento", "primary": true }
+        ]
+      },
+      "recepivo_cartao1_parcelamento_atualizacao_cadastral_apos_vencimento": {
+        "id": "recepivo_cartao1_parcelamento_atualizacao_cadastral_apos_vencimento",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "recepivo_cartao1_pesquisa_satisfacao__apos_vencimento", "primary": true }
+        ]
+      },
+      "recepivo_cartao1_pesquisa_satisfacao__apos_vencimento": {
+        "id": "recepivo_cartao1_pesquisa_satisfacao__apos_vencimento",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "recepivo_cartao1_fim", "primary": true }
+        ]
+      },
+      "recepivo_cartao1_simples_consignado": {
+        "id": "recepivo_cartao1_simples_consignado",
+        "title": "Cartão Simples Consignado - Orientação de Pagamento",
+        "body": "O cartão simples consignado não permite parcelamento de fatura. O pagamento deve ser feito no valor total ou, no valor mínimo, conforme indicado no seu boleto.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "recepivo_cartao1_pagamento_atualizacao_cadastral_simples_consignado", "primary": true }
+        ]
+      },
+      "recepivo_cartao1_pagamento_simples_consignado": {
+        "id": "recepivo_cartao1_pagamento_simples_consignado",
+        "title": "Formas de Pagamento",
+        "body": "Para fazer o pagamento você pode utilizar o código de barras da sua última fatura, pelo internet Banking ou Auto atendimento, pode gerar sua última fatura pelo APP Cartões CAIXA ou com seu cartão de crédito em qualquer casa lotérica ou agência da CAIXA.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "recepivo_cartao1_pagamento_atualizacao_cadastral_simples_consignado" }
+        ]
+      },
+      "recepivo_cartao1_pagamento_atualizacao_cadastral_simples_consignado": {
+        "id": "recepivo_cartao1_pagamento_atualizacao_cadastral_simples_consignado",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "recepivo_cartao1_pagamento_pesquisa_satisfacao_simples_consignado", "primary": true }
+        ]
+      },
+      "recepivo_cartao1_pagamento_pesquisa_satisfacao_simples_consignado": {
+        "id": "recepivo_cartao1_pagamento_pesquisa_satisfacao_simples_consignado",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "recepivo_cartao1_fim", "primary": true }
+        ]
+      },
+      "recepivo_cartao1_faixa_de_atraso_69_dias": {
+        "id": "recepivo_cartao1_faixa_de_atraso_69_dias",
+        "title": "INFORME",
+        "body": "Para que possamos avaliar a possibilidade de parcelamento, é necessário que o pagamento de um valor igual ou superior ao mínimo de uma das faturas em atraso seja feito ainda hoje. Após isso, peço que retorne o contato em até 3 dias para darmos continuidade.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "recepivo_cartao1_atualizacao_cadastral_atraso_69_dias", "primary": true }
+        ]
+      },
+      "recepivo_cartao1_atualizacao_cadastral_atraso_69_dias": {
+        "id": "recepivo_cartao1_atualizacao_cadastral_atraso_69_dias",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "recepivo_cartao1_pesquisa_satisfacao_atraso_69_dias", "primary": true }
+        ]
+      },
+      "recepivo_cartao1_pesquisa_satisfacao_atraso_69_dias": {
+        "id": "recepivo_cartao1_pesquisa_satisfacao_atraso_69_dias",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "recepivo_cartao1_fim", "primary": true }
+        ]
+      },
+      "recepivo_cartao1_faixa_de_atraso_61_e_67": {
+        "id": "recepivo_cartao1_faixa_de_atraso_61_e_67",
+        "title": "Orientação para habilitação o parcelamento",
+        "body": "Para liberar o parcelamento, é necessário pagar hoje um valor igual ou superior ao mínimo de uma das faturas em atraso e aguardar 3 dias úteis para novo contato. Ou, se preferir, é possível tentar diretamente pelo app Cartões CAIXA, Internet Banking ou Central de Atendimento - o número está no verso do seu cartão.",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "recepivo_cartao1_atualizacao_cadastral_atraso_61_e_67", "primary": true }
+        ]
+      },
+      "recepivo_cartao1_faixa_de_atraso_66_e_69_risco_cancelamento": {
+        "id": "recepivo_cartao1_faixa_de_atraso_66_e_69_risco_cancelamento",
+        "title": "Risco de cancelamento do Cartão",
+        "body": "Lembrando que, existe o risco de cancelamento do cartão, sem possibilidade de reativação, conforme previsto na Cláusula 18 do contrato de cartões da CAIXA. Esse documento está disponível no site oficial.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "recepivo_cartao1_atualizacao_cadastral_atraso_66_e_69", "primary": true }
+        ]
+      },
+      "recepivo_cartao1_atualizacao_cadastral_atraso_66_e_69": {
+        "id": "recepivo_cartao1_atualizacao_cadastral_atraso_66_e_69",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "recepivo_cartao1_pesquisa_satisfacao_atraso_66_e_69", "primary": true }
+        ]
+      },
+      "recepivo_cartao1_pesquisa_satisfacao_atraso_66_e_69": {
+        "id": "recepivo_cartao1_pesquisa_satisfacao_atraso_66_e_69",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "recepivo_cartao1_fim", "primary": true }
+        ]
+      },
+      "recepivo_cartao1_atualizacao_cadastral_atraso_61_e_67": {
+        "id": "recepivo_cartao1_atualizacao_cadastral_atraso_61_e_67",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "recepivo_cartao1_pesquisa_satisfacao_atraso_61_e_67", "primary": true }
+        ]
+      },
+      "recepivo_cartao1_pesquisa_satisfacao_atraso_61_e_67": {
+        "id": "recepivo_cartao1_pesquisa_satisfacao_atraso_61_e_67",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "recepivo_cartao1_fim", "primary": true }
+        ]
+      },
+      "recepivo_cartao1_atualizacao_cadastral_pagamento_efetuado": {
+        "id": "recepivo_cartao1_atualizacao_cadastral_pagamento_efetuado",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "recepivo_cartao1_pesquisa_satisfacao_pagamento_efetuado", "primary": true }
+        ]
+      },
+      "recepivo_cartao1_pesquisa_satisfacao_pagamento_efetuado": {
+        "id": "recepivo_cartao1_pesquisa_satisfacao_pagamento_efetuado",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "recepivo_cartao1_fim", "primary": true }
+        ]
+      },
+      "recepivo_cartao2_apresentacao": {
+        "id": "recepivo_cartao2_apresentacao",
+        "title": "Apresentação da Dívida",
+        "body": "Verifiquei no sistema e consta o seu cartão CAIXA [informar bandeira e variante], final XXXX, vencido há XX dias, hoje no valor de R$ XX.<br><br>Você já fez o pagamento?",
+        "buttons": [
+          { "label": "SIM", "next": "recepivo_cartao2_pagamento_efetuado", "primary": true },
+          { "label": "NÃO", "next": "recepivo_cartao2_negociacao" }
+        ]
+      },
+      "recepivo_cartao2_pagamento_efetuado": {
+        "id": "recepivo_cartao2_pagamento_efetuado",
+        "title": "Fraseologia de Pagamento Efetuado",
+        "body": "Caso seu pagamento tenha sido efetuado há menos de 5 dias úteis, possivelmente não foi atualizado pelo sistema, mas caso tenha mais de 5 dias úteis você pode esclarecer pelo WhatsApp 0800 104 0104.<br><br>ATENÇÃO!<br>Não pergunte qual foi a forma de pagamento e nem a data em que foi realizado, pois o script já informa o necessário.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "recepivo_cartao2_atualizacao_cadastral_pagamento_efetuado" }
+        ]
+      },
+      "recepivo_cartao2_negociacao": {
+        "id": "recepivo_cartao2_negociacao",
+        "title": "Negociação (Cartao de Credito)",
+        "body": "O valor à vista é de R$XX,XX, posso agendar para hoje? Fica bom pra você?",
+        "buttons": [
+          { "label": "ACEITOU", "next": "recepivo_cartao2_ratificacao_aceite_a_vista", "primary": true },
+          { "label": "RECUSOU", "next": "recepivo_cartao2_parcelado" }
+        ]
+      },
+      "recepivo_cartao2_parcelado": {
+        "id": "recepivo_cartao2_parcelado",
+        "title": "Negociação [Cartao de Credito]",
+        "body": "A CAIXA tem uma oportunidade para te ajudar a ficar em dia com o seu cartão.<br><br>Funciona assim:<br>Você faz um acordo que poderá ser dividido em até XX parcelas, qual valor você consegue pagar por mês para fazer a simulação?",
+        "buttons": [
+          { "label": "ACEITOU PROPOSTA", "next": "recepivo_cartao2_parcelado_aceite" },
+          { "label": "RECUSOU", "next": "recepivo_cartao2_recusa2" }
+        ]
+      },
+      "recepivo_cartao2_parcelado_aceite": {
+        "id": "recepivo_cartao2_parcelado_aceite",
+        "title": "Ratificação Proposta Parcelada",
+        "body": "Você confirma o pagamento em XX parcelas sendo a primeira no valor de R$ XX,XX devido a cobrança de IOF e as demais no valor fixo de R$ XX,XX com vencimento da primeira  em XX/XX/XXXX e das demais no dia XX de cada mês?<br><br>OBS: A primeira parcela tem o valor maior que as demais devido a cobrança do IOF.",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "recepivo_cartao2_parcelado_aceite_continuacao" }
+        ]
+      },
+      "recepivo_cartao2_parcelado_aceite_continuacao": {
+        "id": "recepivo_cartao2_parcelado_aceite_continuacao",
+        "title": "Negociação [Cartao de Credito]",
+        "body": "O pagamento precisa ser efetuado no valor EXATO, inclusive os centavos, para que o acordo seja ativado. Se o valor pago for diferente não será considerado um aceite do acordo/parcelamento e sim para abater da dívida",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "recepivo_cartao2_parcelado_aceite_continuacao2" }
+        ]
+      },
+      "recepivo_cartao2_parcelado_aceite_continuacao2": {
+        "id": "recepivo_cartao2_parcelado_aceite_continuacao2",
+        "title": "Negociação [Cartao de Credito]",
+        "body": "O pagamento precisa ser efetuado no valor EXATO, inclusive os centavos, para que o acordo seja ativado. Se o valor pago for diferente não será considerado um aceite do acordo/parcelamento e sim para abater da dívida",
+        "buttons": [
+          { "label": "BOLETO VIA E-MAIL", "next": "recepivo_cartao2_parcelado_aceite_boleto" },
+          { "label": "BOLETO VIA WHATSAPP", "next": "recepivo_cartao2_parcelado_aceite_whats" }
+        ]
+      },
+      "recepivo_cartao2_parcelado_aceite_boleto": {
+        "id": "recepivo_cartao2_parcelado_aceite_boleto",
+        "title": "Boleto pelo e-mail",
+        "body": "Já fiz o envio do boleto e a senha de acesso é o seu CPF/CNPJ sem pontos e sem traços. Você pode acompanhar o acordo pelo APP Cartões CAIXA e emitir o boleto. Também pode ser gerado no 4004-0104, 0800 104 0104 ou com pagamento avulso. As demais parcelas serão enviadas ao seu endereço mas se o boleto não chegar você pode pagar igual a primeira parcela.",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "recepivo_cartao2_atualizacao_cadastral_parcelamento_aceite" },
+          { "label": "BOLETO SUPERIOR À 10 MIL REAIS", "next": "recepivo_cartao2_parcelado_boleto_superior10k" }
+        ]
+      },
+      "recepivo_cartao2_parcelado_boleto_superior10k": {
+        "id": "recepivo_cartao2_parcelado_boleto_superior10k",
+        "title": "Caso o valor do boleto seja igual ou superior R$ 10.000,00 [dez mil reais]",
+        "body": "Conforme resolução do Banco Central do Brasil, é vedado às instituições financeiras o recebimento em espécie de boletos com valores iguais ou superiores a R$ 10.000,00.",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "recepivo_cartao2_atualizacao_cadastral_parcelamento_aceite" }
+        ]
+      },
+      "recepivo_cartao2_parcelado_aceite_whats": {
+        "id": "recepivo_cartao2_parcelado_aceite_whats",
+        "title": "Boleto pelo WhatsApp",
+        "body": "Você autoriza o envio do boleto pelo WhatsApp",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "recepivo_cartao2_parcelado_aceite_boleto" }
+        ]
+      },
+      "recepivo_cartao2_parcelado_aceite_avance": {
+        "id": "recepivo_cartao2_parcelado_aceite_avance",
+        "title": "Boleto pelo WhatsApp",
+        "body": "Você autoriza o envio do boleto pelo WhatsApp",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "recepivo_cartao2_parcelado_aceite_boleto" }
+        ]
+      },
+      "recepivo_cartao2_atualizacao_cadastral_parcelamento_aceite": {
+        "id": "recepivo_cartao2_atualizacao_cadastral_parcelamento_aceite",
+        "title": "Atualização Cadastral",
+        "body": "O seu endereço continua o… [VER EM DADOS CADASTRAIS NO SIATC]<br><br>Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "recepivo_cartao2_pesquisa_satisfacao_parcelamento_aceite", "primary": true },
+          { "label": "DIVERGÊNCIA NO ENDEREÇO", "next": "recepivo_cartao2_atualizacao_cadastral_divergencia" }
+        ]
+      },
+      "recepivo_cartao2_atualizacao_cadastral_divergencia": {
+        "id": "recepivo_cartao2_atualizacao_cadastral_divergencia",
+        "title": "Atualização Cadastral",
+        "body": "Você pode atualizar seu endereço pelo app Cartões CAIXA. Essa atualização é importante para você receber as outras parcelas.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "recepivo_cartao2_pesquisa_satisfacao_parcelamento_aceite", "primary": true }
+        ]
+      },
+      "recepivo_cartao2_pesquisa_satisfacao_parcelamento_aceite": {
+        "id": "recepivo_cartao2_pesquisa_satisfacao_parcelamento_aceite",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "recepivo_cartao2_fim", "primary": true }
+        ]
+      },
+      "recepivo_cartao2_fim": {
+        "id": "recepivo_cartao2_fim",
+        "title": "Fim do fluxo",
+        "body": "Obrigado por sua atenção. Atendimento finalizado.",
+        "buttons": [
+          { "label": "FECHAR", "next": null, "primary": true }
+        ]
+      },
+      "recepivo_cartao2_ratificacao_aceite_a_vista": {
+        "id": "recepivo_cartao2_ratificacao_aceite_a_vista",
+        "title": "Ratificação",
+        "body": "Podemos confirmar então o pagamento à vista de R$XX,XX para o dia XX/XX?",
+        "buttons": [
+          { "label": "ACEITOU", "next": "recepivo_cartao2_parcelado_aceite_continuacao" },
+          { "label": "RECUSOU", "next": "recepivo_cartao2_parcelado" }
+        ]
+      },
+      "recepivo_cartao2_recusa2": {
+        "id": "recepivo_cartao2_recusa2",
+        "title": "Negociação",
+        "body": "O que está pesando mais pra você neste momento? o valor da parcela ou o prazo para pagamento? Posso fazer a simulação antes de fechar uma proposta.",
+        "buttons": [
+          { "label": "ACEITOU PROPOSTA", "next": "recepivo_cartao2_parcelado_aceite" },
+          { "label": "RECUSOU", "next": "recepivo_cartao2_recusa2_novamente3" },
+          { "label": "DESCONTO DISPONÍVEL NO SIATC", "next": "recepivo_cartao2_oferta_desconto" }
+        ]
+      },
+      "recepivo_cartao2_recusa2_novamente3": {
+        "id": "recepivo_cartao2_recusa2_novamente3",
+        "title": "Ações de cobrança + Negociação",
+        "body": "Quero te ajudar da forma mais simples possível. Com essa proposta, você evita novos encargos, ligações e negativação do CPF. Se não formalizar, essas ações permanecem. Quer tentar com outro valor? Posso simular novamente.",
+        "buttons": [
+          { "label": "DESCONTO DISPONÍVEL NO SIATC", "next": "recepivo_cartao2_oferta_desconto" },
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "recepivo_cartao2_atualizacao_cadastral_recusa" }
+        ]
+      },
+      "recepivo_cartao2_oferta_desconto": {
+        "id": "recepivo_cartao2_oferta_desconto",
+        "title": "Oferta de desconto",
+        "body": "Verifiquei no sistema e consigo disponibilizar o valor para quitação de R$ XX,XX por apenas R$ XX,XX. Essa proposta é somente à vista.<br><br>Quer aproveitar essa oportunidade?",
+        "buttons": [
+          { "label": "ACEITOU PROPOSTA", "next": "recepivo_cartao2_oferta_desconto_aceite" },
+          { "label": "RECUSOU", "next": "recepivo_cartao2_atualizacao_cadastral_recusa_desconto" }
+        ]
+      },
+      "recepivo_cartao2_oferta_desconto_aceite": {
+        "id": "recepivo_cartao2_oferta_desconto_aceite",
+        "title": "Obrigatório informar ao cliente",
+        "body": "Devido o desconto concedido e considerando que o valor do boleto é inferior ao valor original da dívida, não será possível obter novos créditos com a CAIXA pelo periodo de 3 anos, é necessário que você fique ciente desde já.",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "recepivo_cartao2_atualizacao_cadastral_desconto_aceite" }
+        ]
+      },
+      "recepivo_cartao2_atualizacao_cadastral_desconto_aceite": {
+        "id": "recepivo_cartao2_atualizacao_cadastral_desconto_aceite",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "recepivo_cartao2_pesquisa_satisfacao_desconto_aceite", "primary": true }
+        ]
+      },
+      "recepivo_cartao2_pesquisa_satisfacao_desconto_aceite": {
+        "id": "recepivo_cartao2_pesquisa_satisfacao_desconto_aceite",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cartao1_fim", "primary": true }
+        ]
+      },
+      "recepivo_cartao2_atualizacao_cadastral_recusa_desconto": {
+        "id": "recepivo_cartao2_atualizacao_cadastral_recusa_desconto",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "recepivo_cartao2_pesquisa_satisfacao_recusa_desconto", "primary": true }
+        ]
+      },
+      "recepivo_cartao2_pesquisa_satisfacao_recusa_desconto": {
+        "id": "recepivo_cartao2_pesquisa_satisfacao_recusa_desconto",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "recepivo_cartao2_fim", "primary": true }
+        ]
+      },
+      "recepivo_cartao2_atualizacao_cadastral_recusa": {
+        "id": "recepivo_cartao2_atualizacao_cadastral_recusa",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "recepivo_cartao2_pesquisa_satisfacao_recusa", "primary": true }
+        ]
+      },
+      "recepivo_cartao2_pesquisa_satisfacao_recusa": {
+        "id": "recepivo_cartao2_pesquisa_satisfacao_recusa",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cartao2_fim", "primary": true }
+        ]
+      },
+      "recepivo_cartao2_atualizacao_cadastral_pagamento_efetuado": {
+        "id": "recepivo_cartao2_atualizacao_cadastral_pagamento_efetuado",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "recepivo_cartao2_pesquisa_satisfacao_pagamento_efetuado", "primary": true }
+        ]
+      },
+      "recepivo_cartao2_pesquisa_satisfacao_pagamento_efetuado": {
+        "id": "recepivo_cartao2_pesquisa_satisfacao_pagamento_efetuado",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "recepivo_cartao2_fim", "primary": true }
+        ]
+      }
+    }
+  }
+}

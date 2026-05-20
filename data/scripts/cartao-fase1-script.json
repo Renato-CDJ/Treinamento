@@ -1,0 +1,451 @@
+{
+  "marcas": {
+    "CARTAO FASE 1": {
+      "cartao1_abordagem": {
+        "id": "cartao1_abordagem",
+        "title": "Abordagem",
+        "body": "Olá, falo com [Nome do cliente]?",
+        "buttons": [
+          { "label": "SIM, É O CLIENTE", "next": "cartao1_identificacao", "primary": true },
+          { "label": "NÃO É O CLIENTE", "next": "cartao1_terceiro" },
+          { "label": "SEM RESPOSTA", "next": "cartao1_sem_resposta" }
+        ]
+      },
+      "cartao1_terceiro": {
+        "id": "cartao1_terceiro",
+        "title": "Terceiro",
+        "body": "Você conhece [Nome completo do cliente]?",
+        "buttons": [
+          { "label": "SIM", "next": "cartao1_terceiro_conhece", "primary": true },
+          { "label": "NÃO CONHECE", "next": "cartao1_nao_conhece" },
+          { "label": "FALECIDO", "next": "cartao1_faleceu" }
+        ]
+      },
+      "cartao1_sem_resposta": {
+        "id": "cartao1_sem_resposta",
+        "title": "Cliente/Terceiro não responde",
+        "body": "Por falta de comunicação encerro o contato.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cartao1_fim", "primary": true }
+        ]
+      },
+      "cartao1_desconhecido": {
+        "id": "cartao1_nao_conhece",
+        "title": "Finalização",
+        "body": "Peço desculpas pelo incômodo. A CAIXA agradece, tenha um bom dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cartao1_fim", "primary": true }
+        ]
+      },
+      "cartao1_terceiro_conhece": {
+        "id": "cartao1_terceiro_conhece",
+        "title": "Terceiro",
+        "body": "Teria um melhor número ou horário para falar com o (Primeiro nome do cliente)?",
+        "buttons": [
+          { "label": "SIM", "next": "cartao1_recado", "primary": true },
+          { "label": "NÃO", "next": "cartao1_finalizacao_terceiro" }
+        ]
+      },
+      "cartao1_falecido": {
+        "id": "cartao1_faleceu",
+        "title": "Falecido",
+        "body": "Peça que o herdeiro ou inventariante leve o atestado de óbito na agência",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cartao1_fim", "primary": true }
+        ]
+      },
+      "cartao1_terceiro_recado": {
+        "id": "cartao1_recado",
+        "title": "Recado",
+        "body": "Por favor, solicite que o (Cliente) entre em contato com a Central de Negócios da CAIXA, nos telefones 0800 025 8833 ou 4020-0088<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cartao1_fim", "primary": true }
+        ]
+      },
+      "cartao1_finalizacao_terceiro": {
+        "id": "cartao1_finalizacao_terceiro",
+        "title": "Finalização",
+        "body": "OK! A CAIXA agradece, tenha um bom dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cartao1_fim", "primary": true }
+        ]
+      },
+      "cartao1_identificacao": {
+        "id": "cartao1_identificacao",
+        "title": "Identifique-se",
+        "body": "Aqui é o [nome do operador] eu falo da Central de Negócios da CAIXA. Tudo bem?",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "cartao1_identificacao_parte2", "primary": true }
+        ]
+      },
+      "cartao1_identificacao_parte2": {
+        "id": "cartao1_identificacao_parte2",
+        "title": "Identificação Positiva CPF",
+        "body": "Para sua segurança, essa ligação está sendo gravada.<br>Eu sou do Grupo Roveri e, por questões de sigilo bancário, preciso confirmar alguns dados.<br>Vou te dizer os (6) seis primeiros números do seu CPF e você completa com os demais, os primeiros números são: [XXX.XXX], qual o restante?",
+        "buttons": [
+          { "label": "CONFIRMOU CPF", "next": "cartao1_nome_completo_cliente", "primary": true },
+          { "label": "RECUSOU CONFIRMAR", "next": "cartao1_nao_confirma" }
+        ]
+      },
+      "cartao1_nao_confirma": {
+        "id": "cartao1_nao_confirma",
+        "title": "Cliente não quer confirmar o CPF",
+        "body": "Esse contato é sobre o relacionamento com a CAIXA, após a confirmação dos dados, irei fornecer todos os detalhes. Os 6 primeiros números do CPF são: (XXX.XXX), qual o restante?",
+        "buttons": [
+          { "label": "CONFIRMOU CPF", "next": "cartao1_nome_completo_cliente", "primary": true },
+          { "label": "RECUSOU CONFIRMAR", "next": "cartao1_nao_confirmou" }
+        ]
+      },
+      "cartao1_nao_confirmou": {
+        "id": "cartao1_nao_confirmou",
+        "title": "Finalização",
+        "body": "(Nome do cliente), então você pode entrar em contato com esses números que vou te passar para saber o assunto que é: 0800 104 0104, 0800 025 8833 ou 4020 0088.",
+        "buttons": [
+          { "label": "CONFIRMOU CPF", "next": "cartao1_nome_completo_cliente", "primary": true },
+          { "label": "CLIENTE INSEGURO SOBRE NOSSA EMPRESA", "next": "cartao1_questiona_origem" },
+          { "label": "FINALIZAR", "next": "cartao1_fim", "primary": true }
+        ]
+      },
+      "cartao1_questiona_origem": {
+        "id": "cartao1_questiona_origem",
+        "title": "Cliente questiona origem do contato",
+        "body": "A Roveri é autorizada pela CAIXA a realizar o contato. Se você estiver inseguro sobre a nossa empresa, você pode acessar o site da CAIXA e confirmar www.caixa.gov.br/voce/negociacao/telefones e ver em Empresas terceirizadas o nome da ROVERI.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cartao1_fim", "primary": true }
+        ]
+      },
+      "cartao1_nome_completo_cliente": {
+        "id": "cartao1_nome_completo_cliente",
+        "title": "Nome completo do cliente",
+        "body": "Obrigado(a), pela confirmação. Seu nome completo é (nome completo do cliente)?",
+        "buttons": [
+          { "label": "APRESENTAR DIVIDA", "next": "cartao1_opcao_apresentacao", "primary": true }
+        ]
+      },
+      "cartao1_opcao_apresentacao": {
+        "id": "cartao1_opcao_apresentacao",
+        "title": "Faixa de Atraso",
+        "body": "Selecione a opção de acordo com os dias em atraso",
+        "buttons": [
+          { "label": "ATRASO DE ATÉ 15 DIAS", "next": "cartao1_apresentacao15dias", "primary": true },
+          { "label": "ATRASO ACIMA DE 15 DIAS", "next": "cartao1_apresentacao30dias" }
+        ]
+      },
+      "cartao1_apresentacao15dias": {
+        "id": "cartao1_apresentacao15dias",
+        "title": "Apresentação da Dívida",
+        "body": "O motivo do meu contato é para avisar sobre o vencimento do seu cartão CAIXA XXXXX [informar bandeira e variante], final XXXX, vencido há XX dias, hoje no valor de R$ XX.<br><br>Você já fez o pagamento?",
+        "buttons": [
+          { "label": "SIM", "next": "cartao1_pagamento_efetuado", "primary": true },
+          { "label": "NÃO", "next": "cartao1_negociacao" }
+        ]
+      },
+      "cartao1_apresentacao30dias": {
+        "id": "cartao1_apresentacao30dias",
+        "title": "Apresentação da Dívida",
+        "body": "O motivo do meu contato é para confirmar o pagamento do seu cartão CAIXA XXXXX [informar bandeira e variante], final XXXX, vencido há XX dias, hoje no valor de R$ XX.<br><br>Você já fez o pagamento?",
+        "buttons": [
+          { "label": "SIM", "next": "cartao1_pagamento_efetuado", "primary": true },
+          { "label": "NÃO", "next": "cartao1_negociacao" }
+        ]
+      },
+      "cartao1_pagamento_efetuado": {
+        "id": "cartao1_pagamento_efetuado",
+        "title": "Fraseologia de Pagamento Efetuado",
+        "body": "Caso seu pagamento tenha sido efetuado há menos de 5 dias úteis, possivelmente não foi atualizado pelo sistema, mas caso tenha mais de 5 dias úteis você pode esclarecer pelo WhatsApp 0800 104 0104.<br><br>ATENÇÃO!<br>Não pergunte qual foi a forma de pagamento e nem a data em que foi realizado, pois o script já informa o necessário.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "cartao1_atualizacao_cadastral_pagamento_efetuado" }
+        ]
+      },
+      "cartao1_negociacao": {
+        "id": "cartao1_negociacao",
+        "title": "Negociação (Cartao de Credito)",
+        "body": "O pagamento total da fatura hoje fica bom pra você?",
+        "buttons": [
+          { "label": "ACEITOU", "next": "cartao1_ratificacao_aceite", "primary": true },
+          { "label": "RECUSOU", "next": "cartao1_recusa" }
+        ]
+      },
+      "cartao1_recusa": {
+        "id": "cartao1_recusa",
+        "title": "Argumentações",
+        "body": "Evitar cobranças e bloqueio: Para evitar as ligações de cobrança, os juros diários e o bloqueio do seu cartão, consigo agendar o pagamento para XX/XX?<br><br>Negativação com 14 dias de atraso: Seu CPF/CNPJ pode ser negativado a partir de 14 dias de atraso. Podemos agendar o pagamento até XX/XX pra evitar isso?<br><br>Restrição dificulta crédito: A restrição no SPC/SERASA pode dificultar futuros créditos com a CAIXA. Posso agendar o pagamento para XX/XX?<br><br>Cancelamento entre 96 a 99 dias: O cartão pode ser cancelado entre 66 e 69 dias de atraso. Posso agendar o pagamento até, no máximo, XX/XX pra evitar do cartão ser cancelado?",
+        "buttons": [
+          { "label": "ACEITOU", "next": "cartao1_pagamento_total" },
+          { "label": "RECUSOU", "next": "cartao1_recusa_oferta_pagamento_minimo" }
+        ]
+      },
+      "cartao1_recusa_oferta_pagamento_minimo": {
+        "id": "cartao1_recusa_oferta_pagamento_minimo",
+        "title": "Pagamento Mínimo",
+        "body": "E o pagamento mínimo? Você consegue fazer hoje? Ai você pode voltar a usar seu cartão normalmente.",
+        "buttons": [
+          { "label": "ACEITOU", "next": "cartao1_ratificacao_aceite" },
+          { "label": "OFERTE O PARCELAMENTO", "next": "cartao1_oferta_parcelamento" },
+          { "label": "NÃO É POSSÍVEL REALIZAR PARCELAMENTO", "next": "cartao1_nao_e_possivel_parcelar" }
+        ]
+      },
+      "cartao1_atualizacao_cadastral_recusa": {
+        "id": "cartao1_recusa_novamente",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "cartao1_pesquisa_satisfacao_recusa", "primary": true }
+        ]
+      },
+      "cartao1_pesquisa_satisfacao_recusa": {
+        "id": "cartao1_pesquisa_satisfacao_recusa",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cartao1_fim", "primary": true }
+        ]
+      },
+      "cartao1_ratificacao_aceite": {
+        "id": "cartao1_ratificacao_aceite",
+        "title": "Ratificação",
+        "body": "Certo, você confirma então o pagamento para o dia XX/XX?",
+        "buttons": [
+          { "label": "SIM", "next": "cartao1_pagamento_total" }
+        ]
+      },
+      "cartao1_pagamento_total": {
+        "id": "cartao1_pagamento_total",
+        "title": "Formas de Pagamento",
+        "body": "Agradeço a confirmação!<br><br>Para fazer o pagamento você pode utilizar o código de barras da sua última fatura, pelo internet Banking ou Auto atendimento, pode gerar sua última fatura pelo APP Cartões CAIXA ou com seu cartão de crédito em qualquer casa lotérica ou agência da CAIXA.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "cartao1_atualizacao_cadastral_pagamento_total" }
+        ]
+      },
+      "cartao1_atualizacao_cadastral_pagamento_total": {
+        "id": "cartao1_atualizacao_cadastral_pagamento_total",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "cartao1_pesquisa_satisfacao_pagamento_total" }
+        ]
+      },
+      "cartao1_pesquisa_satisfacao_pagamento_total": {
+        "id": "cartao1_pesquisa_satisfacao_pagamento_total",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cartao1_fim", "primary": true }
+        ]
+      },
+      "cartao1_oferta_parcelamento": {
+        "id": "cartao1_oferta_parcelamento",
+        "title": "Oferta de Parcelamento",
+        "body": "Podemos parcelar sua fatura. Este parcelamento se refere apenas à fatura atual e pode ser feito em até XX vezes. Em quantas parcelas gostaria que eu simulasse?",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "cartao1_confirmacao_do_parcelamento", "primary": true }
+        ]
+      },
+      "cartao1_confirmacao_do_parcelamento": {
+        "id": "cartao1_confirmacao_do_parcelamento",
+        "title": "Confirmação do Parcelamento",
+        "body": "O parcelamento ficou em XX vezes de R$ XX,XX.<br>A primeira parcela virá com IOF e terá o valor de R$ XX,XX. As demais parcelas serão fixas. O pagamento deve ser feito no valor EXATO , inclusive os centavos. Qualquer valor diferente será usado apenas para abatimento da dívida, sem ativar o acordo.",
+        "buttons": [
+          { "label": "FECHAMOS O PARCELAMENTO", "next": "cartao1_atualizacao_cadastral_parcelamento_aceite", "primary": true },
+          { "label": "NÃO FECHAMOS O PARCELAMENTO", "next": "cartao1_recusou_parcelamento_consequencias", "primary": true }
+        ]
+      },
+      "cartao1_atualizacao_cadastral_parcelamento_aceite": {
+        "id": "cartao1_atualizacao_cadastral_parcelamento_aceite",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "cartao1_pesquisa_satisfacao_parcelamento_aceite", "primary": true }
+        ]
+      },
+      "cartao1_pesquisa_satisfacao_parcelamento_aceite": {
+        "id": "cartao1_pesquisa_satisfacao_parcelamento_aceite",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cartao1_fim", "primary": true }
+        ]
+      },
+      "cartao1_recusou_parcelamento_consequencias": {
+        "id": "cartao1_recusou_parcelamento_consequencias",
+        "title": "Ações de cobrança",
+        "body": "Reforço que é importante efetuar o pagamento o quanto antes para evitar os juros diários e a continuidade das ações de cobrança. Você pode parcelar sua fatura pelo app Cartões CAIXA, Internet Banking ou ligando para a Central — o número está no verso do seu cartão.",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "cartao1_atualizacao_cadastral_recusou_parcelamento" }
+        ]
+      },
+      "cartao1_atualizacao_cadastral_recusou_parcelamento": {
+        "id": "cartao1_atualizacao_cadastral_recusou_parcelamento",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "cartao1_pesquisa_satisfacao_recusou_parcelamento", "primary": true }
+        ]
+      },
+      "cartao1_pesquisa_satisfacao_recusou_parcelamento": {
+        "id": "cartao1_pesquisa_satisfacao_recusou_parcelamento",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cartao1_fim", "primary": true }
+        ]
+      },
+      "cartao1_nao_e_possivel_parcelar": {
+        "id": "cartao1_nao_e_possivel_parcelar",
+        "title": "Selecione o Motivo",
+        "body": "Opcionais",
+        "buttons": [
+          { "label": "PRIMEIRO DIA APÓS DATA DE VENCIMENTO", "next": "cartao1_parcelamento_indisponivel_apos_vencimento", "primary": true },
+          { "label": "ATRASO COM 69 DIAS", "next": "cartao1_faixa_de_atraso_69_dias", "primary": true },
+          { "label": "ATRASO ENTRE 61 e 67 DIAS", "next": "cartao1_faixa_de_atraso_61_e_67", "primary": true },
+          { "label": "ATRASO ENTRE 66 e 69 DIAS", "next": "cartao1_faixa_de_atraso_66_e_69_risco_cancelamento", "primary": true },
+          { "label": "CARTÃO SIMPLES CONSIGNADO", "next": "cartao1_simples_consignado", "primary": true }
+        ]
+      },
+      "cartao1_parcelamento_indisponivel_apos_vencimento": {
+        "id": "cartao1_parcelamento_indisponivel_apos_vencimento",
+        "title": "Primeiro dia após data de vencimento",
+        "body": "Como sua fatura venceu ontem, hoje o parcelamento não está disponível. Peço, por gentileza, que entre em contato novamente amanhã. Você pode ligar pelo 0800 025 8833 ou 4020 0088.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "cartao1_parcelamento_atualizacao_cadastral_apos_vencimento", "primary": true }
+        ]
+      },
+      "cartao1_parcelamento_atualizacao_cadastral_apos_vencimento": {
+        "id": "cartao1_parcelamento_atualizacao_cadastral_apos_vencimento",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "cartao1_pesquisa_satisfacao__apos_vencimento", "primary": true }
+        ]
+      },
+      "cartao1_pesquisa_satisfacao__apos_vencimento": {
+        "id": "cartao1_pesquisa_satisfacao__apos_vencimento",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cartao1_fim", "primary": true }
+        ]
+      },
+      "cartao1_simples_consignado": {
+        "id": "cartao1_simples_consignado",
+        "title": "Cartão Simples Consignado - Orientação de Pagamento",
+        "body": "O cartão simples consignado não permite parcelamento de fatura. O pagamento deve ser feito no valor total ou, no valor mínimo, conforme indicado no seu boleto.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "cartao1_parcelamento_atualizacao_cadastral_apos_vencimento", "primary": true }
+        ]
+      },
+      "cartao1_pagamento_simples_consignado": {
+        "id": "cartao1_pagamento_simples_consignado",
+        "title": "Formas de Pagamento",
+        "body": "Para fazer o pagamento você pode utilizar o código de barras da sua última fatura, pelo internet Banking ou Auto atendimento, pode gerar sua última fatura pelo APP Cartões CAIXA ou com seu cartão de crédito em qualquer casa lotérica ou agência da CAIXA.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "cartao1_pagamento_atualizacao_cadastral_simples_consignado" }
+        ]
+      },
+      "cartao1_pagamento_atualizacao_cadastral_simples_consignado": {
+        "id": "cartao1_pagamento_atualizacao_cadastral_simples_consignado",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "cartao1_pagamento_pesquisa_satisfacao_simples_consignado", "primary": true }
+        ]
+      },
+      "cartao1_pagamento_pesquisa_satisfacao_simples_consignado": {
+        "id": "cartao1_pagamento_pesquisa_satisfacao_simples_consignado",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cartao1_fim", "primary": true }
+        ]
+      },
+      "cartao1_faixa_de_atraso_69_dias": {
+        "id": "cartao1_faixa_de_atraso_69_dias",
+        "title": "INFORME",
+        "body": "Para que possamos avaliar a possibilidade de parcelamento, é necessário que o pagamento de um valor igual ou superior ao mínimo de uma das faturas em atraso seja feito ainda hoje. Após isso, peço que retorne o contato em até 3 dias para darmos continuidade.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "cartao1_atualizacao_cadastral_atraso_69_dias", "primary": true }
+        ]
+      },
+      "cartao1_atualizacao_cadastral_atraso_69_dias": {
+        "id": "cartao1_atualizacao_cadastral_atraso_69_dias",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "cartao1_pesquisa_satisfacao_atraso_69_dias", "primary": true }
+        ]
+      },
+      "cartao1_pesquisa_satisfacao_atraso_69_dias": {
+        "id": "cartao1_pesquisa_satisfacao_atraso_69_dias",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cartao1_fim", "primary": true }
+        ]
+      },
+      "cartao1_faixa_de_atraso_61_e_67": {
+        "id": "cartao1_faixa_de_atraso_61_e_67",
+        "title": "Orientação para habilitação o parcelamento",
+        "body": "Para liberar o parcelamento, é necessário pagar hoje um valor igual ou superior ao mínimo de uma das faturas em atraso e aguardar 3 dias úteis para novo contato. Ou, se preferir, é possível tentar diretamente pelo app Cartões CAIXA, Internet Banking ou Central de Atendimento - o número está no verso do seu cartão.",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "cartao1_atualizacao_cadastral_atraso_61_e_67", "primary": true }
+        ]
+      },
+      "cartao1_faixa_de_atraso_66_e_69_risco_cancelamento": {
+        "id": "cartao1_faixa_de_atraso_66_e_69_risco_cancelamento",
+        "title": "Risco de cancelamento do Cartão",
+        "body": "Lembrando que, existe o risco de cancelamento do cartão, sem possibilidade de reativação, conforme previsto na Cláusula 18 do contrato de cartões da CAIXA. Esse documento está disponível no site oficial.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "cartao1_atualizacao_cadastral_atraso_61_e_67", "primary": true }
+        ]
+      },
+      "cartao1_atualizacao_cadastral_atraso_66_e_69": {
+        "id": "cartao1_atualizacao_cadastral_atraso_66_e_69",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "cartao1_pesquisa_satisfacao_atraso_66_e_69", "primary": true }
+        ]
+      },
+      "cartao1_pesquisa_satisfacao_atraso_66_e_69": {
+        "id": "cartao1_pesquisa_satisfacao_atraso_66_e_69",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cartao1_fim", "primary": true }
+        ]
+      },
+      "cartao1_atualizacao_cadastral_atraso_61_e_67": {
+        "id": "cartao1_atualizacao_cadastral_atraso_61_e_67",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "cartao1_pesquisa_satisfacao_atraso_61_e_67", "primary": true }
+        ]
+      },
+      "cartao1_pesquisa_satisfacao_atraso_61_e_67": {
+        "id": "cartao1_pesquisa_satisfacao_atraso_61_e_67",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cartao1_fim", "primary": true }
+        ]
+      },
+      "cartao1_atualizacao_cadastral_pagamento_efetuado": {
+        "id": "cartao1_atualizacao_cadastral_pagamento_efetuado",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "cartao1_pesquisa_satisfacao_pagamento_efetuado", "primary": true }
+        ]
+      },
+      "cartao1_pesquisa_satisfacao_pagamento_efetuado": {
+        "id": "cartao1_pesquisa_satisfacao_pagamento_efetuado",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cartao1_fim", "primary": true }
+        ]
+      }
+    }
+  }
+}

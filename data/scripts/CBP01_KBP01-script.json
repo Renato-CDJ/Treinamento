@@ -1,0 +1,321 @@
+{
+  "marcas": {
+    "CBP01 e KBP01": {
+      "CBP01_KBP01_abordagem": {
+        "id": "CBP01_KBP01_abordagem",
+        "title": "Abordagem",
+        "body": "Olá, falo com [Nome do cliente]?",
+        "buttons": [
+          { "label": "SIM, É O CLIENTE", "next": "CBP01_KBP01_identificacao", "primary": true },
+          { "label": "NÃO É O CLIENTE", "next": "CBP01_KBP01_terceiro" },
+          { "label": "SEM RESPOSTA", "next": "CBP01_KBP01_sem_resposta" }
+        ]
+      },
+      "CBP01_KBP01_terceiro": {
+        "id": "CBP01_KBP01_terceiro",
+        "title": "Terceiro",
+        "body": "Você conhece [Nome completo do cliente]?",
+        "buttons": [
+          { "label": "SIM", "next": "CBP01_KBP01_terceiro_conhece", "primary": true },
+          { "label": "NÃO CONHECE", "next": "CBP01_KBP01_nao_conhece" },
+          { "label": "FALECIDO", "next": "CBP01_KBP01_faleceu" }
+        ]
+      },
+      "CBP01_KBP01_sem_resposta": {
+        "id": "CBP01_KBP01_sem_resposta",
+        "title": "Cliente/Terceiro não responde",
+        "body": "Por falta de comunicação encerro o contato.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "CBP01_KBP01_fim", "primary": true }
+        ]
+      },
+      "CBP01_KBP01_desconhecido": {
+        "id": "CBP01_KBP01_nao_conhece",
+        "title": "Finalização",
+        "body": "Peço desculpas pelo incômodo. A CAIXA agradece, tenha um bom dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "CBP01_KBP01_fim", "primary": true }
+        ]
+      },
+      "CBP01_KBP01_terceiro_conhece": {
+        "id": "CBP01_KBP01_terceiro_conhece",
+        "title": "Terceiro",
+        "body": "Teria um melhor número ou horário para falar com o (Primeiro nome do cliente)?",
+        "buttons": [
+          { "label": "SIM", "next": "CBP01_KBP01_recado", "primary": true },
+          { "label": "NÃO", "next": "CBP01_KBP01_finalizacao_terceiro" }
+        ]
+      },
+      "CBP01_KBP01_falecido": {
+        "id": "CBP01_KBP01_faleceu",
+        "title": "Falecido",
+        "body": "Peça que o herdeiro ou inventariante leve o atestado de óbito na agência",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "CBP01_KBP01_fim", "primary": true }
+        ]
+      },
+      "CBP01_KBP01_terceiro_recado": {
+        "id": "CBP01_KBP01_recado",
+        "title": "Recado",
+        "body": "Por favor, solicite que o (Cliente) entre em contato com a Central de Negócios da CAIXA, nos telefones 0800 025 8833 ou 4020-0088<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "CBP01_KBP01_fim", "primary": true }
+        ]
+      },
+      "CBP01_KBP01_finalizacao_terceiro": {
+        "id": "CBP01_KBP01_finalizacao_terceiro",
+        "title": "Finalização",
+        "body": "Por favor, solicite que o (Cliente) entre em contato com a Central de Negócios da CAIXA, nos telefones 0800 025 8833 ou 4020-0088<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "CBP01_KBP01_fim", "primary": true }
+        ]
+      },
+      "CBP01_KBP01_identificacao": {
+        "id": "CBP01_KBP01_identificacao",
+        "title": "Identifique-se",
+        "body": "Aqui é o [nome do operador] eu falo da Central de Negócios da CAIXA. Tudo bem?",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "CBP01_KBP01_identificacao_parte2", "primary": true }
+        ]
+      },
+      "CBP01_KBP01_identificacao_parte2": {
+        "id": "CBP01_KBP01_identificacao_parte2",
+        "title": "Identificação Positiva CPF",
+        "body": "Para sua segurança, essa ligação está sendo gravada.<br>Eu sou do Grupo Roveri e, por questões de sigilo bancário, preciso confirmar alguns dados.<br>Vou te dizer os (6) seis primeiros números do seu CPF e você completa com os demais, os primeiros números são: [XXX.XXX], qual o restante?",
+        "buttons": [
+          { "label": "CONFIRMOU CPF", "next": "CBP01_KBP01_nome_completo_cliente", "primary": true },
+          { "label": "RECUSOU CONFIRMAR", "next": "CBP01_KBP01_nao_confirma" }
+        ]
+      },
+      "CBP01_KBP01_nao_confirma": {
+        "id": "CBP01_KBP01_nao_confirma",
+        "title": "Cliente não quer confirmar o CPF",
+        "body": "Esse contato é sobre o relacionamento com a CAIXA, após a confirmação dos dados, irei fornecer todos os detalhes. Os 6 primeiros números do CPF são: (XXX.XXX), qual o restante?",
+        "buttons": [
+          { "label": "CONFIRMOU CPF", "next": "CBP01_KBP01_nome_completo_cliente", "primary": true },
+          { "label": "RECUSOU CONFIRMAR", "next": "CBP01_KBP01_nao_confirmou" }
+        ]
+      },
+      "CBP01_KBP01_nao_confirmou": {
+        "id": "CBP01_KBP01_nao_confirmou",
+        "title": "Finalização",
+        "body": "(Nome do cliente), então você pode entrar em contato com esses números que vou te passar para saber o assunto que é: 0800 104 0104, 0800 025 8833 ou 4020 0088.",
+        "buttons": [
+          { "label": "CONFIRMOU CPF", "next": "CBP01_KBP01_nome_completo_cliente", "primary": true },
+          { "label": "CLIENTE INSEGURO SOBRE NOSSA EMPRESA", "next": "CBP01_KBP01_questiona_origem" },
+          { "label": "FINALIZAR", "next": "CBP01_KBP01_fim", "primary": true }
+        ]
+      },
+      "CBP01_KBP01_questiona_origem": {
+        "id": "CBP01_KBP01_questiona_origem",
+        "title": "Cliente questiona origem do contato",
+        "body": "A Roveri é autorizada pela CAIXA a realizar o contato. Se você estiver inseguro sobre a nossa empresa, você pode acessar o site da CAIXA e confirmar www.caixa.gov.br/voce/negociacao/telefones e ver em Empresas terceirizadas o nome da ROVERI.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "CBP01_KBP01_fim", "primary": true }
+        ]
+      },
+      "CBP01_KBP01_nome_completo_cliente": {
+        "id": "CBP01_KBP01_nome_completo_cliente",
+        "title": "Nome completo do cliente",
+        "body": "Obrigado(a), pela confirmação. Seu nome completo é (nome completo do cliente)?",
+        "buttons": [
+          { "label": "APRESENTAR DIVIDA", "next": "CBP01_KBP01_opcao_apresentacao", "primary": true }
+        ]
+      },
+      "CBP01_KBP01_apresentacao": {
+        "id": "CBP01_KBP01_apresentacao",
+        "title": "Apresentação da Dívida",
+        "body": "O motivo do meu contato é para confirmar o pagamento do seu [nome do contrato], vencido há XX dias.<br><br>Já houve o pagamento?",
+        "buttons": [
+          { "label": "SIM", "next": "CBP01_KBP01_pagamento_efetuado", "primary": true },
+          { "label": "NÃO", "next": "CBP01_KBP01_opcao_apresentacao" }
+        ]
+      },
+      "CBP01_KBP01_pagamento_efetuado": {
+        "id": "CBP01_KBP01_pagamento_efetuado",
+        "title": "Fraseologia de Pagamento Efetuado",
+        "body": "Caso seu pagamento tenha sido efetuado há menos de 5 dias úteis, possivelmente não foi atualizado pelo sistema, mas caso tenha mais de 5 dias úteis você pode esclarecer pelo WhatsApp 0800 104 0104.<br><br>ATENÇÃO!<br>Não pergunte qual foi a forma de pagamento e nem a data em que foi realizado, pois o script já informa o necessário.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "CBP01_KBP01_atualizacao_cadastral" }
+        ]
+      },
+      "CBP01_KBP01_opcao_apresentacao": {
+        "id": "CBP01_KBP01_opcao_apresentacao",
+        "title": "CBP01 e KBP01",
+        "body": "Selecione a opção de acordo com o Marca",
+        "buttons": [
+          { "label": "SINEB", "next": "CBP01_KBP01_apresentacao_sineb", "primary": true },
+          { "label": "CARTÃO DE CRÉDITO", "next": "CBP01_KBP01_apresentacao_cartao" }
+        ]
+      },
+      "CBP01_KBP01_apresentacao_sineb": {
+        "id": "CBP01_KBP01_apresentacao_sineb",
+        "title": "Apresentação da Dívida",
+        "body": "A CAIXA disponibilizou desconto especial para que você possa quitar suas dívidas. Para seu(s) contrato(s) vencido(s) há XX dias (informar maior atraso), no valor atualizado de R$ XX (informar o(s) valor(es) de todos os contratos apresentados no SINEB) você pode quitar de uma vez só, pelo valor aproximado de R$ XX (informar o valor à vista apresentado no SINEB).<br><br>Podemos enviar boleto para seu telefone ou e-mail?",
+        "buttons": [
+          { "label": "ACEITOU", "next": "CBP01_KBP01_ratificacao_aceite_sineb", "primary": true },
+          { "label": "NÃO", "next": "CBP01_KBP01_recusa" }
+        ]
+      },
+      "CBP01_KBP01_apresentacao_cartao": {
+        "id": "CBP01_KBP01_apresentacao_cartao",
+        "title": "Apresentação da Dívida",
+        "body": "A CAIXA disponibilizou desconto especial para que você possa quitar suas dívidas. Para seu(s) contrato(s) vencido(s) há XX dias (informar maior atraso), no valor atualizado de R$ XX (informar o(s) valor(es) de todos os contratos apresentados no SIATC) você pode quitar de uma vez só, pelo valor aproximado de R$ XX (informar o valor à vista apresentado no SIATC).<br><br>Podemos enviar boleto para seu telefone ou e-mail?",
+        "buttons": [
+          { "label": "ACEITOU", "next": "CBP01_KBP01_ratificacao_aceite_cartao", "primary": true },
+          { "label": "NÃO", "next": "CBP01_KBP01_recusa" }
+        ]
+      },
+      "CBP01_KBP01_recusa": {
+        "id": "CBP01_KBP01_recusa",
+        "title": "Boleto para análise",
+        "body": "Para que possa analisar melhor a nossa proposta enviaremos o boleto para o senhor(a). Caso mude de ideia, leia atentamente as informações constantes no boleto, e o pagamento será efetuado em 10 dias úteis",
+        "buttons": [
+          { "label": "ACEITOU", "next": "CBP01_KBP01_aceitou_boleto_abnalise" },
+          { "label": "RECUSOU", "next": "CBP01_KBP01_recusa2" }
+        ]
+      },
+      "CBP01_KBP01_aceitou_boleto_abnalise": {
+        "id": "CBP01_KBP01_aceitou_boleto_abnalise",
+        "title": "CBP01 e KBP01",
+        "body": "Selecione a opção de acordo com o Marca",
+        "buttons": [
+          { "label": "SINEB", "next": "CBP01_KBP01_ratificacao_aceite_sineb", "primary": true },
+          { "label": "CARTÃO DE CRÉDITO", "next": "CBP01_KBP01_ratificacao_aceite_cartao" }
+        ]
+      },
+      "CBP01_KBP01_recusa2": {
+        "id": "CBP01_KBP01_recusa2",
+        "title": "Informe:",
+        "body": "Essa proposta é por tempo limitado caso mude de ideia ligar para os números 0800 025 8833 ou 4020-0088.",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "CBP01_KBP01_recusa_consequencias" }
+        ]
+      },
+      "CBP01_KBP01_recusa_consequencias": {
+        "id": "CBP01_KBP018_recusa_consequencias",
+        "title": "Ações de cobrança",
+        "body": "Informo que as ações de cobrança terão continuidade e os juros são diários.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "CBP01_KBP01_atualizacao_cadastral_recusa" }
+        ]
+      },
+      "CBP01_KBP01_atualizacao_cadastral_recusa": {
+        "id": "CBP01_KBP01_atualizacao_cadastral_recusa",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "CBP01_KBP01_pesquisa_satisfacao_recusa", "primary": true }
+        ]
+      },
+      "CBP01_KBP01_pesquisa_satisfacao_recusa": {
+        "id": "CBP01_KBP01_pesquisa_satisfacao_recusa",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "CBP01_KBP01_fim", "primary": true }
+        ]
+      },
+      "CBP01_KBP01_ratificacao_aceite_sineb": {
+        "id": "CBP01_KBP01_ratificacao_aceite_sineb",
+        "title": "Obrigatório informar ao cliente",
+        "body": "Devido o desconto concedido e considerando que o valor do boleto é inferior ao valor original da dívida, não será possível obter novos créditos com a CAIXA pelo periodo de 5 anos, é necessário que você fique ciente desde já.",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "CBP01_KBP01_boleto_superior10k" },
+          { "label": "BOLETO INDISPONÍVEL", "next": "CBP01_KBP01_boleto_indisponivel" },
+          { "label": "CLIENTE QUER MANTER O RELACIONAMENTO COM A CAIXA", "next": "CBP01_KBP01_manter_o_relacionamento" }
+        ]
+      },
+      "CBP01_KBP01_ratificacao_aceite_cartao": {
+        "id": "CBP01_KBP01_ratificacao_aceite_cartao",
+        "title": "Obrigatório informar ao cliente",
+        "body": "Devido o desconto concedido e considerando que o valor do boleto é inferior ao valor original da dívida, não será possível obter novos créditos com a CAIXA pelo periodo de 3 anos, é necessário que você fique ciente desde já.",
+        "buttons": [
+          { "label": "AVANÇAR", "next": "CBP01_KBP01_boleto_superior10k" },
+          { "label": "BOLETO INDISPONÍVEL", "next": "CBP01_KBP01_boleto_indisponivel" },
+          { "label": "CLIENTE QUER MANTER O RELACIONAMENTO COM A CAIXA", "next": "CBP01_KBP01_manter_o_relacionamento" }
+        ]
+      },
+      "CBP01_KBP01_boleto_indisponivel": {
+        "id": "CBP01_KBP01_boleto_indisponivel",
+        "title": "Em caso de boleto indisponível",
+        "body": "O boleto dessa proposta no momento não está disponível para emissão por esse canal. Você pode solicitar/consultar pelo WhatsApp 0800 104 0104 a emissão do boleto.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "CBP01_KBP01_atualizacao_cadastral_boleto_indisponivel" }
+        ]
+      },
+      "CBP01_KBP01_atualizacao_cadastral_boleto_indisponivel": {
+        "id": "CBP01_KBP01_atualizacao_cadastral_boleto_indisponivel",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "CBP01_KBP01_pesquisa_satisfacao_boleto_indisponivel", "primary": true }
+        ]
+      },
+      "CBP01_KBP01_pesquisa_satisfacao_boleto_indisponivel": {
+        "id": "CBP01_KBP01_pesquisa_satisfacao_boleto_indisponivel",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "hab532_fim", "primary": true }
+        ]
+      },
+      "CBP01_KBP01_boleto_superior10k": {
+        "id": "CBP01_KBP01_boleto_superior10k",
+        "title": "Caso o valor do boleto seja igual ou superior R$ 10.000,00 [dez mil reais]",
+        "body": "Conforme resolução do Banco Central do Brasil, é vedado às instituições financeiras o recebimento em espécie de boletos com valores iguais ou superiores a R$ 10.000,00.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "CBP01_KBP01_atualizacao_cadastral_aceitou" }
+        ]
+      },
+      "CBP01_KBP01_atualizacao_cadastral_aceitou": {
+        "id": "CBP01_KBP01_atualizacao_cadastral_aceitou",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "CBP01_KBP01_pesquisa_satisfacao_aceitou", "primary": true }
+        ]
+      },
+      "CBP01_KBP01_pesquisa_satisfacao_aceitou": {
+        "id": "CBP01_KBP01_pesquisa_satisfacao_aceitou",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "CBP01_KBP01_fim", "primary": true }
+        ]
+      },
+      "CBP01_KBP01_manter_o_relacionamento": {
+        "id": "CBP01_KBP01_manter_o_relacionamento",
+        "title": "Para manter o relacionamento com a CAIXA",
+        "body": "Para seguir com o relacionamento com a CAIXA, é necessário pagar o valor de R$ XX,XX [indicado no boleto como 'à prazo']. Para negociar nessas condições, basta acessar o site negociardividas.caixa.gov.br. Pagando esse valor você continua aproveitando os serviços e comodidade que a CAIXA oferece.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "CBP01_KBP01_pesquisa_satisfacao_aceite", "primary": true }
+        ]
+      },
+      "CBP01_KBP01_pesquisa_satisfacao_aceite": {
+        "id": "CBP01_KBP01_pesquisa_satisfacao_aceite",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "CBP01_KBP01_fim", "primary": true }
+        ]
+      },
+      "CBP01_KBP01_atualizacao_cadastral": {
+        "id": "CBP01_KBP01_atualizacao_cadastral",
+        "title": "Atualização Cadastral",
+        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "CBP01_KBP01_pesquisa_satisfacao", "primary": true }
+        ]
+      },
+      "CBP01_KBP01_pesquisa_satisfacao": {
+        "id": "CBP01_KBP01_pesquisa_satisfacao",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "CBP01_KBP01_fim", "primary": true }
+        ]
+      }
+    }
+  }
+}
