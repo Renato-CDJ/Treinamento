@@ -168,12 +168,6 @@ export const STATIC_TABULATIONS: StaticTabulation[] = [
   },
   {
     phase: "after",
-    name: "TRANSBORDO PARA ATENDIMENTO ENTRE CANAIS, SEM IP",
-    description:
-      "Quando o atendimento e iniciado em um canal digital e precisa ser transbordado para resolucao no atendimento humano antes do cliente ter realizado a IP.",
-  },
-  {
-    phase: "after",
     name: "RECUSA ACAO/CAMPANHA",
     description:
       "Cliente nao aceita a acao/campanha ofertada. Motivos possiveis: Sem capacidade de pagamento, Contato sem negociacao/acordo, Negociacao em outro canal, Pessoa solicita retorno em outro momento, Divida nao reconhecida, Promessa de pagamento sem emissao de boleto, Promessa de pagamento com emissao de boleto.",

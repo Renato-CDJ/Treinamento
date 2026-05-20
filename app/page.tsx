@@ -5,30 +5,30 @@ import { useRouter } from "next/navigation"
 import { useAuth } from "@/lib/auth-context"
 import { LoginForm } from "@/components/login-form"
 
-// Componente animado para o titulo "Roteiro" com efeito de shimmer elegante
+// Componente animado para o titulo "Roteiro" com efeito de hover impactante
 function AnimatedTitle() {
   return (
-    <div className="relative cursor-default select-none py-6">
-      <h1 className="relative text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight mb-4">
+    <div className="relative cursor-default select-none py-8">
+      <h1 className="relative text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tight mb-4 group">
         <span 
-          className="inline-block bg-gradient-to-r from-orange-600 via-amber-400 via-orange-500 to-orange-600 bg-clip-text text-transparent bg-[length:200%_100%] animate-shimmer"
+          className="inline-block bg-gradient-to-r from-orange-500 via-orange-400 to-orange-500 bg-clip-text text-transparent bg-[length:200%_100%] transition-all duration-500 ease-out group-hover:scale-110 group-hover:drop-shadow-[0_0_25px_rgba(249,115,22,0.5)]"
           style={{
-            animation: "shimmer 3s ease-in-out infinite",
+            animation: "shimmer 4s ease-in-out infinite",
           }}
         >
           Roteiro
         </span>
       </h1>
       
-      {/* Linha de luz que passa por baixo do texto */}
+      {/* Linha de luz animada abaixo do titulo */}
       <div 
-        className="absolute bottom-2 left-0 right-0 h-[2px] overflow-hidden"
-        style={{ opacity: 0.6 }}
+        className="absolute bottom-4 left-1/2 -translate-x-1/2 w-32 h-[3px] overflow-hidden rounded-full"
+        style={{ opacity: 0.7 }}
       >
         <div 
-          className="h-full w-1/3 bg-gradient-to-r from-transparent via-orange-400 to-transparent"
+          className="h-full w-full bg-gradient-to-r from-transparent via-orange-500 to-transparent"
           style={{
-            animation: "slideLight 2.5s ease-in-out infinite",
+            animation: "pulse 2s ease-in-out infinite",
           }}
         />
       </div>
@@ -42,12 +42,14 @@ function AnimatedTitle() {
             backgroundPosition: 100% 50%;
           }
         }
-        @keyframes slideLight {
-          0% {
-            transform: translateX(-100%);
+        @keyframes pulse {
+          0%, 100% {
+            opacity: 0.4;
+            transform: scaleX(0.8);
           }
-          100% {
-            transform: translateX(400%);
+          50% {
+            opacity: 1;
+            transform: scaleX(1.2);
           }
         }
       `}</style>
@@ -91,7 +93,7 @@ export default function HomePage() {
           <div className="mb-8 sm:mb-10 text-center">
             <AnimatedTitle />
             
-<p className="text-zinc-600 dark:text-zinc-300 text-lg font-semibold tracking-wide">
+<p className="text-zinc-600 dark:text-zinc-300 text-xl sm:text-2xl font-semibold tracking-wide">
               Sistema de Atendimento
             </p>
           </div>
