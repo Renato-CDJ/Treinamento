@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
 import { useAuth } from "@/lib/auth-context"
-import { AlertCircle, Mail, Lock, Sun, Moon, ShieldCheck, User, ArrowLeft } from "lucide-react"
+import { AlertCircle, Mail, Lock, Sun, Moon, ShieldCheck, LogIn, ArrowLeft } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 
 import { useTheme } from "next-themes"
@@ -23,10 +23,10 @@ const DEFAULT_OPERATOR = {
   isOnline: true,
 }
 
-type LoginMode = "selection" | "admin" | "operator"
+type LoginMode = "main" | "admin"
 
 export const LoginForm = memo(function LoginForm() {
-  const [loginMode, setLoginMode] = useState<LoginMode>("selection")
+  const [loginMode, setLoginMode] = useState<LoginMode>("main")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
@@ -94,22 +94,23 @@ export const LoginForm = memo(function LoginForm() {
   }, [theme, setTheme])
 
   const handleBack = useCallback(() => {
-    setLoginMode("selection")
+    setLoginMode("main")
     setEmail("")
     setPassword("")
     setError("")
   }, [])
 
   return (
-    <Card className="w-full max-w-md mx-auto bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xl overflow-hidden">
-      {/* Botao tema */}
-      <div className="absolute top-4 right-4 z-20">
+    <Card className="w-full max-w-md mx-auto bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-2xl shadow-zinc-200/50 dark:shadow-black/30 overflow-hidden relative">
+      {/* Header com botoes de tema e ADM */}
+      <div className="flex items-center justify-between px-4 pt-4">
+        {/* Botao tema - esquerda */}
         <Button
           variant="ghost"
           size="icon"
           onClick={toggleTheme}
           title="Alternar tema"
-          className="h-9 w-9 rounded-full text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+          className="h-8 w-8 rounded-full text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
         >
           {theme === "dark" ? (
             <Sun className="h-4 w-4" />
@@ -117,92 +118,127 @@ export const LoginForm = memo(function LoginForm() {
             <Moon className="h-4 w-4" />
           )}
         </Button>
+
+        {/* Botao ADM - direita (apenas na tela principal) */}
+        {loginMode === "main" && (
+          <button
+            onClick={() => setLoginMode("admin")}
+            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-full transition-colors"
+          >
+            <ShieldCheck className="h-3.5 w-3.5" />
+            ADM
+          </button>
+        )}
+
+        {/* Placeholder para manter alinhamento quando no modo admin */}
+        {loginMode === "admin" && <div className="w-16" />}
       </div>
 
-      <CardContent className="pt-8 pb-8 px-8">
+      <CardContent className="pt-4 pb-8 px-8">
         {/* Logo */}
         <div className="flex justify-center mb-6">
-          <div className="w-16 h-16 rounded-xl overflow-hidden ring-2 ring-zinc-100 dark:ring-zinc-800">
-            <Image
-              src="/images/grupo_roveri_logo.jpg"
-              alt="Grupo Roveri"
-              width={64}
-              height={64}
-              className="w-full h-full object-cover"
-              priority
-            />
+          <div className="relative">
+            <div className="w-20 h-20 rounded-2xl overflow-hidden ring-4 ring-orange-100 dark:ring-orange-950/50 shadow-lg">
+              <Image
+                src="/images/grupo_roveri_logo.jpg"
+                alt="Grupo Roveri"
+                width={80}
+                height={80}
+                className="w-full h-full object-cover"
+                priority
+              />
+            </div>
+            {/* Indicador de status */}
+            <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-emerald-500 rounded-full border-3 border-white dark:border-zinc-900 shadow-sm" />
           </div>
         </div>
 
-        {/* Selecao de modo de login */}
-        {loginMode === "selection" && (
-          <div className="space-y-4">
-            <p className="text-center text-sm text-zinc-600 dark:text-zinc-400 mb-6">
-              Selecione o tipo de acesso
-            </p>
-            
-            {/* Botao ADM */}
-            <Button
-              onClick={() => setLoginMode("admin")}
-              className="w-full h-14 text-sm font-semibold bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-100 dark:text-zinc-900 text-white transition-all duration-200 shadow-sm hover:shadow-md flex items-center justify-center gap-3"
-            >
-              <ShieldCheck className="h-5 w-5" />
-              ADM
-            </Button>
+        {/* Tela principal - Operador */}
+        {loginMode === "main" && (
+          <div className="space-y-6">
+            {/* Titulo e subtitulo */}
+            <div className="text-center space-y-2">
+              <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
+                Bem-vindo
+              </h2>
+              <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                Clique abaixo para iniciar seu atendimento
+              </p>
+            </div>
 
-            {/* Botao Operador */}
+            {/* Botao principal de Operador */}
             <Button
               onClick={handleOperatorAccess}
               disabled={isLoading}
-              variant="outline"
-              className="w-full h-14 text-sm font-semibold border-2 border-orange-500 text-orange-600 hover:bg-orange-50 dark:hover:bg-orange-950/20 dark:text-orange-400 dark:border-orange-500 transition-all duration-200 flex items-center justify-center gap-3"
+              className="w-full h-14 text-base font-semibold bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white transition-all duration-300 shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/30 hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-3 rounded-xl"
             >
               {isLoading ? (
-                <span className="flex items-center gap-2">
-                  <span className="h-4 w-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                <span className="flex items-center gap-3">
+                  <span className="h-5 w-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                   Entrando...
                 </span>
               ) : (
                 <>
-                  <User className="h-5 w-5" />
-                  Operador
+                  <LogIn className="h-5 w-5" />
+                  Entrar como Operador
                 </>
               )}
             </Button>
+
+            {/* Erro */}
+            {error && (
+              <Alert
+                variant="destructive"
+                className="bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/50 text-red-700 dark:text-red-300"
+              >
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription className="text-sm">{error}</AlertDescription>
+              </Alert>
+            )}
+
+            {/* Footer discreto */}
+            <p className="text-center text-xs text-zinc-400 dark:text-zinc-500 pt-2">
+              Sistema de Atendimento - Grupo Roveri
+            </p>
           </div>
         )}
 
         {/* Formulario de login ADM */}
         {loginMode === "admin" && (
-          <div className="space-y-4">
+          <div className="space-y-5">
             {/* Botao voltar */}
             <button
               onClick={handleBack}
-              className="flex items-center gap-2 text-sm text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200 transition-colors mb-2"
+              className="flex items-center gap-2 text-sm text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200 transition-colors"
             >
               <ArrowLeft className="h-4 w-4" />
               Voltar
             </button>
 
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <ShieldCheck className="h-5 w-5 text-zinc-700 dark:text-zinc-300" />
-              <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                Acesso ADM
-              </span>
+            {/* Header ADM */}
+            <div className="text-center space-y-2">
+              <div className="inline-flex items-center justify-center gap-2 px-3 py-1.5 bg-zinc-100 dark:bg-zinc-800 rounded-full">
+                <ShieldCheck className="h-4 w-4 text-zinc-600 dark:text-zinc-400" />
+                <span className="text-xs font-semibold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">
+                  Acesso Administrativo
+                </span>
+              </div>
             </div>
 
             <form onSubmit={handleAdminSubmit} className="space-y-4">
               {/* Usuario */}
               <div className="space-y-2">
-                <label htmlFor="email" className="sr-only">
+                <label htmlFor="email" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
                   Usuario
                 </label>
                 <div className="relative flex items-stretch">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400 z-10" />
+                  <div className="absolute left-3 top-1/2 -translate-y-1/2 z-10">
+                    <Mail className="h-4 w-4 text-zinc-400" />
+                  </div>
                   <Input
                     id="email"
                     type="text"
-                    placeholder="Usuario"
+                    placeholder="seu.usuario"
                     value={email}
                     onChange={(e) => {
                       const value = e.target.value.split("@")[0]
@@ -212,9 +248,9 @@ export const LoginForm = memo(function LoginForm() {
                     required
                     autoComplete="username"
                     disabled={isLoading}
-                    className="h-12 pl-10 pr-4 flex-1 min-w-0 text-sm bg-zinc-50 dark:bg-zinc-800/50 border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 focus:border-orange-500 focus:ring-1 focus:ring-orange-500/30 rounded-r-none border-r-0"
+                    className="h-12 pl-10 pr-4 flex-1 min-w-0 text-sm bg-zinc-50 dark:bg-zinc-800/50 border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 rounded-r-none border-r-0 transition-all"
                   />
-                  <div className="h-12 px-2 sm:px-3 flex items-center bg-zinc-100 dark:bg-zinc-800 border border-l-0 border-zinc-200 dark:border-zinc-700 rounded-r-md shrink-0">
+                  <div className="h-12 px-2 sm:px-3 flex items-center bg-zinc-100 dark:bg-zinc-800 border border-l-0 border-zinc-200 dark:border-zinc-700 rounded-r-lg shrink-0">
                     <span className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 whitespace-nowrap">@gruporoveri.com</span>
                   </div>
                 </div>
@@ -222,7 +258,7 @@ export const LoginForm = memo(function LoginForm() {
 
               {/* Senha */}
               <div className="space-y-2">
-                <label htmlFor="password" className="sr-only">
+                <label htmlFor="password" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
                   Senha
                 </label>
                 <div className="relative">
@@ -230,13 +266,13 @@ export const LoginForm = memo(function LoginForm() {
                   <Input
                     id="password"
                     type="password"
-                    placeholder="Senha"
+                    placeholder="********"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     autoComplete="current-password"
                     disabled={isLoading}
-                    className="h-12 pl-10 text-sm bg-zinc-50 dark:bg-zinc-800/50 border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 focus:border-orange-500 focus:ring-1 focus:ring-orange-500/30 transition-all"
+                    className="h-12 pl-10 text-sm bg-zinc-50 dark:bg-zinc-800/50 border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 rounded-lg transition-all"
                   />
                 </div>
               </div>
@@ -255,12 +291,12 @@ export const LoginForm = memo(function LoginForm() {
               {/* Botao Entrar */}
               <Button
                 type="submit"
-                className="w-full h-12 text-sm font-semibold bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-100 dark:text-zinc-900 text-white transition-all duration-200 shadow-sm hover:shadow-md"
+                className="w-full h-12 text-sm font-semibold bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-white dark:text-zinc-900 text-white transition-all duration-200 shadow-md hover:shadow-lg rounded-xl"
                 disabled={isLoading}
               >
                 {isLoading ? (
                   <span className="flex items-center gap-2">
-                    <span className="h-4 w-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                    <span className="h-4 w-4 border-2 border-current/30 border-t-current rounded-full animate-spin" />
                     Entrando...
                   </span>
                 ) : (
@@ -269,17 +305,6 @@ export const LoginForm = memo(function LoginForm() {
               </Button>
             </form>
           </div>
-        )}
-
-        {/* Erro geral (para modo selecao) */}
-        {loginMode === "selection" && error && (
-          <Alert
-            variant="destructive"
-            className="mt-4 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/50 text-red-700 dark:text-red-300"
-          >
-            <AlertCircle className="h-4 w-4" />
-            <AlertDescription className="text-sm">{error}</AlertDescription>
-          </Alert>
         )}
       </CardContent>
     </Card>
