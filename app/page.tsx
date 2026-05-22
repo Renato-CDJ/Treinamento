@@ -5,131 +5,124 @@ import { useRouter } from "next/navigation"
 import { useAuth } from "@/lib/auth-context"
 import { LoginForm } from "@/components/login-form"
 
-// Componente animado para o titulo "Roteiro" com efeito laranja e brilho varrendo
+// Componente animado para o titulo "Roteiro" com efeito laranja e brilho varrendo diagonal
 function AnimatedTitle() {
   return (
-    <div className="relative cursor-default select-none py-4 w-full flex justify-center">
+    <div className="relative cursor-default select-none py-6 w-full flex justify-center">
       <svg 
-        viewBox="0 0 600 120" 
-        className="w-full max-w-[500px] h-auto overflow-visible"
+        viewBox="0 0 700 140" 
+        className="w-full max-w-[650px] h-auto overflow-visible"
         role="img" 
         aria-label="Roteiro"
       >
         <defs>
-          {/* Gradiente laranja para o texto */}
-          <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#ff5722"/>
-            <stop offset="25%" stopColor="#ff7043"/>
-            <stop offset="50%" stopColor="#ff9800"/>
-            <stop offset="75%" stopColor="#ff7043"/>
-            <stop offset="100%" stopColor="#ff5722"/>
+          {/* Gradiente laranja metalico para o texto */}
+          <linearGradient id="orangeMetalGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#ffcc80"/>
+            <stop offset="15%" stopColor="#ff9800"/>
+            <stop offset="30%" stopColor="#ffb74d"/>
+            <stop offset="50%" stopColor="#ff6d00"/>
+            <stop offset="70%" stopColor="#ff9800"/>
+            <stop offset="85%" stopColor="#ffcc80"/>
+            <stop offset="100%" stopColor="#ff8f00"/>
           </linearGradient>
 
-          {/* Gradiente laranja para barras decorativas */}
-          <linearGradient id="barGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#ffb300"/>
-            <stop offset="50%" stopColor="#ff8f00"/>
-            <stop offset="100%" stopColor="#ff6d00"/>
-          </linearGradient>
-
-          {/* Gradiente do brilho que varre */}
-          <linearGradient id="shineGrad" x1="0" y1="0" x2="1" y2="0">
+          {/* Gradiente do brilho diagonal que varre */}
+          <linearGradient id="sweepShine" x1="0" y1="0" x2="1" y2="0">
             <stop offset="0" stopColor="white" stopOpacity="0"/>
-            <stop offset="0.45" stopColor="white" stopOpacity="0.75"/>
-            <stop offset="0.55" stopColor="white" stopOpacity="0.95"/>
+            <stop offset="0.3" stopColor="white" stopOpacity="0"/>
+            <stop offset="0.48" stopColor="white" stopOpacity="0.7"/>
+            <stop offset="0.5" stopColor="white" stopOpacity="1"/>
+            <stop offset="0.52" stopColor="white" stopOpacity="0.7"/>
+            <stop offset="0.7" stopColor="white" stopOpacity="0"/>
             <stop offset="1" stopColor="white" stopOpacity="0"/>
           </linearGradient>
 
-          {/* Filtro de sombra e brilho para efeito 3D */}
-          <filter id="orangeFX" x="-15%" y="-25%" width="130%" height="150%">
-            <feDropShadow dx="0" dy="8" stdDeviation="8" floodColor="rgba(255,87,34,0.4)"/>
-            <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="rgba(255,255,255,0.2)"/>
+          {/* Filtro de sombra laranja para efeito glow */}
+          <filter id="orangeGlow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="6" stdDeviation="6" floodColor="rgba(255,152,0,0.5)"/>
           </filter>
 
-          {/* Filtro para as barras */}
-          <filter id="barFX" x="-15%" y="-25%" width="130%" height="150%">
-            <feDropShadow dx="0" dy="3" stdDeviation="3" floodColor="rgba(0,0,0,0.4)"/>
-          </filter>
-
-          {/* Mascara de brilho varrendo - exatamente como no original */}
-          <mask id="shineMask">
-            <rect width="100%" height="100%" fill="white"/>
-            <rect 
-              className="shine-rect" 
-              x="-200" 
-              y="0" 
-              width="150" 
-              height="120" 
-              fill="url(#shineHighlight)"
-              style={{
-                animation: "sweep 4.5s linear infinite",
-              }}
-            />
-          </mask>
-
-          <linearGradient id="shineHighlight" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0" stopColor="black" stopOpacity="0"/>
-            <stop offset="0.45" stopColor="white" stopOpacity="0.85"/>
-            <stop offset="0.55" stopColor="white" stopOpacity="1"/>
-            <stop offset="1" stopColor="black" stopOpacity="0"/>
-          </linearGradient>
+          {/* Clip path do texto para o brilho */}
+          <clipPath id="textClip">
+            <text 
+              x="350" 
+              y="100" 
+              textAnchor="middle" 
+              fontSize="120" 
+              fontWeight="900"
+              fontFamily="system-ui, -apple-system, sans-serif"
+              letterSpacing="8"
+            >
+              ROTEIRO
+            </text>
+          </clipPath>
         </defs>
 
         {/* Sombra do texto */}
         <text 
-          x="300" 
-          y="85" 
+          x="350" 
+          y="100" 
           textAnchor="middle" 
-          fontSize="95" 
+          fontSize="120" 
           fontWeight="900"
           fontFamily="system-ui, -apple-system, sans-serif"
-          letterSpacing="4"
-          fill="rgba(0,0,0,0.25)"
-          transform="translate(3, 6)"
+          letterSpacing="8"
+          fill="rgba(0,0,0,0.35)"
+          transform="translate(4, 6)"
         >
           ROTEIRO
         </text>
 
-        {/* Texto principal laranja com mascara de brilho */}
-        <g mask="url(#shineMask)">
-          <text 
-            x="300" 
-            y="85" 
-            textAnchor="middle" 
-            fontSize="95" 
-            fontWeight="900"
-            fontFamily="system-ui, -apple-system, sans-serif"
-            letterSpacing="4"
-            fill="url(#orangeGrad)"
-            stroke="rgba(255,255,255,0.3)"
-            strokeWidth="1.5"
-            paintOrder="stroke fill"
-            filter="url(#orangeFX)"
-          >
-            ROTEIRO
-          </text>
-        </g>
+        {/* Texto principal laranja metalico */}
+        <text 
+          x="350" 
+          y="100" 
+          textAnchor="middle" 
+          fontSize="120" 
+          fontWeight="900"
+          fontFamily="system-ui, -apple-system, sans-serif"
+          letterSpacing="8"
+          fill="url(#orangeMetalGrad)"
+          stroke="rgba(255,200,128,0.4)"
+          strokeWidth="1"
+          paintOrder="stroke fill"
+          filter="url(#orangeGlow)"
+        >
+          ROTEIRO
+        </text>
 
-        {/* Barras laranjas decorativas abaixo */}
-        <g filter="url(#barFX)">
+        {/* Barra de brilho diagonal varrendo sobre o texto */}
+        <g clipPath="url(#textClip)">
           <rect 
-            x="150" 
-            y="100" 
-            width="300" 
-            height="5" 
-            rx="2.5"
-            fill="url(#barGrad)"
+            x="-100" 
+            y="-20" 
+            width="120" 
+            height="200" 
+            fill="url(#sweepShine)"
+            style={{
+              transform: "skewX(-20deg)",
+              animation: "sweepAnim 3s ease-in-out infinite",
+            }}
           />
         </g>
 
+        {/* Linha de destaque laranja abaixo */}
+        <rect 
+          x="175" 
+          y="118" 
+          width="350" 
+          height="4" 
+          rx="2"
+          fill="url(#orangeMetalGrad)"
+          opacity="0.8"
+        />
+
         <style>
           {`
-            @keyframes sweep {
-              0% { transform: translateX(-200px) skewX(-18deg); }
-              100% { transform: translateX(800px) skewX(-18deg); }
-            }
-            .shine-rect {
-              transform-origin: center;
+            @keyframes sweepAnim {
+              0% { transform: translateX(-150px) skewX(-20deg); }
+              100% { transform: translateX(850px) skewX(-20deg); }
             }
           `}
         </style>
