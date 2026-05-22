@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { useAuth } from "@/lib/auth-context"
 import { LoginForm } from "@/components/login-form"
 
-// Componente animado para o titulo "Roteiro" com efeito cromado e brilho varrendo (inspirado no Grupo Roveri)
+// Componente animado para o titulo "Roteiro" com efeito laranja e brilho varrendo
 function AnimatedTitle() {
   return (
     <div className="relative cursor-default select-none py-4 w-full flex justify-center">
@@ -16,16 +16,13 @@ function AnimatedTitle() {
         aria-label="Roteiro"
       >
         <defs>
-          {/* Gradiente cromado para as letras */}
-          <linearGradient id="chromeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#dcdcdc"/>
-            <stop offset="10%" stopColor="#ffffff"/>
-            <stop offset="22%" stopColor="#bdbdbd"/>
-            <stop offset="35%" stopColor="#f5f5f5"/>
-            <stop offset="50%" stopColor="#a8a8a8"/>
-            <stop offset="65%" stopColor="#ffffff"/>
-            <stop offset="78%" stopColor="#cfcfcf"/>
-            <stop offset="100%" stopColor="#b0b0b0"/>
+          {/* Gradiente laranja para o texto */}
+          <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#ff5722"/>
+            <stop offset="25%" stopColor="#ff7043"/>
+            <stop offset="50%" stopColor="#ff9800"/>
+            <stop offset="75%" stopColor="#ff7043"/>
+            <stop offset="100%" stopColor="#ff5722"/>
           </linearGradient>
 
           {/* Gradiente laranja para barras decorativas */}
@@ -38,36 +35,44 @@ function AnimatedTitle() {
           {/* Gradiente do brilho que varre */}
           <linearGradient id="shineGrad" x1="0" y1="0" x2="1" y2="0">
             <stop offset="0" stopColor="white" stopOpacity="0"/>
-            <stop offset="0.4" stopColor="white" stopOpacity="0.4"/>
-            <stop offset="0.5" stopColor="white" stopOpacity="0.8"/>
-            <stop offset="0.6" stopColor="white" stopOpacity="0.4"/>
+            <stop offset="0.45" stopColor="white" stopOpacity="0.75"/>
+            <stop offset="0.55" stopColor="white" stopOpacity="0.95"/>
             <stop offset="1" stopColor="white" stopOpacity="0"/>
           </linearGradient>
 
-          {/* Clip path para o texto */}
-          <clipPath id="textClip">
-            <text 
-              x="300" 
-              y="85" 
-              textAnchor="middle" 
-              fontSize="95" 
-              fontWeight="900"
-              fontFamily="system-ui, -apple-system, sans-serif"
-              letterSpacing="4"
-            >
-              ROTEIRO
-            </text>
-          </clipPath>
-
-          {/* Filtro de sombra para efeito 3D */}
-          <filter id="textShadow" x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="0" dy="4" stdDeviation="3" floodColor="rgba(0,0,0,0.5)"/>
+          {/* Filtro de sombra e brilho para efeito 3D */}
+          <filter id="orangeFX" x="-15%" y="-25%" width="130%" height="150%">
+            <feDropShadow dx="0" dy="8" stdDeviation="8" floodColor="rgba(255,87,34,0.4)"/>
+            <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="rgba(255,255,255,0.2)"/>
           </filter>
 
           {/* Filtro para as barras */}
           <filter id="barFX" x="-15%" y="-25%" width="130%" height="150%">
             <feDropShadow dx="0" dy="3" stdDeviation="3" floodColor="rgba(0,0,0,0.4)"/>
           </filter>
+
+          {/* Mascara de brilho varrendo - exatamente como no original */}
+          <mask id="shineMask">
+            <rect width="100%" height="100%" fill="white"/>
+            <rect 
+              className="shine-rect" 
+              x="-200" 
+              y="0" 
+              width="150" 
+              height="120" 
+              fill="url(#shineHighlight)"
+              style={{
+                animation: "sweep 4.5s linear infinite",
+              }}
+            />
+          </mask>
+
+          <linearGradient id="shineHighlight" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stopColor="black" stopOpacity="0"/>
+            <stop offset="0.45" stopColor="white" stopOpacity="0.85"/>
+            <stop offset="0.55" stopColor="white" stopOpacity="1"/>
+            <stop offset="1" stopColor="black" stopOpacity="0"/>
+          </linearGradient>
         </defs>
 
         {/* Sombra do texto */}
@@ -79,42 +84,30 @@ function AnimatedTitle() {
           fontWeight="900"
           fontFamily="system-ui, -apple-system, sans-serif"
           letterSpacing="4"
-          fill="rgba(0,0,0,0.3)"
-          transform="translate(3, 5)"
+          fill="rgba(0,0,0,0.25)"
+          transform="translate(3, 6)"
         >
           ROTEIRO
         </text>
 
-        {/* Texto principal com gradiente cromado */}
-        <text 
-          x="300" 
-          y="85" 
-          textAnchor="middle" 
-          fontSize="95" 
-          fontWeight="900"
-          fontFamily="system-ui, -apple-system, sans-serif"
-          letterSpacing="4"
-          fill="url(#chromeGrad)"
-          stroke="rgba(80,80,80,0.4)"
-          strokeWidth="0.5"
-          paintOrder="stroke fill"
-        >
-          ROTEIRO
-        </text>
-
-        {/* Brilho varrendo (sweep shine) */}
-        <g clipPath="url(#textClip)">
-          <rect 
-            x="-200" 
-            y="0" 
-            width="200" 
-            height="120" 
-            fill="url(#shineGrad)"
-            transform="skewX(-20)"
-            style={{
-              animation: "sweepShine 3.5s ease-in-out infinite",
-            }}
-          />
+        {/* Texto principal laranja com mascara de brilho */}
+        <g mask="url(#shineMask)">
+          <text 
+            x="300" 
+            y="85" 
+            textAnchor="middle" 
+            fontSize="95" 
+            fontWeight="900"
+            fontFamily="system-ui, -apple-system, sans-serif"
+            letterSpacing="4"
+            fill="url(#orangeGrad)"
+            stroke="rgba(255,255,255,0.3)"
+            strokeWidth="1.5"
+            paintOrder="stroke fill"
+            filter="url(#orangeFX)"
+          >
+            ROTEIRO
+          </text>
         </g>
 
         {/* Barras laranjas decorativas abaixo */}
@@ -131,9 +124,12 @@ function AnimatedTitle() {
 
         <style>
           {`
-            @keyframes sweepShine {
-              0% { transform: translateX(-200px) skewX(-20deg); }
-              100% { transform: translateX(800px) skewX(-20deg); }
+            @keyframes sweep {
+              0% { transform: translateX(-200px) skewX(-18deg); }
+              100% { transform: translateX(800px) skewX(-18deg); }
+            }
+            .shine-rect {
+              transform-origin: center;
             }
           `}
         </style>
