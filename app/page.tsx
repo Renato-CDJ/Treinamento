@@ -5,54 +5,139 @@ import { useRouter } from "next/navigation"
 import { useAuth } from "@/lib/auth-context"
 import { LoginForm } from "@/components/login-form"
 
-// Componente animado para o titulo "Roteiro" com efeito de hover impactante
+// Componente animado para o titulo "Roteiro" com efeito cromado e brilho varrendo (inspirado no Grupo Roveri)
 function AnimatedTitle() {
   return (
-    <div className="relative cursor-default select-none py-8">
-      <h1 className="relative text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tight mb-4 group">
-        <span 
-          className="inline-block bg-gradient-to-r from-orange-500 via-orange-400 to-orange-500 bg-clip-text text-transparent bg-[length:200%_100%] transition-all duration-500 ease-out group-hover:scale-110 group-hover:drop-shadow-[0_0_25px_rgba(249,115,22,0.5)]"
-          style={{
-            animation: "shimmer 4s ease-in-out infinite",
-          }}
-        >
-          Roteiro
-        </span>
-      </h1>
-      
-      {/* Linha de luz animada abaixo do titulo */}
-      <div 
-        className="absolute bottom-4 left-1/2 -translate-x-1/2 w-32 h-[3px] overflow-hidden rounded-full"
-        style={{ opacity: 0.7 }}
+    <div className="relative cursor-default select-none py-4 w-full flex justify-center">
+      <svg 
+        viewBox="0 0 600 120" 
+        className="w-full max-w-[500px] h-auto overflow-visible"
+        role="img" 
+        aria-label="Roteiro"
       >
-        <div 
-          className="h-full w-full bg-gradient-to-r from-transparent via-orange-500 to-transparent"
-          style={{
-            animation: "pulse 2s ease-in-out infinite",
-          }}
-        />
-      </div>
-      
-      <style jsx>{`
-        @keyframes shimmer {
-          0%, 100% {
-            backgroundPosition: 0% 50%;
-          }
-          50% {
-            backgroundPosition: 100% 50%;
-          }
-        }
-        @keyframes pulse {
-          0%, 100% {
-            opacity: 0.4;
-            transform: scaleX(0.8);
-          }
-          50% {
-            opacity: 1;
-            transform: scaleX(1.2);
-          }
-        }
-      `}</style>
+        <defs>
+          {/* Gradiente cromado para as letras */}
+          <linearGradient id="chromeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#dcdcdc"/>
+            <stop offset="10%" stopColor="#ffffff"/>
+            <stop offset="22%" stopColor="#bdbdbd"/>
+            <stop offset="35%" stopColor="#f5f5f5"/>
+            <stop offset="50%" stopColor="#a8a8a8"/>
+            <stop offset="65%" stopColor="#ffffff"/>
+            <stop offset="78%" stopColor="#cfcfcf"/>
+            <stop offset="100%" stopColor="#b0b0b0"/>
+          </linearGradient>
+
+          {/* Gradiente laranja para barras decorativas */}
+          <linearGradient id="barGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#ffb300"/>
+            <stop offset="50%" stopColor="#ff8f00"/>
+            <stop offset="100%" stopColor="#ff6d00"/>
+          </linearGradient>
+
+          {/* Gradiente do brilho que varre */}
+          <linearGradient id="shineGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stopColor="white" stopOpacity="0"/>
+            <stop offset="0.4" stopColor="white" stopOpacity="0.4"/>
+            <stop offset="0.5" stopColor="white" stopOpacity="0.8"/>
+            <stop offset="0.6" stopColor="white" stopOpacity="0.4"/>
+            <stop offset="1" stopColor="white" stopOpacity="0"/>
+          </linearGradient>
+
+          {/* Clip path para o texto */}
+          <clipPath id="textClip">
+            <text 
+              x="300" 
+              y="85" 
+              textAnchor="middle" 
+              fontSize="95" 
+              fontWeight="900"
+              fontFamily="system-ui, -apple-system, sans-serif"
+              letterSpacing="4"
+            >
+              ROTEIRO
+            </text>
+          </clipPath>
+
+          {/* Filtro de sombra para efeito 3D */}
+          <filter id="textShadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="4" stdDeviation="3" floodColor="rgba(0,0,0,0.5)"/>
+          </filter>
+
+          {/* Filtro para as barras */}
+          <filter id="barFX" x="-15%" y="-25%" width="130%" height="150%">
+            <feDropShadow dx="0" dy="3" stdDeviation="3" floodColor="rgba(0,0,0,0.4)"/>
+          </filter>
+        </defs>
+
+        {/* Sombra do texto */}
+        <text 
+          x="300" 
+          y="85" 
+          textAnchor="middle" 
+          fontSize="95" 
+          fontWeight="900"
+          fontFamily="system-ui, -apple-system, sans-serif"
+          letterSpacing="4"
+          fill="rgba(0,0,0,0.3)"
+          transform="translate(3, 5)"
+        >
+          ROTEIRO
+        </text>
+
+        {/* Texto principal com gradiente cromado */}
+        <text 
+          x="300" 
+          y="85" 
+          textAnchor="middle" 
+          fontSize="95" 
+          fontWeight="900"
+          fontFamily="system-ui, -apple-system, sans-serif"
+          letterSpacing="4"
+          fill="url(#chromeGrad)"
+          stroke="rgba(80,80,80,0.4)"
+          strokeWidth="0.5"
+          paintOrder="stroke fill"
+        >
+          ROTEIRO
+        </text>
+
+        {/* Brilho varrendo (sweep shine) */}
+        <g clipPath="url(#textClip)">
+          <rect 
+            x="-200" 
+            y="0" 
+            width="200" 
+            height="120" 
+            fill="url(#shineGrad)"
+            transform="skewX(-20)"
+            style={{
+              animation: "sweepShine 3.5s ease-in-out infinite",
+            }}
+          />
+        </g>
+
+        {/* Barras laranjas decorativas abaixo */}
+        <g filter="url(#barFX)">
+          <rect 
+            x="150" 
+            y="100" 
+            width="300" 
+            height="5" 
+            rx="2.5"
+            fill="url(#barGrad)"
+          />
+        </g>
+
+        <style>
+          {`
+            @keyframes sweepShine {
+              0% { transform: translateX(-200px) skewX(-20deg); }
+              100% { transform: translateX(800px) skewX(-20deg); }
+            }
+          `}
+        </style>
+      </svg>
     </div>
   )
 }
@@ -90,7 +175,7 @@ export default function HomePage() {
     <div className="min-h-screen min-h-dvh flex flex-col items-center justify-center bg-zinc-50 dark:bg-zinc-950 p-4 md:p-6 overflow-x-hidden">
         <div className="w-full max-w-md px-2 sm:px-0">
           {/* Titulo */}
-          <div className="mb-8 sm:mb-10 text-center">
+          <div className="mb-6 sm:mb-8 text-center">
             <AnimatedTitle />
             
 <p className="text-zinc-600 dark:text-zinc-300 text-xl sm:text-2xl font-semibold tracking-wide">
