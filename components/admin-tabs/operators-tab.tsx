@@ -3,10 +3,11 @@
 import type React from "react"
 
 import { useState, useEffect, useRef } from "react"
-import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import {
   Dialog,
   DialogContent,
@@ -15,7 +16,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { UserX, Plus, Edit, Trash2, Upload } from "lucide-react"
+import { UserX, Plus, Edit, Trash2, Upload, Users, UserCheck, Search } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import {
   forceLogoutUser,
@@ -24,12 +25,15 @@ import {
 import { createClient } from "@/lib/supabase/client"
 import type { User } from "@/lib/types"
 import * as XLSX from "xlsx"
+import { AdminPageHeader } from "@/components/admin-page-header"
+import { AdminStatCard } from "@/components/admin-stat-card"
 
 // Dominio padrao para emails de operadores
 const EMAIL_DOMAIN = "@gruporoveri.com"
 
 export function OperatorsTab() {
   const [operators, setOperators] = useState<User[]>([])
+  const [searchQuery, setSearchQuery] = useState("")
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [isEditMode, setIsEditMode] = useState(false)
   const [editingOperator, setEditingOperator] = useState<User | null>(null)
@@ -408,63 +412,148 @@ export function OperatorsTab() {
     }
   }
 
+  // Filter operators based on search
+  const filteredOperators = operators.filter((op) => {
+    if (!searchQuery) return true
+    const query = searchQuery.toLowerCase()
+    return (
+      op.fullName.toLowerCase().includes(query) ||
+      op.email?.toLowerCase().includes(query) ||
+      op.username.toLowerCase().includes(query)
+    )
+  })
+
+  // Get initials for avatar
+  const getInitials = (name: string) => {
+    const parts = name.split(" ")
+    if (parts.length >= 2) {
+      return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase()
+    }
+    return name.slice(0, 2).toUpperCase()
+  }
+
+  const onlineCount = operators.filter((op) => op.isOnline).length
+
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-3xl font-bold">Gerenciar Operadores</h2>
-          <p className="text-muted-foreground mt-1">
-            Visualize e gerencie os operadores do sistema ({operators.length} operadores)
-          </p>
-        </div>
-        <div className="flex gap-3">
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".xlsx,.xls,.csv"
-            onChange={handleFileChange}
-            className="hidden"
-          />
-          <Button variant="outline" onClick={handleImportClick} className="gap-2 bg-transparent">
-            <Upload className="h-4 w-4" />
-            Importar Usuários
-          </Button>
-          <Button onClick={handleOpenDialog} className="gap-2">
-            <Plus className="h-4 w-4 mr-2" />
-            Adicionar Operador
-          </Button>
-        </div>
+      <AdminPageHeader
+        icon={Users}
+        title="Gerenciar Operadores"
+        description={`Visualize e gerencie os operadores do sistema (${operators.length} operadores)`}
+      >
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept=".xlsx,.xls,.csv"
+          onChange={handleFileChange}
+          className="hidden"
+        />
+        <Button variant="outline" onClick={handleImportClick} className="gap-2 border-border/60">
+          <Upload className="h-4 w-4" />
+          Importar
+        </Button>
+        <Button onClick={handleOpenDialog} className="gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-md shadow-orange-500/20">
+          <Plus className="h-4 w-4" />
+          Adicionar Operador
+        </Button>
+      </AdminPageHeader>
+
+      {/* Stats */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <AdminStatCard
+          icon={Users}
+          label="Total de Operadores"
+          value={operators.length}
+          variant="default"
+        />
+        <AdminStatCard
+          icon={UserCheck}
+          label="Online Agora"
+          value={onlineCount}
+          variant="success"
+        />
+        <AdminStatCard
+          icon={Users}
+          label="Offline"
+          value={operators.length - onlineCount}
+          variant="warning"
+        />
       </div>
 
-      <div className="grid gap-4">
-        {operators.map((operator) => {
-          return (
-            <Card key={operator.id}>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <CardTitle className="flex items-center gap-3">{operator.fullName}</CardTitle>
-                    <CardDescription className="mt-1">{operator.email || operator.username}</CardDescription>
+      {/* Search */}
+      <Card className="border-border/60">
+        <CardContent className="pt-6">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Pesquisar operador por nome ou email..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9"
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      <div className="grid gap-3">
+        {filteredOperators.length === 0 ? (
+          <Card className="border-dashed border-2 border-border/60">
+            <CardContent className="flex flex-col items-center justify-center py-16">
+              <div className="h-16 w-16 rounded-2xl bg-muted/60 flex items-center justify-center mb-4">
+                <Users className="h-8 w-8 text-muted-foreground/50" />
+              </div>
+              <p className="text-base font-medium text-foreground mb-1">
+                {operators.length === 0 ? "Nenhum operador cadastrado" : "Nenhum resultado encontrado"}
+              </p>
+              <p className="text-sm text-muted-foreground text-center max-w-sm">
+                {operators.length === 0
+                  ? "Clique em \"Adicionar Operador\" para cadastrar seu primeiro operador."
+                  : "Tente ajustar sua busca para encontrar o operador."}
+              </p>
+            </CardContent>
+          </Card>
+        ) : (
+          filteredOperators.map((operator) => {
+            return (
+              <Card key={operator.id} className="border-border/60 shadow-sm hover:shadow-md transition-all duration-200 group">
+                <CardHeader className="py-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="relative">
+                        <Avatar className="h-10 w-10 border-2 border-border">
+                          <AvatarFallback className="bg-gradient-to-br from-orange-500/20 to-amber-500/20 text-orange-600 dark:text-orange-400 text-sm font-semibold">
+                            {getInitials(operator.fullName)}
+                          </AvatarFallback>
+                        </Avatar>
+                        {operator.isOnline && (
+                          <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-emerald-500 border-2 border-card" />
+                        )}
+                      </div>
+                      <div>
+                        <CardTitle className="text-base font-semibold">{operator.fullName}</CardTitle>
+                        <CardDescription className="text-xs">{operator.email || operator.username}</CardDescription>
+                      </div>
+                    </div>
+                    <div className="flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Button variant="ghost" size="sm" className="h-8 px-2 hover:bg-orange-500/10 hover:text-orange-500" onClick={() => handleEdit(operator)}>
+                        <Edit className="h-4 w-4 mr-1" />
+                        Editar
+                      </Button>
+                      <Button variant="ghost" size="sm" className="h-8 px-2 hover:bg-amber-500/10 hover:text-amber-500" onClick={() => handleForceLogout(operator.id)}>
+                        <UserX className="h-4 w-4 mr-1" />
+                        Deslogar
+                      </Button>
+                      <Button variant="ghost" size="sm" className="h-8 px-2 hover:bg-red-500/10 hover:text-red-500" onClick={() => handleDelete(operator.id)}>
+                        <Trash2 className="h-4 w-4 mr-1" />
+                        Excluir
+                      </Button>
+                    </div>
                   </div>
-                  <div className="flex gap-2">
-                    <Button variant="outline" size="sm" onClick={() => handleEdit(operator)}>
-                      <Edit className="h-4 w-4 mr-2" />
-                      Editar
-                    </Button>
-                    <Button variant="outline" size="sm" onClick={() => handleForceLogout(operator.id)}>
-                      <UserX className="h-4 w-4 mr-2" />
-                      Deslogar
-                    </Button>
-                    <Button variant="outline" size="sm" onClick={() => handleDelete(operator.id)}>
-                      <Trash2 className="h-4 w-4 mr-2 text-destructive" />
-                      Excluir
-                    </Button>
-                  </div>
-                </div>
-              </CardHeader>
-            </Card>
-          )
-        })}
+                </CardHeader>
+              </Card>
+            )
+          })
+        )}
       </div>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
