@@ -101,7 +101,7 @@ export const LoginForm = memo(function LoginForm() {
   }, [])
 
   return (
-    <Card className="w-full max-w-md mx-auto bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl border border-zinc-200/50 dark:border-zinc-700/50 shadow-2xl shadow-zinc-300/30 dark:shadow-black/40 overflow-hidden relative rounded-3xl">
+    <Card className="w-full max-w-sm mx-auto bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl border border-zinc-200/50 dark:border-zinc-700/50 shadow-2xl shadow-zinc-300/30 dark:shadow-black/40 overflow-hidden relative rounded-3xl">
       {/* Efeito de brilho sutil no topo */}
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-orange-400/50 to-transparent" />
       
@@ -137,18 +137,18 @@ export const LoginForm = memo(function LoginForm() {
         {loginMode === "admin" && <div className="w-16" />}
       </div>
 
-      <CardContent className="pt-6 pb-10 px-8">
+      <CardContent className="pt-4 pb-7 px-6">
         {/* Logo com efeito de glow */}
-        <div className="flex justify-center mb-10">
+        <div className="flex justify-center mb-6">
           <div className="relative group">
             {/* Glow effect */}
-            <div className="absolute -inset-3 bg-gradient-to-br from-orange-400/20 to-orange-600/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="relative w-24 h-24 rounded-2xl overflow-hidden ring-2 ring-zinc-200/50 dark:ring-zinc-700/50 shadow-xl transition-all duration-500 group-hover:ring-orange-300/50 dark:group-hover:ring-orange-600/30 group-hover:shadow-orange-500/20 group-hover:scale-[1.02]">
+            <div className="absolute -inset-2 bg-gradient-to-br from-orange-400/20 to-orange-600/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="relative w-16 h-16 rounded-2xl overflow-hidden ring-2 ring-zinc-200/50 dark:ring-zinc-700/50 shadow-xl transition-all duration-500 group-hover:ring-orange-300/50 dark:group-hover:ring-orange-600/30 group-hover:shadow-orange-500/20 group-hover:scale-[1.02]">
               <Image
                 src="/images/grupo_roveri_logo.jpg"
                 alt="Grupo Roveri"
-                width={96}
-                height={96}
+                width={64}
+                height={64}
                 className="w-full h-full object-cover"
                 priority
               />
@@ -163,7 +163,7 @@ export const LoginForm = memo(function LoginForm() {
             <Button
               onClick={handleOperatorAccess}
               disabled={isLoading}
-              className="group relative w-full h-14 text-base font-semibold bg-gradient-to-r from-orange-500 via-orange-500 to-orange-600 hover:from-orange-600 hover:via-orange-500 hover:to-orange-500 text-white transition-all duration-500 shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 active:shadow-md flex items-center justify-center gap-3 rounded-2xl overflow-hidden"
+              className="group relative w-full h-12 text-sm font-semibold bg-gradient-to-r from-orange-500 via-orange-500 to-orange-600 hover:from-orange-600 hover:via-orange-500 hover:to-orange-500 text-white transition-all duration-500 shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 active:shadow-md flex items-center justify-center gap-3 rounded-2xl overflow-hidden"
             >
               {/* Efeito de brilho no hover */}
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
@@ -240,9 +240,9 @@ export const LoginForm = memo(function LoginForm() {
                     required
                     autoComplete="username"
                     disabled={isLoading}
-                    className="h-14 pl-14 pr-4 flex-1 min-w-0 text-sm font-medium bg-zinc-50/80 dark:bg-zinc-800/50 border-2 border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 focus:border-orange-400 focus:ring-4 focus:ring-orange-400/10 dark:focus:border-orange-500 dark:focus:ring-orange-500/10 rounded-l-2xl rounded-r-none border-r-0 transition-all duration-300"
+                    className="h-11 pl-12 pr-4 flex-1 min-w-0 text-sm font-medium bg-zinc-50/80 dark:bg-zinc-800/50 border-2 border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 focus:border-orange-400 focus:ring-4 focus:ring-orange-400/10 dark:focus:border-orange-500 dark:focus:ring-orange-500/10 rounded-l-2xl rounded-r-none border-r-0 transition-all duration-300"
                   />
-                  <div className="h-14 px-3 sm:px-4 flex items-center bg-gradient-to-r from-zinc-100 to-zinc-50 dark:from-zinc-800 dark:to-zinc-800/80 border-2 border-l-0 border-zinc-200 dark:border-zinc-700 rounded-r-2xl shrink-0 transition-all duration-300 group-focus-within:border-orange-400 dark:group-focus-within:border-orange-500 group-focus-within:from-orange-50 group-focus-within:to-orange-50/50 dark:group-focus-within:from-orange-950/30 dark:group-focus-within:to-orange-950/20">
+                  <div className="h-11 px-3 sm:px-4 flex items-center bg-gradient-to-r from-zinc-100 to-zinc-50 dark:from-zinc-800 dark:to-zinc-800/80 border-2 border-l-0 border-zinc-200 dark:border-zinc-700 rounded-r-2xl shrink-0 transition-all duration-300 group-focus-within:border-orange-400 dark:group-focus-within:border-orange-500 group-focus-within:from-orange-50 group-focus-within:to-orange-50/50 dark:group-focus-within:from-orange-950/30 dark:group-focus-within:to-orange-950/20">
                     <span className="text-xs sm:text-sm font-medium text-zinc-500 dark:text-zinc-400 whitespace-nowrap transition-colors duration-300 group-focus-within:text-orange-600 dark:group-focus-within:text-orange-400">@gruporoveri.com</span>
                   </div>
                 </div>
@@ -268,7 +268,7 @@ export const LoginForm = memo(function LoginForm() {
                     required
                     autoComplete="current-password"
                     disabled={isLoading}
-                    className="h-14 pl-14 text-sm font-medium bg-zinc-50/80 dark:bg-zinc-800/50 border-2 border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 focus:border-orange-400 focus:ring-4 focus:ring-orange-400/10 dark:focus:border-orange-500 dark:focus:ring-orange-500/10 rounded-2xl transition-all duration-300"
+                    className="h-11 pl-12 text-sm font-medium bg-zinc-50/80 dark:bg-zinc-800/50 border-2 border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 focus:border-orange-400 focus:ring-4 focus:ring-orange-400/10 dark:focus:border-orange-500 dark:focus:ring-orange-500/10 rounded-2xl transition-all duration-300"
                   />
                 </div>
               </div>
@@ -287,7 +287,7 @@ export const LoginForm = memo(function LoginForm() {
               {/* Botao Entrar */}
               <Button
                 type="submit"
-                className="group relative w-full h-14 text-base font-semibold bg-gradient-to-r from-zinc-800 via-zinc-900 to-zinc-800 hover:from-zinc-900 hover:via-zinc-800 hover:to-zinc-900 dark:from-zinc-100 dark:via-zinc-200 dark:to-zinc-100 dark:hover:from-white dark:hover:via-zinc-100 dark:hover:to-white dark:text-zinc-900 text-white transition-all duration-500 shadow-lg shadow-zinc-400/20 dark:shadow-zinc-900/30 hover:shadow-xl hover:shadow-zinc-500/30 dark:hover:shadow-zinc-800/40 rounded-2xl flex items-center justify-center gap-2.5 overflow-hidden active:scale-[0.98]"
+                className="group relative w-full h-12 text-sm font-semibold bg-gradient-to-r from-zinc-800 via-zinc-900 to-zinc-800 hover:from-zinc-900 hover:via-zinc-800 hover:to-zinc-900 dark:from-zinc-100 dark:via-zinc-200 dark:to-zinc-100 dark:hover:from-white dark:hover:via-zinc-100 dark:hover:to-white dark:text-zinc-900 text-white transition-all duration-500 shadow-lg shadow-zinc-400/20 dark:shadow-zinc-900/30 hover:shadow-xl hover:shadow-zinc-500/30 dark:hover:shadow-zinc-800/40 rounded-2xl flex items-center justify-center gap-2.5 overflow-hidden active:scale-[0.98]"
                 disabled={isLoading}
               >
                 {/* Efeito de brilho no hover */}

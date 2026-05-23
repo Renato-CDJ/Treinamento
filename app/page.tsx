@@ -5,54 +5,122 @@ import { useRouter } from "next/navigation"
 import { useAuth } from "@/lib/auth-context"
 import { LoginForm } from "@/components/login-form"
 
-// Componente animado para o titulo "Roteiro" com efeito de hover impactante
+// Componente animado para o titulo "Roteiro" com efeito laranja e brilho varrendo
 function AnimatedTitle() {
   return (
-    <div className="relative cursor-default select-none py-8">
-      <h1 className="relative text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tight mb-4 group">
-        <span 
-          className="inline-block bg-gradient-to-r from-orange-500 via-orange-400 to-orange-500 bg-clip-text text-transparent bg-[length:200%_100%] transition-all duration-500 ease-out group-hover:scale-110 group-hover:drop-shadow-[0_0_25px_rgba(249,115,22,0.5)]"
-          style={{
-            animation: "shimmer 4s ease-in-out infinite",
-          }}
+    <div className="relative cursor-default select-none py-4 w-full flex justify-center">
+      <svg 
+        viewBox="20 -30 660 190"
+        className="w-full max-w-[520px] h-auto overflow-visible"
+        role="img" 
+        aria-label="Roteiro"
+      >
+        <defs>
+          {/* Filtro de sombra e brilho para efeito 3D */}
+          <filter id="orangeFX" x="-15%" y="-30%" width="130%" height="160%">
+            <feDropShadow dx="0" dy="6" stdDeviation="10" floodColor="rgba(255,87,34,0.5)"/>
+            <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="rgba(255,140,0,0.3)"/>
+          </filter>
+
+          {/* Mascara de brilho varrendo */}
+          <mask id="shineMask">
+            <rect x="0" y="-30" width="700" height="190" fill="white"/>
+            <rect 
+              x="-200" 
+              y="-30" 
+              width="160" 
+              height="190" 
+              fill="url(#shineHighlight)"
+              style={{ animation: "sweep 4.5s linear infinite" }}
+            />
+          </mask>
+
+          <linearGradient id="shineHighlight" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0"    stopColor="black" stopOpacity="0"/>
+            <stop offset="0.4"  stopColor="white" stopOpacity="0.7"/>
+            <stop offset="0.55" stopColor="white" stopOpacity="1"/>
+            <stop offset="1"    stopColor="black" stopOpacity="0"/>
+          </linearGradient>
+
+          {/* Gradiente da barra: transparente → laranja → branco (pico) → laranja → transparente */}
+          <linearGradient id="barLineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stopColor="#ff6600" stopOpacity="0"/>
+            <stop offset="25%"  stopColor="#ff6600" stopOpacity="1"/>
+            <stop offset="50%"  stopColor="#ffcc88" stopOpacity="1"/>
+            <stop offset="75%"  stopColor="#ff6600" stopOpacity="1"/>
+            <stop offset="100%" stopColor="#ff6600" stopOpacity="0"/>
+          </linearGradient>
+
+          {/* Glow da barra */}
+          <filter id="barGlow" x="-20%" y="-200%" width="140%" height="500%">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+
+        {/* Sombra do texto */}
+        <text 
+          x="350" 
+          y="100" 
+          textAnchor="middle" 
+          fontSize="145" 
+          fontWeight="800"
+          fontFamily="'Arial Black', 'Helvetica Neue', sans-serif"
+          letterSpacing="-2"
+          fill="rgba(0,0,0,0.3)"
+          transform="translate(2, 4)"
         >
           Roteiro
-        </span>
-      </h1>
-      
-      {/* Linha de luz animada abaixo do titulo */}
-      <div 
-        className="absolute bottom-4 left-1/2 -translate-x-1/2 w-32 h-[3px] overflow-hidden rounded-full"
-        style={{ opacity: 0.7 }}
-      >
-        <div 
-          className="h-full w-full bg-gradient-to-r from-transparent via-orange-500 to-transparent"
+        </text>
+
+        {/* Texto principal laranja com mascara de brilho */}
+        <g mask="url(#shineMask)">
+          <text 
+            x="350" 
+            y="100" 
+            textAnchor="middle" 
+            fontSize="145" 
+            fontWeight="800"
+            fontFamily="'Arial Black', 'Helvetica Neue', sans-serif"
+            letterSpacing="-2"
+            fill="#ff6600"
+            filter="url(#orangeFX)"
+          >
+            Roteiro
+          </text>
+        </g>
+
+        {/* Barra fina laranja afilada nas pontas com animação de encolher/esticar */}
+        <g
+          filter="url(#barGlow)"
           style={{
-            animation: "pulse 2s ease-in-out infinite",
+            animation: "barStretch 2.8s ease-in-out infinite",
+            transformOrigin: "350px 125px",
           }}
-        />
-      </div>
-      
-      <style jsx>{`
-        @keyframes shimmer {
-          0%, 100% {
-            backgroundPosition: 0% 50%;
-          }
-          50% {
-            backgroundPosition: 100% 50%;
-          }
-        }
-        @keyframes pulse {
-          0%, 100% {
-            opacity: 0.4;
-            transform: scaleX(0.8);
-          }
-          50% {
-            opacity: 1;
-            transform: scaleX(1.2);
-          }
-        }
-      `}</style>
+        >
+          {/* Linha principal */}
+          <line x1="100" y1="125" x2="600" y2="125" stroke="url(#barLineGrad)" strokeWidth="2.5" strokeLinecap="round"/>
+          {/* Brilho central mais intenso */}
+          <ellipse cx="350" cy="125" rx="80" ry="1.5" fill="#ffcc88" opacity="0.9"/>
+        </g>
+
+        <style>
+          {`
+            @keyframes sweep {
+              0%   { transform: translateX(-200px) skewX(-18deg); }
+              100% { transform: translateX(900px)  skewX(-18deg); }
+            }
+            @keyframes barStretch {
+              0%   { transform: scaleX(0.45); opacity: 0.6; }
+              50%  { transform: scaleX(1);    opacity: 1;   }
+              100% { transform: scaleX(0.45); opacity: 0.6; }
+            }
+          `}
+        </style>
+      </svg>
     </div>
   )
 }
@@ -87,19 +155,38 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen min-h-dvh flex flex-col items-center justify-center bg-zinc-50 dark:bg-zinc-950 p-4 md:p-6 overflow-x-hidden">
+    <div className="min-h-screen min-h-dvh flex flex-col items-center justify-center bg-zinc-50 dark:bg-zinc-950 p-4 md:p-6 overflow-x-hidden relative">
         <div className="w-full max-w-md px-2 sm:px-0">
           {/* Titulo */}
-          <div className="mb-8 sm:mb-10 text-center">
+          <div className="mb-6 sm:mb-8 text-center">
             <AnimatedTitle />
-            
-<p className="text-zinc-600 dark:text-zinc-300 text-xl sm:text-2xl font-semibold tracking-wide">
+            <p className="text-zinc-600 dark:text-zinc-300 text-xl sm:text-2xl font-semibold tracking-wide">
               Sistema de Atendimento
             </p>
           </div>
 
           {/* Formulario */}
           <LoginForm />
+        </div>
+
+        {/* Crédito - canto inferior direito */}
+        <div className="absolute bottom-4 right-5 select-none" aria-label="Desenvolvido por Renato Calixto">
+          <span
+            className="text-zinc-400 dark:text-zinc-600 text-xs font-mono overflow-hidden whitespace-nowrap inline-block"
+            style={{ animation: "typeCredit 6s ease-in-out infinite" }}
+          >
+            Desenvolvido por: Renato Calixto
+          </span>
+          <style>{`
+            @keyframes typeCredit {
+              0%   { width: 0ch;   opacity: 0;   }
+              5%   { opacity: 1;                 }
+              55%  { width: 33ch;  opacity: 1;   }
+              75%  { width: 33ch;  opacity: 1;   }
+              90%  { width: 0ch;   opacity: 0;   }
+              100% { width: 0ch;   opacity: 0;   }
+            }
+          `}</style>
         </div>
     </div>
   )
