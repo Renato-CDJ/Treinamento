@@ -33,8 +33,12 @@ import {
   Search,
   Loader2,
   Palette,
+  CheckCircle2,
+  Sparkles,
 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { AdminPageHeader } from "@/components/admin-page-header"
+import { AdminStatCard } from "@/components/admin-stat-card"
 
 interface Tabulation {
   id: string
@@ -266,20 +270,15 @@ export function TabulationsTab() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Tags className="h-6 w-6 text-orange-500" />
-            Tabulacoes
-          </h2>
-          <p className="text-sm text-muted-foreground mt-1">
-            Gerencie as tabulacoes disponiveis para classificacao de atendimentos
-          </p>
-        </div>
+      <AdminPageHeader
+        icon={Tags}
+        title="Tabulacoes"
+        description="Gerencie as tabulacoes disponiveis para classificacao de atendimentos"
+      >
         <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
           <DialogTrigger asChild>
             <Button
-              className="bg-orange-500 hover:bg-orange-600 text-white"
+              className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-md shadow-orange-500/20"
               onClick={() => {
                 resetForm()
                 setShowCreateDialog(true)
@@ -299,36 +298,32 @@ export function TabulationsTab() {
             {formFields(false)}
           </DialogContent>
         </Dialog>
-      </div>
+      </AdminPageHeader>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Total</p>
-                <p className="text-2xl font-bold text-foreground">{tabulations.length}</p>
-              </div>
-              <Tags className="h-8 w-8 text-blue-500/30" />
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Ativas</p>
-                <p className="text-2xl font-bold text-green-500">{activeCount}</p>
-              </div>
-              <Tags className="h-8 w-8 text-green-500/30" />
-            </div>
-          </CardContent>
-        </Card>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <AdminStatCard
+          icon={Tags}
+          label="Total de Tabulacoes"
+          value={tabulations.length}
+          variant="default"
+        />
+        <AdminStatCard
+          icon={CheckCircle2}
+          label="Tabulacoes Ativas"
+          value={activeCount}
+          variant="success"
+        />
+        <AdminStatCard
+          icon={Sparkles}
+          label="Antes do CPF"
+          value={tabulations.filter(t => t.category === "before").length}
+          variant="info"
+        />
       </div>
 
       {/* Filters */}
-      <Card>
+      <Card className="border-border/60">
         <CardContent className="pt-6">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -344,20 +339,22 @@ export function TabulationsTab() {
 
       {/* Edit Form (inline) */}
       {editingTabulation && (
-        <Card className="border-orange-500/50">
-          <CardHeader>
+        <Card className="border-orange-500/30 shadow-md">
+          <CardHeader className="pb-4">
             <CardTitle className="text-lg flex items-center gap-2">
-              <Edit className="h-4 w-4 text-orange-500" />
+              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center">
+                <Edit className="h-4 w-4 text-white" />
+              </div>
               Editando: {editingTabulation.name}
             </CardTitle>
-            <CardDescription>Altere os dados da tabulacao abaixo</CardDescription>
+            <CardDescription className="pl-10">Altere os dados da tabulacao abaixo</CardDescription>
           </CardHeader>
           <CardContent>{formFields(true)}</CardContent>
         </Card>
       )}
 
       {/* Table */}
-      <Card>
+      <Card className="border-border/60">
         <CardContent className="pt-6">
           {filteredTabulations.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16">

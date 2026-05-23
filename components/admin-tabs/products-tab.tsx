@@ -16,11 +16,13 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Plus, Pencil, Trash2, Package, Loader2 } from "lucide-react"
+import { Plus, Pencil, Trash2, Package, Loader2, ShoppingBag, CheckCircle2 } from "lucide-react"
 import { useProducts, useScripts } from "@/hooks/use-supabase-admin"
 import type { Product, PersonTypeOption } from "@/lib/types"
 import { useToast } from "@/hooks/use-toast"
 import { getPersonTypes } from "@/lib/store"
+import { AdminPageHeader } from "@/components/admin-page-header"
+import { AdminStatCard } from "@/components/admin-stat-card"
 
 export function ProductsTab() {
   const { data: products, loading, create, update, remove } = useProducts()
@@ -189,17 +191,41 @@ export function ProductsTab() {
     )
   }, [scripts])
 
+  const activeProducts = products.filter(p => p.is_active !== false).length
+
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-3xl font-bold">Gerenciar Produtos</h2>
-          <p className="text-muted-foreground mt-1">Configure os produtos e onde eles devem aparecer</p>
-        </div>
-        <Button onClick={() => handleOpenDialog()} className="gap-2">
+      <AdminPageHeader
+        icon={Package}
+        title="Gerenciar Produtos"
+        description="Configure os produtos e onde eles devem aparecer no sistema"
+      >
+        <Button onClick={() => handleOpenDialog()} className="gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-md shadow-orange-500/20">
           <Plus className="h-4 w-4" />
           Adicionar Produto
         </Button>
+      </AdminPageHeader>
+
+      {/* Stats */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <AdminStatCard
+          icon={Package}
+          label="Total de Produtos"
+          value={products.length}
+          variant="default"
+        />
+        <AdminStatCard
+          icon={CheckCircle2}
+          label="Produtos Ativos"
+          value={activeProducts}
+          variant="success"
+        />
+        <AdminStatCard
+          icon={ShoppingBag}
+          label="Categorias"
+          value={new Set(products.map(p => p.category)).size}
+          variant="info"
+        />
       </div>
 
       <div className="grid gap-4">
@@ -210,51 +236,54 @@ export function ProductsTab() {
             </CardContent>
           </Card>
         ) : products.length === 0 ? (
-          <Card>
-            <CardContent className="flex flex-col items-center justify-center py-12">
-              <Package className="h-12 w-12 text-muted-foreground mb-4" />
-              <p className="text-muted-foreground text-center">
-                Nenhum produto cadastrado ainda.
-                <br />
-                Clique em "Adicionar Produto" para começar.
+          <Card className="border-dashed border-2 border-border/60">
+            <CardContent className="flex flex-col items-center justify-center py-16">
+              <div className="h-16 w-16 rounded-2xl bg-muted/60 flex items-center justify-center mb-4">
+                <Package className="h-8 w-8 text-muted-foreground/50" />
+              </div>
+              <p className="text-base font-medium text-foreground mb-1">Nenhum produto cadastrado</p>
+              <p className="text-sm text-muted-foreground text-center max-w-sm">
+                Clique em &quot;Adicionar Produto&quot; para cadastrar seu primeiro produto no sistema.
               </p>
             </CardContent>
           </Card>
         ) : (
           products.map((product) => (
-            <Card key={product.id}>
-              <CardHeader>
+            <Card key={product.id} className="border-border/60 shadow-sm hover:shadow-md transition-all duration-200 group">
+              <CardHeader className="pb-3">
                 <div className="flex items-start justify-between">
-                  <div className="space-y-2">
-                    <CardTitle className="flex items-center gap-2">
-                      <Package className="h-5 w-5" />
+                  <div className="space-y-1.5">
+                    <CardTitle className="flex items-center gap-2.5 text-lg">
+                      <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-orange-500/10 to-amber-500/10 flex items-center justify-center">
+                        <Package className="h-4 w-4 text-orange-500" />
+                      </div>
                       {product.name}
                     </CardTitle>
-                    <CardDescription>
+                    <CardDescription className="pl-[42px]">
                       Categoria: {(product.category || "outros").charAt(0).toUpperCase() + (product.category || "outros").slice(1)}
                     </CardDescription>
                   </div>
-                  <div className="flex gap-2">
-                    <Button variant="outline" size="sm" onClick={() => handleOpenDialog(product)}>
+                  <div className="flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-orange-500/10 hover:text-orange-500" onClick={() => handleOpenDialog(product)}>
                       <Pencil className="h-4 w-4" />
                     </Button>
-                    <Button variant="outline" size="sm" onClick={() => handleDelete(product.id)}>
+                    <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-red-500/10 hover:text-red-500" onClick={() => handleDelete(product.id)}>
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-3">
-                <div>
-                  <p className="text-sm font-semibold mb-2">Aparece em:</p>
-                  <div className="flex flex-wrap gap-2">
+              <CardContent className="pt-0">
+                <div className="pl-[42px]">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Aparece em:</p>
+                  <div className="flex flex-wrap gap-1.5">
                     {product.details?.attendanceTypes?.map((type: string) => (
-                      <Badge key={type} variant="secondary">
-                        Atendimento {type.charAt(0).toUpperCase() + type.slice(1)}
+                      <Badge key={type} variant="secondary" className="text-xs bg-orange-500/10 text-orange-600 dark:text-orange-400 border-0">
+                        {type.charAt(0).toUpperCase() + type.slice(1)}
                       </Badge>
                     ))}
                     {product.details?.personTypes?.map((type: string) => (
-                      <Badge key={type} variant="secondary">
+                      <Badge key={type} variant="secondary" className="text-xs bg-blue-500/10 text-blue-600 dark:text-blue-400 border-0">
                         Pessoa {type.charAt(0).toUpperCase() + type.slice(1)}
                       </Badge>
                     ))}

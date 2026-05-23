@@ -24,6 +24,8 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { useChannels } from "@/hooks/use-supabase-admin"
 import { useToast } from "@/hooks/use-toast"
+import { AdminPageHeader } from "@/components/admin-page-header"
+import { AdminStatCard } from "@/components/admin-stat-card"
 
 interface Channel {
   id: string
@@ -169,66 +171,41 @@ export function ChannelsTab() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="space-y-1">
-          <h2 className="text-2xl font-semibold tracking-tight">Canais de Atendimento</h2>
-          <p className="text-sm text-muted-foreground">
-            Gerencie os canais disponiveis para os operadores
-          </p>
-        </div>
+      <AdminPageHeader
+        icon={Headphones}
+        title="Canais de Atendimento"
+        description="Gerencie os canais disponiveis para os operadores"
+      >
         <Button
           onClick={handleCreate}
           disabled={!!editingItem}
-          className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm"
+          className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-md shadow-orange-500/20"
         >
           <Plus className="h-4 w-4 mr-2" />
           Novo Canal
         </Button>
-      </div>
+      </AdminPageHeader>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-        <Card className="border-border/50">
-          <CardContent className="pt-5 pb-4">
-            <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10">
-                <Headphones className="h-5 w-5 text-primary" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold">{mappedChannels.length}</p>
-                <p className="text-xs text-muted-foreground">Total de Canais</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card className="border-border/50">
-          <CardContent className="pt-5 pb-4">
-            <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-green-500/10">
-                <CheckCircle2 className="h-5 w-5 text-green-600" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-green-600">{activeCount}</p>
-                <p className="text-xs text-muted-foreground">Canais Ativos</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="border-border/50 col-span-2 sm:col-span-1">
-          <CardContent className="pt-5 pb-4">
-            <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-muted">
-                <X className="h-5 w-5 text-muted-foreground" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-muted-foreground">{mappedChannels.length - activeCount}</p>
-                <p className="text-xs text-muted-foreground">Canais Inativos</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <AdminStatCard
+          icon={Headphones}
+          label="Total de Canais"
+          value={mappedChannels.length}
+          variant="default"
+        />
+        <AdminStatCard
+          icon={CheckCircle2}
+          label="Canais Ativos"
+          value={activeCount}
+          variant="success"
+        />
+        <AdminStatCard
+          icon={X}
+          label="Canais Inativos"
+          value={mappedChannels.length - activeCount}
+          variant="warning"
+        />
       </div>
 
       {/* Form de Edicao/Criacao */}

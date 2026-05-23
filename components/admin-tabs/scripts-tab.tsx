@@ -23,6 +23,8 @@ import {
   AlignRight,
   AlignJustify,
   AlertCircle,
+  FileText,
+  Package,
 } from "lucide-react"
 import type { ScriptStep, ScriptButton, Product } from "@/lib/types"
 import { useToast } from "@/hooks/use-toast"
@@ -31,6 +33,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { getAutoLoadScripts } from "@/lib/auto-load-scripts"
 import { validateScriptJson } from "@/lib/scripts-loader"
 import { useScripts, useProducts, importScriptsFromJson, deleteScriptsForProduct } from "@/hooks/use-supabase-admin"
+import { AdminPageHeader } from "@/components/admin-page-header"
+import { AdminStatCard } from "@/components/admin-stat-card"
 
 interface AvailableScript {
   name: string
@@ -410,30 +414,63 @@ export function ScriptsTab() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-3xl font-bold">Gerenciar Roteiros</h2>
-          <p className="text-muted-foreground mt-1">Crie e edite os scripts de atendimento com formatação avançada</p>
+      <AdminPageHeader
+        icon={FileText}
+        title="Gerenciar Roteiros"
+        description="Crie e edite os scripts de atendimento com formatacao avancada"
+      >
+        <Button variant="outline" onClick={handleImportScript} disabled={!!editingStep || !!previewStep} className="border-border/60">
+          <Upload className="h-4 w-4 mr-2" />
+          Importar JSON
+        </Button>
+        <Button onClick={handleCreate} disabled={!!editingStep || !!previewStep} className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-md shadow-orange-500/20">
+          <Plus className="h-4 w-4 mr-2" />
+          Novo Roteiro
+        </Button>
+      </AdminPageHeader>
+
+      {/* Stats */}
+      {!editingStep && !previewStep && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <AdminStatCard
+            icon={FileText}
+            label="Total de Telas"
+            value={steps.length}
+            variant="default"
+          />
+          <AdminStatCard
+            icon={Package}
+            label="Produtos"
+            value={products.length}
+            variant="info"
+          />
+          <AdminStatCard
+            icon={FileText}
+            label="Com Alertas"
+            value={steps.filter(s => s.alert?.message).length}
+            variant="warning"
+          />
+          <AdminStatCard
+            icon={FileText}
+            label="Com Botoes"
+            value={steps.filter(s => s.buttons.length > 0).length}
+            variant="success"
+          />
         </div>
-        <div className="flex gap-3">
-          <Button variant="outline" onClick={handleImportScript} disabled={!!editingStep || !!previewStep}>
-            <Upload className="h-4 w-4 mr-2" />
-            Importar JSON
-          </Button>
-          <Button onClick={handleCreate} disabled={!!editingStep || !!previewStep}>
-            <Plus className="h-4 w-4 mr-2" />
-            Novo Roteiro
-          </Button>
-        </div>
-      </div>
+      )}
 
       {previewStep ? (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-2xl font-bold">Visualização do Roteiro</h3>
-            <Button variant="outline" onClick={handleCancel}>
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
+                <Eye className="h-5 w-5 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold">Visualizacao do Roteiro</h3>
+            </div>
+            <Button variant="outline" onClick={handleCancel} className="border-border/60">
               <X className="h-4 w-4 mr-2" />
-              Fechar Visualização
+              Fechar Visualizacao
             </Button>
           </div>
           <AdminScriptPreview
@@ -450,12 +487,19 @@ export function ScriptsTab() {
           />
         </div>
       ) : editingStep ? (
-        <Card>
-          <CardHeader>
-            <CardTitle>{isCreating ? "Criar Novo Roteiro" : "Editar Roteiro"}</CardTitle>
-            <CardDescription>Configure o roteiro e seus botões de navegação</CardDescription>
+        <Card className="border-border/60 shadow-md">
+          <CardHeader className="pb-4">
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/20">
+                <Edit className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <CardTitle className="text-lg">{isCreating ? "Criar Novo Roteiro" : "Editar Roteiro"}</CardTitle>
+                <CardDescription>Configure o roteiro e seus botoes de navegacao</CardDescription>
+              </div>
+            </div>
           </CardHeader>
-          <CardContent className="space-y-6 pt-6">
+          <CardContent className="space-y-6 pt-2">
             <Tabs defaultValue="basic" className="w-full">
               <TabsList className="grid w-full grid-cols-4">
                 <TabsTrigger value="basic">Informações Básicas</TabsTrigger>

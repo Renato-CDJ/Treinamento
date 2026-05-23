@@ -6,7 +6,7 @@ import { AdminSidebar } from "@/components/admin-sidebar"
 import { Toaster } from "@/components/ui/toaster"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/lib/auth-context"
-import { Loader2 } from "lucide-react"
+import { Loader2, Sparkles } from "lucide-react"
 
 const ScriptsTab = lazy(() => import("@/components/admin-tabs/scripts-tab").then((m) => ({ default: m.ScriptsTab })))
 const ScriptLibraryTab = lazy(() => import("@/components/admin-tabs/script-library-tab").then((m) => ({ default: m.ScriptLibraryTab })))
@@ -51,9 +51,17 @@ const CampaignsTab = lazy(() => import("@/components/admin-tabs/campaigns-tab").
 const LoadingFallback = memo(function LoadingFallback() {
   return (
     <div className="flex items-center justify-center h-64">
-      <div className="flex flex-col items-center gap-3">
-        <Loader2 className="h-8 w-8 animate-spin text-orange-500" />
-        <p className="text-sm text-muted-foreground">Carregando...</p>
+      <div className="flex flex-col items-center gap-4">
+        <div className="relative">
+          <div className="absolute inset-0 rounded-full bg-orange-500/20 animate-ping" />
+          <div className="relative h-12 w-12 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/30">
+            <Sparkles className="h-6 w-6 text-white animate-pulse" />
+          </div>
+        </div>
+        <div className="flex flex-col items-center gap-1">
+          <p className="text-sm font-medium text-foreground">Carregando</p>
+          <p className="text-xs text-muted-foreground">Aguarde um momento...</p>
+        </div>
       </div>
     </div>
   )
@@ -204,13 +212,20 @@ const AdminContent = memo(function AdminContent() {
   }
 
   return (
-    <div className="flex flex-col md:flex-row h-screen h-dvh bg-background overflow-x-hidden overflow-y-auto">
-      <aside className="w-full md:w-64 flex-shrink-0 border-b md:border-b-0 md:border-r border-border max-h-[40vh] md:max-h-none overflow-auto">
+    <div className="flex flex-col md:flex-row h-screen h-dvh bg-gradient-to-br from-background via-background to-muted/30 overflow-x-hidden overflow-y-auto">
+      {/* Sidebar */}
+      <aside className="w-full md:w-72 flex-shrink-0 border-b md:border-b-0 md:border-r border-border/60 max-h-[40vh] md:max-h-none overflow-auto bg-card/50 backdrop-blur-sm shadow-sm">
         <AdminSidebar activeTab={activeTab} onTabChange={setActiveTab} />
       </aside>
 
+      {/* Main Content */}
       <main className="flex-1 overflow-auto min-h-0 w-full">
-        <div className="w-full max-w-full px-3 md:px-6 lg:px-8 py-4 md:py-6 lg:py-8">{renderContent()}</div>
+        <div className="w-full max-w-full">
+          {/* Content Area */}
+          <div className="px-4 md:px-6 lg:px-8 py-6 md:py-8">
+            {renderContent()}
+          </div>
+        </div>
       </main>
 
       <Toaster />
