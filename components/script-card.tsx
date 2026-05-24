@@ -39,7 +39,7 @@ function loadAccessibilitySettings(): { textSize: number; buttonSize: number } {
     console.error("[v0] Error loading accessibility settings:", error)
   }
 
-  return { textSize: 80, buttonSize: 50 }
+  return { textSize: 100, buttonSize: 50 }
 }
 
 function saveAccessibilitySettings(textSize: number, buttonSize: number) {
@@ -264,7 +264,9 @@ export const ScriptCard = memo(function ScriptCard({
   const contentStyles = useMemo(() => {
     const styles: React.CSSProperties = {
       fontSize: `${textFontSize}px`,
-      lineHeight: "1.75",
+      lineHeight: "2.2",
+      letterSpacing: "0.02em",
+      wordSpacing: "0.1em",
     }
 
     if (step.formatting) {
@@ -460,14 +462,16 @@ export const ScriptCard = memo(function ScriptCard({
         <CardContent className="relative z-10 space-y-4 pb-6 px-4 md:px-8">
           {/* Area de conteudo do script */}
           <div
-            className="bg-white dark:bg-zinc-800/50 rounded-xl p-5 md:p-8 leading-relaxed min-h-[200px] md:min-h-[280px] border-2 border-orange-500/50 text-zinc-900 dark:text-zinc-100"
+            className="bg-white dark:bg-zinc-800/50 rounded-xl p-6 md:p-10 min-h-[200px] md:min-h-[280px] border-2 border-orange-500/50 text-zinc-900 dark:text-zinc-100"
             style={contentStyles}
           >
-            {typeof renderedContent === "string" ? (
-              <SafeHtml html={renderedContent} />
-            ) : (
-              renderedContent
-            )}
+            <div className="script-content space-y-4 [&_br]:block [&_br]:mt-4 tracking-wide leading-loose">
+              {typeof renderedContent === "string" ? (
+                <SafeHtml html={renderedContent} className="[&>br]:content-[''] [&>br]:block [&>br]:mt-4" />
+              ) : (
+                renderedContent
+              )}
+            </div>
           </div>
         </CardContent>
       </Card>
