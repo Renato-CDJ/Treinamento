@@ -21,7 +21,10 @@ import {
   Wallet,
   HandCoins,
   PiggyBank,
+  Info,
+  CheckCircle2,
 } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 // Mapeamento de icones por tipo de contrato
 const CONTRACT_ICONS: Record<string, any> = {
@@ -138,7 +141,7 @@ interface ContractData {
   isDefault: boolean
 }
 
-// Modal de detalhes do contrato individual
+// Modal de detalhes do contrato individual - Design elegante
 const ContractDetailModal = memo(function ContractDetailModal({
   contract,
   open,
@@ -155,59 +158,59 @@ const ContractDetailModal = memo(function ContractDetailModal({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl w-[90vw] h-auto max-h-[80vh] p-0 gap-0 flex flex-col overflow-hidden border-border bg-card">
-        {/* Header com gradiente laranja */}
-        <div className="bg-gradient-to-r from-orange-500 to-orange-600 p-5 text-white shrink-0">
-          <DialogHeader>
-            <div className="flex items-start gap-4 min-w-0">
-              <div className="p-2.5 bg-white/20 rounded-xl shrink-0">
-                <IconComponent className="h-7 w-7" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <DialogTitle className="text-lg font-bold text-white break-words leading-tight">
-                  {contract.name}
-                </DialogTitle>
-                <DialogDescription className="text-orange-100 mt-1 text-sm">
-                  {category}
-                </DialogDescription>
-              </div>
+      <DialogContent className="max-w-lg p-0 gap-0 overflow-hidden rounded-2xl border-0 shadow-2xl">
+        {/* Header com gradiente */}
+        <div className="relative px-6 pt-8 pb-6 bg-gradient-to-br from-blue-500 via-indigo-500 to-blue-600">
+          {/* Decoracao de fundo */}
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full blur-3xl opacity-30 bg-cyan-300" />
+            <div className="absolute -bottom-10 -left-10 w-32 h-32 rounded-full blur-2xl opacity-20 bg-indigo-300" />
+          </div>
+          
+          <div className="relative">
+            {/* Badge de categoria */}
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/20 backdrop-blur-sm mb-4">
+              <IconComponent className="w-3.5 h-3.5 text-white" />
+              <span className="text-xs font-semibold text-white uppercase tracking-wider">
+                {category}
+              </span>
             </div>
-          </DialogHeader>
-        </div>
-
-        {/* Conteudo com scroll nativo */}
-        <div className="flex-1 overflow-y-auto min-h-0">
-          <div className="p-5">
-            {contract.description ? (
-              <div className="space-y-3">
-                <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-                  <Eye className="h-4 w-4" />
-                  Descricao / Orientacoes
-                </div>
-                <div className="bg-orange-50 dark:bg-orange-950/20 rounded-xl p-4 border border-orange-200 dark:border-orange-800">
-                  <p className="text-foreground leading-relaxed whitespace-pre-wrap text-sm break-words">
-                    {contract.description}
-                  </p>
-                </div>
-              </div>
-            ) : (
-              <div className="text-center py-10">
-                <div className="w-14 h-14 mx-auto mb-3 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center">
-                  <FileText className="h-7 w-7 text-orange-500" />
-                </div>
-                <p className="font-medium text-muted-foreground">Nenhuma descricao disponivel</p>
-                <p className="text-sm text-muted-foreground/70 mt-1">
-                  Este contrato nao possui orientacoes detalhadas
-                </p>
-              </div>
-            )}
+            
+            {/* Titulo */}
+            <h3 className="text-xl font-bold text-white leading-tight pr-8">
+              {contract.name}
+            </h3>
           </div>
         </div>
-
-        {/* Footer fixo */}
-        <div className="p-4 border-t border-border bg-muted/50 flex justify-end shrink-0">
-          <Button onClick={onClose} className="bg-orange-500 hover:bg-orange-600 text-white">
-            Fechar
+        
+        {/* Conteudo */}
+        <div className="px-6 py-6 bg-card">
+          <div className="flex items-start gap-4">
+            <div className="p-3 rounded-xl flex-shrink-0 bg-blue-100 dark:bg-blue-900/30">
+              <Info className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-2">
+                Descricao / Orientacoes
+              </h4>
+              <p className="text-foreground leading-relaxed whitespace-pre-wrap">
+                {contract.description || "Este contrato nao possui orientacoes detalhadas."}
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        {/* Footer */}
+        <div className="px-6 py-4 border-t bg-muted/30 flex items-center justify-between">
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <CheckCircle2 className="h-4 w-4 text-blue-500" />
+            <span>Clique fora para fechar</span>
+          </div>
+          <Button 
+            onClick={onClose}
+            className="px-6 rounded-xl font-semibold shadow-lg transition-all hover:shadow-xl hover:-translate-y-0.5 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white"
+          >
+            Entendi
           </Button>
         </div>
       </DialogContent>
@@ -215,7 +218,7 @@ const ContractDetailModal = memo(function ContractDetailModal({
   )
 })
 
-// Componente individual de contrato
+// Componente individual de contrato - Design elegante
 const ContractItem = memo(function ContractItem({
   contract,
   globalZoom,
@@ -234,35 +237,45 @@ const ContractItem = memo(function ContractItem({
     return text.substring(0, maxLength).trim() + "..."
   }, [contract.description])
 
+  const IconComponent = CONTRACT_ICONS[contract.id] || FileText
+
   return (
-    <div 
-      className="group cursor-pointer p-4 rounded-lg border border-border hover:border-orange-300 hover:bg-orange-50/50 dark:hover:border-orange-700 dark:hover:bg-orange-950/20 transition-all bg-card"
+    <button
+      className={cn(
+        "w-full text-left p-4 rounded-xl border transition-all duration-200 group",
+        "hover:shadow-md hover:-translate-y-0.5 active:translate-y-0",
+        "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400",
+        "bg-gradient-to-br from-blue-50/80 to-indigo-50/50 dark:from-blue-950/20 dark:to-indigo-950/10",
+        "border-blue-200/60 dark:border-blue-800/40 hover:border-blue-300 dark:hover:border-blue-700"
+      )}
       onClick={() => onViewDetails(contract)}
     >
-      {/* Titulo do contrato */}
-      <h3 
-        className="font-bold text-orange-500 group-hover:text-orange-600 transition-colors"
-        style={{ fontSize: `${globalZoom * 0.95}%` }}
-      >
-        {contract.name}
-      </h3>
-      
-      {/* Preview da descricao */}
-      {truncatedDescription && (
-        <p 
-          className="text-muted-foreground mt-1 line-clamp-2"
-          style={{ fontSize: `${globalZoom * 0.8}%` }}
-        >
-          {truncatedDescription}
-        </p>
-      )}
-      
-      {/* Indicador de clique */}
-      <div className="mt-2 flex items-center gap-1 text-xs text-orange-500 opacity-0 group-hover:opacity-100 transition-opacity">
-        <Eye className="h-3 w-3" />
-        <span>Clique para ver detalhes</span>
+      <div className="flex items-start gap-3">
+        <div className="p-2 rounded-lg bg-blue-100 dark:bg-blue-900/40 transition-transform group-hover:scale-110">
+          <IconComponent className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <h3 
+            className="font-semibold text-foreground group-hover:text-foreground/80 transition-colors leading-tight"
+            style={{ fontSize: `${globalZoom * 0.95}%` }}
+          >
+            {contract.name}
+          </h3>
+          
+          {truncatedDescription && (
+            <p 
+              className="text-muted-foreground mt-1.5 line-clamp-2"
+              style={{ fontSize: `${globalZoom * 0.8}%` }}
+            >
+              {truncatedDescription}
+            </p>
+          )}
+        </div>
+        <div className="p-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-all bg-blue-100 dark:bg-blue-900/40">
+          <Info className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+        </div>
       </div>
-    </div>
+    </button>
   )
 })
 
@@ -338,67 +351,81 @@ export function OperatorInitialGuideModal({ open, onOpenChange }: OperatorInitia
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="!max-w-5xl w-[95vw] h-[90vh] p-0 gap-0 flex flex-col border-border bg-card overflow-hidden [&>button]:z-50">
-        {/* Header com gradiente laranja */}
-        <div className="bg-gradient-to-r from-orange-500 to-orange-600 p-6 text-white flex-shrink-0">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-bold flex items-center gap-3 text-white">
-              <div className="p-2 bg-white/20 rounded-lg">
-                <FileText className="h-6 w-6" />
-              </div>
-              Guia Inicial - Contratos
-            </DialogTitle>
-            <DialogDescription className="text-orange-100 mt-2">
-              Consulte as informacoes sobre os tipos de contratos disponiveis
-            </DialogDescription>
-          </DialogHeader>
+      <DialogContent className="!max-w-5xl w-[95vw] h-[90vh] p-0 gap-0 flex flex-col overflow-hidden rounded-2xl border-0 shadow-2xl [&>button]:z-50">
+        {/* Header elegante */}
+        <div className="relative bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 p-6 text-white overflow-hidden flex-shrink-0">
+          {/* Decoracao de fundo */}
+          <div className="absolute inset-0">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl" />
+          </div>
           
-          {/* Barra de busca e controles */}
-          <div className="flex items-center gap-3 mt-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-orange-200" />
-              <Input
-                placeholder="Buscar contrato..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-orange-200 focus-visible:ring-white/30"
-              />
-            </div>
-            <div className="flex items-center gap-1 bg-white/10 rounded-lg p-1">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setGlobalZoom(Math.max(80, globalZoom - 10))}
-                className="h-8 w-8 text-white hover:bg-white/20"
-                title="Diminuir texto"
-              >
-                <ZoomOut className="h-4 w-4" />
-              </Button>
-              <span className="text-sm font-medium w-12 text-center">{globalZoom}%</span>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setGlobalZoom(Math.min(150, globalZoom + 10))}
-                className="h-8 w-8 text-white hover:bg-white/20"
-                title="Aumentar texto"
-              >
-                <ZoomIn className="h-4 w-4" />
-              </Button>
+          <div className="relative">
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-bold flex items-center gap-4 text-white">
+                <div className="p-3 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-xl shadow-lg">
+                  <FileText className="h-6 w-6" />
+                </div>
+                <div>
+                  <span className="block">Guia Inicial - Contratos</span>
+                  <span className="text-sm font-normal text-slate-400 mt-1 block">
+                    Consulte as informacoes sobre os tipos de contratos
+                  </span>
+                </div>
+              </DialogTitle>
+            </DialogHeader>
+            
+            {/* Barra de busca */}
+            <div className="flex items-center gap-3 mt-5">
+              <div className="relative flex-1">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                <Input
+                  placeholder="Buscar contrato por nome ou descricao..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-11 h-12 bg-white/5 border-white/10 text-white placeholder:text-slate-500 focus-visible:ring-blue-400/50 focus-visible:border-blue-400/50 rounded-xl"
+                />
+              </div>
+              <div className="flex items-center gap-1 bg-white/5 border border-white/10 rounded-xl p-1.5">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setGlobalZoom(Math.max(80, globalZoom - 10))}
+                  className="h-9 w-9 text-white hover:bg-white/10 rounded-lg"
+                  title="Diminuir texto"
+                >
+                  <ZoomOut className="h-4 w-4" />
+                </Button>
+                <span className="text-sm font-medium w-12 text-center text-slate-300">{globalZoom}%</span>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setGlobalZoom(Math.min(150, globalZoom + 10))}
+                  className="h-9 w-9 text-white hover:bg-white/10 rounded-lg"
+                  title="Aumentar texto"
+                >
+                  <ZoomIn className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Contador de resultados */}
-        <div className="px-6 py-3 bg-muted/50 border-b border-border flex items-center justify-between flex-shrink-0">
-          <span className="text-sm text-muted-foreground">
-            {filteredContracts.length} {filteredContracts.length === 1 ? "contrato encontrado" : "contratos encontrados"}
-          </span>
+        <div className="px-6 py-4 border-b bg-muted/30 flex items-center justify-between flex-shrink-0">
+          <div className="flex items-center gap-3">
+            <span className="text-sm font-medium text-muted-foreground">Resultados:</span>
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 font-semibold text-sm">
+              <span>{filteredContracts.length}</span>
+              <span className="text-xs opacity-80">itens</span>
+            </div>
+          </div>
           {searchQuery && (
             <Button 
               variant="ghost" 
               size="sm" 
               onClick={() => setSearchQuery("")}
-              className="text-xs h-7"
+              className="text-xs h-8 text-muted-foreground hover:text-foreground"
             >
               Limpar busca
             </Button>
@@ -407,16 +434,16 @@ export function OperatorInitialGuideModal({ open, onOpenChange }: OperatorInitia
 
         {/* Conteudo em duas colunas */}
         <ScrollArea className="flex-1 min-h-0">
-          <div className="p-6">
+          <div className="p-6 bg-gradient-to-b from-background to-muted/20">
             {loading ? (
               <div className="flex flex-col items-center justify-center py-16">
-                <Loader2 className="h-10 w-10 animate-spin text-orange-500 mb-4" />
+                <Loader2 className="h-10 w-10 animate-spin text-blue-500 mb-4" />
                 <p className="text-muted-foreground">Carregando contratos...</p>
               </div>
             ) : filteredContracts.length === 0 ? (
               <div className="text-center py-16">
-                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
-                  <FileText className="h-8 w-8 text-muted-foreground" />
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                  <FileText className="h-8 w-8 text-blue-500" />
                 </div>
                 <p className="font-medium text-foreground">Nenhum contrato encontrado</p>
                 <p className="text-sm text-muted-foreground mt-1">
@@ -424,9 +451,9 @@ export function OperatorInitialGuideModal({ open, onOpenChange }: OperatorInitia
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Coluna Esquerda */}
-                <div className="space-y-6">
+                <div className="space-y-3">
                   {leftColumn.map((contract) => (
                     <ContractItem
                       key={contract.id}
@@ -438,7 +465,7 @@ export function OperatorInitialGuideModal({ open, onOpenChange }: OperatorInitia
                 </div>
                 
                 {/* Coluna Direita */}
-                <div className="space-y-6">
+                <div className="space-y-3">
                   {rightColumn.map((contract) => (
                     <ContractItem
                       key={contract.id}
