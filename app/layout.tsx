@@ -15,6 +15,11 @@ export const metadata: Metadata = {
   title: "Sistema de Roteiro de Atendimento",
   description: "Sistema profissional para gerenciamento de scripts de call center",
   generator: "v0.app",
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
 }
 
 export const viewport: Viewport = {
