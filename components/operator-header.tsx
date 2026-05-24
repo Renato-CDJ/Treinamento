@@ -389,7 +389,7 @@ export const OperatorHeader = memo(function OperatorHeader({
                 <div className="h-9 w-9 bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white rounded-lg shadow-md flex items-center justify-center transition-colors">
                   <ListChecks className="h-4 w-4" />
                 </div>
-                <span className="text-[9px] font-medium text-muted-foreground group-hover:text-foreground transition-colors">Tabulações</span>
+                <span className="text-[9px] font-medium text-muted-foreground group-hover:text-foreground transition-colors">Tabulacoes</span>
               </button>
 
               <button
