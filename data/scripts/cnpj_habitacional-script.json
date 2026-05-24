@@ -14,7 +14,7 @@
       "cnpj_hab1_terceiro": {
         "id": "cnpj_hab1_terceiro",
         "title": "Terceiro",
-        "body": "Você conhece [sócio ou responsável da empresa]?",
+        "body": "Só para confirmar, esse número não pertence à [Sócio ou Responsável da Empresa]?<br><br>Em caso negativo:<br>Entendi. E você conhece [Sócio ou Responsável da Empresa]?",
         "buttons": [
           { "label": "SIM", "next": "cnpj_hab1_terceiro_conhece", "primary": true },
           { "label": "NÃO CONHECE", "next": "cnpj_hab1_nao_conhece" },
@@ -89,8 +89,8 @@
       },
       "cnpj_hab1_nao_confirma": {
         "id": "cnpj_hab1_nao_confirma",
-        "title": "Cliente não quer confirmar o CNPJ",
-        "body": "Esse contato é sobre o relacionamento com a CAIXA, após a confirmação dos dados, irei fornecer todos os detalhes. Os 5 primeiros números do CNPJ são: (XXXXX), qual o restante?",
+        "title": "Sócio ou responsável não quer confirmar o CNPJ",
+        "body": "<b>Situação 1 -</b> Esse contato é sobre o relacionamento com a CAIXA, após a confirmação dos dados, irei fornecer todos os detalhes. Os 5 primeiros números do CNPJ são: (XXXXX), qual o restante?<br><br><b>Situação 2 -</b> A confirmação é para sua segurança. Vou informar os 5 primeiros dígitos, e você completa os restantes para proteger seus dados. Os 5 primeiros números do CNPJ são: [XXXXX], Qual o restante?<br><br><b>Situação 3 -</b> Não posso informar o motivo do contato sem confirmar seus dados primeiro, para proteger suas informações e evitar que sejam compartilhadas com terceiros. Podemos seguir com a confirmação?",
         "buttons": [
           { "label": "CONFIRMOU CNPJ", "next": "cnpj_hab1_nome_completo_cliente", "primary": true },
           { "label": "RECUSOU CONFIRMAR", "next": "cnpj_hab1_nao_confirmou" }

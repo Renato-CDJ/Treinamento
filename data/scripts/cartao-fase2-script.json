@@ -14,7 +14,7 @@
       "cartao2_terceiro": {
         "id": "cartao2_terceiro",
         "title": "Terceiro",
-        "body": "Você conhece [Nome completo do cliente]?",
+        "body": "Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
         "buttons": [
           { "label": "SIM", "next": "cartao2_terceiro_conhece", "primary": true },
           { "label": "NÃO CONHECE", "next": "cartao2_nao_conhece" },
@@ -90,7 +90,7 @@
       "cartao2_nao_confirma": {
         "id": "cartao2_nao_confirma",
         "title": "Cliente não quer confirmar o CPF",
-        "body": "Esse contato é sobre o relacionamento com a CAIXA, após a confirmação dos dados, irei fornecer todos os detalhes. Os 6 primeiros números do CPF são: (XXX.XXX), qual o restante?",
+        "body": "<b>Situação 1 -</b> Esse contato é sobre o relacionamento com a CAIXA, após a confirmação dos dados, irei fornecer todos os detalhes. Os 6 primeiros números do CPF são: (XXX.XXX), qual o restante?<br><br><b>Situação 2 -</b> A confirmação é para sua segurança. Vou informar os 6 primeiros dígitos, e você completa os restantes para proteger seus dados. Os 6 primeiros números do CPF são: [XXX.XXX], Qual o restante?<br><br><b>Situação 3 -</b> Não posso informar o motivo do contato sem confirmar seus dados primeiro, para proteger suas informações e evitar que sejam compartilhadas com terceiros. Podemos seguir com a confirmação?",
         "buttons": [
           { "label": "CONFIRMOU CPF", "next": "cartao2_nome_completo_cliente", "primary": true },
           { "label": "RECUSOU CONFIRMAR", "next": "cartao2_nao_confirmou" }

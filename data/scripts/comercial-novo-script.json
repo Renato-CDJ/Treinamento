@@ -15,7 +15,7 @@
       "contratos_terceiro": {
         "id": "contratos_terceiro",
         "title": "Terceiro",
-        "body": "Você conhece [Nome completo do cliente]?",
+        "body": "Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
         "tabulacao": ["LIGAÇÃO CAIU"],
         "buttons": [
           { "label": "CONHECE O CLIENTE", "next": "contratos_terceiro_conhece", "primary": true },
@@ -100,7 +100,7 @@
       "contratos_nao_confirma": {
         "id": "contratos_nao_confirma",
         "title": "Cliente não quer confirmar o CPF",
-        "body": "Esse contato é sobre o relacionamento com a CAIXA, após a confirmação dos dados, irei fornecer todos os detalhes. Os 6 primeiros números do CPF são: (XXX.XXX), qual o restante?",
+        "body": "<b>Situação 1 -</b> Esse contato é sobre o relacionamento com a CAIXA, após a confirmação dos dados, irei fornecer todos os detalhes. Os 6 primeiros números do CPF são: (XXX.XXX), qual o restante?<br><br><b>Situação 2 -</b> A confirmação é para sua segurança. Vou informar os 6 primeiros dígitos, e você completa os restantes para proteger seus dados. Os 6 primeiros números do CPF são: [XXX.XXX], Qual o restante?<br><br><b>Situação 3 -</b> Não posso informar o motivo do contato sem confirmar seus dados primeiro, para proteger suas informações e evitar que sejam compartilhadas com terceiros. Podemos seguir com a confirmação?",
         "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
         "buttons": [
           { "label": "CONFIRMOU CPF", "next": "contratos_nome_completo_cliente", "primary": true },
@@ -188,7 +188,7 @@
       "selecione_o_produto": {
         "id": "selecione_o_produto",
         "title": "Selecione o Contrato que o cliente possui",
-        "body": "Veja no WEEDO qual é o contrato que consta em atraso e selecione a opção correspondente.",
+        "body": "Veja no WEDOO qual é o contrato que consta em atraso e selecione a opção correspondente.",
         "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO"],
         "buttons": [
           { "label": "FIES", "next": "apresentacao_fies", "primary": true },
@@ -203,11 +203,12 @@
       "apresentacao_fies": {
         "id": "apresentacao_fies",
         "title": "Apresentação da Dívida",
-        "body": "O motivo do meu contato é para confirmar o pagamento do seu fies, vencido há XX dias no valor aproximado de R$XX,XX.<br>Já houve o pagamento?",
+        "body": "O motivo do meu contato é para confirmar o pagamento do seu Fies, vencido há XX dias no valor aproximado de R$XX,XX.<br>Já houve o pagamento?",
         "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JÁ EFETUADO"],
         "buttons": [
           { "label": "SIM", "next": "contratos_pagamento_efetuado", "primary": true },
-          { "label": "NÃO", "next": "contratos_negociacao" }
+          { "label": "NÃO", "next": "contratos_negociacao" },
+          { "label": "DESCONHECE A DÍVIDA", "next": "contratos_desconhece_divida" }
         ]
       },
       "apresentacao_cdc": {
@@ -217,7 +218,8 @@
         "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JÁ EFETUADO"],
         "buttons": [
           { "label": "SIM JA PAGUEI", "next": "contratos_pagamento_efetuado", "primary": true },
-          { "label": "NÃO", "next": "contratos_negociacao" }
+          { "label": "NÃO", "next": "contratos_negociacao" },
+          { "label": "DESCONHECE A DÍVIDA", "next": "contratos_desconhece_divida" }
         ]
       },
       "apresentacao_cred_senior": {
@@ -227,7 +229,8 @@
         "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JÁ EFETUADO"],
         "buttons": [
           { "label": "SIM JA PAGUEI", "next": "contratos_pagamento_efetuado", "primary": true },
-          { "label": "NÃO", "next": "contratos_negociacao" }
+          { "label": "NÃO", "next": "contratos_negociacao" },
+          { "label": "DESCONHECE A DÍVIDA", "next": "contratos_desconhece_divida" }
         ]
       },
       "apresentacao_renegociacao_de_dividas": {
@@ -237,7 +240,8 @@
         "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JÁ EFETUADO"],
         "buttons": [
           { "label": "SIM JA PAGUEI", "next": "contratos_pagamento_efetuado", "primary": true },
-          { "label": "NÃO", "next": "contratos_negociacao" }
+          { "label": "NÃO", "next": "contratos_negociacao" },
+          { "label": "DESCONHECE A DÍVIDA", "next": "contratos_desconhece_divida" }
         ]
       },
       "apresentacao_consignacao_caixa": {
@@ -247,7 +251,8 @@
         "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JÁ EFETUADO"],
         "buttons": [
           { "label": "SIM JA PAGUEI", "next": "contratos_pagamento_efetuado", "primary": true },
-          { "label": "NÃO", "next": "contratos_negociacao" }
+          { "label": "NÃO", "next": "contratos_negociacao" },
+          { "label": "DESCONHECE A DÍVIDA", "next": "contratos_desconhece_divida" }
         ]
       },
       "apresentacao_cheque_especial_caixa": {
@@ -257,7 +262,8 @@
         "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JÁ EFETUADO"],
         "buttons": [
           { "label": "SIM JA PAGUEI", "next": "contratos_pagamento_efetuado", "primary": true },
-          { "label": "NÃO", "next": "cheque_especial_caixa_contratos_negociacao" }
+          { "label": "NÃO", "next": "cheque_especial_caixa_contratos_negociacao" },
+          { "label": "DESCONHECE A DÍVIDA", "next": "contratos_desconhece_divida" }
         ]
       },
       "apresentacao_construcard": {
@@ -267,7 +273,8 @@
         "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JÁ EFETUADO"],
         "buttons": [
           { "label": "SIM JA PAGUEI", "next": "contratos_pagamento_efetuado", "primary": true },
-          { "label": "NÃO", "next": "contratos_negociacao" }
+          { "label": "NÃO", "next": "contratos_negociacao" },
+          { "label": "DESCONHECE A DÍVIDA", "next": "contratos_desconhece_divida" }
         ]
       },
       "contratos_pagamento_efetuado": {
@@ -309,7 +316,6 @@
           { "label": "CLIENTE PEDE PARA LIGAR DEPOIS", "next": "contratos_pede_retorno" },
           { "label": "JA NEGOCIOU COM A CAIXA/AGÊNCIA", "next": "contratos_negociou_com_agencia" },
           { "label": "VAI NEGOCIAR NA AGÊNCIA", "next": "contratos_vai_negociar_com_agencia" },
-          { "label": "DESCONHECE A DÍVIDA", "next": "contratos_desconhece_divida" },
           { "label": "SEM PREVISÃO OU SEM DINHEIRO", "next": "contratos_sem_previsao" }
         ]
       },   
@@ -317,14 +323,13 @@
         "id": "cheque_especial_caixa_contratos_negociacao",
         "title": "Oferte o pagamento para o dia",
         "body": "O pagamento hoje ficaria bom para você?",
-        "tabulacao": ["tab-24", "tab-25"],
+        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO"],
         "buttons": [
           { "label": "CLIENTE VAI PAGAR", "next": "cheque_especial_caixa_pagamento", "primary": true },
           { "label": "CLIENTE FALOU QUE NÃO", "next": "cheque_especial_caixa_opcao_recusa" },
           { "label": "CLIENTE PEDE PARA LIGAR DEPOIS", "next": "contratos_pede_retorno" },
           { "label": "JA NEGOCIOU COM A CAIXA/AGÊNCIA", "next": "contratos_negociou_com_agencia" },
-          { "label": "VAI NEGOCIAR NA AGÊNCIA", "next": "contratos_vai_negociar_com_agencia" },
-          { "label": "DESCONHECE A DÍVIDA", "next": "contratos_desconhece_divida" }
+          { "label": "VAI NEGOCIAR NA AGÊNCIA", "next": "contratos_vai_negociar_com_agencia" }
         ]
       },
       "cheque_especial_caixa_pagamento": {
@@ -515,13 +520,13 @@
         "body": "Selecione a opção de acordo com o tempo em atraso",
         "tabulacao": [],
         "buttons": [
-          { "label": "ATÉ 30 DIAS", "next": "contratos_recusa_ate_30_dias" },
-          { "label": "ACIMA DE 31 DIAS", "next": "contratos_recusa_maior_que_30_dias" }
+          { "label": "ATÉ 30 DIAS DE ATRASO", "next": "contratos_recusa_ate_30_dias" },
+          { "label": "ACIMA DE 31 DIAS DE ATRASO", "next": "contratos_recusa_maior_que_30_dias" }
         ]
       },
       "contratos_recusa_ate_30_dias": {
         "id": "contratos_recusa_ate_30_dias",
-        "title": "Oferte o pagamento dentro do prazo máximo que é D+9 de forma gradativa! Lembrando que são dias corridos e não dias úteis.",
+        "title": "Oferte o pagamento dentro do prazo máximo que é D+9 de forma gradativa!",
         "body": "Para evitar os juros diários, o pagamento ficaria bom pra você até dia XX/XX?",
         "tabulacao": [],
         "buttons": [
@@ -531,8 +536,8 @@
       },
       "contratos_recusa_maior_que_30_dias": {
         "id": "contratos_recusa_maior_que_30_dias",
-        "title": "Oferte o pagamento dentro do prazo máximo que é D+9 de forma gradativa! Lembrando que são dias corridos e não dias úteis.",
-        "body": "Como você possui XX parcelas atrasadas, para te ajudar, posso confirmar o pagamento da mais antiga para o dia XX/XX? Assim você regulariza as demais parcelas aos poucos.",
+        "title": "Oferte o pagamento dentro do prazo máximo que é D+9 de forma gradativa!",
+        "body": "Entendo que imprevistos podem acontecer.<br><br><b>Atraso maior que 30 dias:</b> Gostaria de lembrá-lo sobre possíveis consequências de não realizar o pagamento, como a inclusão ou permanência do seu nome no SPC e SERASA. Evite pagando ao menos uma parcela, A MAIS ANTIGA. Posso contar com seu pagamento?",
         "tabulacao": [],
         "buttons": [
           { "label": "ACEITOU", "next": "contratos_ratificacao_aceite" },
@@ -542,7 +547,7 @@
       "contratos_atualizacao_cadastral_opcao_recusa": {
         "id": "contratos_atualizacao_cadastral_opcao_recusa",
         "title": "Atualização Cadastral",
-        "body": "Ok! Vou deixar registrado o seu posicionamento.<br><br>Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Vou deixar registrado o seu posicionamento.<br><br>Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
         "tabulacao": ["SEM CAPACIDADE DE PAGAMENTO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "contratos_pesquisa_satisfacao_opcao_recusa", "primary": true }

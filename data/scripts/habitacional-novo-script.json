@@ -15,7 +15,7 @@
       "hab1_terceiro": {
         "id": "hab1_terceiro",
         "title": "Terceiro",
-        "body": "Você conhece [Nome completo do cliente]?",
+        "body": "Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
         "tabulacao": ["LIGAÇÃO CAIU"],
         "buttons": [
           { "label": "CONHECE O CLIENTE", "next": "hab1_terceiro_conhece", "primary": true },
@@ -100,7 +100,7 @@
       "hab1_nao_confirma": {
         "id": "hab1_nao_confirma",
         "title": "Cliente não quer confirmar o CPF",
-        "body": "Esse contato é sobre o relacionamento com a CAIXA, após a confirmação dos dados, irei fornecer todos os detalhes. Os 6 primeiros números do CPF são: (XXX.XXX), qual o restante?",
+        "body": "<b>Situação 1 -</b> Esse contato é sobre o relacionamento com a CAIXA, após a confirmação dos dados, irei fornecer todos os detalhes. Os 6 primeiros números do CPF são: (XXX.XXX), qual o restante?<br><br><b>Situação 2 -</b> A confirmação é para sua segurança. Vou informar os 6 primeiros dígitos, e você completa os restantes para proteger seus dados. Os 6 primeiros números do CPF são: [XXX.XXX], Qual o restante?<br><br><b>Situação 3 -</b> Não posso informar o motivo do contato sem confirmar seus dados primeiro, para proteger suas informações e evitar que sejam compartilhadas com terceiros. Podemos seguir com a confirmação?",
         "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
         "buttons": [
           { "label": "CONFIRMOU CPF", "next": "hab1_nome_completo_cliente", "primary": true },
@@ -152,7 +152,7 @@
       "hab1_nao_confirmou_vai_na_agencia": {
         "id": "hab1_nao_confirmou_vai_na_agencia",
         "title": "Finalização",
-        "body": "(Nome do cliente), então você pode entrar em contato com esses números que vou te passar para saber o assunto que é: 0800 104 0104, 0800 025 8833 ou 4020 0088.",
+        "body": "[Nome do cliente], então você pode entrar em contato com esses números que vou te passar para saber o assunto que é: 0800 104 0104, 0800 025 8833 ou 4020 0088.",
         "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab1_fim", "primary": true }
@@ -161,7 +161,7 @@
       "hab1_nao_confirmou": {
         "id": "hab1_nao_confirmou",
         "title": "Finalização",
-        "body": "(Nome do cliente), então você pode entrar em contato com esses números que vou te passar para saber o assunto que é: 0800 104 0104, 0800 025 8833 ou 4020 0088.",
+        "body": "[Nome do cliente], então você pode entrar em contato com esses números que vou te passar para saber o assunto que é: 0800 104 0104, 0800 025 8833 ou 4020 0088.",
         "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab1_fim", "primary": true }
@@ -202,7 +202,8 @@
         "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JÁ EFETUADO"],
         "buttons": [
           { "label": "SIM", "next": "hab1_pagamento_efetuado", "primary": true },
-          { "label": "NÃO", "next": "hab1_negociacao" }
+          { "label": "NÃO", "next": "hab1_negociacao" },
+          { "label": "DESCONHECE A DÍVIDA", "next": "hab1_desconhece_divida" }
         ]
       },
       "hab1_apresentacao30dias": {
@@ -231,20 +232,13 @@
         "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO"],
         "buttons": [
           { "label": "CLIENTE VAI PAGAR", "next": "hab1_ratificacao_aceite", "primary": true },
-          { "label": "CLIENTE FALOU QUE NÃO", "next": "hab1_recusa" },
-          { "label": "CLIENTE VAI PAGAR APÓS OS 10 DIAS CORRIDOS", "next": "hab1_vai_pagar_fora_do_prazo" },
-          { "label": "CLIENTE PEDE PARA LIGAR DEPOIS", "next": "hab1_pede_retorno" },
-          { "label": "JA NEGOCIOU COM A CAIXA/AGÊNCIA", "next": "hab1_negociou_com_agencia" },
-          { "label": "VAI NEGOCIAR NA AGÊNCIA", "next": "hab1_vai_negociar_com_agencia" },
-          { "label": "DESCONHECE A DÍVIDA", "next": "hab1_desconhece_divida" },
-          { "label": "NÃO RESIDE NO IMÓVEL", "next": "hab1_nao_reside_no_imovel" },
-          { "label": "SEM PREVISÃO OU SEM DINHEIRO", "next": "hab1_sem_previsao" }
+          { "label": "CLIENTE FALOU QUE NÃO", "next": "hab1_recusa" }
         ]
       },
       "hab1_vai_pagar_fora_do_prazo": {
         "id": "hab1_vai_pagar_fora_do_prazo",
         "title": "Negociação",
-        "body": "Para te ajudar, a data limite que eu consigo agendar seria XX/XX. Você confirma?",
+        "body": "Entendo que precise de um prazo maior ou mais alternativa para realizar o pagamento. Mas nosso prazo máximo e condições disponíveis por esse canal são essas. Para te ajudar, a data limite que eu consigo agendar seria XX/XX. Posso contar com seu pagamento?",
         "tabulacao": ["CONTATO SEM NEGOCIAÇÃO", "PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSÃO DE BOLETO"],
         "buttons": [
           { "label": "CLIENTE ACEITOU", "next": "hab1_ratificacao_aceite" },
@@ -389,7 +383,7 @@
       "hab1_sem_previsao": {
         "id": "hab1_sem_previsao",
         "title": "Ouça o que o cliente disser e adapte a sua argumentação",
-        "body": "Pergunte sobre a situação financeira do cliente: Entendo que imprevistos podem acontecer. Houve alguma mudança recente na sua situação financeira?<br><br>Atraso até 30 dias: Só para reforçar: os juros diários seguem acumulando, e há risco de negativação no CPF e ligações de cobrança.<br><br>Atraso de 31 a 119 dias: Pagando a parcela mais antiga, você evita a retomada do imóvel. O pagamento para o dia XX/XX fica bom para você?<br><br>Atraso acima de 120 dias: Mesmo pagando uma parcela, o risco de retomada continua. O pagamento da parcela mais antiga para o dia XX/XX fica bom para você? Assim você vai regularizando aos poucos.",
+        "body": "Entendo que imprevistos podem acontecer.<br><br><b>Atraso maior que 30 dias e menor de 120 dias:</b> Gostaria de lembrá-lo sobre possíveis consequências de não realizar o pagamento, como a inclusão ou permanência do seu nome no SPC e SERASA. Evite também o risco de retomada do seu imóvel pagando ao menos uma parcela, A MAIS ANTIGA. Posso contar com seu pagamento?<br><br><b>Atraso superior a 120 dias:</b> O pagamento da parcela mais antiga NÃO evita que o seu imóvel seja retomado. Mas você pode ir regularizando aos poucos pagando ao menos uma parcela, A MAIS ANTIGA. Posso agendar até dia XX/XX?",
         "buttons": [
           { "label": "ACEITOU", "next": "hab1_ratificacao_aceite" },
           { "label": "RECUSOU", "next": "hab1_fgts_recusa" }
@@ -397,17 +391,23 @@
       },
       "hab1_recusa": {
         "id": "hab1_recusa",
-        "title": "Oferte o pagamento dentro do prazo máximo que é D+9 de forma gradativa! Lembrando que são dias corridos e não dias úteis.",
-        "body": "Para evitar os juros diários, o pagamento ficaria bom pra você até dia XX/XX?<br><br>Contrato com atraso MAIOR que 31 dias de atraso, ARGUMENTE:<br>Como você possui XX parcelas atrasadas, para te ajudar, posso confirmar o pagamento da mais antiga para o dia XX/XX? Assim você regulariza as demais parcelas aos poucos.",
+        "title": "Oferte o pagamento dentro do prazo máximo [D+9] de forma gradativa!",
+        "body": "<b>Atraso menor que 30 dias:</b> <br>Para evitar os juros diários, o pagamento ficaria bom pra você até dia XX/XX?",
         "buttons": [
           { "label": "ACEITOU", "next": "hab1_ratificacao_aceite" },
-          { "label": "RECUSOU", "next": "hab1_recusa_novamente" }
+          { "label": "RECUSOU", "next": "hab1_recusa_novamente" },
+          { "label": "CLIENTE VAI PAGAR APÓS OS 10 DIAS CORRIDOS", "next": "hab1_vai_pagar_fora_do_prazo" },
+          { "label": "CLIENTE PEDE PARA LIGAR DEPOIS", "next": "hab1_pede_retorno" },
+          { "label": "JA NEGOCIOU COM A CAIXA/AGÊNCIA", "next": "hab1_negociou_com_agencia" },
+          { "label": "VAI NEGOCIAR NA AGÊNCIA", "next": "hab1_vai_negociar_com_agencia" },
+          { "label": "NÃO RESIDE NO IMÓVEL", "next": "hab1_nao_reside_no_imovel" },
+          { "label": "SEM PREVISÃO OU SEM DINHEIRO", "next": "hab1_sem_previsao" }
         ]
       },
       "hab1_recusa_novamente": {
         "id": "hab1_recusa_novamente",
         "title": "Ouça o que o cliente disser e adapte a sua argumentação",
-        "body": "Pergunte sobre a situação financeira do cliente: Entendo que imprevistos podem acontecer. Houve alguma mudança recente na sua situação financeira?<br><br>Atraso até 30 dias: Só para reforçar: os juros diários seguem acumulando, e há risco de negativação no CPF e ligações de cobrança.<br><br>Atraso de 31 a 119 dias: Pagando a parcela mais antiga, você evita a retomada do imóvel. O pagamento para o dia XX/XX fica bom para você?<br><br>Atraso acima de 120 dias: Mesmo pagando uma parcela, o risco de retomada continua. O pagamento da parcela mais antiga para o dia XX/XX fica bom para você? Assim você vai regularizando aos poucos.",
+        "body": "Entendo que imprevistos podem acontecer.<br><br><b>Atraso maior que 30 dias e menor de 120 dias:</b> Gostaria de lembrá-lo sobre possíveis consequências de não realizar o pagamento, como a inclusão ou permanência do seu nome no SPC e SERASA. Evite também o risco de retomada do seu imóvel pagando ao menos uma parcela, A MAIS ANTIGA. Posso contar com seu pagamento?<br><br><b>Atraso superior a 120 dias:</b> O pagamento da parcela mais antiga NÃO evita que o seu imóvel seja retomado. Mas você pode ir regularizando aos poucos pagando ao menos uma parcela, A MAIS ANTIGA. Posso agendar até dia XX/XX?",
         "buttons": [
           { "label": "ACEITOU", "next": "hab1_ratificacao_aceite" },
           { "label": "RECUSOU", "next": "hab1_fgts_recusa" }
