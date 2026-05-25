@@ -16,7 +16,7 @@
         "id": "hab532_terceiro",
         "title": "Terceiro",
         "body": "Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
-        "tabulacao": ["LIGAÇÃO CAIU"],
+        "tabulacao": ["LIGAÇÃO CAIU", "DESCONHECIDO NO TELEFONE"],
         "buttons": [
           { "label": "SIM", "next": "hab532_terceiro_conhece", "primary": true },
           { "label": "NÃO CONHECE", "next": "hab532_nao_conhece" },
@@ -178,6 +178,7 @@
         "id": "hab532_recusa_novamente",
         "title": "INFORME",
         "body": "Informo que a proposta é por tempo limitado e caso mude de ideia ligar para a números 0800 025 8833 ou 4020-0088 ou pelo WhatsApp 0800 104 0104.",
+        "tabulacao": ["RECUSA AÇÃO/CAMPANHA + RESULTADO COM MOTIVO DA RECUSA"],
         "buttons": [
           { "label": "ACEITOU", "next": "hab532_ratificacao_aceite" },
           { "label": "RECUSOU", "next": "hab532_consequencias_recusa" }
@@ -187,6 +188,7 @@
         "id": "hab532_consequencias_recusa",
         "title": "Consequências do NÃO pagamento",
         "body": "Reforço que as ações de cobrança terão continuidade e os juros são diários e também retirar/evitar a restrição do CPF no SPC/SERASA.",
+        "tabulacao": ["RECUSA AÇÃO/CAMPANHA + RESULTADO COM MOTIVO DA RECUSA"],
         "buttons": [
           { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "hab532_atualizacao_cadastral_recusa", "primary": true }
         ]
@@ -195,6 +197,7 @@
         "id": "hab532_atualizacao_cadastral_recusa",
         "title": "Atualização Cadastral",
         "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "tabulacao": ["RECUSA AÇÃO/CAMPANHA + RESULTADO COM MOTIVO DA RECUSA"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab532_pesquisa_satisfacao_recusa", "primary": true }
         ]
@@ -203,6 +206,7 @@
         "id": "hab532_pesquisa_satisfacao_recusa",
         "title": "Pesquisa de Satisfação",
         "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "tabulacao": ["RECUSA AÇÃO/CAMPANHA + RESULTADO COM MOTIVO DA RECUSA"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab532_fim", "primary": true }
         ]
@@ -221,6 +225,7 @@
         "id": "hab532_pagamento_total_campanha",
         "title": "Pagamento Total",
         "body": "Agradeço a confirmação, contamos com seu pagamento.",
+        "tabulacao": ["ACEITA AÇÃO/CAMPANHA COM EMISSÃO DE BOLETO"],
         "buttons": [
           { "label": "AVANÇAR", "next": "hab532_atualizacao_cadastral_aceite_campanha" }
         ]
@@ -229,6 +234,7 @@
         "id": "hab532_pagamento_parcial_campanha",
         "title": "Parcial [no mínimo, uma prestação mais antiga]",
         "body": "Como não se trata do pagamento de total e sim parcial, permanecem os juros diários, ligações de cobrança e a restrição do CPF/CNPJ no SPC/SERASA.<br><br>CASO O ENVIO DO BOLETO NÃO ESTEJA DISPONÍVEL NO CIWEB:<br>O boleto dessa proposta no momento não está disponível para emissão por esse canal. Você pode solicitar/consultar pelo WhatsApp 0800 104 0104 a emissão do boleto.",
+        "tabulacao": ["ACEITA AÇÃO/CAMPANHA COM EMISSÃO DE BOLETO"],
         "buttons": [
           { "label": "AVANÇAR", "next": "hab532_atualizacao_cadastral_aceite_campanha" }
         ]
@@ -237,6 +243,7 @@
         "id": "hab532_boleto_indisponivel_campanha",
         "title": "Em caso de boleto indisponível",
         "body": "O boleto dessa proposta no momento não está disponível para emissão por esse canal. Você pode solicitar/consultar pelo WhatsApp 0800 104 0104 a emissão do boleto.",
+        "tabulacao": ["ACEITA AÇÃO/CAMPANHA SEM EMISSÃO DE BOLETO"],
         "buttons": [
           { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "hab532_atualizacao_cadastral_boleto_indisponivel_campanha" }
         ]
@@ -245,6 +252,7 @@
         "id": "hab532_atualizacao_cadastral_boleto_indisponivel_campanha",
         "title": "Atualização Cadastral",
         "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "tabulacao": ["ACEITA AÇÃO/CAMPANHA SEM EMISSÃO DE BOLETO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab532_pesquisa_satisfacao_boleto_indisponivel_campanha", "primary": true }
         ]
@@ -253,6 +261,7 @@
         "id": "hab532_pesquisa_satisfacao_boleto_indisponivel_campanha",
         "title": "Pesquisa de Satisfação",
         "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "tabulacao": ["ACEITA AÇÃO/CAMPANHA SEM EMISSÃO DE BOLETO"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab532_fim", "primary": true }
         ]
@@ -261,6 +270,7 @@
         "id": "hab532_atualizacao_cadastral_aceite_campanha",
         "title": "Atualização Cadastral",
         "body": "Gostaria de atualizar o seu e-mail?<br><br>E o número para contato permanece o mesmo?",
+        "tabulacao": ["ACEITA AÇÃO/CAMPANHA COM EMISSÃO DE BOLETO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab532_pesquisa_satisfacao_aceite", "primary": true }
         ]
@@ -269,6 +279,7 @@
         "id": "hab532_pesquisa_satisfacao_aceite_campanha",
         "title": "Pesquisa de Satisfação",
         "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "tabulacao": ["ACEITA AÇÃO/CAMPANHA COM EMISSÃO DE BOLETO"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab532_fim", "primary": true }
         ]
@@ -287,6 +298,7 @@
         "id": "hab532_boleto_indisponivel",
         "title": "Em caso de boleto indisponível",
         "body": "O boleto dessa proposta no momento não está disponível para emissão por esse canal. Você pode solicitar/consultar pelo WhatsApp 0800 104 0104 a emissão do boleto.",
+        "tabulacao": ["ACEITA AÇÃO/CAMPANHA SEM EMISSÃO DE BOLETO"],
         "buttons": [
           { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "hab532_atualizacao_cadastral_boleto_indisponivel" }
         ]
@@ -295,6 +307,7 @@
         "id": "hab532_atualizacao_cadastral_boleto_indisponivel",
         "title": "Atualização Cadastral",
         "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "tabulacao": ["ACEITA AÇÃO/CAMPANHA SEM EMISSÃO DE BOLETO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab532_pesquisa_satisfacao_boleto_indisponivel", "primary": true }
         ]
@@ -303,6 +316,7 @@
         "id": "hab532_pesquisa_satisfacao_boleto_indisponivel",
         "title": "Pesquisa de Satisfação",
         "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "tabulacao": ["ACEITA AÇÃO/CAMPANHA SEM EMISSÃO DE BOLETO"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab532_fim", "primary": true }
         ]
@@ -311,6 +325,7 @@
         "id": "hab532_pagamento_total",
         "title": "Pagamento Total",
         "body": "Agradeço a confirmação, contamos com seu pagamento.",
+        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSÃO DE BOLETO"],
         "buttons": [
           { "label": "AVANÇAR", "next": "hab532_atualizacao_cadastral_aceite" }
         ]
@@ -319,6 +334,7 @@
         "id": "hab532_atualizacao_cadastral_aceite",
         "title": "Atualização Cadastral",
         "body": "Gostaria de atualizar o seu e-mail?<br><br>E o número para contato permanece o mesmo?",
+        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSÃO DE BOLETO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab532_pesquisa_satisfacao_aceite", "primary": true }
         ]
@@ -327,6 +343,7 @@
         "id": "hab532_pesquisa_satisfacao_aceite",
         "title": "Pesquisa de Satisfação",
         "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSÃO DE BOLETO"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab532_fim", "primary": true }
         ]
@@ -335,6 +352,7 @@
         "id": "hab532_pagamento_parcial",
         "title": "Parcial [no mínimo, uma prestação mais antiga]",
         "body": "Como não se trata do pagamento de total e sim parcial, permanecem os juros diários, ligações de cobrança e a restrição do CPF/CNPJ no SPC/SERASA.<br><br>CASO O ENVIO DO BOLETO NÃO ESTEJA DISPONÍVEL NO CIWEB:<br>O boleto dessa proposta no momento não está disponível para emissão por esse canal. Você pode solicitar/consultar pelo WhatsApp 0800 104 0104 a emissão do boleto.",
+        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSÃO DE BOLETO"],
         "buttons": [
           { "label": "AVANÇAR", "next": "hab532_atualizacao_cadastral_aceite" }
         ]

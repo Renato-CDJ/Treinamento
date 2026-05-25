@@ -16,7 +16,7 @@
         "id": "contratos_terceiro",
         "title": "Terceiro",
         "body": "Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
-        "tabulacao": ["LIGAÇÃO CAIU"],
+        "tabulacao": ["LIGAÇÃO CAIU", "DESCONHECIDO NO TELEFONE"],
         "buttons": [
           { "label": "CONHECE O CLIENTE", "next": "contratos_terceiro_conhece", "primary": true },
           { "label": "NÃO CONHECE", "next": "contratos_nao_conhece" },
@@ -203,7 +203,7 @@
       "apresentacao_fies": {
         "id": "apresentacao_fies",
         "title": "Apresentação da Dívida",
-        "body": "O motivo do meu contato é para confirmar o pagamento do seu Fies, vencido há XX dias no valor aproximado de R$XX,XX.<br>Já houve o pagamento?",
+        "body": "O motivo do meu contato é para confirmar o pagamento do seu Fies, vencido há XX dias no valor aproximado de R$XX,XX.<br>Já houve o pagamento?<br><br><b>Caso o cliente questione a possibilidade de renegociar ou o desconto:</b><br>Você pode verificar se o seu contrato tem a possibilidade de realizar renegociação no site <b>http://sifesweb.caixa.gov.br</b>, APP FIES CAIXA.",
         "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JÁ EFETUADO"],
         "buttons": [
           { "label": "SIM", "next": "contratos_pagamento_efetuado", "primary": true },

@@ -5,7 +5,7 @@ import type React from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
-import { CheckCircle2, AlertCircle, ArrowLeft, Search } from "lucide-react"
+import { CheckCircle2, AlertCircle, ArrowLeft, Search, ChevronRight } from "lucide-react"
 import type { ScriptStep, ContentSegment } from "@/lib/types"
 import { useState, useEffect, useMemo, useCallback, memo } from "react"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
@@ -28,7 +28,7 @@ interface ScriptCardProps {
 }
 
 function loadAccessibilitySettings(): { textSize: number; buttonSize: number } {
-  if (typeof window === "undefined") return { textSize: 100, buttonSize: 80 }
+  if (typeof window === "undefined") return { textSize: 50, buttonSize: 50 }
 
   try {
     const saved = localStorage.getItem("callcenter_accessibility_settings")
@@ -39,7 +39,7 @@ function loadAccessibilitySettings(): { textSize: number; buttonSize: number } {
     console.error("[v0] Error loading accessibility settings:", error)
   }
 
-  return { textSize: 80, buttonSize: 50 }
+  return { textSize: 50, buttonSize: 50 }
 }
 
 function saveAccessibilitySettings(textSize: number, buttonSize: number) {
@@ -166,7 +166,7 @@ export const ScriptCard = memo(function ScriptCard({
   onSearchStep,
   allSteps = [],
 }: ScriptCardProps) {
-  const [textSize, setTextSize] = useState<number[]>([80])
+  const [textSize, setTextSize] = useState<number[]>([50])
   const [buttonSize, setButtonSize] = useState<number[]>([50])
   const [showTabulation, setShowTabulation] = useState(false)
   const [showTabulationPulse, setShowTabulationPulse] = useState(false)
@@ -309,19 +309,32 @@ export const ScriptCard = memo(function ScriptCard({
             key={button.id}
             onClick={() => onButtonClick(button.nextStepId, button.label)}
             className={`
-              group relative flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-bold transition-all duration-200 max-w-full
+              group relative flex items-center justify-center gap-2 rounded-xl font-bold transition-all duration-300 max-w-full overflow-hidden
               ${isPrimary
-                ? "bg-orange-500 hover:bg-orange-600 text-white shadow-md shadow-orange-500/25 hover:shadow-lg hover:shadow-orange-500/30"
-                : "bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-700 hover:border-orange-500/50"
+                ? "bg-gradient-to-r from-orange-500 via-orange-500 to-amber-500 hover:from-orange-600 hover:via-orange-500 hover:to-amber-400 text-white shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 hover:scale-[1.02] active:scale-[0.98]"
+                : "bg-gradient-to-r from-zinc-800 to-zinc-900 hover:from-zinc-700 hover:to-zinc-800 text-white border border-zinc-600/50 hover:border-orange-500/50 shadow-md hover:shadow-lg hover:shadow-orange-500/10 hover:scale-[1.02] active:scale-[0.98]"
               }
             `}
             style={{
               fontSize: `clamp(12px, ${navButtonFontSize}px, 16px)`,
-              padding: `${Math.min(navButtonPadding, 12)}px ${Math.min(navButtonPadding * 1.5, 20)}px`,
-              minHeight: `${Math.min(navButtonPadding * 2.5, 44)}px`,
+              padding: `${Math.min(navButtonPadding, 14)}px ${Math.min(navButtonPadding * 2, 28)}px`,
+              minHeight: `${Math.min(navButtonPadding * 2.5, 48)}px`,
             }}
           >
-            <span className="text-wrap">{button.label}</span>
+            {/* Efeito de brilho no hover */}
+            <span className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
+              isPrimary 
+                ? "bg-gradient-to-r from-white/0 via-white/20 to-white/0" 
+                : "bg-gradient-to-r from-orange-500/0 via-orange-500/10 to-orange-500/0"
+            }`} />
+            
+            {/* Texto do botão */}
+            <span className="relative z-10 text-wrap">{button.label}</span>
+            
+            {/* Ícone de seta */}
+            <ChevronRight className={`relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 ${
+              isPrimary ? "text-white/80" : "text-zinc-400 group-hover:text-orange-400"
+            }`} />
           </button>
         )
       })

@@ -86,6 +86,7 @@
         "id": "receptivo_hab_apresentacao",
         "title": "Apresentação da Dívida",
         "body": "Verifiquei no sistema e consta seu financiamento habitacional, vencido há XX dias no valor aproximado de R$XX,XX.<br>Já houve o pagamento?",
+        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JÁ EFETUADO"],
         "buttons": [
           { "label": "SIM", "next": "receptivo_hab_pagamento_efetuado", "primary": true },
           { "label": "NÃO", "next": "receptivo_hab_negociacao" }
@@ -95,6 +96,7 @@
         "id": "receptivo_hab_pagamento_efetuado",
         "title": "Fraseologia de Pagamento Efetuado",
         "body": "Caso seu pagamento tenha sido efetuado há menos de 5 dias úteis, possivelmente não foi atualizado pelo sistema, mas caso tenha mais de 5 dias úteis você pode esclarecer pelo WhatsApp 0800 104 0104.<br><br>ATENÇÃO!<br><br>Não pergunte qual foi a forma de pagamento e nem a data em que foi realizado, pois o script já informa o necessário.",
+        "tabulacao": ["PAGAMENTO JÁ EFETUADO"],
         "buttons": [
           { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "receptivo_hab_atualizacao_cadastral" }
         ]
@@ -228,6 +230,7 @@
         "id": "receptivo_hab532_apresentacao",
         "title": "Apresentação da Dívida",
         "body": "Verifiquei no sistema e consta o seu financiamento habitacional, consta XX prestações vencida(s).<br>Já houve o pagamento dela?",
+        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JÁ EFETUADO"],
         "buttons": [
           { "label": "SIM", "next": "receptivo_hab532_pagamento_efetuado", "primary": true },
           { "label": "NÃO", "next": "receptivo_hab532_negociacao" }
@@ -237,6 +240,7 @@
         "id": "receptivo_hab532_pagamento_efetuado",
         "title": "Fraseologia de Pagamento Efetuado",
         "body": "Caso seu pagamento tenha sido efetuado há menos de 5 dias úteis, possivelmente não foi atualizado pelo sistema, mas caso tenha mais de 5 dias úteis você pode esclarecer pelo WhatsApp 0800 104 0104.<br><br>ATENÇÃO!<br>Não pergunte qual foi a forma de pagamento e nem a data em que foi realizado, pois o script já informa o necessário.",
+        "tabulacao": ["PAGAMENTO JÁ EFETUADO"],
         "buttons": [
           { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "receptivo_hab532_atualizacao_cadastral" }
         ]
@@ -379,6 +383,7 @@
         "id": "recepivo_comercial_apresentacao",
         "title": "Apresentação da Dívida",
         "body": "Verifiquei no sistema e consta o seu [nome do contrato], vencido há XX dias no valor aproximado de R$ XX, XX.<br>Já houve o pagamento?",
+        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JÁ EFETUADO"],
         "buttons": [
           { "label": "SIM", "next": "recepivo_comercial_pagamento_efetuado", "primary": true },
           { "label": "NÃO", "next": "recepivo_comercial_negociacao" }
@@ -388,6 +393,7 @@
         "id": "recepivo_comercial_pagamento_efetuado",
         "title": "Fraseologia de Pagamento Efetuado",
         "body": "Caso seu pagamento tenha sido efetuado há menos de 5 dias úteis, possivelmente não foi atualizado pelo sistema, mas caso tenha mais de 5 dias úteis você pode esclarecer pelo WhatsApp 0800 104 0104.<br><br>ATENÇÃO!<br>Não pergunte qual foi a forma de pagamento e nem a data em que foi realizado, pois o script já informa o necessário.",
+        "tabulacao": ["PAGAMENTO JÁ EFETUADO"],
         "buttons": [
           { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "recepivo_comercial_atualizacao_cadastral" }
         ]
@@ -513,6 +519,7 @@
         "id": "recepivo_cartao1_apresentacao",
         "title": "Apresentação da Dívida",
         "body": "Verifiquei no sistema e consta o seu cartão, vencido há XX dias no valor aproximado de R$ XX, XX.<br>Já houve o pagamento?",
+        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JÁ EFETUADO"],
         "buttons": [
           { "label": "SIM", "next": "recepivo_cartao1_pagamento_efetuado", "primary": true },
           { "label": "NÃO", "next": "recepivo_cartao1_negociacao" }
@@ -522,6 +529,7 @@
         "id": "recepivo_cartao1_pagamento_efetuado",
         "title": "Fraseologia de Pagamento Efetuado",
         "body": "Caso seu pagamento tenha sido efetuado há menos de 5 dias úteis, possivelmente não foi atualizado pelo sistema, mas caso tenha mais de 5 dias úteis você pode esclarecer pelo WhatsApp 0800 104 0104.<br><br>ATENÇÃO!<br>Não pergunte qual foi a forma de pagamento e nem a data em que foi realizado, pois o script já informa o necessário.",
+        "tabulacao": ["PAGAMENTO JÁ EFETUADO"],
         "buttons": [
           { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "recepivo_cartao1_atualizacao_cadastral_pagamento_efetuado" }
         ]
@@ -538,7 +546,7 @@
       "recepivo_cartao1_recusa": {
         "id": "recepivo_cartao1_recusa",
         "title": "Argumentações",
-        "body": "Evitar cobranças e bloqueio:Texto / Negativação com 14 dias de atraso: Texto / Restrição dificulta crédito: Texto / Cancelamento entre 96 a 99 dias: Texto",
+        "body": "Evitar cobranças e bloqueio: Para evitar as ligações de cobrança, os juros diários e o bloqueio do seu cartão, consigo agendar o pagamento para XX/XX?<br><br>Negativação com 14 dias de atraso: Seu CPF/CNPJ pode ser negativado a partir de 14 dias de atraso. Podemos agendar o pagamento até XX/XX pra evitar isso?<br><br>Restrição dificulta crédito: A restrição no SPC/SERASA pode dificultar futuros créditos com a CAIXA. Posso agendar o pagamento para XX/XX?<br><br>Cancelamento entre 96 a 99 dias: O cartão pode ser cancelado entre 66 e 69 dias de atraso. Posso agendar o pagamento até, no máximo, XX/XX pra evitar do cartão ser cancelado?",
         "buttons": [
           { "label": "ACEITOU", "next": "recepivo_cartao1_pagamento_total" },
           { "label": "RECUSOU", "next": "recepivo_cartao1_recusa_oferta_pagamento_minimo" }
@@ -811,6 +819,7 @@
         "id": "recepivo_cartao1_atualizacao_cadastral_pagamento_efetuado",
         "title": "Atualização Cadastral",
         "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "tabulacao": ["PAGAMENTO JÁ EFETUADO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "recepivo_cartao1_pesquisa_satisfacao_pagamento_efetuado", "primary": true }
         ]
@@ -819,6 +828,7 @@
         "id": "recepivo_cartao1_pesquisa_satisfacao_pagamento_efetuado",
         "title": "Pesquisa de Satisfação",
         "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "tabulacao": ["PAGAMENTO JÁ EFETUADO"],
         "buttons": [
           { "label": "FINALIZAR", "next": "recepivo_cartao1_fim", "primary": true }
         ]
@@ -827,6 +837,7 @@
         "id": "recepivo_cartao2_apresentacao",
         "title": "Apresentação da Dívida",
         "body": "Verifiquei no sistema e consta o seu cartão CAIXA [informar bandeira e variante], final XXXX, vencido há XX dias, hoje no valor de R$ XX.<br><br>Você já fez o pagamento?",
+        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JÁ EFETUADO"],
         "buttons": [
           { "label": "SIM", "next": "recepivo_cartao2_pagamento_efetuado", "primary": true },
           { "label": "NÃO", "next": "recepivo_cartao2_negociacao" }
@@ -1046,6 +1057,7 @@
         "id": "recepivo_cartao2_atualizacao_cadastral_pagamento_efetuado",
         "title": "Atualização Cadastral",
         "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "tabulacao": ["PAGAMENTO JÁ EFETUADO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "recepivo_cartao2_pesquisa_satisfacao_pagamento_efetuado", "primary": true }
         ]
@@ -1054,6 +1066,7 @@
         "id": "recepivo_cartao2_pesquisa_satisfacao_pagamento_efetuado",
         "title": "Pesquisa de Satisfação",
         "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "tabulacao": ["PAGAMENTO JÁ EFETUADO"],
         "buttons": [
           { "label": "FINALIZAR", "next": "recepivo_cartao2_fim", "primary": true }
         ]

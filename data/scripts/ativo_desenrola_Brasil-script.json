@@ -16,7 +16,7 @@
         "id": "cdes1_terceiro",
         "title": "Terceiro",
         "body": "Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
-        "tabulacao": ["LIGAÇÃO CAIU", "RECADO COM TERCEIRO"],
+        "tabulacao": ["LIGAÇÃO CAIU", "DESCONHECIDO NO TELEFONE"],
         "buttons": [
           { "label": "CONHECE O CLIENTE", "next": "cdes1_terceiro_conhece", "primary": true },
           { "label": "NÃO CONHECE", "next": "cdes1_nao_conhece" },
