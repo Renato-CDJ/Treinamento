@@ -11,6 +11,7 @@
 -- ============================================================
 ALTER TABLE users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE products ENABLE ROW LEVEL SECURITY;
+ALTER TABLE campaigns ENABLE ROW LEVEL SECURITY;
 ALTER TABLE scripts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE tabulations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE situations ENABLE ROW LEVEL SECURITY;
@@ -68,6 +69,26 @@ CREATE POLICY "products_update_policy" ON products
   FOR UPDATE USING (true);
 
 CREATE POLICY "products_delete_policy" ON products
+  FOR DELETE USING (true);
+
+-- ============================================================
+-- 3.1. POLITICAS PARA TABELA CAMPAIGNS
+-- ============================================================
+DROP POLICY IF EXISTS "campaigns_select_policy" ON campaigns;
+DROP POLICY IF EXISTS "campaigns_insert_policy" ON campaigns;
+DROP POLICY IF EXISTS "campaigns_update_policy" ON campaigns;
+DROP POLICY IF EXISTS "campaigns_delete_policy" ON campaigns;
+
+CREATE POLICY "campaigns_select_policy" ON campaigns
+  FOR SELECT USING (true);
+
+CREATE POLICY "campaigns_insert_policy" ON campaigns
+  FOR INSERT WITH CHECK (true);
+
+CREATE POLICY "campaigns_update_policy" ON campaigns
+  FOR UPDATE USING (true);
+
+CREATE POLICY "campaigns_delete_policy" ON campaigns
   FOR DELETE USING (true);
 
 -- ============================================================
