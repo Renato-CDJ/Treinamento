@@ -565,8 +565,8 @@ export const ScriptCard = memo(function ScriptCard({
       </Dialog>
 
       {/* Modal Fullscreen - Modo Texto Grande para Acessibilidade */}
-      <Dialog open={fullscreenMode} onOpenChange={setFullscreenMode}>
-        <DialogContent className="fixed inset-0 w-screen h-screen max-w-none max-h-none m-0 p-0 rounded-none border-0 bg-zinc-900 overflow-hidden flex flex-col">
+      {fullscreenMode && (
+        <div className="fixed inset-0 z-[9999] bg-zinc-900 overflow-hidden flex flex-col">
           {/* Header fixo */}
           <div className="flex-shrink-0 bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-4">
             <div className="flex items-center justify-between">
@@ -595,16 +595,16 @@ export const ScriptCard = memo(function ScriptCard({
           {/* Conteudo scrollavel com texto grande */}
           <div className="flex-1 overflow-y-auto p-6 md:p-10 lg:p-16">
             <div 
-              className="max-w-5xl mx-auto bg-white dark:bg-zinc-800 rounded-2xl p-8 md:p-12 lg:p-16 shadow-2xl border-4 border-orange-500/50"
+              className="max-w-5xl mx-auto bg-zinc-800 rounded-2xl p-8 md:p-12 lg:p-16 shadow-2xl border-4 border-orange-500/50"
               style={{
                 fontSize: "clamp(24px, 4vw, 42px)",
                 lineHeight: "1.8",
               }}
             >
               {typeof renderedContent === "string" ? (
-                <SafeHtml html={renderedContent} className="text-zinc-900 dark:text-zinc-100" />
+                <SafeHtml html={renderedContent} className="text-zinc-100" />
               ) : (
-                <div className="text-zinc-900 dark:text-zinc-100" style={{ fontSize: "clamp(24px, 4vw, 42px)" }}>
+                <div className="text-zinc-100" style={{ fontSize: "clamp(24px, 4vw, 42px)" }}>
                   {renderedContent}
                 </div>
               )}
@@ -644,8 +644,8 @@ export const ScriptCard = memo(function ScriptCard({
                 })}
             </div>
           </div>
-        </DialogContent>
-      </Dialog>
+        </div>
+      )}
     </div>
   )
 })
