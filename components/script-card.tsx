@@ -5,7 +5,7 @@ import type React from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
-import { CheckCircle2, AlertCircle, ArrowLeft, Search, ChevronRight } from "lucide-react"
+import { CheckCircle2, AlertCircle, ArrowLeft, Search, ChevronRight, Maximize2, Minimize2, Eye } from "lucide-react"
 import type { ScriptStep, ContentSegment } from "@/lib/types"
 import { useState, useEffect, useMemo, useCallback, memo } from "react"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
@@ -173,6 +173,7 @@ export const ScriptCard = memo(function ScriptCard({
   const [showAlert, setShowAlert] = useState(false)
   const [searchText, setSearchText] = useState("")
   const [showSearch, setShowSearch] = useState(false)
+  const [fullscreenMode, setFullscreenMode] = useState(false)
 
   const hasTabulations = step.tabulations && step.tabulations.length > 0
 
@@ -240,6 +241,10 @@ export const ScriptCard = memo(function ScriptCard({
   const handleSearchClose = useCallback(() => {
     setShowSearch(false)
     setSearchText("")
+  }, [])
+
+  const toggleFullscreenMode = useCallback(() => {
+    setFullscreenMode((prev) => !prev)
   }, [])
 
   const handleSearchChange = useCallback(
@@ -378,6 +383,17 @@ export const ScriptCard = memo(function ScriptCard({
                 {buttonSize[0]}%
               </span>
             </div>
+            {/* Botao modo texto grande */}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={toggleFullscreenMode}
+              className="flex items-center gap-2 bg-emerald-500/20 border-emerald-500/50 text-emerald-400 hover:bg-emerald-500/30 hover:text-emerald-300 hover:border-emerald-400"
+              title="Modo texto grande para melhor visualizacao"
+            >
+              <Eye className="h-4 w-4" />
+              <span className="hidden sm:inline text-xs font-semibold">Texto Grande</span>
+            </Button>
           </div>
         </div>
       )}
@@ -547,6 +563,89 @@ export const ScriptCard = memo(function ScriptCard({
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Modal Fullscreen - Modo Texto Grande para Acessibilidade */}
+      {fullscreenMode && (
+        <div className="fixed inset-0 z-[9999] bg-zinc-900 overflow-hidden flex flex-col">
+          {/* Header fixo */}
+          <div className="flex-shrink-0 bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Eye className="h-6 w-6 text-white" />
+                <span className="text-lg font-bold text-white">Modo Texto Grande</span>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleFullscreenMode}
+                className="text-white hover:bg-white/20 gap-2"
+              >
+                <Minimize2 className="h-5 w-5" />
+                <span className="hidden sm:inline">Fechar</span>
+              </Button>
+            </div>
+            {/* Titulo do step */}
+            <SafeHtml
+              as="h1"
+              html={highlightedTitle}
+              className="text-2xl md:text-3xl lg:text-4xl text-center font-bold text-white mt-4 text-balance"
+            />
+          </div>
+
+          {/* Conteudo scrollavel com texto grande */}
+          <div className="flex-1 overflow-y-auto p-6 md:p-10 lg:p-16">
+            <div 
+              className="max-w-5xl mx-auto bg-zinc-800 rounded-2xl p-8 md:p-12 lg:p-16 shadow-2xl border-4 border-orange-500/50"
+              style={{
+                fontSize: "clamp(24px, 4vw, 42px)",
+                lineHeight: "1.8",
+              }}
+            >
+              {typeof renderedContent === "string" ? (
+                <SafeHtml html={renderedContent} className="text-zinc-100" />
+              ) : (
+                <div className="text-zinc-100" style={{ fontSize: "clamp(24px, 4vw, 42px)" }}>
+                  {renderedContent}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Botoes fixos na parte inferior */}
+          <div className="flex-shrink-0 bg-zinc-800 border-t border-zinc-700 p-4 md:p-6">
+            <div className="flex flex-wrap justify-center gap-3 md:gap-4 max-w-4xl mx-auto">
+              {step.buttons
+                .sort((a, b) => a.order - b.order)
+                .map((button) => {
+                  const isPrimary = button.primary || button.variant === "primary" || button.variant === "default"
+                  return (
+                    <button
+                      key={button.id}
+                      onClick={() => {
+                        onButtonClick(button.nextStepId, button.label)
+                      }}
+                      className={`
+                        flex items-center justify-center gap-3 rounded-xl font-bold transition-all duration-300
+                        ${isPrimary
+                          ? "bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-400 text-white shadow-lg shadow-orange-500/30"
+                          : "bg-zinc-700 hover:bg-zinc-600 text-white border border-zinc-600"
+                        }
+                      `}
+                      style={{
+                        fontSize: "clamp(18px, 2.5vw, 28px)",
+                        padding: "16px 32px",
+                        minHeight: "64px",
+                      }}
+                    >
+                      {button.label}
+                      <ChevronRight className="h-6 w-6" />
+                    </button>
+                  )
+                })}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 })

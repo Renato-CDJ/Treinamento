@@ -1,10 +1,11 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Calendar } from "@/components/ui/calendar"
+import { Calendar, CalendarDayButton } from "@/components/ui/calendar"
+import { DayButton } from "react-day-picker"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { CalendarIcon, CheckCircle2, Info, CreditCard, Building2, Home, AlertTriangle } from "lucide-react"
-import { getMaxPromiseDate, isHoliday, isSaturday, isSunday, getNextBusinessDay } from "@/lib/business-days"
+import { getMaxPromiseDate, getNextBusinessDay, isSaturday, isSunday } from "@/lib/business-days"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
 type ProductType = "cartao" | "comercial" | "habitacional"
@@ -46,6 +47,15 @@ export function PromiseCalendarInline({ productCategory }: PromiseCalendarInline
 
   const maxDate = selectedProduct ? getMaxPromiseDate(selectedProduct) : undefined
 
+  // Verifica se hoje é sábado (para mostrar tooltip nos fins de semana)
+  const isTodaySaturday = isSaturday(today)
+
+  // Verifica se uma data é sábado ou domingo e precisa do tooltip
+  const needsWeekendTooltip = (date: Date) => {
+    if (!isTodaySaturday) return false
+    return isSaturday(date) || isSunday(date)
+  }
+
   const isDateInRange = (date: Date) => {
     if (!selectedProduct) return false
 
@@ -57,15 +67,8 @@ export function PromiseCalendarInline({ productCategory }: PromiseCalendarInline
     // Data anterior a hoje não está disponível
     if (dateTime < todayTime) return false
 
-    // REGRA: Sábados NÃO são permitidos como data de vencimento
-    if (isSaturday(dateTime)) return false
-
-    // Domingos NÃO são permitidos como data de vencimento
-    if (isSunday(dateTime)) return false
-
-    // Feriados nacionais não estão disponíveis
-    if (isHoliday(dateTime)) return false
-
+    // Todas as datas dentro do intervalo são mostradas como disponíveis
+    // (incluindo sábados, domingos e feriados para melhor visualização)
     if (maxDate) {
       const maxDateTime = new Date(maxDate)
       maxDateTime.setHours(0, 0, 0, 0)
@@ -104,6 +107,29 @@ export function PromiseCalendarInline({ productCategory }: PromiseCalendarInline
       icon: Home,
     },
   ]
+
+  // Componente customizado para dias com tooltip nos fins de semana
+  const CustomDayButton = (props: React.ComponentProps<typeof DayButton>) => {
+    const { day, modifiers, ...rest } = props
+    const isWeekendDay = isTodaySaturday && isDateInRange(day.date) && (isSaturday(day.date) || isSunday(day.date))
+
+    if (isWeekendDay) {
+      return (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <span>
+              <CalendarDayButton day={day} modifiers={modifiers} {...rest} />
+            </span>
+          </TooltipTrigger>
+          <TooltipContent side="top" className="max-w-[200px] text-center bg-amber-500 text-white border-amber-600">
+            <p className="text-xs">Se o cliente pediu o Boleto para HOJE, agendar para o proximo dia util.</p>
+          </TooltipContent>
+        </Tooltip>
+      )
+    }
+
+    return <CalendarDayButton day={day} modifiers={modifiers} {...rest} />
+  }
 
   if (productCategory === "boleto_pre_formatado") {
     return (
@@ -281,19 +307,25 @@ export function PromiseCalendarInline({ productCategory }: PromiseCalendarInline
                 <p className="text-[10px] font-bold text-emerald-400 uppercase tracking-wide">Datas Disponiveis</p>
               </div>
               <div className="flex justify-center bg-muted rounded-lg border border-border p-2">
-                <Calendar
-                  mode="single"
-                  selected={selectedDate}
-                  onSelect={setSelectedDate}
-                  disabled={(date) => !isDateInRange(date)}
-                  className="mx-auto !bg-transparent"
-                  modifiers={{
-                    available: (date) => isDateInRange(date) && date.getTime() !== today.getTime(),
-                  }}
-                  modifiersClassNames={{
-                    available:
-                      "bg-emerald-500/20 text-emerald-400 font-bold hover:bg-emerald-500/30 border border-emerald-500/50",
-                  }}
+                <TooltipProvider delayDuration={200}>
+                  <Calendar
+                    mode="single"
+                    selected={selectedDate}
+                    onSelect={setSelectedDate}
+                    disabled={(date) => !isDateInRange(date)}
+                    className="mx-auto !bg-transparent"
+                    modifiers={{
+                      available: (date) => isDateInRange(date) && date.getTime() !== today.getTime(),
+                      weekend: (date) => isTodaySaturday && isDateInRange(date) && (isSaturday(date) || isSunday(date)),
+                    }}
+                    modifiersClassNames={{
+                      available:
+                        "bg-emerald-500/20 text-emerald-400 font-bold hover:bg-emerald-500/30 border border-emerald-500/50",
+                      weekend: "relative",
+                    }}
+                    components={{
+                      DayButton: CustomDayButton,
+                    }}
                   classNames={{
                     day_today: "bg-orange-500 text-white font-bold",
                     day_selected:
@@ -312,6 +344,7 @@ export function PromiseCalendarInline({ productCategory }: PromiseCalendarInline
                     day: "h-8 w-8 p-0 font-medium text-xs text-muted-foreground hover:bg-muted rounded-md transition-colors",
                   }}
                 />
+                </TooltipProvider>
               </div>
             </div>
 
@@ -330,6 +363,16 @@ export function PromiseCalendarInline({ productCategory }: PromiseCalendarInline
                     })}
                   </p>
                 </div>
+              </div>
+            )}
+
+            {/* Aviso quando hoje é sábado */}
+            {isTodaySaturday && (
+              <div className="flex items-start gap-2 p-3 bg-amber-500/10 rounded-lg border border-amber-500/30">
+                <AlertTriangle className="h-4 w-4 text-amber-500 flex-shrink-0 mt-0.5" />
+                <p className="text-xs text-amber-400">
+                  Se o cliente pediu o Boleto para HOJE, agendar para o proximo dia util.
+                </p>
               </div>
             )}
 
