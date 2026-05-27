@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Calendar } from "@/components/ui/calendar"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { CalendarIcon, CheckCircle2, Info, CreditCard, Building2, Home, AlertTriangle } from "lucide-react"
-import { getMaxPromiseDate, isHoliday, isSaturday, isSunday, getNextBusinessDay } from "@/lib/business-days"
+import { getMaxPromiseDate, getNextBusinessDay } from "@/lib/business-days"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
 type ProductType = "cartao" | "comercial" | "habitacional"
@@ -57,15 +57,8 @@ export function PromiseCalendarInline({ productCategory }: PromiseCalendarInline
     // Data anterior a hoje não está disponível
     if (dateTime < todayTime) return false
 
-    // REGRA: Sábados NÃO são permitidos como data de vencimento
-    if (isSaturday(dateTime)) return false
-
-    // Domingos NÃO são permitidos como data de vencimento
-    if (isSunday(dateTime)) return false
-
-    // Feriados nacionais não estão disponíveis
-    if (isHoliday(dateTime)) return false
-
+    // Todas as datas dentro do intervalo são mostradas como disponíveis
+    // (incluindo sábados, domingos e feriados para melhor visualização)
     if (maxDate) {
       const maxDateTime = new Date(maxDate)
       maxDateTime.setHours(0, 0, 0, 0)
