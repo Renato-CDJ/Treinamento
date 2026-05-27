@@ -515,28 +515,28 @@ export const ScriptCard = memo(function ScriptCard({
 
       {/* Aviso animado - exibido apenas quando ha botao APRESENTAR DIVIDA */}
       {hasApresentarDividaButton && (
-        <div className="relative mx-auto max-w-3xl overflow-hidden rounded-xl border border-red-500/60 bg-red-950/40 px-5 py-4 shadow-lg shadow-red-500/10">
+        <div className="relative mx-auto max-w-3xl overflow-hidden rounded-xl border-2 border-destructive bg-red-50 px-5 py-4 shadow-lg shadow-destructive/20 dark:border-red-500/70 dark:bg-red-950/40 dark:shadow-red-500/10">
           {/* Barra pulsante no topo */}
-          <div className="absolute inset-x-0 top-0 h-[3px] animate-pulse bg-gradient-to-r from-red-600 via-red-400 to-red-600" />
+          <div className="absolute inset-x-0 top-0 h-[3px] animate-pulse bg-gradient-to-r from-destructive via-red-400 to-destructive dark:from-red-600 dark:via-red-400 dark:to-red-600" />
 
           <div className="flex items-start gap-3">
             {/* Icone pulsante */}
             <span className="relative mt-0.5 flex-shrink-0">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-500 opacity-40" />
-              <TriangleAlert className="relative h-5 w-5 text-red-400" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-destructive opacity-30 dark:bg-red-500 dark:opacity-40" />
+              <TriangleAlert className="relative h-5 w-5 text-destructive dark:text-red-400" />
             </span>
 
             <div className="flex-1 space-y-1">
-              <p className="text-xs font-extrabold uppercase tracking-widest text-red-400">
+              <p className="text-xs font-extrabold uppercase tracking-widest text-destructive dark:text-red-400">
                 Aten&ccedil;&atilde;o — Instru&ccedil;&atilde;o de Tabula&ccedil;&atilde;o
               </p>
               <p
-                className="animate-[fadeSlideIn_0.6s_ease-out] text-sm font-semibold leading-relaxed text-red-100"
+                className="animate-[fadeSlideIn_0.6s_ease-out] text-sm font-semibold leading-relaxed text-red-800 dark:text-red-100"
                 style={{ animationFillMode: "both" }}
               >
-                A partir desta tela voc&ecirc; <strong className="text-red-300">n&atilde;o deve registrar</strong> as
+                A partir desta tela voc&ecirc; <strong className="text-destructive dark:text-red-300">n&atilde;o deve registrar</strong> as
                 seguintes tabula&ccedil;&otilde;es no WEDOO:{" "}
-                <span className="font-bold text-white">
+                <span className="font-bold text-red-950 dark:text-white">
                   LIGA&Ccedil;&Atilde;O CAIU, CAIXA POSTAL, LIGA&Ccedil;&Atilde;O MUDA, PESSOA N&Atilde;O CONFIRMA DADOS,
                   RECADO COM TERCEIRO, FALECIDO, DESCONHECIDO NO TELEFONE, CAIXA POSTAL
                 </span>
@@ -545,7 +545,7 @@ export const ScriptCard = memo(function ScriptCard({
           </div>
 
           {/* Barra pulsante na base */}
-          <div className="absolute inset-x-0 bottom-0 h-[3px] animate-pulse bg-gradient-to-r from-red-600 via-red-400 to-red-600" />
+          <div className="absolute inset-x-0 bottom-0 h-[3px] animate-pulse bg-gradient-to-r from-destructive via-red-400 to-destructive dark:from-red-600 dark:via-red-400 dark:to-red-600" />
         </div>
       )}
 
