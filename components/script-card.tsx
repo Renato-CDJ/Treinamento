@@ -5,7 +5,7 @@ import type React from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
-import { CheckCircle2, AlertCircle, ArrowLeft, Search, ChevronRight, Maximize2, Minimize2, Eye } from "lucide-react"
+import { CheckCircle2, AlertCircle, ArrowLeft, Search, ChevronRight, Maximize2, Minimize2, Eye, TriangleAlert } from "lucide-react"
 import type { ScriptStep, ContentSegment } from "@/lib/types"
 import { useState, useEffect, useMemo, useCallback, memo } from "react"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
@@ -303,6 +303,13 @@ export const ScriptCard = memo(function ScriptCard({
     return processedContent
   }, [step.content, step.contentSegments, textFontSize, operatorName, customerFirstName, processedContent])
 
+  const hasApresentarDividaButton = useMemo(() => {
+    return step.buttons.some((btn) =>
+      btn.label?.toUpperCase().includes("APRESENTAR DIVIDA") ||
+      btn.label?.toUpperCase().includes("APRESENTAR DÍVIDA"),
+    )
+  }, [step.buttons])
+
   const renderedButtons = useMemo(() => {
     return step.buttons
       .sort((a, b) => a.order - b.order)
@@ -505,6 +512,42 @@ export const ScriptCard = memo(function ScriptCard({
       <div className="flex justify-center items-center pt-2 pb-4">
         <div className="flex flex-wrap justify-center gap-2 md:gap-3 w-full max-w-2xl">{renderedButtons}</div>
       </div>
+
+      {/* Aviso animado - exibido apenas quando ha botao APRESENTAR DIVIDA */}
+      {hasApresentarDividaButton && (
+        <div className="relative mx-auto max-w-3xl overflow-hidden rounded-xl border-2 border-destructive bg-red-50 px-5 py-4 shadow-lg shadow-destructive/20 dark:border-red-500/70 dark:bg-red-950/40 dark:shadow-red-500/10">
+          {/* Barra pulsante no topo */}
+          <div className="absolute inset-x-0 top-0 h-[3px] animate-pulse bg-gradient-to-r from-destructive via-red-400 to-destructive dark:from-red-600 dark:via-red-400 dark:to-red-600" />
+
+          <div className="flex items-start gap-3">
+            {/* Icone pulsante */}
+            <span className="relative mt-0.5 flex-shrink-0">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-destructive opacity-30 dark:bg-red-500 dark:opacity-40" />
+              <TriangleAlert className="relative h-5 w-5 text-destructive dark:text-red-400" />
+            </span>
+
+            <div className="flex-1 space-y-1">
+              <p className="text-xs font-extrabold uppercase tracking-widest text-destructive dark:text-red-400">
+                Aten&ccedil;&atilde;o — Instru&ccedil;&atilde;o de Tabula&ccedil;&atilde;o
+              </p>
+              <p
+                className="animate-[fadeSlideIn_0.6s_ease-out] text-sm font-semibold leading-relaxed text-red-800 dark:text-red-100"
+                style={{ animationFillMode: "both" }}
+              >
+                A partir desta tela voc&ecirc; <strong className="text-destructive dark:text-red-300">n&atilde;o deve registrar</strong> as
+                seguintes tabula&ccedil;&otilde;es no WEDOO:{" "}
+                <span className="font-bold text-red-950 dark:text-white">
+                  LIGA&Ccedil;&Atilde;O CAIU, CAIXA POSTAL, LIGA&Ccedil;&Atilde;O MUDA, PESSOA N&Atilde;O CONFIRMA DADOS,
+                  RECADO COM TERCEIRO, FALECIDO, DESCONHECIDO NO TELEFONE, CAIXA POSTAL
+                </span>
+              </p>
+            </div>
+          </div>
+
+          {/* Barra pulsante na base */}
+          <div className="absolute inset-x-0 bottom-0 h-[3px] animate-pulse bg-gradient-to-r from-destructive via-red-400 to-destructive dark:from-red-600 dark:via-red-400 dark:to-red-600" />
+        </div>
+      )}
 
       <Dialog open={showTabulation} onOpenChange={setShowTabulation}>
         <DialogContent className="sm:max-w-xl max-h-[80vh] overflow-y-auto border border-zinc-700 bg-zinc-900 p-0 gap-0">
