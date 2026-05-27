@@ -111,39 +111,22 @@ export function addBusinessDays(startDate: Date, businessDays: number): Date {
 
 /**
  * Calcula a data máxima de promessa baseada no tipo de produto
- * - Habitacional e Comercial: D+9 (dia atual + 9 dias corridos, pulando feriados nacionais)
- * - Cartão: D+6 (dia atual + 6 dias corridos, pulando feriados nacionais)
+ * - Habitacional e Comercial: 10 dias corridos a partir de hoje
+ * - Cartão: 7 dias corridos a partir de hoje
  * 
- * REGRAS ATUALIZADAS:
- * - Contagem em dias corridos (inclui sábados e domingos na contagem)
- * - Sábados, domingos e feriados são pulados na contagem, mas se a data final cair neles,
- *   retorna o dia útil ANTERIOR como prazo limite para informar ao cliente
- * - Se o contato for no sábado, conta como dia D
+ * REGRAS:
+ * - Contagem em dias corridos (inclui sábados, domingos e feriados)
+ * - Hoje conta como dia 1
  */
 export function getMaxPromiseDate(productType: "cartao" | "comercial" | "habitacional"): Date {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
   
-  // D+6 para Cartão, D+9 para Habitacional e Comercial
+  // 10 dias corridos para Habitacional/Comercial (hoje + 9), 7 dias para Cartão (hoje + 6)
   const daysToAdd = productType === "cartao" ? 6 : 9
 
   const maxDate = new Date(today)
-  let daysAdded = 0
-
-  // Conta dias corridos a partir de hoje, pulando apenas feriados nacionais
-  while (daysAdded < daysToAdd) {
-    maxDate.setDate(maxDate.getDate() + 1)
-    // Só pula feriados nacionais (finais de semana contam normalmente na contagem)
-    if (!isHoliday(maxDate)) {
-      daysAdded++
-    }
-  }
-
-  // Se a data máxima cair em sábado, domingo ou feriado,
-  // retorna o dia útil anterior como prazo limite
-  if (isNonBusinessDay(maxDate)) {
-    return getPreviousBusinessDay(maxDate)
-  }
+  maxDate.setDate(maxDate.getDate() + daysToAdd)
 
   return maxDate
 }
