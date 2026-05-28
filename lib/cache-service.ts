@@ -181,11 +181,17 @@ export async function updateDataVersion(dataType: keyof DataVersion): Promise<vo
 
 async function fetchAndCacheProducts(): Promise<any[]> {
   const supabase = createClient()
+  console.log("[v0] Buscando produtos do Supabase...")
   const { data, error } = await supabase
     .from("products")
     .select("*")
     .eq("is_active", true)
     .order("name", { ascending: true })
+  
+  if (error) {
+    console.error("[v0] Erro ao buscar produtos:", error)
+  }
+  console.log("[v0] Produtos encontrados:", data?.length || 0, data)
   
   const products = data || []
   setToCache(CACHE_KEYS.PRODUCTS, products)
