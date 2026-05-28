@@ -32,6 +32,8 @@ const TABLES = {
   SUPERVISOR_TEAMS: "supervisor_teams",
   CAMPAIGNS: "campaigns",
   WORD_CLOUD: "word_cloud",
+  QUALITY_QUIZZES: "quality_quizzes",
+  QUALITY_QUIZ_ATTEMPTS: "quality_quiz_attempts",
 } as const
 
 // Mapeamento de table para chave de versão
@@ -1176,4 +1178,274 @@ export function useFeedbacksForOperator(userId?: string) {
   }
 
   return { data, loading, refetch: fetchData, markAsRead }
+}
+
+// Quality Quiz hooks for admin
+export function useQualityQuizzes() {
+  const [data, setData] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+
+  const fetchData = useCallback(async () => {
+    setLoading(true)
+    const supabase = createClient()
+    const { data: quizzes, error } = await supabase
+      .from(TABLES.QUALITY_QUIZZES)
+      .select("*")
+      .order("created_at", { ascending: false })
+
+    if (!error && quizzes) {
+      setData(quizzes)
+    }
+    setLoading(false)
+  }, [])
+
+  useEffect(() => {
+    fetchData()
+
+    // Polling ao invés de realtime
+    const interval = setInterval(fetchData, POLLING_INTERVAL)
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [fetchData])
+
+  const create = async (quiz: {
+    title: string
+    question: string
+    options: any[]
+    correct_answer: string
+    created_by: string
+    created_by_name: string
+    is_active: boolean
+    scheduled_date?: string | null
+    points: number
+    category?: string
+    difficulty?: string
+    time_limit?: number
+  }) => {
+    const supabase = createClient()
+    const { data: result, error } = await supabase
+      .from(TABLES.QUALITY_QUIZZES)
+      .insert(quiz)
+      .select()
+      .single()
+
+    if (error) return { data: null, error: error.message }
+    fetchData()
+    return { data: result, error: null }
+  }
+
+  const update = async (id: string, updates: any) => {
+    const supabase = createClient()
+    const { data: result, error } = await supabase
+      .from(TABLES.QUALITY_QUIZZES)
+      .update({ ...updates, updated_at: new Date().toISOString() })
+      .eq("id", id)
+      .select()
+      .single()
+
+    if (error) return { data: null, error: error.message }
+    fetchData()
+    return { data: result, error: null }
+  }
+
+  const remove = async (id: string) => {
+    const supabase = createClient()
+    const { error } = await supabase.from(TABLES.QUALITY_QUIZZES).delete().eq("id", id)
+    if (error) return { error: error.message }
+    fetchData()
+    return { error: null }
+  }
+
+  const getAttempts = async (quizId: string) => {
+    const supabase = createClient()
+    const { data: attempts, error } = await supabase
+      .from(TABLES.QUALITY_QUIZ_ATTEMPTS)
+      .select("*")
+      .eq("quiz_id", quizId)
+      .order("attempted_at", { ascending: false })
+
+    if (error) return { data: [], error: error.message }
+    return { data: attempts || [], error: null }
+  }
+
+  return { data, loading, refetch: fetchData, create, update, remove, getAttempts }
+}
+
+// Quality Quiz attempts for operators
+export function useQualityQuizAttempts(userId?: string) {
+  const [data, setData] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+
+  const fetchData = useCallback(async () => {
+    if (!userId) {
+      setData([])
+      setLoading(false)
+      return
+    }
+    setLoading(true)
+    const supabase = createClient()
+    const { data: attempts, error } = await supabase
+      .from(TABLES.QUALITY_QUIZ_ATTEMPTS)
+      .select("*")
+      .eq("operator_id", userId)
+      .order("attempted_at", { ascending: false })
+
+    if (!error && attempts) {
+      setData(attempts)
+    }
+    setLoading(false)
+  }, [userId])
+
+  useEffect(() => {
+    fetchData()
+
+    const interval = setInterval(fetchData, POLLING_INTERVAL)
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [fetchData])
+
+  const submitAttempt = async (attempt: {
+    quiz_id: string
+    operator_id: string
+    operator_name: string
+    selected_answer: string
+    is_correct: boolean
+    points_earned: number
+    time_spent?: number
+  }) => {
+    const supabase = createClient()
+    const { data: result, error } = await supabase
+      .from(TABLES.QUALITY_QUIZ_ATTEMPTS)
+      .insert({ ...attempt, attempted_at: new Date().toISOString() })
+      .select()
+      .single()
+
+    if (error) return { data: null, error: error.message }
+    fetchData()
+    return { data: result, error: null }
+  }
+
+  return { data, loading, refetch: fetchData, submitAttempt }
+}
+
+// Get available quality quizzes for operator (active and not yet answered)
+export function useAvailableQualityQuizzes(userId?: string) {
+  const [data, setData] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+
+  const fetchData = useCallback(async () => {
+    if (!userId) {
+      setData([])
+      setLoading(false)
+      return
+    }
+    setLoading(true)
+    const supabase = createClient()
+    
+    // Get all active quizzes
+    const { data: quizzes, error: quizzesError } = await supabase
+      .from(TABLES.QUALITY_QUIZZES)
+      .select("*")
+      .eq("is_active", true)
+      .or(`scheduled_date.is.null,scheduled_date.lte.${new Date().toISOString()}`)
+      .order("created_at", { ascending: false })
+
+    if (quizzesError) {
+      setLoading(false)
+      return
+    }
+
+    // Get user's attempts
+    const { data: attempts } = await supabase
+      .from(TABLES.QUALITY_QUIZ_ATTEMPTS)
+      .select("quiz_id")
+      .eq("operator_id", userId)
+
+    const answeredQuizIds = new Set(attempts?.map((a: any) => a.quiz_id) || [])
+
+    // Filter quizzes to show only unanswered ones
+    const available = (quizzes || []).filter((q: any) => !answeredQuizIds.has(q.id))
+
+    setData(available)
+    setLoading(false)
+  }, [userId])
+
+  useEffect(() => {
+    fetchData()
+
+    const interval = setInterval(fetchData, POLLING_INTERVAL)
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [fetchData])
+
+  return { data, loading, refetch: fetchData }
+}
+
+// Get quality quiz ranking
+export async function getQualityQuizRanking(month?: number, year?: number) {
+  const supabase = createClient()
+  
+  let query = supabase
+    .from(TABLES.QUALITY_QUIZ_ATTEMPTS)
+    .select("*")
+
+  if (month !== undefined && year !== undefined) {
+    const startDate = new Date(year, month, 1).toISOString()
+    const endDate = new Date(year, month + 1, 0, 23, 59, 59).toISOString()
+    query = query.gte("attempted_at", startDate).lte("attempted_at", endDate)
+  }
+
+  const { data: attempts, error } = await query
+
+  if (error || !attempts) return []
+
+  // Aggregate by operator
+  const operatorStats: Record<string, {
+    operatorId: string
+    operatorName: string
+    totalAttempts: number
+    correctAnswers: number
+    totalPoints: number
+  }> = {}
+
+  attempts.forEach((attempt: any) => {
+    if (!operatorStats[attempt.operator_id]) {
+      operatorStats[attempt.operator_id] = {
+        operatorId: attempt.operator_id,
+        operatorName: attempt.operator_name,
+        totalAttempts: 0,
+        correctAnswers: 0,
+        totalPoints: 0,
+      }
+    }
+    operatorStats[attempt.operator_id].totalAttempts++
+    if (attempt.is_correct) {
+      operatorStats[attempt.operator_id].correctAnswers++
+    }
+    operatorStats[attempt.operator_id].totalPoints += attempt.points_earned || 0
+  })
+
+  // Convert to array and sort by points
+  const rankings = Object.values(operatorStats)
+    .map((stats) => ({
+      ...stats,
+      accuracy: stats.totalAttempts > 0 
+        ? Math.round((stats.correctAnswers / stats.totalAttempts) * 100) 
+        : 0,
+      rank: 0,
+    }))
+    .sort((a, b) => b.totalPoints - a.totalPoints)
+
+  // Assign ranks
+  rankings.forEach((r, index) => {
+    r.rank = index + 1
+  })
+
+  return rankings
 }

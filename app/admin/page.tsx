@@ -46,6 +46,7 @@ const QualityQuestionsTab = lazy(() => import("@/components/admin-tabs/quality-q
 const ResultCodesTab = lazy(() => import("@/components/admin-tabs/result-codes-tab").then((m) => ({ default: m.ResultCodesTab })))
 const SupervisorOperatorView = lazy(() => import("@/components/admin-tabs/supervisor-operator-view").then((m) => ({ default: m.SupervisorOperatorView })))
 const CampaignsTab = lazy(() => import("@/components/admin-tabs/campaigns-tab").then((m) => ({ default: m.CampaignsTab })))
+const QualityQuizTab = lazy(() => import("@/components/admin-tabs/quality-quiz-tab").then((m) => ({ default: m.QualityQuizTab })))
 
 
 const LoadingFallback = memo(function LoadingFallback() {
@@ -200,6 +201,12 @@ const AdminContent = memo(function AdminContent() {
         return (
           <Suspense fallback={<LoadingFallback />}>
             <SupervisorOperatorView />
+          </Suspense>
+        )
+      case "quality-quiz":
+        return (
+          <Suspense fallback={<LoadingFallback />}>
+            <QualityQuizTab />
           </Suspense>
         )
       default:

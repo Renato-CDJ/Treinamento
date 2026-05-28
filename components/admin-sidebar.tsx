@@ -27,6 +27,7 @@ import {
   MapPin,
   ChevronRight,
   Sparkles,
+  Brain,
 } from "lucide-react"
 import { useAuth } from "@/lib/auth-context"
 import { useRouter } from "next/navigation"
@@ -64,6 +65,7 @@ const menuItems: {
   { id: "word-cloud", label: "Nuvem de Palavras", icon: Cloud, permission: "notes", category: "ferramentas" },
   { id: "operators", label: "Operadores", icon: Users, permission: "operators", category: "usuarios" },
   { id: "presentations", label: "Apresentacoes", icon: Presentation, permission: "messagesQuiz", category: "ferramentas" },
+  { id: "quality-quiz", label: "Quiz da Qualidade", icon: Brain, permission: "messagesQuiz", category: "ferramentas" },
   { id: "result-codes", label: "Codigos de Resultado", icon: ListChecks, permission: "tabulations", category: "config" },
   { id: "settings", label: "Configuracoes", icon: Settings, permission: "settings", category: "sistema" },
 ]

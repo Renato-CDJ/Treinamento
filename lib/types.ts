@@ -430,3 +430,53 @@ export interface Campaign {
   createdAt: Date
   updatedAt: Date
 }
+
+// Quality Quiz types - Quizzes da monitoria para operadores
+export interface QualityQuiz {
+  id: string
+  title: string
+  question: string
+  options: QualityQuizQuestionOption[]
+  correctAnswer: string // ID da opção correta
+  createdBy: string // admin user id
+  createdByName: string // admin user name
+  createdAt: Date
+  updatedAt?: Date
+  isActive: boolean
+  scheduledDate?: Date // Data agendada para publicação
+  publishedAt?: Date // Data real de publicação
+  expiresAt?: Date // Data de expiração opcional
+  points: number // Pontos que o quiz vale
+  category?: string // Categoria do quiz (ex: "Produto", "Atendimento", "Compliance")
+  difficulty?: "facil" | "medio" | "dificil"
+  timeLimit?: number // Tempo limite em segundos (opcional)
+}
+
+export interface QualityQuizQuestionOption {
+  id: string
+  label: string // a, b, c, d, e
+  text: string
+}
+
+export interface QualityQuizAttempt {
+  id: string
+  quizId: string
+  operatorId: string
+  operatorName: string
+  selectedAnswer: string // ID da opção selecionada
+  isCorrect: boolean
+  pointsEarned: number
+  attemptedAt: Date
+  timeSpent?: number // Tempo gasto em segundos
+}
+
+export interface QualityQuizRanking {
+  operatorId: string
+  operatorName: string
+  totalAttempts: number
+  correctAnswers: number
+  totalPoints: number
+  accuracy: number
+  rank: number
+  streak?: number // Sequência de acertos consecutivos
+}
