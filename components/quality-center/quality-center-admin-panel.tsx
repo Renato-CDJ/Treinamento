@@ -116,17 +116,18 @@ export function QualityCenterAdminPanel({ pendingQuestions }: QualityCenterAdmin
       return
     }
 
-    try {
-      await createQualityPostSupabase({
-        type: publicationType as any,
-        content: comunicadoContent,
-        authorId: user?.id || "",
-        authorName: user?.name || "Admin",
-        authorRole: user?.role || "admin",
-      })
+    const result = await createQualityPostSupabase({
+      type: publicationType as any,
+      content: comunicadoContent,
+      authorId: user?.id || "",
+      authorName: user?.name || "Admin",
+      authorRole: user?.role || "admin",
+    })
+    
+    if (result) {
       setComunicadoContent("")
       toast({ title: "Sucesso", description: "Comunicado publicado!" })
-    } catch (error) {
+    } else {
       toast({ title: "Erro", description: "Falha ao publicar", variant: "destructive" })
     }
   }
@@ -137,29 +138,30 @@ export function QualityCenterAdminPanel({ pendingQuestions }: QualityCenterAdmin
       return
     }
 
-    try {
-      // Formatar as opções do quiz com a estrutura correta
-      const formattedQuizOptions = quizOptions.map((text, index) => ({
-        id: `option-${Date.now()}-${index}`,
-        text: text.trim(),
-        votes: [],
-        isCorrect: index === correctOption,
-      }))
+    // Formatar as opções do quiz com a estrutura correta
+    const formattedQuizOptions = quizOptions.map((text, index) => ({
+      id: `option-${Date.now()}-${index}`,
+      text: text.trim(),
+      votes: [],
+      isCorrect: index === correctOption,
+    }))
 
-      await createQualityPostSupabase({
-        type: "quiz",
-        content: quizQuestion,
-        authorId: user?.id || "",
-        authorName: user?.name || "Admin",
-        authorRole: user?.role || "admin",
-        quizOptions: formattedQuizOptions,
-        correctOption: correctOption,
-      })
+    const result = await createQualityPostSupabase({
+      type: "quiz",
+      content: quizQuestion,
+      authorId: user?.id || "",
+      authorName: user?.name || "Admin",
+      authorRole: user?.role || "admin",
+      quizOptions: formattedQuizOptions,
+      correctOption: correctOption,
+    })
+    
+    if (result) {
       setQuizQuestion("")
       setQuizOptions(["", "", ""])
       setCorrectOption(0)
       toast({ title: "Sucesso", description: "Quiz publicado!" })
-    } catch (error) {
+    } else {
       toast({ title: "Erro", description: "Falha ao publicar quiz", variant: "destructive" })
     }
   }
@@ -170,16 +172,17 @@ export function QualityCenterAdminPanel({ pendingQuestions }: QualityCenterAdmin
       return
     }
 
-    try {
-      const operator = operators.find((o) => o.id === feedbackForm.operatorId)
-      await createFeedbackSupabase({
-        ...feedbackForm,
-        operatorName: operator?.name || "",
-        createdBy: user?.id || "",
-        createdByName: user?.name || "",
-        supervisorId: user?.id || "",
-        supervisorName: user?.name || "",
-      })
+    const operator = operators.find((o) => o.id === feedbackForm.operatorId)
+    const result = await createFeedbackSupabase({
+      ...feedbackForm,
+      operatorName: operator?.name || "",
+      createdBy: user?.id || "",
+      createdByName: user?.name || "",
+      supervisorId: user?.id || "",
+      supervisorName: user?.name || "",
+    })
+    
+    if (result) {
       setFeedbackForm({
         operatorId: "",
         callDate: "",
@@ -193,7 +196,7 @@ export function QualityCenterAdminPanel({ pendingQuestions }: QualityCenterAdmin
         improvementPoints: "",
       })
       toast({ title: "Sucesso", description: "Feedback enviado!" })
-    } catch (error) {
+    } else {
       toast({ title: "Erro", description: "Falha ao enviar feedback", variant: "destructive" })
     }
   }
