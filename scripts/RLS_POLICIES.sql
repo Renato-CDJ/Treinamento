@@ -3,7 +3,7 @@
 -- POLITICAS DE ROW LEVEL SECURITY (RLS)
 -- 
 -- Execute este script APOS o DATABASE_SETUP.sql
--- Versao: 1.2 - Com DROP IF EXISTS para reexecucao
+-- Versao: 1.3 - Removido chat de operadores
 -- ============================================================
 
 -- ============================================================
@@ -26,9 +26,10 @@ ALTER TABLE feedbacks ENABLE ROW LEVEL SECURITY;
 ALTER TABLE quality_posts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE quality_comments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE admin_questions ENABLE ROW LEVEL SECURITY;
-ALTER TABLE chat_messages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE supervisor_chat_messages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE quality_chat_messages ENABLE ROW LEVEL SECURITY;
+ALTER TABLE trainings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE training_views ENABLE ROW LEVEL SECURITY;
 ALTER TABLE word_cloud ENABLE ROW LEVEL SECURITY;
 
 -- ============================================================
@@ -72,7 +73,7 @@ CREATE POLICY "products_delete_policy" ON products
   FOR DELETE USING (true);
 
 -- ============================================================
--- 3.1. POLITICAS PARA TABELA CAMPAIGNS
+-- 4. POLITICAS PARA TABELA CAMPAIGNS
 -- ============================================================
 DROP POLICY IF EXISTS "campaigns_select_policy" ON campaigns;
 DROP POLICY IF EXISTS "campaigns_insert_policy" ON campaigns;
@@ -92,7 +93,7 @@ CREATE POLICY "campaigns_delete_policy" ON campaigns
   FOR DELETE USING (true);
 
 -- ============================================================
--- 4. POLITICAS PARA TABELA SCRIPTS
+-- 5. POLITICAS PARA TABELA SCRIPTS
 -- ============================================================
 DROP POLICY IF EXISTS "scripts_select_policy" ON scripts;
 DROP POLICY IF EXISTS "scripts_insert_policy" ON scripts;
@@ -112,7 +113,7 @@ CREATE POLICY "scripts_delete_policy" ON scripts
   FOR DELETE USING (true);
 
 -- ============================================================
--- 5. POLITICAS PARA TABELAS DE CONFIGURACAO
+-- 6. POLITICAS PARA TABELAS DE CONFIGURACAO
 -- (tabulations, situations, channels, result_codes)
 -- ============================================================
 -- Tabulations
@@ -188,7 +189,7 @@ CREATE POLICY "result_codes_delete_policy" ON result_codes
   FOR DELETE USING (true);
 
 -- ============================================================
--- 6. POLITICAS PARA INITIAL_GUIDE E PHRASEOLOGY
+-- 7. POLITICAS PARA INITIAL_GUIDE E PHRASEOLOGY
 -- ============================================================
 -- Initial Guide
 DROP POLICY IF EXISTS "initial_guide_select_policy" ON initial_guide;
@@ -227,7 +228,7 @@ CREATE POLICY "phraseology_delete_policy" ON phraseology
   FOR DELETE USING (true);
 
 -- ============================================================
--- 7. POLITICAS PARA APP_SETTINGS
+-- 8. POLITICAS PARA APP_SETTINGS
 -- ============================================================
 DROP POLICY IF EXISTS "app_settings_select_policy" ON app_settings;
 DROP POLICY IF EXISTS "app_settings_insert_policy" ON app_settings;
@@ -247,7 +248,7 @@ CREATE POLICY "app_settings_delete_policy" ON app_settings
   FOR DELETE USING (true);
 
 -- ============================================================
--- 8. POLITICAS PARA MESSAGES
+-- 9. POLITICAS PARA MESSAGES
 -- ============================================================
 DROP POLICY IF EXISTS "messages_select_policy" ON messages;
 DROP POLICY IF EXISTS "messages_insert_policy" ON messages;
@@ -267,7 +268,7 @@ CREATE POLICY "messages_delete_policy" ON messages
   FOR DELETE USING (true);
 
 -- ============================================================
--- 9. POLITICAS PARA QUIZ_ATTEMPTS
+-- 10. POLITICAS PARA QUIZ_ATTEMPTS
 -- ============================================================
 DROP POLICY IF EXISTS "quiz_attempts_select_policy" ON quiz_attempts;
 DROP POLICY IF EXISTS "quiz_attempts_insert_policy" ON quiz_attempts;
@@ -287,7 +288,7 @@ CREATE POLICY "quiz_attempts_delete_policy" ON quiz_attempts
   FOR DELETE USING (true);
 
 -- ============================================================
--- 10. POLITICAS PARA FEEDBACKS
+-- 11. POLITICAS PARA FEEDBACKS
 -- ============================================================
 DROP POLICY IF EXISTS "feedbacks_select_policy" ON feedbacks;
 DROP POLICY IF EXISTS "feedbacks_insert_policy" ON feedbacks;
@@ -307,7 +308,7 @@ CREATE POLICY "feedbacks_delete_policy" ON feedbacks
   FOR DELETE USING (true);
 
 -- ============================================================
--- 11. POLITICAS PARA QUALITY_POSTS E QUALITY_COMMENTS
+-- 12. POLITICAS PARA QUALITY_POSTS E QUALITY_COMMENTS
 -- ============================================================
 -- Quality Posts
 DROP POLICY IF EXISTS "quality_posts_select_policy" ON quality_posts;
@@ -346,7 +347,7 @@ CREATE POLICY "quality_comments_delete_policy" ON quality_comments
   FOR DELETE USING (true);
 
 -- ============================================================
--- 12. POLITICAS PARA ADMIN_QUESTIONS
+-- 13. POLITICAS PARA ADMIN_QUESTIONS
 -- ============================================================
 DROP POLICY IF EXISTS "admin_questions_select_policy" ON admin_questions;
 DROP POLICY IF EXISTS "admin_questions_insert_policy" ON admin_questions;
@@ -363,26 +364,6 @@ CREATE POLICY "admin_questions_update_policy" ON admin_questions
   FOR UPDATE USING (true);
 
 CREATE POLICY "admin_questions_delete_policy" ON admin_questions
-  FOR DELETE USING (true);
-
--- ============================================================
--- 13. POLITICAS PARA CHAT_MESSAGES
--- ============================================================
-DROP POLICY IF EXISTS "chat_messages_select_policy" ON chat_messages;
-DROP POLICY IF EXISTS "chat_messages_insert_policy" ON chat_messages;
-DROP POLICY IF EXISTS "chat_messages_update_policy" ON chat_messages;
-DROP POLICY IF EXISTS "chat_messages_delete_policy" ON chat_messages;
-
-CREATE POLICY "chat_messages_select_policy" ON chat_messages
-  FOR SELECT USING (true);
-
-CREATE POLICY "chat_messages_insert_policy" ON chat_messages
-  FOR INSERT WITH CHECK (true);
-
-CREATE POLICY "chat_messages_update_policy" ON chat_messages
-  FOR UPDATE USING (true);
-
-CREATE POLICY "chat_messages_delete_policy" ON chat_messages
   FOR DELETE USING (true);
 
 -- ============================================================
@@ -426,7 +407,46 @@ CREATE POLICY "quality_chat_delete_policy" ON quality_chat_messages
   FOR DELETE USING (true);
 
 -- ============================================================
--- 16. POLITICAS PARA WORD_CLOUD
+-- 16. POLITICAS PARA TRAININGS E TRAINING_VIEWS
+-- ============================================================
+-- Trainings
+DROP POLICY IF EXISTS "trainings_select_policy" ON trainings;
+DROP POLICY IF EXISTS "trainings_insert_policy" ON trainings;
+DROP POLICY IF EXISTS "trainings_update_policy" ON trainings;
+DROP POLICY IF EXISTS "trainings_delete_policy" ON trainings;
+
+CREATE POLICY "trainings_select_policy" ON trainings
+  FOR SELECT USING (true);
+
+CREATE POLICY "trainings_insert_policy" ON trainings
+  FOR INSERT WITH CHECK (true);
+
+CREATE POLICY "trainings_update_policy" ON trainings
+  FOR UPDATE USING (true);
+
+CREATE POLICY "trainings_delete_policy" ON trainings
+  FOR DELETE USING (true);
+
+-- Training Views
+DROP POLICY IF EXISTS "training_views_select_policy" ON training_views;
+DROP POLICY IF EXISTS "training_views_insert_policy" ON training_views;
+DROP POLICY IF EXISTS "training_views_update_policy" ON training_views;
+DROP POLICY IF EXISTS "training_views_delete_policy" ON training_views;
+
+CREATE POLICY "training_views_select_policy" ON training_views
+  FOR SELECT USING (true);
+
+CREATE POLICY "training_views_insert_policy" ON training_views
+  FOR INSERT WITH CHECK (true);
+
+CREATE POLICY "training_views_update_policy" ON training_views
+  FOR UPDATE USING (true);
+
+CREATE POLICY "training_views_delete_policy" ON training_views
+  FOR DELETE USING (true);
+
+-- ============================================================
+-- 17. POLITICAS PARA WORD_CLOUD
 -- ============================================================
 DROP POLICY IF EXISTS "word_cloud_select_policy" ON word_cloud;
 DROP POLICY IF EXISTS "word_cloud_insert_policy" ON word_cloud;
@@ -444,6 +464,14 @@ CREATE POLICY "word_cloud_update_policy" ON word_cloud
 
 CREATE POLICY "word_cloud_delete_policy" ON word_cloud
   FOR DELETE USING (true);
+
+-- ============================================================
+-- REMOVER POLITICAS ANTIGAS DE CHAT DE OPERADORES (SE EXISTIREM)
+-- ============================================================
+DROP POLICY IF EXISTS "chat_messages_select_policy" ON chat_messages;
+DROP POLICY IF EXISTS "chat_messages_insert_policy" ON chat_messages;
+DROP POLICY IF EXISTS "chat_messages_update_policy" ON chat_messages;
+DROP POLICY IF EXISTS "chat_messages_delete_policy" ON chat_messages;
 
 -- ============================================================
 -- FIM DO SCRIPT DE RLS
