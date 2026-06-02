@@ -59,7 +59,7 @@ export function QualityCenterLayout() {
         ) : (
           <>
             <main className="flex-1 max-w-2xl mx-auto px-4 py-6">
-              <QualityCenterFeed />
+              <QualityCenterFeed activeView={activeView} />
             </main>
             
             <aside className="hidden lg:block w-80 shrink-0 p-4 pr-6">

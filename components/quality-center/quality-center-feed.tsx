@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect, useCallback } from "react"
 import { useAuth } from "@/lib/auth-context"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -17,7 +17,7 @@ import {
   editQualityPostSupabase,
 } from "@/hooks/use-supabase-realtime"
 import type { QualityPost } from "@/lib/types"
-import { Send, HelpCircle, Heart, Share2, Megaphone, MoreHorizontal, Bookmark, AtSign, Users, Shield, Archive, Clock, Pencil, Trash2 } from "lucide-react"
+import { Send, HelpCircle, Heart, Share2, Megaphone, MoreHorizontal, Bookmark, AtSign, Users, Shield, Archive, Clock, Pencil, Trash2, GraduationCap, Play, CheckCircle2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { formatDistanceToNow } from "date-fns"
 import { ptBR } from "date-fns/locale"
@@ -46,8 +46,27 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+import {
+  getActivePresentationsForOperator,
+  getPresentationProgressByOperator,
+  getFilePresentationProgressByFile,
+} from "@/lib/store"
+import type { Presentation } from "@/lib/types"
+import { PresentationViewer } from "@/components/presentation-viewer"
+import { PresentationSlideshowViewer } from "@/components/presentation-slideshow-viewer"
 
-export function QualityCenterFeed() {
+interface PPTFile {
+  name: string
+  path: string
+  extension: string
+  displayName: string
+}
+
+interface QualityCenterFeedProps {
+  activeView?: string
+}
+
+export function QualityCenterFeed({ activeView = "feed" }: QualityCenterFeedProps) {
   const { user } = useAuth()
   const { toast } = useToast()
   const [showArchived, setShowArchived] = useState(false)
@@ -63,7 +82,51 @@ export function QualityCenterFeed() {
   const [isDeleting, setIsDeleting] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
 
+  // Training states
+  const [presentations, setPresentations] = useState<Presentation[]>([])
+  const [completedIds, setCompletedIds] = useState<Set<string>>(new Set())
+  const [pptFiles, setPptFiles] = useState<PPTFile[]>([])
+  const [selectedPresentation, setSelectedPresentation] = useState<Presentation | null>(null)
+  const [showViewer, setShowViewer] = useState(false)
+  const [selectedPPTFile, setSelectedPPTFile] = useState<PPTFile | null>(null)
+  const [showSlideshowViewer, setShowSlideshowViewer] = useState(false)
+
   const MAX_DAILY_POSTS = 3
+
+  // Load trainings when view is "treinamentos"
+  const loadTrainings = useCallback(() => {
+    if (user) {
+      const activePresentations = getActivePresentationsForOperator(user.id)
+      setPresentations(activePresentations)
+      const progress = getPresentationProgressByOperator(user.id)
+      const completed = new Set(progress.filter((p) => p.marked_as_seen).map((p) => p.presentationId))
+      setCompletedIds(completed)
+    }
+  }, [user])
+
+  const loadPPTFiles = useCallback(async () => {
+    try {
+      const response = await fetch("/api/presentations/files")
+      const data = await response.json()
+      setPptFiles(data.files || [])
+    } catch (error) {
+      console.error("Error loading files:", error)
+      setPptFiles([])
+    }
+  }, [])
+
+  useEffect(() => {
+    if (activeView === "treinamentos") {
+      loadTrainings()
+      loadPPTFiles()
+    }
+  }, [activeView, loadTrainings, loadPPTFiles])
+
+  const getFileCompletionStatus = (fileName: string) => {
+    if (!user) return false
+    const fileProgress = getFilePresentationProgressByFile(fileName)
+    return fileProgress.some((p) => p.operatorId === user.id && p.marked_as_seen)
+  }
 
   // Count user's posts today
   const userPostsToday = useMemo(() => {
@@ -259,6 +322,160 @@ export function QualityCenterFeed() {
 
   return (
     <div className="space-y-4">
+      {/* Trainings View */}
+      {activeView === "treinamentos" ? (
+        <div className="space-y-6">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 bg-orange-500/10 rounded-xl">
+              <GraduationCap className="h-6 w-6 text-orange-500" />
+            </div>
+            <div>
+              <h2 className="text-xl font-bold text-foreground">Treinamentos</h2>
+              <p className="text-sm text-muted-foreground">Explore apresentacoes, PDFs e materiais de capacitacao</p>
+            </div>
+          </div>
+
+          {pptFiles.length > 0 && (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-foreground">Materiais de Treinamento</h3>
+                <Badge variant="secondary" className="px-3 py-1">
+                  {pptFiles.length} {pptFiles.length === 1 ? "arquivo" : "arquivos"}
+                </Badge>
+              </div>
+
+              <div className="space-y-3">
+                {pptFiles.map((file) => {
+                  const isCompleted = getFileCompletionStatus(file.displayName)
+                  return (
+                    <Card key={file.name} className="group hover:shadow-lg transition-all duration-200 border hover:border-orange-500/50">
+                      <CardContent className="p-4 flex items-center gap-4">
+                        <div className="flex-shrink-0 p-3 bg-orange-500/10 rounded-lg">
+                          <GraduationCap className="h-6 w-6 text-orange-500" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-semibold text-base mb-1 truncate">{file.displayName}</h4>
+                          <div className="flex items-center gap-2">
+                            <Badge variant="outline" className="text-xs">
+                              {file.extension === ".pdf" ? "PDF" : "PowerPoint"}
+                            </Badge>
+                            {isCompleted ? (
+                              <Badge className="bg-green-600 text-white border-0 text-xs">
+                                <CheckCircle2 className="h-3 w-3 mr-1" />
+                                Concluido
+                              </Badge>
+                            ) : (
+                              <Badge variant="secondary" className="text-xs">Pendente</Badge>
+                            )}
+                          </div>
+                        </div>
+                        <Button
+                          onClick={() => {
+                            setSelectedPPTFile(file)
+                            setShowSlideshowViewer(true)
+                          }}
+                          className="bg-orange-500 hover:bg-orange-600 text-white"
+                        >
+                          <Play className="h-4 w-4 mr-2" />
+                          Abrir
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+
+          {presentations.length > 0 && (
+            <div className="space-y-4 mt-6">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-foreground">Apresentacoes Interativas</h3>
+                <Badge variant="secondary" className="px-3 py-1">
+                  {presentations.length} {presentations.length === 1 ? "apresentacao" : "apresentacoes"}
+                </Badge>
+              </div>
+
+              <div className="space-y-3">
+                {presentations.map((presentation) => {
+                  const isCompleted = completedIds.has(presentation.id)
+                  return (
+                    <Card key={presentation.id} className="group hover:shadow-lg transition-all duration-200 border hover:border-orange-500/50">
+                      <CardContent className="p-4">
+                        <div className="flex items-start justify-between gap-4 mb-3">
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-semibold text-base mb-1">{presentation.title}</h4>
+                            {presentation.description && (
+                              <p className="text-sm text-muted-foreground line-clamp-2">{presentation.description}</p>
+                            )}
+                          </div>
+                          {isCompleted && (
+                            <Badge className="bg-green-600 text-white border-0 flex-shrink-0">
+                              <CheckCircle2 className="h-3 w-3 mr-1" />
+                              Concluido
+                            </Badge>
+                          )}
+                        </div>
+                        <Button
+                          onClick={() => {
+                            setSelectedPresentation(presentation)
+                            setShowViewer(true)
+                          }}
+                          className="w-full bg-orange-500 hover:bg-orange-600 text-white"
+                        >
+                          <Play className="h-4 w-4 mr-2" />
+                          {isCompleted ? "Revisar" : "Iniciar"}
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+
+          {pptFiles.length === 0 && presentations.length === 0 && (
+            <Card className="bg-card border-border/50">
+              <CardContent className="flex flex-col items-center justify-center py-16">
+                <div className="h-16 w-16 rounded-full bg-muted/50 flex items-center justify-center mb-4">
+                  <GraduationCap className="h-8 w-8 text-muted-foreground" />
+                </div>
+                <p className="text-foreground font-medium">Nenhum treinamento disponivel</p>
+                <p className="text-sm text-muted-foreground">Novos materiais serao adicionados em breve</p>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Presentation Viewers */}
+          {selectedPresentation && (
+            <PresentationViewer
+              presentation={selectedPresentation}
+              isOpen={showViewer}
+              onClose={() => {
+                setShowViewer(false)
+                setSelectedPresentation(null)
+                loadTrainings()
+              }}
+            />
+          )}
+
+          {selectedPPTFile && (
+            <PresentationSlideshowViewer
+              isOpen={showSlideshowViewer}
+              onClose={() => {
+                setShowSlideshowViewer(false)
+                setSelectedPPTFile(null)
+                loadTrainings()
+                loadPPTFiles()
+              }}
+              fileName={selectedPPTFile.displayName}
+              filePath={selectedPPTFile.path}
+              isPDF={selectedPPTFile.extension === ".pdf"}
+            />
+          )}
+        </div>
+      ) : (
+        <>
       {/* Create Post - Only for operators */}
       {user?.role === "operator" && (
         <Card className={cn("bg-card border-border/50", !canPost && "opacity-75")}>
@@ -626,6 +843,8 @@ export function QualityCenterFeed() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+        </>
+      )}
     </div>
   )
 }

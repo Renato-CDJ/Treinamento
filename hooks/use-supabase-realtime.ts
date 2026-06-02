@@ -396,7 +396,6 @@ export async function createQualityPostSupabase(post: {
   recipients?: string[]
   recipientNames?: string[]
   sendToAll?: boolean
-  backgroundColor?: string
 }): Promise<QualityPost | null> {
   try {
     if (!isSupabaseConfigured()) return null
@@ -417,7 +416,6 @@ export async function createQualityPostSupabase(post: {
         recipients: post.recipients || [],
         recipient_names: post.recipientNames || [],
         send_to_all: post.sendToAll ?? true,
-        background_color: post.backgroundColor || null,
         is_active: true,
       })
       .select()
@@ -439,7 +437,6 @@ export async function createQualityPostSupabase(post: {
       recipients: post.recipients || [],
       recipientNames: post.recipientNames || [],
       sendToAll: post.sendToAll ?? true,
-      backgroundColor: post.backgroundColor || undefined,
     }
   } catch (error) {
     console.error("[Supabase] Error creating quality post:", error)
