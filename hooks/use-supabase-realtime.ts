@@ -5,8 +5,8 @@ import { createClient, isSupabaseConfigured } from "@/lib/supabase/client"
 import { mapSupabaseUser } from "@/lib/auth-context"
 import type { User, QualityPost, QualityComment } from "@/lib/types"
 
-// Polling interval - 60 seconds para reduzir requisições
-const POLLING_INTERVAL = 60000
+// Polling interval - 3 minutos para reduzir requisições drasticamente
+const POLLING_INTERVAL = 180000
 
 // Users hook with polling (sem realtime)
 export function useSupabaseUsers() {
@@ -369,7 +369,7 @@ export async function updateOperatorPresence(userId: string, data?: {
   }
 }
 
-// Hook for operator to maintain presence - intervalo de 60s
+// Hook for operator to maintain presence - intervalo de 3 minutos
 export function usePresenceHeartbeat(userId?: string) {
   useEffect(() => {
     if (!userId) return
@@ -378,7 +378,7 @@ export function usePresenceHeartbeat(userId?: string) {
 
     const interval = setInterval(() => {
       updateOperatorPresence(userId)
-    }, 60000) // 60s para reduzir requests
+    }, 180000) // 3 minutos para reduzir requests drasticamente
 
     return () => clearInterval(interval)
   }, [userId])

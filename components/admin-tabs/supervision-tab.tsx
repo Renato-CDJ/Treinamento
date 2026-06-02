@@ -46,8 +46,8 @@ export function SupervisionTab() {
 
   useEffect(() => {
     loadData()
-    // Aumentado de 3s para 30s - dados de supervisão não precisam de atualização tão frequente
-    const interval = setInterval(loadData, 30000)
+    // Aumentado para 3 minutos - dados de supervisão não precisam de atualização tão frequente
+    const interval = setInterval(loadData, 180000)
 
     const handleStoreUpdate = () => {
       loadData()

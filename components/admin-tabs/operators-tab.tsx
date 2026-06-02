@@ -84,8 +84,8 @@ export function OperatorsTab() {
   useEffect(() => {
     loadOperators()
 
-    // Polling ao invés de realtime - a cada 60 segundos
-    const interval = setInterval(loadOperators, 60000)
+    // Polling ao invés de realtime - a cada 3 minutos
+    const interval = setInterval(loadOperators, 180000)
 
     return () => {
       clearInterval(interval)

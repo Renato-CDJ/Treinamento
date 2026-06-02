@@ -22,8 +22,8 @@ import {
 } from "@/lib/cache-service"
 import type { ScriptStep } from "@/lib/types"
 
-// Intervalo de verificação de atualizações (3 minutos)
-const SYNC_CHECK_INTERVAL = 3 * 60 * 1000
+// Intervalo de verificação de atualizações (5 minutos)
+const SYNC_CHECK_INTERVAL = 5 * 60 * 1000
 
 /**
  * Hook principal para inicializar e manter o cache sincronizado

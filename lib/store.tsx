@@ -1029,8 +1029,8 @@ async function syncProductsFromSupabase() {
 // Initialize Supabase sync on load with polling (sem realtime)
 let syncInitialized = false
 
-// Polling interval - 60 seconds para reduzir requisições
-const SYNC_POLLING_INTERVAL = 60000
+// Polling interval - 3 minutos para reduzir requisições drasticamente
+const SYNC_POLLING_INTERVAL = 180000
 
 function initializeSupabaseSync() {
   if (syncInitialized || typeof window === "undefined") return

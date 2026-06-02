@@ -168,7 +168,7 @@
       "hab532_recusa": {
         "id": "hab532_recusa",
         "title": "Oferte a campanha utilizando o CIWEB",
-        "body": "A CAIXA está com uma oportunidade de você ficar em dia com o seu financiamento habitacional, dispensando os encargos [multa e/ou juros moratórios.]<br>Funciona assim: basta pagar o boleto que vamos te enviar com as isenções de encargos no valor aproximado de R$ XX.<br>Posso confirmar o pagamento da prestação?",
+        "body": "A CAIXA está com uma oportunidade de você ficar em dia com o seu financiamento habitacional, dispensando os encargos [multa e/ou juros moratórios.]<br>Funciona assim: basta pagar o boleto que vamos te enviar com as isenções de encargos no valor aproximado de R$ XX.<br>Posso confirmar o pagamento da prestação para o dia XX/XX?",
         "buttons": [
           { "label": "ACEITOU", "next": "hab532_ratificacao_aceite_campanha" },
           { "label": "RECUSOU", "next": "hab532_recusa_novamente" }

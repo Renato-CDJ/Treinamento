@@ -4,8 +4,8 @@ import { useState, useEffect, useCallback } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { updateDataVersion } from "@/lib/cache-service"
 
-// Polling interval - 60 seconds para reduzir requisições
-const POLLING_INTERVAL = 60000
+// Polling interval - 3 minutos para reduzir requisições drasticamente
+const POLLING_INTERVAL = 180000
 
 // Collection/table names
 const TABLES = {

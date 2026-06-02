@@ -362,10 +362,11 @@
       "cheque_especial_caixa_opcao_recusa": {
         "id": "cheque_especial_caixa_opcao_recusa",
         "title": "Oferte o pagamento dentro do prazo máximo que é D+9 de forma gradativa! Lembrando que são dias corridos e não dias úteis.",
-        "body": "O pagamento hoje ficaria bom pra você?<br><br>Em caso Negativo:<br>Entendo que imprevistos podem acontecer. Para evitar os juros diários, o pagamento ficaria bom pra você até dia XX/XX?",
+        "body": "Entendo que imprevistos podem acontecer. Para evitar os juros diários, o pagamento ficaria bom pra você até dia XX/XX?",
         "tabulacao": ["SEM CAPACIDADE DE PAGAMENTO", "CONTATO SEM NEGOCIAÇÃO", "PESSOA SOLICITA RETORNO EM OUTRO MOMENTO", "DÍVIDA NÃO RECONHECIDA"],
         "buttons": [
-          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "cheque_especial_caixa_pesquisa_satisfacao_opcao_recusa", "primary": true }
+          { "label": "ACEITOU", "next": "cheque_especial_caixa_pagamento", "primary": true },
+          { "label": "RECUSOU", "next": "cheque_especial_caixa_atualizacao_cadastral_opcao_recusa", "primary": true }
         ]
       },
       "cheque_especial_caixa_atualizacao_cadastral_opcao_recusa": {
@@ -537,7 +538,7 @@
       "contratos_recusa_maior_que_30_dias": {
         "id": "contratos_recusa_maior_que_30_dias",
         "title": "Oferte o pagamento dentro do prazo máximo que é D+9 de forma gradativa!",
-        "body": "Entendo que imprevistos podem acontecer.<br><br><b>Atraso maior que 30 dias:</b> Gostaria de lembrá-lo sobre possíveis consequências de não realizar o pagamento, como a inclusão ou permanência do seu nome no SPC e SERASA. Evite pagando ao menos uma parcela, A MAIS ANTIGA. Posso contar com seu pagamento?",
+        "body": "Entendo que imprevistos podem acontecer.<br><br><b>Atraso maior que 30 dias:</b> <br>Gostaria de lembrá-lo sobre possíveis consequências de não realizar o pagamento, como a inclusão ou permanência do seu nome no SPC e SERASA. Evite pagando ao menos uma parcela, A MAIS ANTIGA. Posso contar com seu pagamento?",
         "tabulacao": [],
         "buttons": [
           { "label": "ACEITOU", "next": "contratos_ratificacao_aceite" },

@@ -3,7 +3,7 @@
 -- SETUP COMPLETO DO BANCO DE DADOS
 -- 
 -- Copie e cole este script INTEIRO no SQL Editor do Supabase
--- Versao: 5.1 - Adicionada Nuvem de Palavras
+-- Versao: 5.2 - Removido chat de operadores
 -- Data: 2025
 -- ============================================================
 
@@ -279,25 +279,7 @@ CREATE TABLE IF NOT EXISTS admin_questions (
 );
 
 -- ============================================================
--- 17. TABELA DE MENSAGENS DE CHAT
--- ============================================================
-CREATE TABLE IF NOT EXISTS chat_messages (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  sender_id UUID REFERENCES users(id) ON DELETE SET NULL,
-  sender_name TEXT NOT NULL,
-  recipient_id UUID REFERENCES users(id) ON DELETE SET NULL,
-  recipient_name TEXT,
-  content TEXT NOT NULL,
-  message_type TEXT DEFAULT 'text',
-  is_read BOOLEAN DEFAULT false,
-  is_global BOOLEAN DEFAULT false,
-  is_edited BOOLEAN DEFAULT false,
-  edited_at TIMESTAMPTZ,
-  created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- ============================================================
--- 18. TABELA DE CHAT COM SUPERVISORES
+-- 17. TABELA DE CHAT COM SUPERVISORES
 -- ============================================================
 CREATE TABLE IF NOT EXISTS supervisor_chat_messages (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -318,7 +300,7 @@ CREATE TABLE IF NOT EXISTS supervisor_chat_messages (
 );
 
 -- ============================================================
--- 19. TABELA DE CHAT COM QUALIDADE
+-- 18. TABELA DE CHAT COM QUALIDADE
 -- ============================================================
 CREATE TABLE IF NOT EXISTS quality_chat_messages (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -339,7 +321,7 @@ CREATE TABLE IF NOT EXISTS quality_chat_messages (
 );
 
 -- ============================================================
--- 20. TABELA DE TREINAMENTOS
+-- 19. TABELA DE TREINAMENTOS
 -- ============================================================
 CREATE TABLE IF NOT EXISTS trainings (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -360,7 +342,7 @@ CREATE TABLE IF NOT EXISTS trainings (
 );
 
 -- ============================================================
--- 21. TABELA DE VISUALIZACOES DE TREINAMENTOS
+-- 20. TABELA DE VISUALIZACOES DE TREINAMENTOS
 -- ============================================================
 CREATE TABLE IF NOT EXISTS training_views (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -374,7 +356,7 @@ CREATE TABLE IF NOT EXISTS training_views (
 );
 
 -- ============================================================
--- 22. TABELA DE CAMPANHAS
+-- 21. TABELA DE CAMPANHAS
 -- ============================================================
 CREATE TABLE IF NOT EXISTS campaigns (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -395,7 +377,7 @@ CREATE INDEX IF NOT EXISTS idx_campaigns_name ON campaigns(name);
 CREATE INDEX IF NOT EXISTS idx_campaigns_active ON campaigns(is_active);
 
 -- ============================================================
--- 23. TABELA DE NUVEM DE PALAVRAS
+-- 22. TABELA DE NUVEM DE PALAVRAS
 -- ============================================================
 CREATE TABLE IF NOT EXISTS word_cloud (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -418,8 +400,6 @@ CREATE INDEX IF NOT EXISTS idx_quality_posts_author ON quality_posts(author_id);
 CREATE INDEX IF NOT EXISTS idx_quality_posts_created ON quality_posts(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_admin_questions_author ON admin_questions(author_id);
 CREATE INDEX IF NOT EXISTS idx_feedbacks_recipient ON feedbacks(recipient_id);
-CREATE INDEX IF NOT EXISTS idx_chat_messages_sender ON chat_messages(sender_id);
-CREATE INDEX IF NOT EXISTS idx_chat_messages_recipient ON chat_messages(recipient_id);
 CREATE INDEX IF NOT EXISTS idx_supervisor_chat_sender ON supervisor_chat_messages(sender_id);
 CREATE INDEX IF NOT EXISTS idx_quality_chat_sender ON quality_chat_messages(sender_id);
 CREATE INDEX IF NOT EXISTS idx_trainings_category ON trainings(category);
@@ -495,8 +475,8 @@ ON CONFLICT (email) DO NOTHING;
 -- INSERIR DADOS INICIAIS - CANAIS DE ATENDIMENTO CAIXA
 -- ============================================================
 INSERT INTO channels (name, description, icon, is_active) VALUES
-('Alô CAIXA', '4004 0 104 (Capitais) / 0800 104 0 104 (Demais regioes) - PF, PJ, Ente Publico - Conta corrente, poupanca, emprestimos, cartao, habitacao, negocios, loterias', 'phone', true),
-('CAIXA Cidadão', '0800 726 0207 - PIS, Beneficios Sociais, FGTS e Cartao Social - Eletronico 24h / Humano seg-sex 8h-21h, sab 10h-16h', 'phone', true),
+('Alo CAIXA', '4004 0 104 (Capitais) / 0800 104 0 104 (Demais regioes) - PF, PJ, Ente Publico - Conta corrente, poupanca, emprestimos, cartao, habitacao, negocios, loterias', 'phone', true),
+('CAIXA Cidadao', '0800 726 0207 - PIS, Beneficios Sociais, FGTS e Cartao Social - Eletronico 24h / Humano seg-sex 8h-21h, sab 10h-16h', 'phone', true),
 ('Agencia Digital', '4004 0 104 (Capitais) / 0800 104 0 104 (Demais) - Servicos e consultoria financeira - 8h as 18h (exceto fds e feriados)', 'building', true),
 ('Atendimento Surdos', 'Atendimento 24h com Interprete de Libras via ICOM - https://icom.app/8AG8Z - www.caixa.gov.br/libras', 'ear', true),
 ('SAC CAIXA', '0800 726 0101 - Reclamacoes, sugestoes, elogios, cancelamentos - Atendimento 24h', 'headphones', true),
@@ -509,19 +489,19 @@ ON CONFLICT DO NOTHING;
 -- INSERIR DADOS INICIAIS - SITUACOES
 -- ============================================================
 INSERT INTO situations (name, description, color, is_active) VALUES
-('EM CASOS DE FALÊNCIA/CONCORDATA', 'É necessário que o sócio ou responsável entre em contato com a CAIXA acessando www.caixa.gov.br/negociar e pelo WhatsApp 0800 101 0104. Tabulação correta: Recado com terceiro', '#ef4444', true),
-('FALECIDO', 'Pessoa informa que o titular faleceu. É necessário que compareça à agência levando a certidão de óbito para que as ligações de cobrança sejam interrompidas. Tabulação correta: FALECIDO', '#1f2937', true),
-('SE O CLIENTE CITAR A LGPD OU PERGUNTAR POR QUE TEMOS OS SEUS DADOS', 'Seguindo a lei LGPD, n°13.709, possuímos alguns dados representando a CAIXA ECONÔMICA FEDERAL, para garantir sua segurança. Caso você possua qualquer dúvida ou solicitação em relação a isso, pedimos que entre em contato conosco enviando um e-mail para: dpo@gruporoveri.com.br .', '#8b5cf6', true),
-('O CLIENTE SOLICITA O PROTOCOLO DA LIGAÇÃO', 'Informar que nós somos uma central de negócios, ou seja, nosso atendimento não possui caráter de SAC. Entretanto, como mencionamos no início do contato, todas as ligações são gravadas e para que você tenha acesso a elas é necessário que as solicite na sua agência de relacionamento. PORQUE NÃO PODEMOS REPASSAR ESSA INFORMAÇÃO PARA O CLIENTE? Nossa assessoria não é SAC.', '#f59e0b', true),
-('SE O CLIENTE INFORMAR QUE "NÃO RESIDE NO IMÓVEL"', 'Embora o senhor(a) não resida no local, a dívida está registrada em seu nome e CPF, o que o(a) mantém como responsável pela regularização. Para resolver essa situação de forma rápida e eficiente, sugerimos que entre em contato com a pessoa que realiza o pagamento dessa dívida. Isso pode ajudar a esclarecer se o pagamento já foi efetuado, se há uma data prevista para a quitação ou outras informações relevantes.', '#06b6d4', true),
-('CLIENTE SOLICITOU A LIGAÇÃO DO ATENDIMENTO', 'Cliente solicita escuta da ligacao. PR/RJ/SP/MT: 7 dias uteis. Outros estados: solicitar na agencia', '#3b82f6', true),
-('CLIENTE FIES QUER PAUSAR O PAGAMENTO DAS SUAS PARCELAS', 'Caso o cliente do FIES questione a possibilidade de renegociar ou solicite o desconto para seu contrato, informar: "Você pode verificar se o seu contrato tem a possibilidade de realizar renegociação no site http://sifesweb.caixa.gov.br, APP FIES CAIXA ou na sua agência." ATENÇÃO! Lembrando que essa orientação só deve ser repassada para aqueles clientes que já fizeram a confirmação positiva.', '#22c55e', true),
-('CONTRATOS DE EMPRÉSTIMO CONSIGNADO', 'Devemos orientar o cliente pedindo para que ele verifique novamente se o valor foi de fato descontado da folha de pagamento. Caso ele fale que vai aguardar em linha este retorno. Se o cliente disser que não pode fazer essa verificação durante o atendimento, podemos solicitar o melhor horário e telefone para realizar um contato futuro. QUESTIONAMENTO NORMALMENTE REALIZADO PELO CLIENTE: "Isso é descontado na minha folha de pagamento, não está aparecendo no sistema?"', '#f97316', true),
-('NÃO RECONHECE A DÍVIDA', 'Orientar o cliente a procurar uma agência da CAIXA para mais informações ou ligar no 0800 101 0104. Para cartão de crédito, indicar a central de atendimento que está no verso do cartão para contestação das despesas.', '#dc2626', true),
-('O QUE FAZER QUANDO CAIR UM PRODUTO QUE NÃO ATENDO?', 'Passo a passo. Confirmar IP, informar transferencia, transferir em Campanha Receptivo, tabular Transferencia de Ligacao', '#64748b', true),
+('EM CASOS DE FALENCIA/CONCORDATA', 'E necessario que o socio ou responsavel entre em contato com a CAIXA acessando www.caixa.gov.br/negociar e pelo WhatsApp 0800 101 0104. Tabulacao correta: Recado com terceiro', '#ef4444', true),
+('FALECIDO', 'Pessoa informa que o titular faleceu. E necessario que compareca a agencia levando a certidao de obito para que as ligacoes de cobranca sejam interrompidas. Tabulacao correta: FALECIDO', '#1f2937', true),
+('SE O CLIENTE CITAR A LGPD OU PERGUNTAR POR QUE TEMOS OS SEUS DADOS', 'Seguindo a lei LGPD, n 13.709, possuimos alguns dados representando a CAIXA ECONOMICA FEDERAL, para garantir sua seguranca. Caso voce possua qualquer duvida ou solicitacao em relacao a isso, pedimos que entre em contato conosco enviando um e-mail para: dpo@gruporoveri.com.br .', '#8b5cf6', true),
+('O CLIENTE SOLICITA O PROTOCOLO DA LIGACAO', 'Informar que nos somos uma central de negocios, ou seja, nosso atendimento nao possui carater de SAC. Entretanto, como mencionamos no inicio do contato, todas as ligacoes sao gravadas e para que voce tenha acesso a elas e necessario que as solicite na sua agencia de relacionamento. PORQUE NAO PODEMOS REPASSAR ESSA INFORMACAO PARA O CLIENTE? Nossa assessoria nao e SAC.', '#f59e0b', true),
+('SE O CLIENTE INFORMAR QUE NAO RESIDE NO IMOVEL', 'Embora o senhor(a) nao resida no local, a divida esta registrada em seu nome e CPF, o que o(a) mantem como responsavel pela regularizacao. Para resolver essa situacao de forma rapida e eficiente, sugerimos que entre em contato com a pessoa que realiza o pagamento dessa divida. Isso pode ajudar a esclarecer se o pagamento ja foi efetuado, se ha uma data prevista para a quitacao ou outras informacoes relevantes.', '#06b6d4', true),
+('CLIENTE SOLICITOU A LIGACAO DO ATENDIMENTO', 'Cliente solicita escuta da ligacao. PR/RJ/SP/MT: 7 dias uteis. Outros estados: solicitar na agencia', '#3b82f6', true),
+('CLIENTE FIES QUER PAUSAR O PAGAMENTO DAS SUAS PARCELAS', 'Caso o cliente do FIES questione a possibilidade de renegociar ou solicite o desconto para seu contrato, informar: "Voce pode verificar se o seu contrato tem a possibilidade de realizar renegociacao no site http://sifesweb.caixa.gov.br, APP FIES CAIXA ou na sua agencia." ATENCAO! Lembrando que essa orientacao so deve ser repassada para aqueles clientes que ja fizeram a confirmacao positiva.', '#22c55e', true),
+('CONTRATOS DE EMPRESTIMO CONSIGNADO', 'Devemos orientar o cliente pedindo para que ele verifique novamente se o valor foi de fato descontado da folha de pagamento. Caso ele fale que vai aguardar em linha este retorno. Se o cliente disser que nao pode fazer essa verificacao durante o atendimento, podemos solicitar o melhor horario e telefone para realizar um contato futuro. QUESTIONAMENTO NORMALMENTE REALIZADO PELO CLIENTE: "Isso e descontado na minha folha de pagamento, nao esta aparecendo no sistema?"', '#f97316', true),
+('NAO RECONHECE A DIVIDA', 'Orientar o cliente a procurar uma agencia da CAIXA para mais informacoes ou ligar no 0800 101 0104. Para cartao de credito, indicar a central de atendimento que esta no verso do cartao para contestacao das despesas.', '#dc2626', true),
+('O QUE FAZER QUANDO CAIR UM PRODUTO QUE NAO ATENDO?', 'Passo a passo. Confirmar IP, informar transferencia, transferir em Campanha Receptivo, tabular Transferencia de Ligacao', '#64748b', true),
 ('O QUE FAZER QUANDO CAIR ATENDIMENTO CNPJ?', 'Atendimento PJ. Falar nome do socio ou solicitar socio/responsavel financeiro. Verificar em Detalhes do Cliente', '#0ea5e9', true),
 ('EM CASOS DE SINEB 2.0', 'Oferta de renegociacao. Exclusao CPF em 10 dias uteis apos pagamento. Juros corrigidos diariamente. Condicoes nao garantidas', '#7c3aed', true),
-('A LEI 12395/2024 DO ESTADO DE MATO GROSSO E A LEI 16276/2025 DO RIO GRANDE DO SUL', 'A Lei 12395/2024 do Estado do Mato Grosso e a Lei 16276/2025 do Rio Grande Sul também determinam que deve ser informado a composição dos valores cobrados quanto a o que efetivamente correspondem, destacando-se o valor originário e seus adicionais (juros, multas, taxas, custas, honorários e outros que, somados, correspondam ao valor total cobrado do consumidor) ao cliente desse estado que solicitar.', '#10b981', true)
+('A LEI 12395/2024 DO ESTADO DE MATO GROSSO E A LEI 16276/2025 DO RIO GRANDE DO SUL', 'A Lei 12395/2024 do Estado do Mato Grosso e a Lei 16276/2025 do Rio Grande Sul tambem determinam que deve ser informado a composicao dos valores cobrados quanto a o que efetivamente correspondem, destacando-se o valor originario e seus adicionais (juros, multas, taxas, custas, honorarios e outros que, somados, correspondam ao valor total cobrado do consumidor) ao cliente desse estado que solicitar.', '#10b981', true)
 ON CONFLICT DO NOTHING;
 
 -- ============================================================
@@ -530,37 +510,43 @@ ON CONFLICT DO NOTHING;
 
 -- TABULACOES ANTES DA IP (Identificacao Positiva)
 INSERT INTO tabulations (name, description, color, is_active) VALUES
-('LIGAÇÃO CAIU', 'Atendimento interrompido sem que seja possível continuar o diálogo entre operador e cliente e sem possibilidade de realização da confirmação do CPF. Exemplo de resposta por parte do cliente/terceiro: "Alô" / "Quem é" / "De onde fala" / "Sou eu" / "Do que se trata" / etc.', '#ef4444', true),
-('LIGAÇÃO MUDA', 'Utilizar se a ligação se iniciou muda, fica sem fala do cliente. Lembrando que se a pessoa atender e houver ruídos ou vozes que não se direcionar a você será considerada uma Ligação muda.', '#6b7280', true),
-('RECADO COM TERCEIRO', 'Terceiro atende e informa que a empresa entrou em falência ou terceiro informa que conhece o cliente, ou terceiro pede para ligar outro dia/horário ou em outro telefone.', '#2563eb', true),
+('LIGACAO CAIU', 'Atendimento interrompido sem que seja possivel continuar o dialogo entre operador e cliente e sem possibilidade de realizacao da confirmacao do CPF. Exemplo de resposta por parte do cliente/terceiro: "Alo" / "Quem e" / "De onde fala" / "Sou eu" / "Do que se trata" / etc.', '#ef4444', true),
+('LIGACAO MUDA', 'Utilizar se a ligacao se iniciou muda, fica sem fala do cliente. Lembrando que se a pessoa atender e houver ruidos ou vozes que nao se direcionar a voce sera considerada uma Ligacao muda.', '#6b7280', true),
+('RECADO COM TERCEIRO', 'Terceiro atende e informa que a empresa entrou em falencia ou terceiro informa que conhece o cliente, ou terceiro pede para ligar outro dia/horario ou em outro telefone.', '#2563eb', true),
 ('FALECIDO', 'Terceiro informa que o titular faleceu', '#2563eb', true),
-('DESCONHECIDO NO TELEFONE', 'Terceiro informa que não conhece ninguém com o nome do cliente no telefone do cadastro. Exemplo de resposta por parte do cliente/terceiro: "Não conheço" / "Não é desse número" / "Não é daqui" / "Nunca ouvi falar" / etc.', '#2563eb', true),
-('PESSOA NÃO CONFIRMA DADOS', 'Cliente se recusa confirmar os dados para prosseguir com atendimento. Utilize quando: O cliente informa CPF/CNPJ, mas os dados não conferem, o cliente se recusa a informar CPF/CNPJ, o cliente não lembra os dados ou quando o cliente diz que não pode falar no momento. Exemplo de resposta por parte do cliente: "Não confirmo nada por telefone" / "Não, eu vou na agência" / "Não lembro meu CPF" / etc.', '#2563eb', true),
-('FALÊNCIA/CONCORDATA', 'Utilizamos quando o sócio ou responsável financeiro informar que a empresa entrou em falência.', '#2563eb', true),
-('SINAL DE FAX', 'Ligação direcionada para sinal de FAX', '#8b5cf6', true),
-('GRAVAÇÃO DE OPERADORA', 'Mensagem automática da companhia telefônica foi reproduzida na chamada', '#8b5cf6', true),
-('TRANSBORDO PARA ATENDIMENTO ENTRE CANAIS, SEM IP', 'Quando o atendimento é iniciado em um canal digital e precisa ser transbordado para resolução no atendimento humano antes do cliente ter realizado a confirmação do CPF.', '#2563eb', true),
-('CAIXA POSTAL', 'Ligação direcionada diretamente a caixa postal', '#a855f7', true)
+('DESCONHECIDO NO TELEFONE', 'Terceiro informa que nao conhece ninguem com o nome do cliente no telefone do cadastro. Exemplo de resposta por parte do cliente/terceiro: "Nao conheco" / "Nao e desse numero" / "Nao e daqui" / "Nunca ouvi falar" / etc.', '#2563eb', true),
+('PESSOA NAO CONFIRMA DADOS', 'Cliente se recusa confirmar os dados para prosseguir com atendimento. Utilize quando: O cliente informa CPF/CNPJ, mas os dados nao conferem, o cliente se recusa a informar CPF/CNPJ, o cliente nao lembra os dados ou quando o cliente diz que nao pode falar no momento. Exemplo de resposta por parte do cliente: "Nao confirmo nada por telefone" / "Nao, eu vou na agencia" / "Nao lembro meu CPF" / etc.', '#2563eb', true),
+('FALENCIA/CONCORDATA', 'Utilizamos quando o socio ou responsavel financeiro informar que a empresa entrou em falencia.', '#2563eb', true),
+('SINAL DE FAX', 'Ligacao direcionada para sinal de FAX', '#8b5cf6', true),
+('GRAVACAO DE OPERADORA', 'Mensagem automatica da companhia telefonica foi reproduzida na chamada', '#8b5cf6', true),
+('TRANSBORDO PARA ATENDIMENTO ENTRE CANAIS, SEM IP', 'Quando o atendimento e iniciado em um canal digital e precisa ser transbordado para resolucao no atendimento humano antes do cliente ter realizado a confirmacao do CPF.', '#2563eb', true),
+('CAIXA POSTAL', 'Ligacao direcionada diretamente a caixa postal', '#a855f7', true)
 ON CONFLICT DO NOTHING;
 
 -- TABULACOES APOS A IP (Identificacao Positiva)
 INSERT INTO tabulations (name, description, color, is_active) VALUES
-('CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO', 'A ligação foi interrompida sem conseguir um posicionamento da parte do cliente sobre a dívida. Situação: Ao questionar se foi pago, o cliente responde apenas com um NÂO e desliga.', '#22c55e', true),
-('PESSOA SOLICITA RETORNO EM OUTRO MOMENTO', 'Cliente pede para o operador retornar a ligação em outro dia/horário.', '#22c55e', true),
-('PAGAMENTO JÁ EFETUADO', 'Cliente informa que ja efetuou o pagamento', '#22c55e', true),
-('PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO', 'Cliente informa que ira pagar/depositar dentro de 10 dias corridos', '#10b981', true),
-('CONTATO SEM NEGOCIAÇÃO', 'Cliente informa que não consegue falar no momento e desliga, ou cliente informa que irá pagar ou depositar FORA do prazo estabelecido [10 dias corridos].', '#22c55e', true),
-('SEM CAPACIDADE DE PAGAMENTO', 'Cliente informa que não possui capacidade de efetuar o pagamento. Exemplo dos motivos: Informa que não tem recurso disponível, desemprego, mudanças econômicas ou não pode fazer o pagamento naquele momento.', '#22c55e', true),
-('DÍVIDA NÃO RECONHECIDA', 'Cliente alega que desconhece a dívida.', '#22c55e', true),
-('NEGOCIAÇÃO EM OUTRO CANAL', 'Cliente informa que já está negociando em outro canal.', '#22c55e', true),
-('PROMESSA DE PAGAMENTO COM EMISSÃO DE BOLETO', 'Cliente solicita boleto e informa data de pagamento dentro do período permitido [10 dias corridos].', '#22c55e', true),
-('ACEITA AÇÃO/CAMPANHA SEM EMISSÃO DE BOLETO', 'Cliente aceita a campanha sem emissao de boleto', '#22c55e', true),
-('ACEITA AÇÃO/CAMPANHA COM EMISSÃO DE BOLETO', 'Cliente aceita a campanha com emissao de boleto', '#22c55e', true),
+('CONTATO INTERROMPIDO APOS IP, MAS SEM RESULTADO DEFINIDO', 'A ligacao foi interrompida sem conseguir um posicionamento da parte do cliente sobre a divida. Situacao: Ao questionar se foi pago, o cliente responde apenas com um NAO e desliga.', '#22c55e', true),
+('PESSOA SOLICITA RETORNO EM OUTRO MOMENTO', 'Cliente pede para o operador retornar a ligacao em outro dia/horario.', '#22c55e', true),
+('PAGAMENTO JA EFETUADO', 'Cliente informa que ja efetuou o pagamento', '#22c55e', true),
+('PROMESSA DE PAGAMENTO SEM EMISSAO DE BOLETO', 'Cliente informa que ira pagar/depositar dentro de 10 dias corridos', '#10b981', true),
+('CONTATO SEM NEGOCIACAO', 'Cliente informa que nao consegue falar no momento e desliga, ou cliente informa que ira pagar ou depositar FORA do prazo estabelecido [10 dias corridos].', '#22c55e', true),
+('SEM CAPACIDADE DE PAGAMENTO', 'Cliente informa que nao possui capacidade de efetuar o pagamento. Exemplo dos motivos: Informa que nao tem recurso disponivel, desemprego, mudancas economicas ou nao pode fazer o pagamento naquele momento.', '#22c55e', true),
+('DIVIDA NAO RECONHECIDA', 'Cliente alega que desconhece a divida.', '#22c55e', true),
+('NEGOCIACAO EM OUTRO CANAL', 'Cliente informa que ja esta negociando em outro canal.', '#22c55e', true),
+('PROMESSA DE PAGAMENTO COM EMISSAO DE BOLETO', 'Cliente solicita boleto e informa data de pagamento dentro do periodo permitido [10 dias corridos].', '#22c55e', true),
+('ACEITA ACAO/CAMPANHA SEM EMISSAO DE BOLETO', 'Cliente aceita a campanha sem emissao de boleto', '#22c55e', true),
+('ACEITA ACAO/CAMPANHA COM EMISSAO DE BOLETO', 'Cliente aceita a campanha com emissao de boleto', '#22c55e', true),
 ('CLIENTE COM ACORDO ATIVO RETORNA NO RECEPTIVO', 'Quando o cliente retorna no receptivo tendo acordo vigente para solicitar esclarecimentos ou solicitar o boleto.', '#22c55e', true),
-('PROMESSA DE PAGAMENTO ACORDO DE PARCELAMENTO', 'Cliente confirma o pagamento parcelado do CARTÃO DE CRÉDITO.', '#22c55e', true),
-('TRANSBORDO PARA ATENDIMENTO ENTRE CANAIS, COM IP', 'Quando o atendimento é iniciado em um canal e precisa ser transbordado para resolução por outro canal após o cliente ter realizado a confirmação do CPF.', '#22c55e', true),
-('RECUSA AÇÃO/CAMPANHA + RESULTADO COM MOTIVO DA RECUSA', 'Cliente não aceita a campanha ofertada. Motivos da Recusa: Sem capacidade de pagamento | Contato sem negociacao/acordo | Negociacao em outro canal | Pessoa solicita retorno em outro momento | Divida nao reconhecida | Promessa de pagamento sem emissao de boleto | Promessa de pagamento com emissao de boleto', '#22c55e', true)
+('PROMESSA DE PAGAMENTO ACORDO DE PARCELAMENTO', 'Cliente confirma o pagamento parcelado do CARTAO DE CREDITO.', '#22c55e', true),
+('TRANSBORDO PARA ATENDIMENTO ENTRE CANAIS, COM IP', 'Quando o atendimento e iniciado em um canal e precisa ser transbordado para resolucao por outro canal apos o cliente ter realizado a confirmacao do CPF.', '#22c55e', true),
+('ACEITA AÇÃO/CAMPANHA COM PARCELAMENTO', 'Deve ser utilizado especificamente para o registro de aceites relacionados a propostas de parcelamento no âmbito do Desenrola Brasil', '#22c55e', true),
+('RECUSA ACAO/CAMPANHA + RESULTADO COM MOTIVO DA RECUSA', 'Cliente nao aceita a campanha ofertada. Motivos da Recusa: Sem capacidade de pagamento | Contato sem negociacao/acordo | Negociacao em outro canal | Pessoa solicita retorno em outro momento | Divida nao reconhecida | Promessa de pagamento sem emissao de boleto | Promessa de pagamento com emissao de boleto', '#22c55e', true)
 ON CONFLICT DO NOTHING;
+
+-- ============================================================
+-- REMOVER TABELA DE CHAT DE OPERADORES (SE EXISTIR)
+-- ============================================================
+DROP TABLE IF EXISTS chat_messages CASCADE;
 
 -- ============================================================
 -- FIM DO SCRIPT DE SETUP

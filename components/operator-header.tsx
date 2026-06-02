@@ -51,7 +51,6 @@ interface OperatorHeaderProps {
   isSessionActive?: boolean
   onBackToStart?: () => void
   onProductSelect?: (productId: string) => void
-  onOpenChat?: () => void
 }
 
 export const OperatorHeader = memo(function OperatorHeader({
