@@ -32,8 +32,8 @@ export const OperatorChatModal = memo(function OperatorChatModal({ isOpen, onClo
 
   useEffect(() => {
     loadAllMessages()
-    // Polling a cada 30 segundos para mensagens de chat
-    const interval = setInterval(loadAllMessages, 30000)
+    // Polling a cada 2 minutos para mensagens de chat
+    const interval = setInterval(loadAllMessages, 120000)
     return () => clearInterval(interval)
   }, [])
 

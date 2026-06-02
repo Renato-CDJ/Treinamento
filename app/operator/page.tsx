@@ -116,18 +116,18 @@ const OperatorContent = memo(function OperatorContent() {
     }
 
     checkAutoLogout()
-    const interval = setInterval(checkAutoLogout, 60000) // 60s ao inves de 30s
+    const interval = setInterval(checkAutoLogout, 180000) // 3 minutos - só precisa verificar periodicamente
 
     return () => clearInterval(interval)
   }, [logout, router])
 
-  // Heartbeat: send every 60s para reduzir requests e CPU
+  // Heartbeat: send every 3 minutos para reduzir requests drasticamente
   useEffect(() => {
     if (!user) return
     sendOperatorHeartbeat(user.id)
     const heartbeatInterval = setInterval(() => {
       sendOperatorHeartbeat(user.id)
-    }, 60000) // 60s ao inves de 30s
+    }, 180000) // 3 minutos
     return () => clearInterval(heartbeatInterval)
   }, [user])
 

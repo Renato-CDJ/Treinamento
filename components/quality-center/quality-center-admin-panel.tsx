@@ -105,8 +105,8 @@ export function QualityCenterAdminPanel({ pendingQuestions }: QualityCenterAdmin
       })
     }
     loadStats()
-    // Aumentado de 30s para 60s - estatísticas não precisam de atualização tão frequente
-    const interval = setInterval(loadStats, 60000)
+    // Aumentado para 3 minutos - estatísticas não precisam de atualização tão frequente
+    const interval = setInterval(loadStats, 180000)
     return () => clearInterval(interval)
   }, [])
 
