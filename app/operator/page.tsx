@@ -405,8 +405,6 @@ const OperatorContent = memo(function OperatorContent() {
           </div>
         )}
       </div>
-
-      <OperatorChatModal isOpen={showChatModal} onClose={() => setShowChatModal(false)} />
     </div>
   )
 })
