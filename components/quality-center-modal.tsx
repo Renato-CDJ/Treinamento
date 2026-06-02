@@ -44,6 +44,7 @@ import {
   Check,
   X,
   Paintbrush,
+  Lock,
 } from "lucide-react"
 import { useTheme } from "next-themes"
 import { 
@@ -58,6 +59,7 @@ import {
   answerAdminQuestionSecond,
   deleteQualityPostSupabase,
   editQualityPostSupabase,
+  useQualityCenterAccess,
 } from "@/hooks/use-supabase-realtime"
 import { containsProfanity, getProfanityWarning } from "@/lib/profanity-filter"
 import { useToast } from "@/hooks/use-toast"
@@ -95,8 +97,13 @@ export function QualityCenterModal({ isOpen, onClose }: QualityCenterModalProps)
   
   const { posts, loading: postsLoading } = useQualityPosts()
   const { users: allUsers } = useAllUsers()
+  const { isEnabled: operatorAccessEnabled, loading: accessLoading } = useQualityCenterAccess()
 
   const hasAdminAccess = canAccessAdminPanel(user)
+  const isOperator = user?.role === "operator"
+  
+  // Operadores so podem acessar se o acesso estiver liberado
+  const canAccessQualityCenter = hasAdminAccess || (isOperator && operatorAccessEnabled)
   
   // Filter posts by date if set
   const filteredPosts = useMemo(() => {
@@ -147,6 +154,34 @@ export function QualityCenterModal({ isOpen, onClose }: QualityCenterModalProps)
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="!max-w-[90vw] w-[90vw] !max-h-[90vh] h-[90vh] p-0 gap-0 overflow-hidden flex flex-col bg-background">
+        {/* Tela de bloqueio para operadores */}
+        {!canAccessQualityCenter && !accessLoading && (
+          <div className="flex flex-col items-center justify-center h-full p-8 text-center">
+            <div className="p-6 bg-red-500/10 rounded-full mb-6">
+              <Lock className="h-16 w-16 text-red-500" />
+            </div>
+            <h2 className="text-2xl font-bold text-foreground mb-3">Central da Qualidade Indisponivel</h2>
+            <p className="text-muted-foreground max-w-md mb-6">
+              O acesso a Central da Qualidade esta temporariamente bloqueado pelo administrador. 
+              Por favor, aguarde ate que o acesso seja liberado novamente.
+            </p>
+            <Button variant="outline" onClick={onClose}>
+              Fechar
+            </Button>
+          </div>
+        )}
+
+        {/* Loading state */}
+        {accessLoading && (
+          <div className="flex flex-col items-center justify-center h-full p-8">
+            <div className="h-8 w-8 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4" />
+            <p className="text-muted-foreground">Verificando acesso...</p>
+          </div>
+        )}
+
+        {/* Conteudo normal - somente se tem acesso */}
+        {canAccessQualityCenter && !accessLoading && (
+          <>
         {/* Header */}
         <DialogHeader className="border-b px-6 py-3 flex-shrink-0 bg-card">
           <div className="flex items-center justify-between">

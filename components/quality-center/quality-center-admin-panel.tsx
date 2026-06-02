@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Checkbox } from "@/components/ui/checkbox"
+import { Switch } from "@/components/ui/switch"
 import { useToast } from "@/hooks/use-toast"
 import { RichTextEditorWYSIWYG } from "@/components/rich-text-editor-wysiwyg"
 import {
@@ -22,6 +23,8 @@ import {
   createQualityPostSupabase,
   createFeedbackSupabase,
   getQualityStatsSupabase,
+  useQualityCenterAccess,
+  setQualityCenterAccessSetting,
 } from "@/hooks/use-supabase-realtime"
 import { createClient } from "@/lib/supabase/client"
 import type { QualityPost, User } from "@/lib/types"
@@ -42,6 +45,9 @@ import {
   MessageCircle,
   TrendingUp,
   ChevronDown,
+  Settings,
+  Lock,
+  Unlock,
 } from "lucide-react"
 import { formatDistanceToNow, format } from "date-fns"
 import { ptBR } from "date-fns/locale"
@@ -57,6 +63,10 @@ export function QualityCenterAdminPanel({ pendingQuestions }: QualityCenterAdmin
   const [operators, setOperators] = useState<User[]>([])
   const [questions, setQuestions] = useState<QualityPost[]>([])
   const [stats, setStats] = useState({ totalPosts: 0, totalLikes: 0, totalComments: 0, totalUsers: 0, onlineNow: 0 })
+  
+  // Controle de acesso para operadores
+  const { isEnabled: operatorAccessEnabled, loading: accessLoading, refetch: refetchAccess } = useQualityCenterAccess()
+  const [isTogglingAccess, setIsTogglingAccess] = useState(false)
 
   // Publicar form
   const [publicationType, setPublicationType] = useState("comunicado")
@@ -214,6 +224,24 @@ export function QualityCenterAdminPanel({ pendingQuestions }: QualityCenterAdmin
     }
   }
 
+  const handleToggleOperatorAccess = async () => {
+    setIsTogglingAccess(true)
+    try {
+      await setQualityCenterAccessSetting(!operatorAccessEnabled)
+      await refetchAccess()
+      toast({
+        title: operatorAccessEnabled ? "Acesso bloqueado" : "Acesso liberado",
+        description: operatorAccessEnabled 
+          ? "Os operadores nao podem mais acessar a Central da Qualidade" 
+          : "Os operadores agora podem acessar a Central da Qualidade",
+      })
+    } catch (error) {
+      toast({ title: "Erro", description: "Falha ao alterar acesso", variant: "destructive" })
+    } finally {
+      setIsTogglingAccess(false)
+    }
+  }
+
   const getInitials = (name: string) => {
     return name
       .split(" ")
@@ -229,6 +257,7 @@ export function QualityCenterAdminPanel({ pendingQuestions }: QualityCenterAdmin
     { id: "feedback", label: "Feedback", icon: ClipboardList },
     { id: "perguntas", label: "Perguntas", icon: HelpCircle, badge: questions.length },
     { id: "estatisticas", label: "Estatisticas", icon: BarChart3 },
+    { id: "configuracoes", label: "Configuracoes", icon: Settings },
   ]
 
   const statCards = [
@@ -666,6 +695,71 @@ export function QualityCenterAdminPanel({ pendingQuestions }: QualityCenterAdmin
                       <span className="text-xs text-muted-foreground">{stat.label}</span>
                     </div>
                   ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {activeTab === "configuracoes" && (
+            <Card className="border-border/50 bg-card/50">
+              <CardHeader className="pb-4">
+                <div className="flex items-center gap-2">
+                  <Settings className="h-5 w-5 text-orange-500" />
+                  <CardTitle className="text-lg">Configuracoes da Central</CardTitle>
+                </div>
+                <p className="text-sm text-muted-foreground">Gerencie as configuracoes de acesso e visibilidade</p>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {/* Controle de Acesso para Operadores */}
+                <div className="flex items-center justify-between p-4 rounded-xl bg-muted/30 border border-border/50">
+                  <div className="flex items-center gap-4">
+                    <div className={`p-3 rounded-xl ${operatorAccessEnabled ? "bg-green-500/20" : "bg-red-500/20"}`}>
+                      {operatorAccessEnabled ? (
+                        <Unlock className="h-6 w-6 text-green-500" />
+                      ) : (
+                        <Lock className="h-6 w-6 text-red-500" />
+                      )}
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-foreground">Acesso dos Operadores</h3>
+                      <p className="text-sm text-muted-foreground">
+                        {operatorAccessEnabled 
+                          ? "Os operadores podem acessar a Central da Qualidade" 
+                          : "Os operadores nao podem acessar a Central da Qualidade"}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Badge 
+                      variant="outline" 
+                      className={operatorAccessEnabled 
+                        ? "bg-green-500/10 text-green-600 border-green-500/30" 
+                        : "bg-red-500/10 text-red-600 border-red-500/30"
+                      }
+                    >
+                      {operatorAccessEnabled ? "Liberado" : "Bloqueado"}
+                    </Badge>
+                    <Switch
+                      checked={operatorAccessEnabled}
+                      onCheckedChange={handleToggleOperatorAccess}
+                      disabled={accessLoading || isTogglingAccess}
+                      className="data-[state=checked]:bg-green-500"
+                    />
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 rounded-lg bg-amber-500/20 shrink-0">
+                      <HelpCircle className="h-5 w-5 text-amber-500" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-amber-600 dark:text-amber-400">Como funciona?</h4>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        Quando o acesso esta <strong>bloqueado</strong>, os operadores verao uma mensagem informando que a Central da Qualidade esta temporariamente indisponivel. Somente administradores podem acessar a Central nesse modo.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>

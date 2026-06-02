@@ -5,11 +5,13 @@ import { createClient, isSupabaseConfigured } from "@/lib/supabase/client"
 import { mapSupabaseUser } from "@/lib/auth-context"
 import type { User, QualityPost, QualityComment } from "@/lib/types"
 
-// Polling interval - 60 seconds para reduzir requisições
-const POLLING_INTERVAL = 60000
+// Polling intervals - aumentados para reduzir consumo do banco
+const POLLING_INTERVAL_ADMIN = 120000 // 2 minutos para admins
+const POLLING_INTERVAL_OPERATOR = 300000 // 5 minutos para operadores (usam cache)
+const HEARTBEAT_INTERVAL = 120000 // 2 minutos para heartbeat
 
 // Users hook with polling (sem realtime)
-export function useSupabaseUsers() {
+export function useSupabaseUsers(options?: { enablePolling?: boolean; isAdmin?: boolean }) {
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
   const mountedRef = useRef(true)
@@ -41,14 +43,21 @@ export function useSupabaseUsers() {
     mountedRef.current = true
     fetchUsers()
 
-    // Polling ao invés de realtime
-    const interval = setInterval(fetchUsers, POLLING_INTERVAL)
+    // Polling condicional - desabilitado por padrao para operadores
+    const shouldPoll = options?.enablePolling !== false
+    if (shouldPoll) {
+      const interval = options?.isAdmin ? POLLING_INTERVAL_ADMIN : POLLING_INTERVAL_OPERATOR
+      const pollInterval = setInterval(fetchUsers, interval)
+      return () => {
+        mountedRef.current = false
+        clearInterval(pollInterval)
+      }
+    }
 
     return () => {
       mountedRef.current = false
-      clearInterval(interval)
     }
-  }, [fetchUsers])
+  }, [fetchUsers, options?.enablePolling, options?.isAdmin])
 
   return { users, loading, refetch: fetchUsers }
 }
@@ -92,7 +101,7 @@ function isPostExpired(createdAt: Date): boolean {
 }
 
 // Quality Posts hook with polling (sem realtime)
-export function useQualityPosts(includeArchived: boolean = false) {
+export function useQualityPosts(includeArchived: boolean = false, options?: { enablePolling?: boolean; isAdmin?: boolean }) {
   const [posts, setPosts] = useState<QualityPost[]>([])
   const [archivedPosts, setArchivedPosts] = useState<QualityPost[]>([])
   const [loading, setLoading] = useState(true)
@@ -185,14 +194,21 @@ export function useQualityPosts(includeArchived: boolean = false) {
     mountedRef.current = true
     fetchPosts()
 
-    // Polling ao invés de realtime
-    const interval = setInterval(fetchPosts, POLLING_INTERVAL)
+    // Polling condicional - desabilitado por padrao para operadores
+    const shouldPoll = options?.enablePolling !== false
+    if (shouldPoll) {
+      const interval = options?.isAdmin ? POLLING_INTERVAL_ADMIN : POLLING_INTERVAL_OPERATOR
+      const pollInterval = setInterval(fetchPosts, interval)
+      return () => {
+        mountedRef.current = false
+        clearInterval(pollInterval)
+      }
+    }
 
     return () => {
       mountedRef.current = false
-      clearInterval(interval)
     }
-  }, [fetchPosts])
+  }, [fetchPosts, options?.enablePolling, options?.isAdmin])
 
   // Combinar posts ativos com arquivados se solicitado
   const allPosts = includeArchived 
@@ -209,7 +225,7 @@ export function useQualityPosts(includeArchived: boolean = false) {
 }
 
 // Admin Questions hook with polling
-export function useAdminQuestions(filterByUserId?: string) {
+export function useAdminQuestions(filterByUserId?: string, options?: { enablePolling?: boolean; isAdmin?: boolean }) {
   const [questions, setQuestions] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const mountedRef = useRef(true)
@@ -263,14 +279,20 @@ export function useAdminQuestions(filterByUserId?: string) {
     mountedRef.current = true
     fetchQuestions()
 
-    // Polling ao invés de realtime
-    const interval = setInterval(fetchQuestions, POLLING_INTERVAL)
+    // Polling condicional - usar intervalo de admin por padrao (apenas admins usam isso)
+    const shouldPoll = options?.enablePolling !== false
+    if (shouldPoll) {
+      const pollInterval = setInterval(fetchQuestions, POLLING_INTERVAL_ADMIN)
+      return () => {
+        mountedRef.current = false
+        clearInterval(pollInterval)
+      }
+    }
 
     return () => {
       mountedRef.current = false
-      clearInterval(interval)
     }
-  }, [fetchQuestions])
+  }, [fetchQuestions, options?.enablePolling])
 
   return { questions, loading, refetch: fetchQuestions }
 }
@@ -369,7 +391,7 @@ export async function updateOperatorPresence(userId: string, data?: {
   }
 }
 
-// Hook for operator to maintain presence - intervalo de 60s
+// Hook for operator to maintain presence - intervalo de 120s
 export function usePresenceHeartbeat(userId?: string) {
   useEffect(() => {
     if (!userId) return
@@ -378,7 +400,7 @@ export function usePresenceHeartbeat(userId?: string) {
 
     const interval = setInterval(() => {
       updateOperatorPresence(userId)
-    }, 60000) // 60s para reduzir requests
+    }, HEARTBEAT_INTERVAL) // 120s para reduzir requests
 
     return () => clearInterval(interval)
   }, [userId])
@@ -576,8 +598,8 @@ export function useFeedbacks() {
     mountedRef.current = true
     fetchFeedbacks()
 
-    // Polling ao invés de realtime
-    const interval = setInterval(fetchFeedbacks, POLLING_INTERVAL)
+    // Polling com intervalo de admin (apenas admins usam)
+    const interval = setInterval(fetchFeedbacks, POLLING_INTERVAL_ADMIN)
 
     return () => {
       mountedRef.current = false
@@ -607,8 +629,8 @@ export function useQualityStats() {
   useEffect(() => {
     fetchStats()
 
-    // Polling a cada 60 segundos
-    const interval = setInterval(fetchStats, POLLING_INTERVAL)
+    // Polling a cada 2 minutos
+    const interval = setInterval(fetchStats, POLLING_INTERVAL_ADMIN)
     return () => clearInterval(interval)
   }, [fetchStats])
 
@@ -837,6 +859,64 @@ export async function getAllUsersFromSupabase(): Promise<User[]> {
 
   if (error || !data) return []
   return data.map(mapSupabaseUser)
+}
+
+// Central da Qualidade - Controle de acesso para operadores
+export async function getQualityCenterAccessSetting(): Promise<boolean> {
+  if (!isSupabaseConfigured()) return false
+  
+  const supabase = createClient()
+  if (!supabase) return false
+  
+  const { data, error } = await supabase
+    .from("app_settings")
+    .select("value")
+    .eq("key", "quality_center_operator_access")
+    .single()
+
+  if (error || !data) return false // Padrao: bloqueado
+  return data.value === true || data.value === "true"
+}
+
+export async function setQualityCenterAccessSetting(enabled: boolean): Promise<void> {
+  if (!isSupabaseConfigured()) return
+  
+  const supabase = createClient()
+  if (!supabase) return
+  
+  await supabase
+    .from("app_settings")
+    .upsert({
+      key: "quality_center_operator_access",
+      value: enabled,
+      description: "Controle de acesso da Central da Qualidade para operadores",
+      updated_at: new Date().toISOString(),
+    }, { onConflict: "key" })
+}
+
+// Hook para verificar acesso da Central da Qualidade
+export function useQualityCenterAccess() {
+  const [isEnabled, setIsEnabled] = useState<boolean>(false)
+  const [loading, setLoading] = useState(true)
+  const mountedRef = useRef(true)
+
+  const fetchAccess = useCallback(async () => {
+    const enabled = await getQualityCenterAccessSetting()
+    if (mountedRef.current) {
+      setIsEnabled(enabled)
+      setLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    mountedRef.current = true
+    fetchAccess()
+    return () => {
+      mountedRef.current = false
+    }
+  }, [fetchAccess])
+
+  return { isEnabled, loading, refetch: fetchAccess }
 }
 
 // Re-export types

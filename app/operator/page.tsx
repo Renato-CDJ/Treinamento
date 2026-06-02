@@ -121,13 +121,13 @@ const OperatorContent = memo(function OperatorContent() {
     return () => clearInterval(interval)
   }, [logout, router])
 
-  // Heartbeat: send every 60s para reduzir requests e CPU
+  // Heartbeat: send every 120s para reduzir requests e CPU
   useEffect(() => {
     if (!user) return
     sendOperatorHeartbeat(user.id)
     const heartbeatInterval = setInterval(() => {
       sendOperatorHeartbeat(user.id)
-    }, 60000) // 60s ao inves de 30s
+    }, 120000) // 120s ao inves de 60s
     return () => clearInterval(heartbeatInterval)
   }, [user])
 
