@@ -10,7 +10,6 @@ import { AlertCircle, Mail, Lock, Sun, Moon, ShieldCheck, LogIn, ArrowLeft } fro
 import { Alert, AlertDescription } from "@/components/ui/alert"
 
 import { useTheme } from "next-themes"
-import Image from "next/image"
 
 // Usuario operador padrao registrado no codigo (sem necessidade de banco de dados)
 const DEFAULT_OPERATOR = {
@@ -138,24 +137,6 @@ export const LoginForm = memo(function LoginForm() {
       </div>
 
       <CardContent className="pt-4 pb-7 px-6">
-        {/* Logo com efeito de glow */}
-        <div className="flex justify-center mb-6">
-          <div className="relative group">
-            {/* Glow effect */}
-            <div className="absolute -inset-2 bg-gradient-to-br from-orange-400/20 to-orange-600/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="relative w-16 h-16 rounded-2xl overflow-hidden ring-2 ring-zinc-200/50 dark:ring-zinc-700/50 shadow-xl transition-all duration-500 group-hover:ring-orange-300/50 dark:group-hover:ring-orange-600/30 group-hover:shadow-orange-500/20 group-hover:scale-[1.02]">
-              <Image
-                src="/images/grupo_roveri_logo.jpg"
-                alt="Grupo Roveri"
-                width={64}
-                height={64}
-                className="w-full h-full object-cover"
-                priority
-              />
-            </div>
-          </div>
-        </div>
-
         {/* Tela principal - Operador */}
         {loginMode === "main" && (
           <div className="space-y-6">
