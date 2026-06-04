@@ -138,21 +138,23 @@ export const LoginForm = memo(function LoginForm() {
       </div>
 
       <CardContent className="pt-4 pb-7 px-6">
-        {/* Logo P R C.J */}
+        {/* Avatar de atendente */}
         <div className="flex justify-center mb-6">
           <div className="relative group">
             {/* Glow effect */}
-            <div className="absolute -inset-2 bg-gradient-to-br from-orange-400/20 to-orange-600/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="relative w-16 h-16 rounded-2xl overflow-hidden ring-2 ring-zinc-200/50 dark:ring-zinc-700/50 shadow-xl transition-all duration-500 group-hover:ring-orange-300/50 dark:group-hover:ring-orange-600/30 group-hover:shadow-orange-500/20 group-hover:scale-[1.02]">
+            <div className="absolute -inset-3 bg-gradient-to-br from-orange-400/30 to-amber-500/30 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="relative w-20 h-20 rounded-full overflow-hidden ring-3 ring-orange-200/60 dark:ring-orange-700/40 shadow-xl transition-all duration-500 group-hover:ring-orange-400/70 dark:group-hover:ring-orange-500/50 group-hover:shadow-orange-500/30 group-hover:scale-105">
               <Image
-                src="/images/logo-p-rcj.png"
-                alt="Logo P R C.J"
-                width={64}
-                height={64}
+                src="/images/telemarketing-avatar.png"
+                alt="Atendente"
+                width={80}
+                height={80}
                 className="w-full h-full object-cover"
                 priority
               />
             </div>
+            {/* Badge online */}
+            <div className="absolute -bottom-0.5 -right-0.5 w-5 h-5 bg-green-500 rounded-full border-3 border-white dark:border-zinc-900 shadow-lg animate-pulse" />
           </div>
         </div>
 
