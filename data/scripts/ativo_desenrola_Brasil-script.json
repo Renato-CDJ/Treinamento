@@ -51,6 +51,15 @@
           { "label": "NÃO TEM", "next": "cdes1_finalizacao_terceiro" }
         ]
       },
+      "cdes1_recado": {
+        "id": "cdes1_recado",
+        "title": "Recado",
+        "body": "Por favor, solicite que o (Cliente) entre em contato com a Central de Negócios da CAIXA, nos telefones 0800 025 8833 ou 4020-0088<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "tabulacao": ["RECADO COM TERCEIRO"],
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes1_fim", "primary": true }
+        ]
+      },
       "cdes1_falecido": {
         "id": "cdes1_faleceu",
         "title": "Falecido",
@@ -290,7 +299,7 @@
       "cdes1_aceite_boleto": {
         "id": "cdes1_aceite_boleto",
         "title": "Aceite com Emissão de Boleto",
-        "body": "Perfeito, [Primeiro nome do cliente]. Vou registrar seu aceite e emitir o boleto agora mesmo.<br><br>Você prefere receber o boleto por E-mail ou Whatsapp?<br><br>Assim que o pagamento for identificado, o contrato entra em processo de regularização.",
+        "body": "Perfeito, [Primeiro nome do cliente]. Vou registrar seu aceite e emitir o boleto agora mesmo.<br><br>Assim que o pagamento for identificado, o contrato entra em processo de regularização.",
         "tabulacao": ["ACEITA AÇÃO/CAMPANHA COM EMISSÃO DE BOLETO"],
         "buttons": [
           { "label": "CONTINUAR", "next": "cdes1_restricao_apostas", "primary": true }
@@ -311,16 +320,17 @@
         "body": "Caso haja algum impedimento, o acordo não será acatado.<br><br>[Primeiro nome do cliente], você está ciente de que ficará impedido de fazer apostas em jogos online por um ano?",
         "tabulacao": ["ACEITA AÇÃO/CAMPANHA COM EMISSÃO DE BOLETO", "ACEITA AÇÃO/CAMPANHA SEM EMISSÃO DE BOLETO"],
         "buttons": [
-          { "label": "CIENTE", "next": "cdes1_conres", "primary": true }
+          { "label": "CIENTE", "next": "cdes1_conres", "primary": true },
+          { "label": "RECUSOU", "next": "cdes1_recusa", "primary": true }
         ]
       },
       "cdes1_conres": {
         "id": "cdes1_conres",
         "title": "Perda de Capital",
-        "body": "Devido ao desconto concedido e considerando que o valor do boleto é inferior ao valor original da dívida, não será possível obter novos créditos na CAIXA pelo período de 5 anos.<br><br>Para cartão de crédito, a restrição será de 3 anos.",
+        "body": "Devido ao desconto concedido e considerando que o valor do boleto é inferior ao valor original da dívida, não será possível obter novos créditos na CAIXA pelo período de 5 anos.<br><br>Para cartão de crédito, a restrição será de 3 anos.<br><br>Você prefere receber o boleto por E-mail ou Whatsapp?",
         "tabulacao": ["ACEITA AÇÃO/CAMPANHA COM EMISSÃO DE BOLETO", "ACEITA AÇÃO/CAMPANHA SEM EMISSÃO DE BOLETO"],
         "buttons": [
-          { "label": "AVANÇAR", "next": "cdes1_finalizacao_aceite", "primary": true },
+          { "label": "ACEITE", "next": "cdes1_finalizacao_aceite", "primary": true },
           { "label": "CIENTE NÃO QUER A RESTRIÇÃO DE 3 OU 5 ANOS", "next": "cdes1_restricao", "primary": true }
         ]
       },

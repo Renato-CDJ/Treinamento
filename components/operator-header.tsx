@@ -16,7 +16,7 @@ import {
   EyeOff,
   Home,
   Hash,
-  Filter,
+  ChevronRight,
   Bell,
   FileText,
   ListChecks,
@@ -31,8 +31,6 @@ import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList } from "@
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { useTheme } from "next-themes"
 import { Badge } from "@/components/ui/badge"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Label } from "@/components/ui/label"
 import { QualityCenterModal } from "@/components/quality-center-modal"
 import { OperatorInitialGuideModal } from "@/components/operator-initial-guide-modal"
 import { OperatorResultCodesModal } from "@/components/operator-result-codes-modal"
@@ -73,8 +71,6 @@ export const OperatorHeader = memo(function OperatorHeader({
   const { messages: messagesData } = useCachedMessages()
   
   const [showProductSearch, setShowProductSearch] = useState(false)
-  const [selectedAttendanceTypes, setSelectedAttendanceTypes] = useState<string[]>([])
-  const [selectedPersonTypes, setSelectedPersonTypes] = useState<string[]>([])
   const [showMessagesModal, setShowMessagesModal] = useState(false)
   const [showInitialGuideModal, setShowInitialGuideModal] = useState(false)
   const [showResultCodesModal, setShowResultCodesModal] = useState(false)
@@ -114,48 +110,44 @@ export const OperatorHeader = memo(function OperatorHeader({
     setTheme(theme === "dark" ? "light" : "dark")
   }, [theme, setTheme])
 
-  const handleSearchInput = useCallback((value: string) => {
-    setShowProductSearch(value.length > 0)
-  }, [])
+  const handleSearchInput = useCallback(
+    (value: string) => {
+      onSearchChange?.(value)
+      setShowProductSearch(value.length > 0)
+    },
+    [onSearchChange],
+  )
 
   const handleProductSelect = useCallback(
     (productId: string) => {
       setShowProductSearch(false)
       onSearchChange?.("")
       onProductSelect?.(productId)
-      setSelectedAttendanceTypes([])
-      setSelectedPersonTypes([])
     },
     [onSearchChange, onProductSelect],
   )
 
-  const toggleAttendanceType = useCallback((type: string) => {
-    setSelectedAttendanceTypes((prev) => (prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]))
-  }, [])
-
-  const togglePersonType = useCallback((type: string) => {
-    setSelectedPersonTypes((prev) => (prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]))
-  }, [])
+  const normalize = (value: string) =>
+    value
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
 
   const filteredProducts = useMemo(() => {
-    return products.filter((product) => {
-      if (selectedAttendanceTypes.length === 0 && selectedPersonTypes.length === 0) {
-        return false
-      }
+    const query = normalize(searchQuery.trim())
+    if (!query) return []
 
-      const matchesAttendance =
-        selectedAttendanceTypes.length === 0 ||
-        (product.attendanceTypes && product.attendanceTypes.some((type: string) => selectedAttendanceTypes.includes(type)))
+    return products
+      .filter((product) => {
+        const haystack = normalize(
+          [product.name, product.category, ...(product.attendanceTypes || []), ...(product.personTypes || [])].join(" "),
+        )
+        return haystack.includes(query)
+      })
+      .slice(0, 50)
+  }, [products, searchQuery])
 
-      const matchesPerson =
-        selectedPersonTypes.length === 0 ||
-        (product.personTypes && product.personTypes.some((type: string) => selectedPersonTypes.includes(type)))
-
-      return matchesAttendance && matchesPerson
-    })
-  }, [products, selectedAttendanceTypes, selectedPersonTypes])
-
-  const hasFiltersSelected = selectedAttendanceTypes.length > 0 || selectedPersonTypes.length > 0
+  const hasQuery = searchQuery.trim().length > 0
 
   return (
     <>
@@ -182,139 +174,93 @@ export const OperatorHeader = memo(function OperatorHeader({
                       />
                     </div>
                   </PopoverTrigger>
-                  <PopoverContent className="w-[90vw] max-w-[650px] p-0 border-border shadow-lg" align="start">
-                    <Command className="bg-popover">
+                  <PopoverContent
+                    className="w-[90vw] max-w-[650px] p-0 border-border shadow-lg"
+                    align="start"
+                    onOpenAutoFocus={(e) => e.preventDefault()}
+                    onCloseAutoFocus={(e) => e.preventDefault()}
+                  >
+                    <Command className="bg-popover" shouldFilter={false}>
                       <CommandList className="max-h-[500px]">
-                        <div className="p-4 border-b bg-muted/30 space-y-4">
-                          <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
-                            <Filter className="h-4 w-4 text-primary" />
-                            <span>Filtrar Produtos</span>
-                          </div>
-
-                          <div className="grid grid-cols-2 gap-6">
-                            <div className="space-y-3">
-                              <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-                                Tipo de Atendimento
-                              </div>
-                              <div className="space-y-2.5">
-                                <div className="flex items-center gap-2.5 group">
-                                  <Checkbox
-                                    id="ativo"
-                                    checked={selectedAttendanceTypes.includes("ativo")}
-                                    onCheckedChange={() => toggleAttendanceType("ativo")}
-                                    className="data-[state=checked]:bg-chart-2 data-[state=checked]:border-chart-2"
-                                  />
-                                  <Label
-                                    htmlFor="ativo"
-                                    className="text-sm font-medium cursor-pointer group-hover:text-foreground transition-colors"
-                                  >
-                                    Ativo
-                                  </Label>
-                                </div>
-                                <div className="flex items-center gap-2.5 group">
-                                  <Checkbox
-                                    id="receptivo"
-                                    checked={selectedAttendanceTypes.includes("receptivo")}
-                                    onCheckedChange={() => toggleAttendanceType("receptivo")}
-                                    className="data-[state=checked]:bg-chart-2 data-[state=checked]:border-chart-2"
-                                  />
-                                  <Label
-                                    htmlFor="receptivo"
-                                    className="text-sm font-medium cursor-pointer group-hover:text-foreground transition-colors"
-                                  >
-                                    Receptivo
-                                  </Label>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className="space-y-3">
-                              <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-                                Tipo de Pessoa
-                              </div>
-                              <div className="space-y-2.5">
-                                <div className="flex items-center gap-2.5 group">
-                                  <Checkbox
-                                    id="fisica"
-                                    checked={selectedPersonTypes.includes("fisica")}
-                                    onCheckedChange={() => togglePersonType("fisica")}
-                                    className="data-[state=checked]:bg-chart-3 data-[state=checked]:border-chart-3"
-                                  />
-                                  <Label
-                                    htmlFor="fisica"
-                                    className="text-sm font-medium cursor-pointer group-hover:text-foreground transition-colors"
-                                  >
-                                    Física
-                                  </Label>
-                                </div>
-                                <div className="flex items-center gap-2.5 group">
-                                  <Checkbox
-                                    id="juridica"
-                                    checked={selectedPersonTypes.includes("juridica")}
-                                    onCheckedChange={() => togglePersonType("juridica")}
-                                    className="data-[state=checked]:bg-chart-3 data-[state=checked]:border-chart-3"
-                                  />
-                                  <Label
-                                    htmlFor="juridica"
-                                    className="text-sm font-medium cursor-pointer group-hover:text-foreground transition-colors"
-                                  >
-                                    Jurídica
-                                  </Label>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          {hasFiltersSelected && (
-                            <div className="flex items-center gap-2 pt-2">
-                              <Badge variant="secondary" className="text-xs">
-                                {filteredProducts.length} produto(s) encontrado(s)
-                              </Badge>
-                            </div>
-                          )}
-                        </div>
-
-                        {!hasFiltersSelected ? (
+                        {!hasQuery ? (
                           <div className="py-12 text-center">
-                            <Filter className="h-12 w-12 text-muted-foreground/40 mx-auto mb-3" />
+                            <Search className="h-12 w-12 text-muted-foreground/40 mx-auto mb-3" />
                             <p className="text-sm text-muted-foreground font-medium">
-                              Selecione os filtros acima para ver os produtos
+                              Digite o nome do script que deseja encontrar
                             </p>
                             <p className="text-xs text-muted-foreground/70 mt-1">
-                              Escolha pelo menos um tipo de atendimento ou pessoa
+                              As opções vão aparecer conforme você escreve
                             </p>
                           </div>
                         ) : filteredProducts.length === 0 ? (
                           <CommandEmpty className="py-12 text-center">
                             <div className="text-sm text-muted-foreground">
-                              Nenhum produto encontrado com os filtros selecionados.
+                              Nenhum produto encontrado para &quot;{searchQuery}&quot;.
                             </div>
                           </CommandEmpty>
                         ) : (
                           <CommandGroup
-                            heading="Produtos Disponíveis"
-                            className="p-2 [&_[cmdk-group-heading]]:bg-transparent [&_[cmdk-group-heading]]:text-foreground"
+                            heading={`${filteredProducts.length} produto(s) encontrado(s)`}
+                            className="p-2 [&_[cmdk-group-heading]]:bg-transparent [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group-heading]]:font-semibold [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wide [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-2"
                           >
-                            {filteredProducts.map((product) => (
-                              <CommandItem
-                                key={product.id}
-                                onSelect={() => handleProductSelect(product.id)}
-                                className="cursor-pointer rounded-lg p-3 mb-1.5 hover:bg-accent/50 transition-colors border border-transparent hover:border-border"
-                              >
-                                <div className="flex items-center gap-3 w-full">
-                                  <div className="flex-shrink-0">
-                                    <div className="h-8 w-8 rounded-md bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
-                                      <Hash className="h-4 w-4 text-zinc-600 dark:text-zinc-400" />
+                            {filteredProducts.map((product) => {
+                              const attendanceTypes: string[] = product.attendanceTypes || []
+                              const personTypes: string[] = product.personTypes || []
+                              return (
+                                <CommandItem
+                                  key={product.id}
+                                  value={product.id}
+                                  onSelect={() => handleProductSelect(product.id)}
+                                  className="cursor-pointer rounded-lg p-3 mb-1.5 transition-colors border border-transparent hover:bg-orange-500/10 hover:border-orange-500/30 data-[selected=true]:bg-orange-500/10 data-[selected=true]:border-orange-500/30"
+                                >
+                                  <div className="flex items-start gap-3 w-full">
+                                    <div className="flex-shrink-0 mt-0.5">
+                                      <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center">
+                                        <Hash className="h-4 w-4 text-primary" />
+                                      </div>
                                     </div>
-                                  </div>
-                                  <div className="flex-1 min-w-0">
-                                    <div className="font-medium text-sm text-foreground leading-tight">
-                                      {product.name}
+                                    <div className="flex-1 min-w-0">
+                                      <div className="font-semibold text-sm text-foreground leading-snug">
+                                        {product.name}
+                                      </div>
+                                      {(attendanceTypes.length > 0 || personTypes.length > 0 || product.category) && (
+                                        <div className="flex flex-wrap items-center gap-1.5 mt-2">
+                                          {attendanceTypes.includes("ativo") && (
+                                            <Badge className="text-[10px] px-2 py-0.5 bg-chart-2/15 text-chart-2 border border-chart-2/30 hover:bg-chart-2/15">
+                                              Ativo
+                                            </Badge>
+                                          )}
+                                          {attendanceTypes.includes("receptivo") && (
+                                            <Badge className="text-[10px] px-2 py-0.5 bg-chart-1/15 text-chart-1 border border-chart-1/30 hover:bg-chart-1/15">
+                                              Receptivo
+                                            </Badge>
+                                          )}
+                                          {personTypes.includes("fisica") && (
+                                            <Badge className="text-[10px] px-2 py-0.5 bg-chart-3/15 text-chart-3 border border-chart-3/30 hover:bg-chart-3/15">
+                                              Física
+                                            </Badge>
+                                          )}
+                                          {personTypes.includes("juridica") && (
+                                            <Badge className="text-[10px] px-2 py-0.5 bg-chart-4/15 text-chart-4 border border-chart-4/30 hover:bg-chart-4/15">
+                                              Jurídica
+                                            </Badge>
+                                          )}
+                                          {product.category && (
+                                            <Badge
+                                              variant="secondary"
+                                              className="text-[10px] px-2 py-0.5 font-normal"
+                                            >
+                                              {product.category}
+                                            </Badge>
+                                          )}
+                                        </div>
+                                      )}
                                     </div>
+                                    <ChevronRight className="h-4 w-4 text-muted-foreground/50 flex-shrink-0 mt-2" />
                                   </div>
-                                </div>
-                              </CommandItem>
-                            ))}
+                                </CommandItem>
+                              )
+                            })}
                           </CommandGroup>
                         )}
                       </CommandList>

@@ -162,7 +162,8 @@
         "buttons": [
           { "label": "ACEITOU", "next": "hab532_ratificacao_aceite", "primary": true },
           { "label": "NÃO", "next": "hab532_recusa" },
-          { "label": "CLIENTE INFORMOU DATA QUE VAI PAGAR", "next": "hab532_ratificacao_aceite" }
+          { "label": "CLIENTE INFORMOU QUE VAI PAGAR DENTRO DO D+9", "next": "hab532_ratificacao_aceite" },
+          { "label": "CLIENTE INFORMOU QUE VAI PAGAR FORA DO D+9", "next": "hab532_recusa" }
         ]
       },
       "hab532_recusa": {

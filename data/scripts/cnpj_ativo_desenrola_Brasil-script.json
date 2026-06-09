@@ -1,0 +1,390 @@
+{
+  "marcas": {
+      "CDES4 - DESENROLA BRASIL ATIVO": {
+      "cdes4_abordagem": {
+        "id": "cdes4_abordagem",
+        "title": "Abordagem Ativa",
+        "body": "Olá, falo com o sócio ou responsável da empresa?",
+        "tabulacao": ["LIGAÇÃO CAIU", "LIGAÇÃO MUDA"],
+        "buttons": [
+          { "label": "SIM, É O CLIENTE", "next": "cdes4_identificacao", "primary": true },
+          { "label": "NÃO É O CLIENTE", "next": "cdes4_terceiro" },
+          { "label": "NINGUÉM FALOU NADA", "next": "cdes4_sem_resposta" }
+        ]
+      },
+      "cdes4_terceiro": {
+        "id": "cdes4_terceiro",
+        "title": "Terceiro",
+        "body": "Só para confirmar, esse número não pertence à <b>[Sócio ou Responsável da Empresa]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Sócio ou Responsável da Empresa]</b>?",
+        "tabulacao": ["LIGAÇÃO CAIU", "DESCONHECIDO NO TELEFONE"],
+        "buttons": [
+          { "label": "CONHECE O CLIENTE", "next": "cdes4_terceiro_conhece", "primary": true },
+          { "label": "NÃO CONHECE", "next": "cdes4_nao_conhece" },
+          { "label": "FALECIDO", "next": "cdes4_faleceu" }
+        ]
+      },
+      "cdes4_sem_resposta": {
+        "id": "cdes4_sem_resposta",
+        "title": "Cliente/Terceiro não responde",
+        "body": "Por falta de comunicação encerro o contato.",
+        "tabulacao": ["LIGAÇÃO MUDA"],
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes4_fim", "primary": true }
+        ]
+      },
+      "cdes4_desconhecido": {
+        "id": "cdes4_nao_conhece",
+        "title": "Finalização",
+        "body": "Peço desculpas pelo incômodo. A CAIXA agradece, tenha um bom dia/tarde/noite.",
+        "tabulacao": ["DESCONHECIDO NO TELEFONE"],
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes4_fim", "primary": true }
+        ]
+      },
+      "cdes4_terceiro_conhece": {
+        "id": "cdes4_terceiro_conhece",
+        "title": "Terceiro",
+        "body": "Teria um melhor número ou horário para falar com o (Sócio ou Responsável da Empresa)?",
+        "tabulacao": ["RECADO COM TERCEIRO"],
+        "buttons": [
+          { "label": "SIM", "next": "cdes4_recado", "primary": true },
+          { "label": "NÃO TEM", "next": "cdes4_finalizacao_terceiro" }
+        ]
+      },
+      "cdes4_recado": {
+        "id": "cdes4_recado",
+        "title": "Recado",
+        "body": "Por favor, solicite que o sócio ou responsável da empresa entre em contato com a Central de Negócios da CAIXA, nos telefones 0800 025 8833 ou 4020-0088<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "tabulacao": ["RECADO COM TERCEIRO"],
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes4_fim", "primary": true }
+        ]
+      },
+      "cdes4_falecido": {
+        "id": "cdes4_faleceu",
+        "title": "Falecido",
+        "body": "É necessário que o herdeiro ou inventariante compareça à agência levando a certidão de óbito para saber sobre o assunto.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "tabulacao": ["FALECIDO"],
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes4_fim", "primary": true }
+        ]
+      },
+      "cdes4_finalizacao_terceiro": {
+        "id": "cdes4_finalizacao_terceiro",
+        "title": "Finalização",
+        "body": "Por favor, solicite que o sócio ou responsável da empresa entre em contato com a Central de Negócios da CAIXA, nos telefones 0800 025 8833 ou 4020-0088<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "tabulacao": ["RECADO COM TERCEIRO"],
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes4_fim", "primary": true }
+        ]
+      },
+      "cdes4_identificacao": {
+        "id": "cdes4_identificacao",
+        "title": "Identifique-se",
+        "body": "Aqui é o [nome do operador] eu falo da Central de Negócios da CAIXA. Tudo bem?",
+        "tabulacao": ["LIGAÇÃO CAIU"],
+        "buttons": [
+          { "label": "AVANÇAR", "next": "cdes4_identificacao_parte2", "primary": true }
+        ]
+      },
+      "cdes4_identificacao_parte2": {
+        "id": "cdes4_identificacao_parte2",
+        "title": "Confirmação do CNPJ",
+        "body": "Para sua segurança, essa ligação está sendo gravada.<br>Eu sou do Grupo Roveri e, por questões de sigilo bancário, preciso confirmar alguns dados.<br>Vou te dizer os (5) cinco primeiros números do seu CNPJ e você completa com os demais, os primeiros números são: [XXXXX], qual o restante?",
+        "tabulacao": ["LIGAÇÃO CAIU", "PESSOA NÃO CONFIRMA DADOS"],
+        "buttons": [
+          { "label": "CONFIRMOU CNPJ", "next": "cdes4_nome_completo_cliente", "primary": true },
+          { "label": "RECUSOU CONFIRMAR", "next": "cdes4_nao_confirma" }
+        ]
+      },
+      "cdes4_nao_confirma": {
+        "id": "cdes4_nao_confirma",
+        "title": "Sócio ou responsável não quer confirmar o CNPJ",
+        "body": "<b>PESSOA QUESTIONA O MOTIVO DO CONTATO:</b> Esse contato é sobre o relacionamento com a CAIXA, após a confirmação dos dados, irei fornecer todos os detalhes. Os 5 primeiros números do CNPJ são: (XXXXX), qual o restante?<br><br><b>PESSOA QUESTIONA SOBRE A CONFIRMAÇÃO DE DADOS:</b> A confirmação é para sua segurança. Vou informar os 5 primeiros dígitos, e você completa os restantes para proteger seus dados. Os 5 primeiros números do CNPJ são: [XXXXX], Qual o restante?<br><br><b>PESSOA QUESTIONA O MOTIVO DO CONTATO:</b> Não posso informar o motivo do contato sem confirmar seus dados primeiro, para proteger suas informações e evitar que sejam compartilhadas com terceiros. Podemos seguir com a confirmação?",
+        "tabulacao": ["LIGAÇÃO CAIU", "PESSOA NÃO CONFIRMA DADOS"],
+        "buttons": [
+          { "label": "CONFIRMOU CNPJ", "next": "cdes4_nome_completo_cliente", "primary": true },
+          { "label": "RECUSOU NOVAMENTE", "next": "cdes4_nao_confirmou" },
+          { "label": "CLIENTE PEDIU PARA LIGAR DEPOIS", "next": "cdes4_nao_confirma_cnpj_pede_retorno" },
+          { "label": "CLIENTE NÃO CONSEGUE FALAR NO MOMENTO", "next": "cdes4_nao_confirmou_nao_consegue_falar_no_momento" },
+          { "label": "CLIENTE NÃO LEMBRA O CNPJ", "next": "cdes4_nao_lembra_o_cnpj" },
+          { "label": "CLIENTE FALA QUE VAI NA AGÊNCIA", "next": "cdes4_nao_confirmou" }
+        ]
+      },
+      "cdes4_nao_lembra_o_cnpj": {
+        "id": "cdes4_nao_lembra_o_cnpj",
+        "title": "Finalização",
+        "body": "Como você não lembra, vou retornar nesse mesmo número mais tarde para te passar os detalhes do assunto",
+        "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
+        "buttons": [
+          { "label": "CLIENTE CONCORDOU", "next": "cdes4_nao_lembra_o_cnpj_parte2", "primary": true },
+          { "label": "CLIENTE INSEGURO SOBRE NOSSA EMPRESA", "next": "cdes4_questiona_origem" },
+          { "label": "FINALIZAR", "next": "cdes4_fim", "primary": true }
+        ]
+      },
+      "cdes4_nao_lembra_o_cnpj_parte2": {
+        "id": "cdes4_nao_lembra_o_cnpj_parte2",
+        "title": "Finalização",
+        "body": "A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes4_fim", "primary": true }
+        ]
+      },
+      "cdes4_nao_confirma_cnpj_pede_retorno": {
+        "id": "cdes4_nao_confirma_cnpj_pede_retorno",
+        "title": "Finalização",
+        "body": "Certo, vou retornar nesse mesmo número mais tarde para te passar os detalhes do assunto. A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "tabulacao": ["RECADO COM TERCEIRO"],
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes4_fim", "primary": true }
+        ]
+      },
+      "cdes4_nao_confirmou_nao_consegue_falar_no_momento": {
+        "id": "cdes4_nao_confirmou_nao_consegue_falar_no_momento",
+        "title": "Finalização",
+        "body": "Certo, vou retornar nesse mesmo número mais tarde para te passar os detalhes do assunto. A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes4_fim", "primary": true }
+        ]
+      },
+      "cdes4_nao_confirmou_vai_na_agencia": {
+        "id": "cdes4_nao_confirmou_vai_na_agencia",
+        "title": "Finalização",
+        "body": "(Nome do sócio ou responsável da empresa), então você pode entrar em contato com esses números que vou te passar para saber o assunto que é: 0800 104 0104, 0800 025 8833 ou 4020 0088.",
+        "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes4_fim", "primary": true }
+        ]
+      },
+      "cdes4_nao_confirmou": {
+        "id": "cdes4_nao_confirmou",
+        "title": "Finalização",
+        "body": "(Nome do sócio ou responsável da empresa), então você pode entrar em contato com esses números que vou te passar para saber o assunto que é: 0800 104 0104, 0800 025 8833 ou 4020 0088.",
+        "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes4_fim", "primary": true }
+        ]
+      },
+      "cdes4_questiona_origem": {
+        "id": "cdes4_questiona_origem",
+        "title": "Cliente questiona origem do contato",
+        "body": "A Roveri é autorizada pela CAIXA a realizar o contato. Se você estiver inseguro sobre a nossa empresa, você pode acessar o site da CAIXA e confirmar www.caixa.gov.br/voce/negociacao/telefones e ver em Empresas terceirizadas o nome da ROVERI.",
+        "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes4_fim", "primary": true }
+        ]
+      },
+      "cdes4_nome_completo_cliente": {
+        "id": "cdes4_nome_completo_cliente",
+        "title": "Confirme o nome completo do cliente",
+        "body": "Obrigado(a), pela confirmação. Seu nome completo é (nome completo do sócio ou responsável da empresa)?",
+        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO"],
+        "buttons": [
+          { "label": "CONFIRMADO", "next": "cdes4_abordagem_desenrola", "primary": true }
+        ]
+      },
+      "cdes4_abordagem_desenrola": {
+        "id": "cdes4_abordagem_desenrola",
+        "title": "Novo Desenrola Brasil",
+        "body": "Aqui em nosso sistema consta o seu [nome do contrato] em aberto há aproximadamente XX dias, no valor de R$XX,XX.<br>Já houve o pagamento?",
+        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JÁ EFETUADO"],
+        "buttons": [
+          { "label": "CLIENTE ELEGÍVEL", "next": "cdes4_cliente_elegivel", "primary": true },
+          { "label": "CLIENTE NÃO ELEGÍVEL - Perguntou do Desenrola", "next": "cdes4_cliente_nao_elegivel" },
+          { "label": "JÁ PAGOU", "next": "cdes4_pagamento_efetuado_sem_oferta" }
+        ]
+      },
+      "cdes4_pagamento_efetuado_sem_oferta": {
+        "id": "cdes4_pagamento_efetuado_sem_oferta",
+        "title": "Pagamento Já Efetuado",
+        "body": "Caso seu pagamento tenha sido efetuado há menos de 5 dias úteis, possivelmente não foi atualizado pelo sistema, mas caso tenha mais de 5 dias úteis você pode esclarecer pelo WhatsApp 0800 104 0104.<br><br>ATENÇÃO!<br><br>Peço que aguarde em linha para avaliar a qualidade do nosso atendimento.<br><br>A CAIXA agradece a sua atenção e deseja um ótimo dia/tarde/noite.",
+        "tabulacao": ["PAGAMENTO JÁ EFETUADO"],
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes4_fim", "primary": true }
+        ]
+      },
+      "cdes4_cliente_nao_elegivel": {
+        "id": "cdes4_cliente_nao_elegivel",
+        "title": "Cliente NÂO Elegível",
+        "body": "Nesse momento específico, o Novo Desenrola Brasil, não está disponível para esse contrato, mas eu já consigo verificar as melhores condições vigentes no nosso sistema para você regularizar agora.",
+        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO"],
+        "buttons": [
+          { "label": "OFERTA COMUM - Cliente NÂO Elegível", "next": "cdes4_oferta_comum", "primary": true },
+          { "label": "RECUSOU", "next": "cdes4_cliente_recusou_oferta_comum" }
+        ]
+      },
+      "cdes4_cliente_recusou_oferta_comum": {
+        "id": "cdes4_cliente_recusou_oferta_comum",
+        "title": "Cliente NÂO Elegível",
+        "body": "Sem problemas!<br>Fica registrado que hoje você optou por não seguir com a regularização. Sempre que quiser, a CAIXA permanece à disposição para te apoiar na reorganização financeira.<br><br>Peço que você aguarde em linha para avaliar a qualidade do nosso atendimento. A CAIXA agradece a sua atenção edeseja um ótimo(a) dia/tarde/noite.",
+        "tabulacao": ["SEM CAPACIDADE DE PAGAMENTO", "CONTATO SEM NEGOCIAÇÃO"],
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes4_fim", "primary": true }
+        ]
+      },
+      "cdes4_oferta_comum": {
+        "id": "cdes4_oferta_comum",
+        "title": "OFERTA COMUM - Cliente NÂO Elegível",
+        "body": "Peça um momento ao Cliente e utilize o script [COMERCIAL] para apresentar as condições disponíveis para o cliente",
+        "tabulacao": [],
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes4_fim", "primary": true }
+        ]
+      },
+      "cdes4_cliente_elegivel": {
+        "id": "cdes4_cliente_elegivel",
+        "title": "Cliente Elegível",
+        "body": "[Primeiro nome do cliente], você faz parte de um grupo de clientes elegíveis que pode aproveitar o Novo Desenrola Brasil para regularização de dívidas com condições especiais e temporárias.",
+        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO"],
+        "buttons": [
+          { "label": "APRESENTAR OFERTA - SINEB", "next": "cdes4_apresentacao_sineb", "primary": true },
+          { "label": "APRESENTAR OFERTA - CARTÃO", "next": "cdes4_apresentacao_cartao", "primary": true }
+        ]
+      },
+      "cdes4_apresentacao_sineb": {
+        "id": "cdes4_apresentacao_sineb",
+        "title": "Apresentação da Oferta",
+        "body": "A CAIXA está oferecendo uma oportunidade de renegociação pensada para quem precisa de mais fôlego financeiro, chamado Novo Desenrola Brasil. Você regulariza sua situação fazendo o pagamento a vista com um desconto especial no valor de RS XX,XX.<br><br>Você aceita a proposta?",
+        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO"],
+        "buttons": [
+          { "label": "ACEITOU À VISTA", "next": "cdes4_aceite_boleto", "primary": true },
+          { "label": "ACEITOU PARCELADO", "next": "cdes4_cliente_aceite_parcelado", "primary": true },
+          { "label": "BOLETO INDISPONÍVEL", "next": "cdes4_aceite_sem_boleto" },
+          { "label": "RECUSOU", "next": "cdes4_recusa" },
+          { "label": "JÁ PAGOU", "next": "cdes4_pagamento_efetuado_com_oferta" }
+        ]
+      }, 
+      "cdes4_apresentacao_cartao": {
+        "id": "cdes4_apresentacao_cartao",
+        "title": "Apresentação da Oferta",
+        "body": "A CAIXA está oferecendo uma oportunidade de renegociação pensada para quem precisa de mais fôlego financeiro, chamado Novo Desenrola Brasil. Você regulariza sua situação fazendo o pagamento a vista com um desconto especial no valor de RS XX,XX.<br><br>Você aceita a proposta?",
+        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO"],
+        "buttons": [
+          { "label": "ACEITOU À VISTA", "next": "cdes4_aceite_boleto", "primary": true },
+          { "label": "ACEITOU PARCELADO", "next": "cdes4_cliente_aceite_parcelado", "primary": true },
+          { "label": "BOLETO INDISPONÍVEL", "next": "cdes4_aceite_sem_boleto" },
+          { "label": "RECUSOU", "next": "cdes4_recusa" },
+          { "label": "JÁ PAGOU", "next": "cdes4_pagamento_efetuado_com_oferta" }
+        ]
+      },
+      "cdes4_cliente_aceite_parcelado": {
+        "id": "cdes4_cliente_aceite_parcelado",
+        "title": "Cliente Elegível - Parcelamento do Desconto",
+        "body": "Para dar continuidade às opções de parcelamento, seu atendimento será encaminhado ao segundo nível, responsável pela formalização da proposta. A equipe entrará em contato para avaliar as possibilidades, tudo bem?",
+        "tabulacao": ["ACEITA AÇÃO/CAMPANHA COM PARCELAMENTO"],
+        "buttons": [
+          { "label": "AVANÇAR", "next": "cdes4_cliente_aceite_parcelado_atualizacao_cadastral", "primary": true }
+        ]
+      },
+      "cdes4_cliente_aceite_parcelado_atualizacao_cadastral": {
+        "id": "cdes4_cliente_aceite_parcelado_atualizacao_cadastral",
+        "title": "Atualização para envio da Proposta",
+        "body": "Para envio da proposta, poderia me confirmar seu WhatsApp e endereço de e mail?",
+        "tabulacao": ["ACEITA AÇÃO/CAMPANHA COM PARCELAMENTO"],
+        "buttons": [
+          { "label": "AVANÇAR", "next": "cdes4_cliente_aceite_parcelado_pesquisa", "primary": true }
+        ]
+      },
+      "cdes4_cliente_aceite_parcelado_pesquisa": {
+        "id": "cdes4_cliente_aceite_parcelado_pesquisa",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar a qualidade do nosso atendimento.<br><br>A CAIXA agradece a sua atenção e deseja um ótimo dia/tarde/noite.",
+        "tabulacao": ["ACEITA AÇÃO/CAMPANHA COM PARCELAMENTO"],
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes4_fim", "primary": true }
+        ]
+      },
+      "cdes4_aceite_boleto": {
+        "id": "cdes4_aceite_boleto",
+        "title": "Aceite com Emissão de Boleto",
+        "body": "Perfeito, [Primeiro nome do cliente]. Vou registrar seu aceite e emitir o boleto agora mesmo.<br><br>Assim que o pagamento for identificado, o contrato entra em processo de regularização.",
+        "tabulacao": ["ACEITA AÇÃO/CAMPANHA COM EMISSÃO DE BOLETO"],
+        "buttons": [
+          { "label": "CONTINUAR", "next": "cdes4_restricao_apostas", "primary": true }
+        ]
+      },
+      "cdes4_aceite_sem_boleto": {
+        "id": "cdes4_aceite_sem_boleto",
+        "title": "Aceite sem Emissão de Boleto",
+        "body": "Vou registrar seu aceite referente a proposta.<br><br>Como o boleto não está disponível, seu atendimento será encaminhado ao segundo nível para continuidade.<br><br>Por favor, confirme seu WhatsApp e E-mail.",
+        "tabulacao": ["ACEITA AÇÃO/CAMPANHA SEM EMISSÃO DE BOLETO"],
+        "buttons": [
+          { "label": "CONTINUAR", "next": "cdes4_restricao_apostas", "primary": true }
+        ]
+      },
+      "cdes4_restricao_apostas": {
+        "id": "cdes4_restricao_apostas",
+        "title": "Frase Obrigatória",
+        "body": "Caso haja algum impedimento, o acordo não será acatado.<br><br>[Primeiro nome do cliente], você está ciente de que ficará impedido de fazer apostas em jogos online por um ano?",
+        "tabulacao": ["ACEITA AÇÃO/CAMPANHA COM EMISSÃO DE BOLETO", "ACEITA AÇÃO/CAMPANHA SEM EMISSÃO DE BOLETO"],
+        "buttons": [
+          { "label": "CIENTE", "next": "cdes4_conres", "primary": true },
+          { "label": "RECUSOU", "next": "cdes4_recusa", "primary": true }
+        ]
+      },
+      "cdes4_conres": {
+        "id": "cdes4_conres",
+        "title": "Perda de Capital",
+        "body": "Devido ao desconto concedido e considerando que o valor do boleto é inferior ao valor original da dívida, não será possível obter novos créditos na CAIXA pelo período de 5 anos.<br><br>Para cartão de crédito, a restrição será de 3 anos.<br><br>Você prefere receber o boleto por E-mail ou Whatsapp?",
+        "tabulacao": ["ACEITA AÇÃO/CAMPANHA COM EMISSÃO DE BOLETO", "ACEITA AÇÃO/CAMPANHA SEM EMISSÃO DE BOLETO"],
+        "buttons": [
+          { "label": "ACEITE", "next": "cdes4_finalizacao_aceite", "primary": true },
+          { "label": "CIENTE NÃO QUER A RESTRIÇÃO DE 3 OU 5 ANOS", "next": "cdes4_restricao", "primary": true }
+        ]
+      },
+      "cdes4_restricao": {
+        "id": "cdes4_restricao",
+        "title": "Finalização",
+        "body": "Para continuar o relacionamento com a CAIXA deve ser pago o valor R$ XXX [descrito no SINEB como “à prazo” e no SIACT é o valor já ofertado fora do desconto]. Nesse caso será necessário acessar o site Negociar Dívidas: https://www.negociardividas.caixa.gov.br para negociação nessas condições. Pagando esse valor você continua aproveitando os serviços e comodidade que a CAIXA oferece.<br><br>Peço que aguarde em linha para avaliar a qualidade do nosso atendimento.<br><br>A CAIXA agradece a sua atenção e deseja um ótimo dia/tarde/noite.",
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes4_fim", "primary": true }
+        ]
+      },
+      "cdes4_recusa": {
+        "id": "cdes4_recusa",
+        "title": "Recusa",
+        "body": "Sem problemas, [Primeiro nome do cliente]. Fica registrado que hoje você optou por não seguir com a regularização.",
+        "tabulacao": ["RECUSA AÇÃO/CAMPANHA + RESULTADO COM MOTIVO DA RECUSA"],
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes4_finalizacao_recusa", "primary": true }
+        ]
+      },
+      "cdes4_pagamento_efetuado_com_oferta": {
+        "id": "cdes4_pagamento_efetuado_com_oferta",
+        "title": "Pagamento Já Efetuado",
+        "body": "Caso seu pagamento tenha sido efetuado há menos de 5 dias úteis, possivelmente não foi atualizado pelo sistema, mas caso tenha mais de 5 dias úteis você pode esclarecer pelo WhatsApp 0800 104 0104.<br><br>ATENÇÃO!<br><br>Peço que aguarde em linha para avaliar a qualidade do nosso atendimento.<br><br>A CAIXA agradece a sua atenção e deseja um ótimo dia/tarde/noite.",
+        "tabulacao": ["RECUSA AÇÃO/CAMPANHA + PAGAMENTO JÁ EFETUADO"],
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes4_fim", "primary": true }
+        ]
+      },
+      "cdes4_finalizacao_aceite": {
+        "id": "cdes4_finalizacao_aceite",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar a qualidade do nosso atendimento.<br><br>A CAIXA agradece a sua atenção e deseja um ótimo dia/tarde/noite.",
+        "tabulacao": ["ACEITA AÇÃO/CAMPANHA COM EMISSÃO DE BOLETO", "ACEITA AÇÃO/CAMPANHA SEM EMISSÃO DE BOLETO"],
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes4_fim", "primary": true }
+        ]
+      },
+      "cdes4_finalizacao_recusa": {
+        "id": "cdes4_finalizacao_recusa",
+        "title": "Finalização",
+        "body": "A CAIXA agradece a sua atenção e deseja um ótimo dia/tarde/noite.",
+        "tabulacao": ["RECUSA AÇÃO/CAMPANHA + RESULTADO COM MOTIVO DA RECUSA"],
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes4_fim", "primary": true }
+        ]
+      },
+      "cdes4_fim": {
+        "id": "cdes4_fim",
+        "title": "Fim",
+        "body": "Atendimento encerrado.",
+        "tabulacao": [],
+        "buttons": []
+      }
+    }
+  }
+}
