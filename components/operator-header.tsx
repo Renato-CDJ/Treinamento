@@ -211,7 +211,7 @@ export const OperatorHeader = memo(function OperatorHeader({
                                   key={product.id}
                                   value={product.id}
                                   onSelect={() => handleProductSelect(product.id)}
-                                  className="cursor-pointer rounded-lg p-3 mb-1.5 hover:bg-accent transition-colors border border-transparent hover:border-border data-[selected=true]:bg-accent data-[selected=true]:border-border"
+                                  className="cursor-pointer rounded-lg p-3 mb-1.5 transition-colors border border-transparent hover:bg-orange-500/10 hover:border-orange-500/30 data-[selected=true]:bg-orange-500/10 data-[selected=true]:border-orange-500/30"
                                 >
                                   <div className="flex items-start gap-3 w-full">
                                     <div className="flex-shrink-0 mt-0.5">
