@@ -16,6 +16,7 @@ import {
   EyeOff,
   Home,
   Hash,
+  ChevronRight,
   Bell,
   FileText,
   ListChecks,
@@ -173,7 +174,12 @@ export const OperatorHeader = memo(function OperatorHeader({
                       />
                     </div>
                   </PopoverTrigger>
-                  <PopoverContent className="w-[90vw] max-w-[650px] p-0 border-border shadow-lg" align="start">
+                  <PopoverContent
+                    className="w-[90vw] max-w-[650px] p-0 border-border shadow-lg"
+                    align="start"
+                    onOpenAutoFocus={(e) => e.preventDefault()}
+                    onCloseAutoFocus={(e) => e.preventDefault()}
+                  >
                     <Command className="bg-popover" shouldFilter={false}>
                       <CommandList className="max-h-[500px]">
                         {!hasQuery ? (
@@ -195,7 +201,7 @@ export const OperatorHeader = memo(function OperatorHeader({
                         ) : (
                           <CommandGroup
                             heading={`${filteredProducts.length} produto(s) encontrado(s)`}
-                            className="p-2 [&_[cmdk-group-heading]]:bg-transparent [&_[cmdk-group-heading]]:text-foreground [&_[cmdk-group-heading]]:font-semibold"
+                            className="p-2 [&_[cmdk-group-heading]]:bg-transparent [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group-heading]]:font-semibold [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wide [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-2"
                           >
                             {filteredProducts.map((product) => {
                               const attendanceTypes: string[] = product.attendanceTypes || []
@@ -205,44 +211,44 @@ export const OperatorHeader = memo(function OperatorHeader({
                                   key={product.id}
                                   value={product.id}
                                   onSelect={() => handleProductSelect(product.id)}
-                                  className="cursor-pointer rounded-lg p-3 mb-1.5 hover:bg-accent/50 transition-colors border border-transparent hover:border-border"
+                                  className="cursor-pointer rounded-lg p-3 mb-1.5 hover:bg-accent transition-colors border border-transparent hover:border-border data-[selected=true]:bg-accent data-[selected=true]:border-border"
                                 >
-                                  <div className="flex items-center gap-3 w-full">
-                                    <div className="flex-shrink-0">
-                                      <div className="h-8 w-8 rounded-md bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
-                                        <Hash className="h-4 w-4 text-zinc-600 dark:text-zinc-400" />
+                                  <div className="flex items-start gap-3 w-full">
+                                    <div className="flex-shrink-0 mt-0.5">
+                                      <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center">
+                                        <Hash className="h-4 w-4 text-primary" />
                                       </div>
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                      <div className="font-medium text-sm text-foreground leading-tight truncate">
+                                      <div className="font-semibold text-sm text-foreground leading-snug">
                                         {product.name}
                                       </div>
                                       {(attendanceTypes.length > 0 || personTypes.length > 0 || product.category) && (
-                                        <div className="flex flex-wrap items-center gap-1.5 mt-1.5">
+                                        <div className="flex flex-wrap items-center gap-1.5 mt-2">
                                           {attendanceTypes.includes("ativo") && (
-                                            <Badge className="text-[10px] px-1.5 py-0 bg-chart-2/15 text-chart-2 border border-chart-2/30 hover:bg-chart-2/15">
+                                            <Badge className="text-[10px] px-2 py-0.5 bg-chart-2/15 text-chart-2 border border-chart-2/30 hover:bg-chart-2/15">
                                               Ativo
                                             </Badge>
                                           )}
                                           {attendanceTypes.includes("receptivo") && (
-                                            <Badge className="text-[10px] px-1.5 py-0 bg-chart-2/15 text-chart-2 border border-chart-2/30 hover:bg-chart-2/15">
+                                            <Badge className="text-[10px] px-2 py-0.5 bg-chart-1/15 text-chart-1 border border-chart-1/30 hover:bg-chart-1/15">
                                               Receptivo
                                             </Badge>
                                           )}
                                           {personTypes.includes("fisica") && (
-                                            <Badge className="text-[10px] px-1.5 py-0 bg-chart-3/15 text-chart-3 border border-chart-3/30 hover:bg-chart-3/15">
+                                            <Badge className="text-[10px] px-2 py-0.5 bg-chart-3/15 text-chart-3 border border-chart-3/30 hover:bg-chart-3/15">
                                               Física
                                             </Badge>
                                           )}
                                           {personTypes.includes("juridica") && (
-                                            <Badge className="text-[10px] px-1.5 py-0 bg-chart-3/15 text-chart-3 border border-chart-3/30 hover:bg-chart-3/15">
+                                            <Badge className="text-[10px] px-2 py-0.5 bg-chart-4/15 text-chart-4 border border-chart-4/30 hover:bg-chart-4/15">
                                               Jurídica
                                             </Badge>
                                           )}
                                           {product.category && (
                                             <Badge
                                               variant="secondary"
-                                              className="text-[10px] px-1.5 py-0 font-normal"
+                                              className="text-[10px] px-2 py-0.5 font-normal"
                                             >
                                               {product.category}
                                             </Badge>
@@ -250,6 +256,7 @@ export const OperatorHeader = memo(function OperatorHeader({
                                         </div>
                                       )}
                                     </div>
+                                    <ChevronRight className="h-4 w-4 text-muted-foreground/50 flex-shrink-0 mt-2" />
                                   </div>
                                 </CommandItem>
                               )
