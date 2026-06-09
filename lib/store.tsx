@@ -436,14 +436,6 @@ const MOCK_TABULATIONS: Tabulation[] = [
     createdAt: new Date(),
   },
   {
-    id: "tab-19a",
-    name: "ACEITA AÇÃO/CAMPANHA COM PARCELAMENTO",
-    description:
-      "Deve ser utilizado especificamente para o registro de aceites relacionados a propostas de parcelamento no âmbito do Desenrola Brasil.",
-    color: "#16a34a",
-    createdAt: new Date(),
-  },
-  {
     id: "tab-20",
     name: "CLIENTE COM ACORDO ATIVO RETORNA NO RECEPTIVO",
     description:
