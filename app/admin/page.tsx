@@ -9,6 +9,7 @@ import { useAuth } from "@/lib/auth-context"
 import { Loader2, Sparkles } from "lucide-react"
 
 const ScriptsTab = lazy(() => import("@/components/admin-tabs/scripts-tab").then((m) => ({ default: m.ScriptsTab })))
+const ScriptBuilderTab = lazy(() => import("@/components/admin-tabs/script-builder-tab").then((m) => ({ default: m.ScriptBuilderTab })))
 const ScriptLibraryTab = lazy(() => import("@/components/admin-tabs/script-library-tab").then((m) => ({ default: m.ScriptLibraryTab })))
 const ProductsTab = lazy(() => import("@/components/admin-tabs/products-tab").then((m) => ({ default: m.ProductsTab })))
 const AttendanceTypesTab = lazy(() =>
@@ -86,6 +87,12 @@ const AdminContent = memo(function AdminContent() {
         return (
           <Suspense fallback={<LoadingFallback />}>
             <ScriptsTab />
+          </Suspense>
+        )
+      case "script-builder":
+        return (
+          <Suspense fallback={<LoadingFallback />}>
+            <ScriptBuilderTab />
           </Suspense>
         )
       case "script-library":

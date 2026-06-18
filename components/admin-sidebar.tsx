@@ -27,6 +27,7 @@ import {
   MapPin,
   ChevronRight,
   Sparkles,
+  Workflow,
 } from "lucide-react"
 import { useAuth } from "@/lib/auth-context"
 import { useRouter } from "next/navigation"
@@ -52,6 +53,7 @@ const menuItems: {
 }[] = [
   { id: "operator-view", label: "Visualizar Roteiro", icon: FileText, permission: "scripts", onlyForSupervisaoOrMonitoria: true, category: "conteudo" },
   { id: "scripts", label: "Roteiros", icon: FileText, permission: "scripts", hideForSupervisao: true, category: "conteudo" },
+  { id: "script-builder", label: "Criar Novo Roteiro", icon: Workflow, permission: "scripts", hideForSupervisao: true, category: "conteudo" },
   { id: "script-library", label: "Biblioteca de Roteiros", icon: BookOpen, permission: "scripts", hideForSupervisao: true, category: "conteudo" },
   { id: "products", label: "Produtos", icon: Package, permission: "products", category: "conteudo" },
   { id: "campaigns", label: "Campanhas", icon: Megaphone, permission: "products", category: "conteudo" },
