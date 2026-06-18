@@ -32,6 +32,8 @@ import {
   Link2,
   PanelsTopLeft,
   Loader2,
+  Network,
+  List,
 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { getPersonTypes } from "@/lib/store"
@@ -39,6 +41,7 @@ import { importScriptsFromJson } from "@/hooks/use-supabase-admin"
 import { createClient } from "@/lib/supabase/client"
 import type { PersonTypeOption, ScriptStep } from "@/lib/types"
 import { cn } from "@/lib/utils"
+import { ScriptFlowCanvas, type NodePosition } from "@/components/admin-tabs/script-flow-canvas"
 
 interface BuilderButton {
   id: string
@@ -105,9 +108,34 @@ export function ScriptBuilderTab() {
   const [selectedKey, setSelectedKey] = useState<string>(() => "")
   const [showPreview, setShowPreview] = useState(false)
 
+  // Builder mode: "list" (classic) or "canvas" (visual interligado)
+  const [builderMode, setBuilderMode] = useState<"list" | "canvas">("list")
+  const [positions, setPositions] = useState<Record<string, NodePosition>>({})
+
   useEffect(() => {
     setPersonTypeOptions(getPersonTypes())
   }, [])
+
+  // Keep a position for every screen on the canvas, and drop stale ones
+  useEffect(() => {
+    setPositions((prev) => {
+      let changed = false
+      const next: Record<string, NodePosition> = { ...prev }
+      screens.forEach((s, i) => {
+        if (!next[s.key]) {
+          next[s.key] = { x: 80 + (i % 3) * 320, y: 60 + Math.floor(i / 3) * 260 }
+          changed = true
+        }
+      })
+      Object.keys(next).forEach((k) => {
+        if (!screens.some((s) => s.key === k)) {
+          delete next[k]
+          changed = true
+        }
+      })
+      return changed ? next : prev
+    })
+  }, [screens])
 
   useEffect(() => {
     // Ensure a screen is always selected
@@ -124,6 +152,15 @@ export function ScriptBuilderTab() {
     setScreens((prev) => [...prev, newScreen])
     setSelectedKey(newScreen.key)
     setShowPreview(false)
+  }
+
+  const setNodePosition = (key: string, pos: NodePosition) => {
+    setPositions((prev) => ({ ...prev, [key]: pos }))
+  }
+
+  // Connect (or disconnect) a button to a target screen via the canvas
+  const connectButton = (fromKey: string, btnId: string, toKey: string | null) => {
+    updateButton(fromKey, btnId, { next: toKey })
   }
 
   const duplicateScreen = (key: string) => {
@@ -523,20 +560,89 @@ export function ScriptBuilderTab() {
       </Card>
 
       {/* Step 2: Construtor de fluxo */}
-      <div className="flex items-center gap-3">
-        <div className="flex items-center justify-center h-8 w-8 rounded-lg bg-gradient-to-br from-orange-500 to-orange-600 text-white text-sm font-bold shadow-sm">
-          2
+      <div className="flex items-start justify-between gap-3 flex-wrap">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center justify-center h-8 w-8 rounded-lg bg-gradient-to-br from-orange-500 to-orange-600 text-white text-sm font-bold shadow-sm">
+            2
+          </div>
+          <div>
+            <h3 className="text-base font-semibold text-foreground">Construa o Fluxo</h3>
+            <p className="text-sm text-muted-foreground">
+              Adicione telas, escreva o conteúdo e conecte os botões para criar o caminho do atendimento
+            </p>
+          </div>
         </div>
-        <div>
-          <h3 className="text-base font-semibold text-foreground">Construa o Fluxo</h3>
-          <p className="text-sm text-muted-foreground">
-            Adicione telas, escreva o conteúdo e conecte os botões para criar o caminho do atendimento
-          </p>
+
+        {/* Mode switch: Lista (clássico) x Visual (interligar telas) */}
+        <div className="inline-flex items-center rounded-lg border border-border/60 bg-muted/40 p-1">
+          <button
+            type="button"
+            onClick={() => {
+              setBuilderMode("list")
+              setShowPreview(false)
+            }}
+            className={cn(
+              "inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-all",
+              builderMode === "list"
+                ? "bg-background text-foreground shadow-sm"
+                : "text-muted-foreground hover:text-foreground",
+            )}
+          >
+            <List className="h-4 w-4" />
+            Modo Lista
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setBuilderMode("canvas")
+              setShowPreview(false)
+            }}
+            className={cn(
+              "inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-all",
+              builderMode === "canvas"
+                ? "bg-background text-foreground shadow-sm"
+                : "text-muted-foreground hover:text-foreground",
+            )}
+          >
+            <Network className="h-4 w-4" />
+            Modo Visual
+          </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-5">
-        {/* Flow map (left) */}
+      {/* Canvas mode: interligar telas visualmente */}
+      {builderMode === "canvas" && (
+        <ScriptFlowCanvas
+          screens={screens.map((s) => ({
+            key: s.key,
+            title: s.title,
+            isStart: s.isStart,
+            buttons: s.buttons.map((b) => ({ id: b.id, label: b.label, next: b.next, primary: b.primary })),
+            alertMessage: s.alertMessage,
+          }))}
+          positions={positions}
+          selectedKey={selectedKey}
+          onSelect={(key) => {
+            setSelectedKey(key)
+            setShowPreview(false)
+          }}
+          onMove={setNodePosition}
+          onConnect={connectButton}
+          onAddScreen={addScreen}
+          onAddButton={addButton}
+          onSetStart={setAsStart}
+          onRemoveScreen={removeScreen}
+        />
+      )}
+
+      <div
+        className={cn(
+          "grid grid-cols-1 gap-5",
+          builderMode === "list" && "lg:grid-cols-[320px_1fr]",
+        )}
+      >
+        {/* Flow map (left) — only in list mode */}
+        {builderMode === "list" && (
         <div className="space-y-3">
           <Card className="border-border/60 shadow-sm">
             <CardHeader className="pb-3">
@@ -660,6 +766,7 @@ export function ScriptBuilderTab() {
             </CardContent>
           </Card>
         </div>
+        )}
 
         {/* Editor / Preview (right) */}
         <div>
