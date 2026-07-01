@@ -14,7 +14,7 @@
       "clt_terceiro": {
         "id": "clt_terceiro",
         "title": "Terceiro",
-        "body": "Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
+        "body": "Aqui é o [nome do operador] eu falo da Central de Negócios da CAIXA<br><br>Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
         "buttons": [
           { "label": "SIM", "next": "clt_terceiro_conhece", "primary": true },
           { "label": "NÃO CONHECE", "next": "clt_nao_conhece" },
@@ -155,7 +155,7 @@
       "clt_atualizacao_cadastral_nao_reconhece": {
         "id": "clt_atualizacao_cadastral_nao_reconhece",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "clt_pesquisa_satisfacao_nao_reconhece", "primary": true }
         ]
@@ -179,7 +179,7 @@
       "clt_atualizacao_cadastral_nao_houve_desconto_em_folha": {
         "id": "clt_atualizacao_cadastral_nao_houve_desconto_em_folha",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "clt_pesquisa_satisfacao_nao_houve_desconto_em_folha", "primary": true }
         ]
@@ -203,7 +203,7 @@
       "clt_atualizacao_cadastral_contestacao_da_dívida": {
         "id": "clt_atualizacao_cadastral_contestacao_da_dívida",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "clt_pesquisa_satisfacao_contestacao_da_dívida", "primary": true }
         ]
@@ -227,7 +227,7 @@
       "clt_atualizacao_cadastral_descontada_mas_não_repassada": {
         "id": "clt_atualizacao_cadastral_descontada_mas_não_repassada",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "clt_pesquisa_satisfacao_descontada_mas_não_repassada", "primary": true }
         ]
@@ -260,7 +260,7 @@
       "clt_atualizacao_cadastral_recusa": {
         "id": "clt_atualizacao_cadastral_recusa",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "clt_pesquisa_satisfacao_recusa", "primary": true }
         ]
@@ -284,7 +284,7 @@
       "clt_atualizacao_cadastral_aceitou": {
         "id": "clt_atualizacao_cadastral_aceitou",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "clt_pesquisa_satisfacao_aceitou", "primary": true }
         ]

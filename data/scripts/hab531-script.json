@@ -14,7 +14,7 @@
       "hab531_terceiro": {
         "id": "hab531_terceiro",
         "title": "Terceiro",
-        "body": "Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
+        "body": "Aqui é o [nome do operador] eu falo da Central de Negócios da CAIXA<br><br>Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
         "buttons": [
           { "label": "SIM", "next": "hab531_terceiro_conhece", "primary": true },
           { "label": "NÃO CONHECE", "next": "hab531_nao_conhece" },
@@ -167,7 +167,7 @@
       "hab531_atualizacao_cadastral_recusa": {
         "id": "hab531_atualizacao_cadastral_recusa",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab531_pesquisa_satisfacao_recusa", "primary": true }
         ]
@@ -200,7 +200,7 @@
       "hab531_atualizacao_cadastral_boleto_indisponivel": {
         "id": "hab531_atualizacao_cadastral_boleto_indisponivel",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab531_pesquisa_satisfacao_boleto_indisponivel", "primary": true }
         ]
@@ -241,7 +241,7 @@
       "hab531_atualizacao_cadastral_aceitou": {
         "id": "hab531_atualizacao_cadastral_aceitou",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab531_pesquisa_satisfacao_aceitou", "primary": true }
         ]
@@ -265,7 +265,7 @@
       "hab531_atualizacao_cadastral": {
         "id": "hab531_atualizacao_cadastral",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab531_pesquisa_satisfacao", "primary": true }
         ]

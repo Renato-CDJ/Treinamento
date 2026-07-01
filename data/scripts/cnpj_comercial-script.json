@@ -14,7 +14,7 @@
       "cnpj_comercial_terceiro": {
         "id": "cnpj_comercial_terceiro",
         "title": "Terceiro",
-        "body": "Só para confirmar, esse número não pertence à [Sócio ou Responsável da Empresa]?<br><br>Em caso negativo:<br>Entendi. E você conhece [Sócio ou Responsável da Empresa]?",
+        "body": "Aqui é o [nome do operador] eu falo da Central de Negócios da CAIXA<br><br>Só para confirmar, esse número não pertence à [Sócio ou Responsável da Empresa]?<br><br>Em caso negativo:<br>Entendi. E você conhece [Sócio ou Responsável da Empresa]?",
         "buttons": [
           { "label": "SIM", "next": "cnpj_comercial_terceiro_conhece", "primary": true },
           { "label": "NÃO CONHECE", "next": "cnpj_comercial_nao_conhece" },
@@ -65,7 +65,7 @@
       "cnpj_comercial_finalizacao_terceiro": {
         "id": "cnpj_comercial_finalizacao_terceiro",
         "title": "Finalização",
-        "body": "Por favor, solicite que o (sócio ou responsável) entre em contato com a Central de Negócios da CAIXA, nos telefones 0800 025 8833 ou 4020-0088<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
+        "body": "Por favor, solicite que o sócio ou responsável da empresa entre em contato com a Central de Negócios da CAIXA, nos telefones 0800 025 8833 ou 4020-0088<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
         "buttons": [
           { "label": "FINALIZAR", "next": "cnpj_comercial_fim", "primary": true }
         ]
@@ -178,7 +178,7 @@
       "cnpj_comercial_recusa_novamente": {
         "id": "cnpj_comercial_recusa_novamente",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "cnpj_comercial_pesquisa_satisfacao_recusa", "primary": true }
         ]
@@ -220,7 +220,7 @@
       "cnpj_comercial_atualizacao_cadastral_aceite": {
         "id": "cnpj_comercial_atualizacao_cadastral_aceite",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "cnpj_comercial_pesquisa_satisfacao_aceite", "primary": true }
         ]
@@ -261,7 +261,7 @@
       "cnpj_comercial_atualizacao_cadastral": {
         "id": "cnpj_comercial_atualizacao_cadastral",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "cnpj_comercial_pesquisa_satisfacao", "primary": true }
         ]

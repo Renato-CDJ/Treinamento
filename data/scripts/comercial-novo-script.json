@@ -15,7 +15,7 @@
       "contratos_terceiro": {
         "id": "contratos_terceiro",
         "title": "Terceiro",
-        "body": "Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
+        "body": "Aqui é o [nome do operador] eu falo da Central de Negócios da CAIXA<br><br>Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
         "tabulacao": ["LIGAÇÃO CAIU", "DESCONHECIDO NO TELEFONE"],
         "buttons": [
           { "label": "CONHECE O CLIENTE", "next": "contratos_terceiro_conhece", "primary": true },
@@ -289,7 +289,7 @@
       "atualizacao_cadastral_pagamento_efetuado": {
         "id": "atualizacao_cadastral_pagamento_efetuado",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "tabulacao": ["PAGAMENTO JÁ EFETUADO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "pesquisa_satisfacao_pagamento_efetuado", "primary": true }
@@ -344,7 +344,7 @@
       "cheque_especial_caixa_atualizacao_cadastral_pagamento": {
         "id": "cheque_especial_caixa_atualizacao_cadastral_pagamento",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "cheque_especial_caixa_pesquisa_satisfacao_pagamento", "primary": true }
@@ -353,7 +353,7 @@
       "cheque_especial_caixa_pesquisa_satisfacao_pagamento": {
         "id": "cheque_especial_caixa_pesquisa_satisfacao_pagamento",
         "title": "Pesquisa de Satisfação",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
         "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO"],
         "buttons": [
           { "label": "FINALIZAR", "next": "cheque_especial_caixa_fim", "primary": true }
@@ -372,7 +372,7 @@
       "cheque_especial_caixa_atualizacao_cadastral_opcao_recusa": {
         "id": "cheque_especial_caixa_atualizacao_cadastral_opcao_recusa",
         "title": "Atualização Cadastral",
-        "body": "Ok! Vou deixar registrado o seu posicionamento.<br><br>Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Ok! Vou deixar registrado o seu posicionamento.<br><br>Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "tabulacao": ["SEM CAPACIDADE DE PAGAMENTO", "CONTATO SEM NEGOCIAÇÃO", "PESSOA SOLICITA RETORNO EM OUTRO MOMENTO", "DÍVIDA NÃO RECONHECIDA"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "cheque_especial_caixa_pesquisa_satisfacao_opcao_recusa", "primary": true }
@@ -418,7 +418,7 @@
       "contratos_negociou_com_agencia_atualizacao_cadastral": {
         "id": "contratos_negociou_com_agencia_atualizacao_cadastral",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "tabulacao": ["NEGOCIAÇÃO EM OUTRO CANAL"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "contratos_negociou_com_agencia_pesquisa_satisfacao", "primary": true }
@@ -427,7 +427,7 @@
       "contratos_negociou_com_agencia_pesquisa_satisfacao": {
         "id": "contratos_negociou_com_agencia_pesquisa_satisfacao",
         "title": "Pesquisa de Satisfação",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
         "tabulacao": ["NEGOCIAÇÃO EM OUTRO CANAL"],
         "buttons": [
           { "label": "FINALIZAR", "next": "contratos_fim", "primary": true }
@@ -445,7 +445,7 @@
       "contratos_vai_negociar_com_agencia_atualizacao_cadastral": {
         "id": "contratos_vai_negociar_com_agencia_atualizacao_cadastral",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "tabulacao": ["CONTATO SEM NEGOCIAÇÃO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "contratos_vai_negociar_com_agencia_pesquisa_satisfacao", "primary": true }
@@ -454,7 +454,7 @@
       "contratos_vai_negociar_com_agencia_pesquisa_satisfacao": {
         "id": "contratos_vai_negociar_com_agencia_pesquisa_satisfacao",
         "title": "Pesquisa de Satisfação",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
         "tabulacao": ["CONTATO SEM NEGOCIAÇÃO"],
         "buttons": [
           { "label": "FINALIZAR", "next": "contratos_fim", "primary": true }
@@ -472,7 +472,7 @@
       "contratos_desconhece_divida_atualizacao_cadastral": {
         "id": "contratos_desconhece_divida_atualizacao_cadastral",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "tabulacao": ["DÍVIDA NÃO RECONHECIDA"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "contratos_desconhece_divida_pesquisa_satisfacao", "primary": true }
@@ -481,7 +481,7 @@
       "contratos_desconhece_divida_pesquisa_satisfacao": {
         "id": "contratos_desconhece_divida_pesquisa_satisfacao",
         "title": "Pesquisa de Satisfação",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
         "tabulacao": ["DÍVIDA NÃO RECONHECIDA"],
         "buttons": [
           { "label": "FINALIZAR", "next": "contratos_fim", "primary": true }
@@ -500,7 +500,7 @@
       "contratos_sem_previsao_atualizacao_cadastral": {
         "id": "contratos_sem_previsao_atualizacao_cadastral",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "tabulacao": ["SEM CAPACIDADE DE PAGAMENTO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "contratos_sem_previsao_pesquisa_satisfacao", "primary": true }
@@ -509,7 +509,7 @@
       "contratos_sem_previsao_pesquisa_satisfacao": {
         "id": "contratos_sem_previsao_pesquisa_satisfacao",
         "title": "Pesquisa de Satisfação",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
         "tabulacao": ["SEM CAPACIDADE DE PAGAMENTO"],
         "buttons": [
           { "label": "FINALIZAR", "next": "contratos_fim", "primary": true }
@@ -528,7 +528,7 @@
       "contratos_recusa_ate_30_dias": {
         "id": "contratos_recusa_ate_30_dias",
         "title": "Oferte o pagamento dentro do prazo máximo que é D+9 de forma gradativa!",
-        "body": "Para evitar os juros diários, o pagamento ficaria bom pra você até dia XX/XX?",
+        "body": "Para evitar os juros diários, o pagamento ficaria bom pra você no dia XX/XX?<br><br><b>CASO O CLIENTE RECUSE, OFERTE NOVAMENTE PARA UMA OUTRA DATA:</b><br>Para te ajudar e evitar a restrição do seu CPF/CNPJ no SPC/SERASA, o pagamento ficaria melhor pra você até dia XX/XX?",
         "tabulacao": [],
         "buttons": [
           { "label": "ACEITOU", "next": "contratos_ratificacao_aceite" },
@@ -548,7 +548,7 @@
       "contratos_atualizacao_cadastral_opcao_recusa": {
         "id": "contratos_atualizacao_cadastral_opcao_recusa",
         "title": "Atualização Cadastral",
-        "body": "Vou deixar registrado o seu posicionamento.<br><br>Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Vou deixar registrado o seu posicionamento.<br><br>Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "tabulacao": ["SEM CAPACIDADE DE PAGAMENTO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "contratos_pesquisa_satisfacao_opcao_recusa", "primary": true }
@@ -605,7 +605,7 @@
       "contratos_atualizacao_cadastral_aceite": {
         "id": "contratos_atualizacao_cadastral_aceite",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSÃO DE BOLETO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "contratos_pesquisa_satisfacao_aceite", "primary": true }

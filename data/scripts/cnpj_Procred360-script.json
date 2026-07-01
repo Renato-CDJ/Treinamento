@@ -14,7 +14,7 @@
       "procred360cnpj_comercial_terceiro": {
         "id": "procred360cnpj_comercial_terceiro",
         "title": "Terceiro",
-        "body": "Só para confirmar, esse número não pertence à [Sócio ou Responsável da Empresa]?<br><br>Em caso negativo:<br>Entendi. E você conhece [Sócio ou Responsável da Empresa]?",
+        "body": "Aqui é o [nome do operador] eu falo da Central de Negócios da CAIXA<br><br>Só para confirmar, esse número não pertence à [Sócio ou Responsável da Empresa]?<br><br>Em caso negativo:<br>Entendi. E você conhece [Sócio ou Responsável da Empresa]?",
         "buttons": [
           { "label": "SIM", "next": "procred360cnpj_comercial_terceiro_conhece", "primary": true },
           { "label": "NÃO CONHECE", "next": "procred360cnpj_comercial_nao_conhece" },

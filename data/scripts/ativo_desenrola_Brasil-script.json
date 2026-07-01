@@ -15,7 +15,7 @@
       "cdes1_terceiro": {
         "id": "cdes1_terceiro",
         "title": "Terceiro",
-        "body": "Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
+        "body": "Aqui é o [nome do operador] eu falo da Central de Negócios da CAIXA<br><br>Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
         "tabulacao": ["LIGAÇÃO CAIU", "DESCONHECIDO NO TELEFONE"],
         "buttons": [
           { "label": "CONHECE O CLIENTE", "next": "cdes1_terceiro_conhece", "primary": true },
@@ -308,7 +308,7 @@
       "cdes1_aceite_sem_boleto": {
         "id": "cdes1_aceite_sem_boleto",
         "title": "Aceite sem Emissão de Boleto",
-        "body": "Vou registrar seu aceite referente a proposta.<br><br>Como o boleto não está disponível, seu atendimento será encaminhado ao segundo nível para continuidade.<br><br>Por favor, confirme seu WhatsApp e E-mail.",
+        "body": "Vou registrar seu aceite referente a proposta.<br><br>Como o boleto não está disponível, seu atendimento será encaminhado ao segundo nível para continuidade. Eles vão entrar em contato para finalizar, tudo bem?<br><br>Para envio da proposta, poderia me confirmar seu WhatsApp e endereço de e-mail?",
         "tabulacao": ["ACEITA AÇÃO/CAMPANHA SEM EMISSÃO DE BOLETO"],
         "buttons": [
           { "label": "CONTINUAR", "next": "cdes1_restricao_apostas", "primary": true }
@@ -320,32 +320,23 @@
         "body": "Caso haja algum impedimento, o acordo não será acatado.<br><br>[Primeiro nome do cliente], você está ciente de que ficará impedido de fazer apostas em jogos online por um ano?",
         "tabulacao": ["ACEITA AÇÃO/CAMPANHA COM EMISSÃO DE BOLETO", "ACEITA AÇÃO/CAMPANHA SEM EMISSÃO DE BOLETO"],
         "buttons": [
-          { "label": "CIENTE", "next": "cdes1_conres", "primary": true },
+          { "label": "CIENTE", "next": "envio_boleto_aceite", "primary": true },
           { "label": "RECUSOU", "next": "cdes1_recusa", "primary": true }
         ]
       },
-      "cdes1_conres": {
-        "id": "cdes1_conres",
-        "title": "Perda de Capital",
-        "body": "Devido ao desconto concedido e considerando que o valor do boleto é inferior ao valor original da dívida, não será possível obter novos créditos na CAIXA pelo período de 5 anos.<br><br>Para cartão de crédito, a restrição será de 3 anos.<br><br>Você prefere receber o boleto por E-mail ou Whatsapp?",
+      "envio_boleto_aceite": {
+        "id": "envio_boleto_aceite",
+        "title": "Envio de Boleto",
+        "body": "Você prefere receber o boleto por E-mail ou Whatsapp?",
         "tabulacao": ["ACEITA AÇÃO/CAMPANHA COM EMISSÃO DE BOLETO", "ACEITA AÇÃO/CAMPANHA SEM EMISSÃO DE BOLETO"],
         "buttons": [
-          { "label": "ACEITE", "next": "cdes1_finalizacao_aceite", "primary": true },
-          { "label": "CIENTE NÃO QUER A RESTRIÇÃO DE 3 OU 5 ANOS", "next": "cdes1_restricao", "primary": true }
-        ]
-      },
-      "cdes1_restricao": {
-        "id": "cdes1_restricao",
-        "title": "Finalização",
-        "body": "Para continuar o relacionamento com a CAIXA deve ser pago o valor R$ XXX [descrito no SINEB como “à prazo” e no SIACT é o valor já ofertado fora do desconto]. Nesse caso será necessário acessar o site Negociar Dívidas: https://www.negociardividas.caixa.gov.br para negociação nessas condições. Pagando esse valor você continua aproveitando os serviços e comodidade que a CAIXA oferece.<br><br>Peço que aguarde em linha para avaliar a qualidade do nosso atendimento.<br><br>A CAIXA agradece a sua atenção e deseja um ótimo dia/tarde/noite.",
-        "buttons": [
-          { "label": "FINALIZAR", "next": "cdes1_fim", "primary": true }
+          { "label": "AVANÇAR", "next": "cdes1_finalizacao_aceite", "primary": true }
         ]
       },
       "cdes1_recusa": {
         "id": "cdes1_recusa",
         "title": "Recusa",
-        "body": "Sem problemas, [Primeiro nome do cliente]. Fica registrado que hoje você optou por não seguir com a regularização.",
+        "body": "Essa proposta é por tempo limitado caso mude de ideia ligar para os números 0800 025 8833 ou 4020-0088.<br><br>[Primeiro nome do cliente], fica registrado que hoje você optou por não seguir com a regularização.",
         "tabulacao": ["RECUSA AÇÃO/CAMPANHA + RESULTADO COM MOTIVO DA RECUSA"],
         "buttons": [
           { "label": "FINALIZAR", "next": "cdes1_finalizacao_recusa", "primary": true }

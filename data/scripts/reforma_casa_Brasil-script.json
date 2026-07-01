@@ -14,7 +14,7 @@
       "reforma_casa_brasil_terceiro": {
         "id": "reforma_casa_brasil_terceiro",
         "title": "Terceiro",
-        "body": "Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
+        "body": "Aqui é o [nome do operador] eu falo da Central de Negócios da CAIXA<br><br>Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
         "buttons": [
           { "label": "SIM", "next": "reforma_casa_brasil_terceiro_conhece", "primary": true },
           { "label": "NÃO CONHECE", "next": "reforma_casa_brasil_desconhecido" },
@@ -195,7 +195,7 @@
       "reforma_casa_brasil_atualizacao_cadastral_recusa": {
         "id": "reforma_casa_brasil_atualizacao_cadastral_recusa",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "reforma_casa_brasil_pesquisa_satisfacao_recusa", "primary": true }
         ]
@@ -245,7 +245,7 @@
       "reforma_casa_brasil_atualizacao_cadastral_aceite": {
         "id": "reforma_casa_brasil_atualizacao_cadastral_aceite",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "reforma_casa_brasil_pesquisa_satisfacao_aceite", "primary": true }
         ]
@@ -275,7 +275,7 @@
       "reforma_casa_brasil_atualizacao_cadastral": {
         "id": "reforma_casa_brasil_atualizacao_cadastral",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "reforma_casa_brasil_pesquisa_satisfacao", "primary": true }
         ]

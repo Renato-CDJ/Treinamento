@@ -14,7 +14,7 @@
       "cartao1_terceiro": {
         "id": "cartao1_terceiro",
         "title": "Terceiro",
-        "body": "Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
+        "body": "Aqui é o [nome do operador] eu falo da Central de Negócios da CAIXA<br><br>Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
         "buttons": [
           { "label": "SIM", "next": "cartao1_terceiro_conhece", "primary": true },
           { "label": "NÃO CONHECE", "next": "cartao1_nao_conhece" },
@@ -169,7 +169,7 @@
       "cartao1_recusa": {
         "id": "cartao1_recusa",
         "title": "Argumentações",
-        "body": "Evitar cobranças e bloqueio: Para evitar as ligações de cobrança, os juros diários e o bloqueio do seu cartão, consigo agendar o pagamento para XX/XX?<br><br>Negativação com 14 dias de atraso: Seu CPF/CNPJ pode ser negativado a partir de 14 dias de atraso. Podemos agendar o pagamento até XX/XX pra evitar isso?<br><br>Restrição dificulta crédito: A restrição no SPC/SERASA pode dificultar futuros créditos com a CAIXA. Posso agendar o pagamento para XX/XX?<br><br>Cancelamento entre 96 a 99 dias: O cartão pode ser cancelado entre 66 e 69 dias de atraso. Posso agendar o pagamento até, no máximo, XX/XX pra evitar do cartão ser cancelado?",
+        "body": "<b>Evitar cobranças e bloqueio:</b> <br>Para evitar as ligações de cobrança, os juros diários e o bloqueio do seu cartão, consigo agendar o pagamento para XX/XX?<br><br><b>Negativação com 14 dias de atraso:</b> <br>Seu CPF/CNPJ pode ser negativado a partir de 14 dias de atraso. Podemos agendar o pagamento até XX/XX pra evitar isso?<br><br><b>Restrição dificulta crédito:</b> <br>A restrição no SPC/SERASA pode dificultar futuros créditos com a CAIXA. Posso agendar o pagamento para XX/XX?<br><br><b>Cancelamento entre 96 a 99 dias:</b> <br>O cartão pode ser cancelado entre 66 e 69 dias de atraso. Posso agendar o pagamento até, no máximo, XX/XX pra evitar do cartão ser cancelado?",
         "buttons": [
           { "label": "ACEITOU", "next": "cartao1_pagamento_total" },
           { "label": "RECUSOU", "next": "cartao1_recusa_oferta_pagamento_minimo" }
@@ -188,7 +188,7 @@
       "cartao1_atualizacao_cadastral_recusa": {
         "id": "cartao1_recusa_novamente",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "cartao1_pesquisa_satisfacao_recusa", "primary": true }
         ]
@@ -220,7 +220,7 @@
       "cartao1_atualizacao_cadastral_pagamento_total": {
         "id": "cartao1_atualizacao_cadastral_pagamento_total",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "cartao1_pesquisa_satisfacao_pagamento_total" }
         ]
@@ -228,7 +228,7 @@
       "cartao1_pesquisa_satisfacao_pagamento_total": {
         "id": "cartao1_pesquisa_satisfacao_pagamento_total",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "FINALIZAR", "next": "cartao1_fim", "primary": true }
         ]
@@ -236,7 +236,7 @@
       "cartao1_oferta_parcelamento": {
         "id": "cartao1_oferta_parcelamento",
         "title": "Oferta de Parcelamento",
-        "body": "Podemos parcelar sua fatura. Este parcelamento se refere apenas à fatura atual e pode ser feito em até XX vezes. Em quantas parcelas gostaria que eu simulasse?",
+        "body": "Podemos parcelar sua fatura em até XX vezes. Este parcelamento se refere a sua fatura atual, mas podem ser incluídos no parcelamento, além do saldo total da fatura, compras à vista ainda não lançadas na fatura, compras parceladas com juros, saques pendentes a faturar e parcelamentos de fatura já existentes (caso possua). Não serão incluídas as compras parceladas sem juros.<br><br>Em quantas vezes você gostaria que eu simulasse?",
         "buttons": [
           { "label": "AVANÇAR", "next": "cartao1_confirmacao_do_parcelamento", "primary": true }
         ]
@@ -244,16 +244,24 @@
       "cartao1_confirmacao_do_parcelamento": {
         "id": "cartao1_confirmacao_do_parcelamento",
         "title": "Confirmação do Parcelamento",
-        "body": "O parcelamento ficou em XX vezes de R$ XX,XX.<br>A primeira parcela virá com IOF e terá o valor de R$ XX,XX. As demais parcelas serão fixas. O pagamento deve ser feito no valor EXATO , inclusive os centavos. Qualquer valor diferente será usado apenas para abatimento da dívida, sem ativar o acordo.",
+        "body": "A primeira parcela virá com IOF e terá o valor de R$ XX,XX para pagamento no dia XX/XX/XXXX. As demais parcelas serão no valor fixo de R$XX,XX, para pagamento sempre na data de vencimento da fatura. O pagamento deve ser feito no valor EXATO, inclusive os centavos. Qualquer valor diferente será usado apenas para abatimento da dívida, sem ativar o acordo. Você confirma esse parcelamento?",
         "buttons": [
-          { "label": "FECHAMOS O PARCELAMENTO", "next": "cartao1_atualizacao_cadastral_parcelamento_aceite", "primary": true },
+          { "label": "FECHAMOS O PARCELAMENTO", "next": "cartao1_parcelamento_aceite", "primary": true },
           { "label": "NÃO FECHAMOS O PARCELAMENTO", "next": "cartao1_recusou_parcelamento_consequencias", "primary": true }
+        ]
+      },
+      "cartao1_parcelamento_aceite": {
+        "id": "cartao1_parcelamento_aceite",
+        "title": "Atualização Cadastral",
+        "body": "Contamos com o seu pagamento! Para fazer o pagamento você pode utilizar o código de barras da sua última fatura, pelo internet Banking ou Auto atendimento, pode gerar sua última fatura pelo APP Cartões CAIXA ou com seu cartão de crédito em qualquer casa lotérica ou agência da CAIXA.",
+        "buttons": [
+          { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "cartao1_atualizacao_cadastral_parcelamento_aceite", "primary": true }
         ]
       },
       "cartao1_atualizacao_cadastral_parcelamento_aceite": {
         "id": "cartao1_atualizacao_cadastral_parcelamento_aceite",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "cartao1_pesquisa_satisfacao_parcelamento_aceite", "primary": true }
         ]
@@ -277,7 +285,7 @@
       "cartao1_atualizacao_cadastral_recusou_parcelamento": {
         "id": "cartao1_atualizacao_cadastral_recusou_parcelamento",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "cartao1_pesquisa_satisfacao_recusou_parcelamento", "primary": true }
         ]
@@ -313,7 +321,7 @@
       "cartao1_parcelamento_atualizacao_cadastral_apos_vencimento": {
         "id": "cartao1_parcelamento_atualizacao_cadastral_apos_vencimento",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "cartao1_pesquisa_satisfacao__apos_vencimento", "primary": true }
         ]
@@ -345,7 +353,7 @@
       "cartao1_pagamento_atualizacao_cadastral_simples_consignado": {
         "id": "cartao1_pagamento_atualizacao_cadastral_simples_consignado",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "cartao1_pagamento_pesquisa_satisfacao_simples_consignado", "primary": true }
         ]
@@ -369,7 +377,7 @@
       "cartao1_atualizacao_cadastral_atraso_69_dias": {
         "id": "cartao1_atualizacao_cadastral_atraso_69_dias",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "cartao1_pesquisa_satisfacao_atraso_69_dias", "primary": true }
         ]
@@ -401,7 +409,7 @@
       "cartao1_atualizacao_cadastral_atraso_66_e_69": {
         "id": "cartao1_atualizacao_cadastral_atraso_66_e_69",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "cartao1_pesquisa_satisfacao_atraso_66_e_69", "primary": true }
         ]
@@ -417,7 +425,7 @@
       "cartao1_atualizacao_cadastral_atraso_61_e_67": {
         "id": "cartao1_atualizacao_cadastral_atraso_61_e_67",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "cartao1_pesquisa_satisfacao_atraso_61_e_67", "primary": true }
         ]
@@ -433,7 +441,7 @@
       "cartao1_atualizacao_cadastral_pagamento_efetuado": {
         "id": "cartao1_atualizacao_cadastral_pagamento_efetuado",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "cartao1_pesquisa_satisfacao_pagamento_efetuado", "primary": true }
         ]

@@ -15,7 +15,7 @@
       "hab532_terceiro": {
         "id": "hab532_terceiro",
         "title": "Terceiro",
-        "body": "Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
+        "body": "Aqui é o [nome do operador] eu falo da Central de Negócios da CAIXA<br><br>Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
         "tabulacao": ["LIGAÇÃO CAIU", "DESCONHECIDO NO TELEFONE"],
         "buttons": [
           { "label": "SIM", "next": "hab532_terceiro_conhece", "primary": true },
@@ -197,7 +197,7 @@
       "hab532_atualizacao_cadastral_recusa": {
         "id": "hab532_atualizacao_cadastral_recusa",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "tabulacao": ["RECUSA AÇÃO/CAMPANHA + RESULTADO COM MOTIVO DA RECUSA"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab532_pesquisa_satisfacao_recusa", "primary": true }
@@ -225,7 +225,7 @@
       "hab532_pagamento_total_campanha": {
         "id": "hab532_pagamento_total_campanha",
         "title": "Pagamento Total",
-        "body": "Agradeço a confirmação, contamos com seu pagamento.",
+        "body": "Agradeço a confirmação, seu pagamento ficou para o dia XX/XX.",
         "tabulacao": ["ACEITA AÇÃO/CAMPANHA COM EMISSÃO DE BOLETO"],
         "buttons": [
           { "label": "AVANÇAR", "next": "hab532_atualizacao_cadastral_aceite_campanha" }
@@ -252,7 +252,7 @@
       "hab532_atualizacao_cadastral_boleto_indisponivel_campanha": {
         "id": "hab532_atualizacao_cadastral_boleto_indisponivel_campanha",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "tabulacao": ["ACEITA AÇÃO/CAMPANHA SEM EMISSÃO DE BOLETO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab532_pesquisa_satisfacao_boleto_indisponivel_campanha", "primary": true }
@@ -307,7 +307,7 @@
       "hab532_atualizacao_cadastral_boleto_indisponivel": {
         "id": "hab532_atualizacao_cadastral_boleto_indisponivel",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "tabulacao": ["ACEITA AÇÃO/CAMPANHA SEM EMISSÃO DE BOLETO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab532_pesquisa_satisfacao_boleto_indisponivel", "primary": true }
@@ -361,7 +361,7 @@
       "hab532_atualizacao_cadastral": {
         "id": "hab532_atualizacao_cadastral",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "tabulacao": ["PAGAMENTO JÁ EFETUADO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab532_pesquisa_satisfacao", "primary": true }

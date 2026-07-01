@@ -171,18 +171,9 @@
       "cdes1_restricao_apostas": {
         "id": "cdes1_restricao_apostas",
         "title": "Frase Obrigatória",
-        "body": "Caso haja algum impedimento, o acordo não será acatado.<br><br>[Primeiro nome do cliente], você está ciente de que ficará impedido de fazer apostas em jogos online por um ano?<br><br>E devido ao desconto concedido, e considerando que o valor do boleto é inferior ao valor original da dívida, não será possível obter novos créditos na CAIXA pelo período de 5 anos, é necessário que você fique ciente desde já.",
+        "body": "Caso haja algum impedimento, o acordo não será acatado.<br><br>[Primeiro nome do cliente], você está ciente de que ficará impedido de fazer apostas em jogos online por um ano?",
         "buttons": [
-          { "label": "CIENTE", "next": "cdes1_finalizacao_aceite", "primary": true },
-          { "label": "CIENTE NÃO QUER A RESTRIÇÃO DE 3 OU 5 ANOS", "next": "cdes1_restricao", "primary": true }
-        ]
-      },
-      "cdes1_restricao": {
-        "id": "cdes1_restricao",
-        "title": "Finalização",
-        "body": "Para continuar o relacionamento com a CAIXA deve ser pago o valor R$ XXX [descrito no SINEB como “à prazo” e no SIACT é o valor já ofertado fora do desconto]. Nesse caso será necessário acessar o site Negociar Dívidas: https://www.negociardividas.caixa.gov.br para negociação nessas condições. Pagando esse valor você continua aproveitando os serviços e comodidade que a CAIXA oferece.<br><br>Peço que aguarde em linha para avaliar a qualidade do nosso atendimento.<br><br>A CAIXA agradece a sua atenção e deseja um ótimo dia/tarde/noite.",
-        "buttons": [
-          { "label": "FINALIZAR", "next": "cdes1_fim", "primary": true }
+          { "label": "CIENTE", "next": "cdes1_finalizacao_aceite", "primary": true }
         ]
       },
       "cdes1_recusa": {

@@ -15,7 +15,7 @@
       "hab536_terceiro": {
         "id": "hab536_terceiro",
         "title": "Terceiro",
-        "body": "Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
+        "body": "Aqui é o [nome do operador] eu falo da Central de Negócios da CAIXA<br><br>Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
         "tabulacao": ["LIGAÇÃO CAIU", "DESCONHECIDO NO TELEFONE"],
         "buttons": [
           { "label": "SIM", "next": "hab536_terceiro_conhece", "primary": true },
@@ -186,7 +186,7 @@
       "hab536_atualizacao_cadastral_recusa": {
         "id": "hab536_atualizacao_cadastral_recusa",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "tabulacao": ["RECUSA AÇÃO/CAMPANHA + RESULTADO COM MOTIVO DA RECUSA"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab536_pesquisa_satisfacao_recusa", "primary": true }
@@ -223,7 +223,7 @@
       "hab536_atualizacao_cadastral_boleto_indisponivel": {
         "id": "hab536_atualizacao_cadastral_boleto_indisponivel",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "tabulacao": ["ACEITA AÇÃO/CAMPANHA SEM EMISSÃO DE BOLETO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab536_pesquisa_satisfacao_boleto_indisponivel", "primary": true }
@@ -268,7 +268,7 @@
       "hab536_atualizacao_cadastral_aceitou": {
         "id": "hab536_atualizacao_cadastral_aceitou",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "tabulacao": ["ACEITA AÇÃO/CAMPANHA COM EMISSÃO DE BOLETO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab536_pesquisa_satisfacao_aceitou", "primary": true }
@@ -295,7 +295,7 @@
       "hab536_atualizacao_cadastral": {
         "id": "hab536_atualizacao_cadastral",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "tabulacao": ["PAGAMENTO JÁ EFETUADO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab536_pesquisa_satisfacao", "primary": true }

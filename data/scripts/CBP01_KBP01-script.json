@@ -14,7 +14,7 @@
       "CBP01_KBP01_terceiro": {
         "id": "CBP01_KBP01_terceiro",
         "title": "Terceiro",
-        "body": "Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
+        "body": "Aqui é o [nome do operador] eu falo da Central de Negócios da CAIXA<br><br>Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
         "buttons": [
           { "label": "SIM", "next": "CBP01_KBP01_terceiro_conhece", "primary": true },
           { "label": "NÃO CONHECE", "next": "CBP01_KBP01_nao_conhece" },
@@ -203,7 +203,7 @@
       "CBP01_KBP01_atualizacao_cadastral_recusa": {
         "id": "CBP01_KBP01_atualizacao_cadastral_recusa",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "CBP01_KBP01_pesquisa_satisfacao_recusa", "primary": true }
         ]
@@ -247,7 +247,7 @@
       "CBP01_KBP01_atualizacao_cadastral_boleto_indisponivel": {
         "id": "CBP01_KBP01_atualizacao_cadastral_boleto_indisponivel",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "CBP01_KBP01_pesquisa_satisfacao_boleto_indisponivel", "primary": true }
         ]
@@ -271,7 +271,7 @@
       "CBP01_KBP01_atualizacao_cadastral_aceitou": {
         "id": "CBP01_KBP01_atualizacao_cadastral_aceitou",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "CBP01_KBP01_pesquisa_satisfacao_aceitou", "primary": true }
         ]
@@ -303,7 +303,7 @@
       "CBP01_KBP01_atualizacao_cadastral": {
         "id": "CBP01_KBP01_atualizacao_cadastral",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "CBP01_KBP01_pesquisa_satisfacao", "primary": true }
         ]

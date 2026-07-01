@@ -15,7 +15,7 @@
       "hab1_terceiro": {
         "id": "hab1_terceiro",
         "title": "Terceiro",
-        "body": "Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
+        "body": "Aqui é o [nome do operador] eu falo da Central de Negócios da CAIXA<br><br>Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
         "tabulacao": ["LIGAÇÃO CAIU", "DESCONHECIDO NO TELEFONE"],
         "buttons": [
           { "label": "CONHECE O CLIENTE", "next": "hab1_terceiro_conhece", "primary": true },
@@ -276,7 +276,7 @@
       "hab1_negociou_com_agencia_atualizacao_cadastral": {
         "id": "hab1_negociou_com_agencia_atualizacao_cadastral",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "tabulacao": ["NEGOCIAÇÃO EM OUTRO CANAL"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab1_negociou_com_agencia_pesquisa_satisfacao", "primary": true }
@@ -285,7 +285,7 @@
       "hab1_negociou_com_agencia_pesquisa_satisfacao": {
         "id": "hab1_negociou_com_agencia_pesquisa_satisfacao",
         "title": "Pesquisa de Satisfação",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "tabulacao": ["NEGOCIAÇÃO EM OUTRO CANAL"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab1_fim", "primary": true }
@@ -312,7 +312,7 @@
       "hab1_vai_negociar_com_agencia_atualizacao_cadastral": {
         "id": "hab1_vai_negociar_com_agencia_atualizacao_cadastral",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "tabulacao": ["CONTATO SEM NEGOCIAÇÃO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab1_vai_negociar_com_agencia_pesquisa_satisfacao", "primary": true }
@@ -321,7 +321,7 @@
       "hab1_vai_negociar_com_agencia_pesquisa_satisfacao": {
         "id": "hab1_vai_negociar_com_agencia_pesquisa_satisfacao",
         "title": "Pesquisa de Satisfação",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "tabulacao": ["CONTATO SEM NEGOCIAÇÃO"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab1_fim", "primary": true }
@@ -339,7 +339,7 @@
       "hab1_desconhece_divida_atualizacao_cadastral": {
         "id": "hab1_desconhece_divida_atualizacao_cadastral",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "tabulacao": ["DÍVIDA NÃO RECONHECIDA"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab1_desconhece_divida_pesquisa_satisfacao", "primary": true }
@@ -348,7 +348,7 @@
       "hab1_desconhece_divida_pesquisa_satisfacao": {
         "id": "hab1_desconhece_divida_pesquisa_satisfacao",
         "title": "Pesquisa de Satisfação",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "tabulacao": ["DÍVIDA NÃO RECONHECIDA"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab1_fim", "primary": true }
@@ -375,7 +375,7 @@
       "hab1_nao_reside_no_imovel_atualizacao_cadastral": {
         "id": "hab1_nao_reside_no_imovel_atualizacao_cadastral",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "tabulacao": ["CONTATO SEM NEGOCIAÇÃO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab1_nao_reside_no_imovel_pesquisa_satisfacao", "primary": true }
@@ -384,7 +384,7 @@
       "hab1_nao_reside_no_imovel_pesquisa_satisfacao": {
         "id": "hab1_nao_reside_no_imovel_pesquisa_satisfacao",
         "title": "Pesquisa de Satisfação",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "tabulacao": ["CONTATO SEM NEGOCIAÇÃO"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab1_fim", "primary": true }
@@ -393,7 +393,7 @@
       "hab1_sem_previsao": {
         "id": "hab1_sem_previsao",
         "title": "Ouça o que o cliente disser e adapte a sua argumentação",
-        "body": "Entendo que imprevistos podem acontecer.<br><br><b>Atraso maior que 30 dias e menor de 120 dias:</b> <br>Gostaria de lembrá-lo sobre possíveis consequências de não realizar o pagamento, como a inclusão ou permanência do seu nome no SPC e SERASA. Evite também o risco de retomada do seu imóvel pagando ao menos uma parcela, A MAIS ANTIGA. Posso contar com seu pagamento?<br><br><b>Atraso superior a 120 dias:</b> <br>O pagamento da parcela mais antiga NÃO evita que o seu imóvel seja retomado. Mas você pode ir regularizando aos poucos pagando ao menos uma parcela, A MAIS ANTIGA. Posso agendar até dia XX/XX?",
+        "body": "Entendo que imprevistos podem acontecer.<br><br><b>Atraso maior que 30 dias e menor de 120 dias:</b><br>Gostaria de lembrá-lo sobre possíveis consequências de não realizar o pagamento, como a inclusão ou permanência do seu nome no SPC e SERASA. Evite também o risco de retomada do seu imóvel pagando ao menos uma parcela, A MAIS ANTIGA. Posso contar com seu pagamento?<br><br><b>Atraso superior a 120 dias:</b> <br>O pagamento da parcela mais antiga NÃO evita que o seu imóvel seja retomado. Mas você pode ir regularizando aos poucos pagando ao menos uma parcela, A MAIS ANTIGA. Posso agendar até dia XX/XX?",
         "buttons": [
           { "label": "ACEITOU", "next": "hab1_ratificacao_aceite" },
           { "label": "RECUSOU", "next": "hab1_fgts_recusa" }
@@ -467,7 +467,7 @@
       "hab1_atualizacao_cadastral_recusa": {
         "id": "hab1_atualizacao_cadastral_recusa",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "tabulacao": ["SEM CAPACIDADE DE PAGAMENTO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab1_pesquisa_satisfacao_recusa", "primary": true }
@@ -523,7 +523,7 @@
       "hab1_atualizacao_cadastral_aceite": {
         "id": "hab1_atualizacao_cadastral_aceite",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSÃO DE BOLETO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab1_pesquisa_satisfacao_aceite", "primary": true }
@@ -550,7 +550,7 @@
       "hab1_atualizacao_cadastral": {
         "id": "hab1_atualizacao_cadastral",
         "title": "Atualização Cadastral",
-        "body": "Tem algum outro telefone ou e-mail para contato?<br><br>Confirme se os dados atuais estão corretos.",
+        "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
         "tabulacao": ["PAGAMENTO JÁ EFETUADO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab1_pesquisa_satisfacao", "primary": true }
