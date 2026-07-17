@@ -5,7 +5,7 @@
         "id": "contratos_abordagem",
         "title": "Abordagem",
         "body": "Olá, falo com [Nome do cliente]?",
-        "tabulacao": ["LIGAÇÃO CAIU", "LIGAÇÃO MUDA"],
+        "tabulacao": ["LIGACAO CAIU", "LIGACAO MUDA"],
         "buttons": [
           { "label": "SIM, É O CLIENTE", "next": "contratos_identificacao", "primary": true },
           { "label": "NÃO É O CLIENTE", "next": "contratos_terceiro" },
@@ -16,7 +16,7 @@
         "id": "contratos_terceiro",
         "title": "Terceiro",
         "body": "Aqui é o [nome do operador] eu falo da Central de Negócios da CAIXA<br><br>Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
-        "tabulacao": ["LIGAÇÃO CAIU", "DESCONHECIDO NO TELEFONE"],
+        "tabulacao": ["LIGACAO CAIU", "DESCONHECIDO NO TELEFONE"],
         "buttons": [
           { "label": "CONHECE O CLIENTE", "next": "contratos_terceiro_conhece", "primary": true },
           { "label": "NÃO CONHECE", "next": "contratos_nao_conhece" },
@@ -27,7 +27,7 @@
         "id": "contratos_sem_resposta",
         "title": "Cliente/Terceiro não responde",
         "body": "Por falta de comunicação encerro o contato.",
-        "tabulacao": ["LIGAÇÃO MUDA"],
+        "tabulacao": ["LIGACAO MUDA"],
         "buttons": [
           { "label": "FINALIZAR", "next": "contratos_fim", "primary": true }
         ]
@@ -82,7 +82,7 @@
         "id": "contratos_identificacao",
         "title": "Identifique-se",
         "body": "Aqui é o [nome do operador] eu falo da Central de Negócios da CAIXA. Tudo bem?",
-        "tabulacao": ["LIGAÇÃO CAIU"],
+        "tabulacao": ["LIGACAO CAIU"],
         "buttons": [
           { "label": "AVANÇAR", "next": "contratos_identificacao_parte2", "primary": true }
         ]
@@ -91,7 +91,7 @@
         "id": "contratos_identificacao_parte2",
         "title": "Confirmação do CPF",
         "body": "Para sua segurança, essa ligação está sendo gravada.<br>Eu sou do Grupo Roveri e, por questões de sigilo bancário, preciso confirmar alguns dados.<br>Vou te dizer os (6) seis primeiros números do seu CPF e você completa com os demais, os primeiros números são: [XXX.XXX], qual o restante?",
-        "tabulacao": ["LIGAÇÃO CAIU"],
+        "tabulacao": ["LIGACAO CAIU"],
         "buttons": [
           { "label": "CONFIRMOU CPF", "next": "contratos_nome_completo_cliente", "primary": true },
           { "label": "RECUSOU CONFIRMAR", "next": "contratos_nao_confirma" }
@@ -101,7 +101,7 @@
         "id": "contratos_nao_confirma",
         "title": "Cliente não quer confirmar o CPF",
         "body": "<b>PESSOA QUESTIONA O MOTIVO DO CONTATO:</b> Esse contato é sobre o relacionamento com a CAIXA, após a confirmação dos dados, irei fornecer todos os detalhes. Os 6 primeiros números do CPF são: (XXX.XXX), qual o restante?<br><br><b>PESSOA QUESTIONA SOBRE A CONFIRMAÇÃO DE DADOS:</b> A confirmação é para sua segurança. Vou informar os 6 primeiros dígitos, e você completa os restantes para proteger seus dados. Os 6 primeiros números do CPF são: [XXX.XXX], Qual o restante?<br><br><b>PESSOA QUESTIONA O MOTIVO DO CONTATO:</b> Não posso informar o motivo do contato sem confirmar seus dados primeiro, para proteger suas informações e evitar que sejam compartilhadas com terceiros. Podemos seguir com a confirmação?",
-        "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
+        "tabulacao": ["PESSOA NAO CONFIRMA DADOS"],
         "buttons": [
           { "label": "CONFIRMOU CPF", "next": "contratos_nome_completo_cliente", "primary": true },
           { "label": "RECUSOU NOVAMENTE", "next": "contratos_nao_confirmou" },
@@ -115,7 +115,7 @@
         "id": "contratos_nao_lembra_o_cpf",
         "title": "Finalização",
         "body": "Como você não lembra, vou retornar nesse mesmo número mais tarde para te passar os detalhes do assunto",
-        "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
+        "tabulacao": ["PESSOA NAO CONFIRMA DADOS"],
         "buttons": [
           { "label": "CLIENTE CONCORDOU", "next": "contratos_nao_lembra_o_cpf_parte2", "primary": true },
           { "label": "CLIENTE INSEGURO SOBRE NOSSA EMPRESA", "next": "contratos_questiona_origem" },
@@ -126,7 +126,7 @@
         "id": "contratos_nao_lembra_o_cpf_parte2",
         "title": "Finalização",
         "body": "A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
-        "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
+        "tabulacao": ["PESSOA NAO CONFIRMA DADOS"],
         "buttons": [
           { "label": "FINALIZAR", "next": "contratos_fim", "primary": true }
         ]
@@ -144,7 +144,7 @@
         "id": "contratos_nao_confirmou_nao_consegue_falar_no_momento",
         "title": "Finalização",
         "body": "Certo, vou retornar nesse mesmo número mais tarde para te passar os detalhes do assunto. A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
-        "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
+        "tabulacao": ["PESSOA NAO CONFIRMA DADOS"],
         "buttons": [
           { "label": "FINALIZAR", "next": "contratos_fim", "primary": true }
         ]
@@ -153,7 +153,7 @@
         "id": "contratos_nao_confirmou_vai_na_agencia",
         "title": "Finalização",
         "body": "(Nome do cliente), então você pode entrar em contato com esses números que vou te passar para saber o assunto que é: 0800 104 0104, 0800 025 8833 ou 4020 0088.",
-        "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
+        "tabulacao": ["PESSOA NAO CONFIRMA DADOS"],
         "buttons": [
           { "label": "FINALIZAR", "next": "contratos_fim", "primary": true }
         ]
@@ -162,7 +162,7 @@
         "id": "contratos_nao_confirmou",
         "title": "Finalização",
         "body": "(Nome do cliente), então você pode entrar em contato com esses números que vou te passar para saber o assunto que é: 0800 104 0104, 0800 025 8833 ou 4020 0088.",
-        "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
+        "tabulacao": ["PESSOA NAO CONFIRMA DADOS"],
         "buttons": [
           { "label": "FINALIZAR", "next": "contratos_fim", "primary": true }
         ]
@@ -171,7 +171,7 @@
         "id": "contratos_questiona_origem",
         "title": "Cliente questiona origem do contato",
         "body": "A Roveri é autorizada pela CAIXA a realizar o contato. Se você estiver inseguro sobre a nossa empresa, você pode acessar o site da CAIXA e confirmar www.caixa.gov.br/voce/negociacao/telefones e ver em Empresas terceirizadas o nome da ROVERI.",
-        "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
+        "tabulacao": ["PESSOA NAO CONFIRMA DADOS"],
         "buttons": [
           { "label": "FINALIZAR", "next": "contratos_fim", "primary": true }
         ]
@@ -180,7 +180,7 @@
         "id": "contratos_nome_completo_cliente",
         "title": "Confirme o nome completo do cliente",
         "body": "Obrigado(a), pela confirmação. Seu nome completo é (nome completo do cliente)?",
-        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO"],
+        "tabulacao": ["CONTATO INTERROMPIDO APOS IP, MAS SEM RESULTADO DEFINIDO"],
         "buttons": [
           { "label": "AVANÇAR", "next": "selecione_o_produto", "primary": true }
         ]
@@ -189,7 +189,7 @@
         "id": "selecione_o_produto",
         "title": "Selecione o Contrato que o cliente possui",
         "body": "Veja no WEDOO qual é o contrato que consta em atraso e selecione a opção correspondente.",
-        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO"],
+        "tabulacao": ["CONTATO INTERROMPIDO APOS IP, MAS SEM RESULTADO DEFINIDO"],
         "buttons": [
           { "label": "FIES", "next": "apresentacao_fies", "primary": true },
           { "label": "CREDITO DIRETO CAIXA - CDC", "next": "apresentacao_cdc" },
@@ -204,7 +204,7 @@
         "id": "apresentacao_fies",
         "title": "Apresentação da Dívida",
         "body": "O motivo do meu contato é para confirmar o pagamento do seu Fies, vencido há XX dias no valor aproximado de R$XX,XX.<br>Já houve o pagamento?<br><br><b>Caso o cliente questione a possibilidade de renegociar ou o desconto:</b><br>Você pode verificar se o seu contrato tem a possibilidade de realizar renegociação no site <b>http://sifesweb.caixa.gov.br</b>, APP FIES CAIXA.",
-        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JÁ EFETUADO"],
+        "tabulacao": ["CONTATO INTERROMPIDO APOS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JA EFETUADO"],
         "buttons": [
           { "label": "SIM", "next": "contratos_pagamento_efetuado", "primary": true },
           { "label": "NÃO", "next": "contratos_negociacao" },
@@ -215,7 +215,7 @@
         "id": "apresentacao_cdc",
         "title": "Apresentação da Dívida",
         "body": "O motivo do meu contato é para confirmar o pagamento do seu Crédito direto Caixa, vencido há XX dias no valor aproximado de R$XX,XX.<br>Já houve o pagamento?",
-        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JÁ EFETUADO"],
+        "tabulacao": ["CONTATO INTERROMPIDO APOS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JA EFETUADO"],
         "buttons": [
           { "label": "SIM JA PAGUEI", "next": "contratos_pagamento_efetuado", "primary": true },
           { "label": "NÃO", "next": "contratos_negociacao" },
@@ -226,7 +226,7 @@
         "id": "apresentacao_cred_senior",
         "title": "Apresentação da Dívida",
         "body": "O motivo do meu contato é para confirmar o pagamento do seu Cred Sênior, vencido há XX dias no valor aproximado de R$XX,XX.<br>Já houve o pagamento?",
-        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JÁ EFETUADO"],
+        "tabulacao": ["CONTATO INTERROMPIDO APOS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JA EFETUADO"],
         "buttons": [
           { "label": "SIM JA PAGUEI", "next": "contratos_pagamento_efetuado", "primary": true },
           { "label": "NÃO", "next": "contratos_negociacao" },
@@ -237,7 +237,7 @@
         "id": "apresentacao_renegociacao_de_dividas",
         "title": "Apresentação da Dívida",
         "body": "O motivo do meu contato é para confirmar o pagamento da sua Renegociação de Dívidas, vencido há XX dias no valor aproximado de R$XX,XX.<br>Já houve o pagamento?",
-        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JÁ EFETUADO"],
+        "tabulacao": ["CONTATO INTERROMPIDO APOS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JA EFETUADO"],
         "buttons": [
           { "label": "SIM JA PAGUEI", "next": "contratos_pagamento_efetuado", "primary": true },
           { "label": "NÃO", "next": "contratos_negociacao" },
@@ -248,7 +248,7 @@
         "id": "apresentacao_consignacao_caixa",
         "title": "Apresentação da Dívida",
         "body": "O motivo do meu contato é para confirmar o pagamento da sua Consignação Caixa, vencido há XX dias no valor aproximado de R$XX,XX.<br>Já houve o pagamento?",
-        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JÁ EFETUADO"],
+        "tabulacao": ["CONTATO INTERROMPIDO APOS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JA EFETUADO"],
         "buttons": [
           { "label": "SIM JA PAGUEI", "next": "contratos_pagamento_efetuado", "primary": true },
           { "label": "NÃO", "next": "contratos_negociacao" },
@@ -259,7 +259,7 @@
         "id": "apresentacao_cheque_especial_caixa",
         "title": "Apresentação da Dívida",
         "body": "O motivo do meu contato é para confirmar o pagamento do seu Cheque Especial Caixa, vencido há XX dias no valor aproximado de R$XX,XX.<br>Já houve o pagamento?",
-        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JÁ EFETUADO"],
+        "tabulacao": ["CONTATO INTERROMPIDO APOS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JA EFETUADO"],
         "buttons": [
           { "label": "SIM JA PAGUEI", "next": "contratos_pagamento_efetuado", "primary": true },
           { "label": "NÃO", "next": "cheque_especial_caixa_contratos_negociacao" },
@@ -270,7 +270,7 @@
         "id": "apresentacao_construcard",
         "title": "Apresentação da Dívida",
         "body": "O motivo do meu contato é para confirmar o pagamento do seu Construcard, vencido há XX dias no valor aproximado de R$XX,XX.<br>Já houve o pagamento?",
-        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JÁ EFETUADO"],
+        "tabulacao": ["CONTATO INTERROMPIDO APOS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JA EFETUADO"],
         "buttons": [
           { "label": "SIM JA PAGUEI", "next": "contratos_pagamento_efetuado", "primary": true },
           { "label": "NÃO", "next": "contratos_negociacao" },
@@ -290,7 +290,7 @@
         "id": "atualizacao_cadastral_pagamento_efetuado",
         "title": "Atualização Cadastral",
         "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
-        "tabulacao": ["PAGAMENTO JÁ EFETUADO"],
+        "tabulacao": ["PAGAMENTO JA EFETUADO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "pesquisa_satisfacao_pagamento_efetuado", "primary": true }
         ]
@@ -299,7 +299,7 @@
         "id": "pesquisa_satisfacao_pagamento_efetuado",
         "title": "Pesquisa de Satisfação",
         "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
-        "tabulacao": ["PAGAMENTO JÁ EFETUADO"],
+        "tabulacao": ["PAGAMENTO JA EFETUADO"],
         "buttons": [
           { "label": "FINALIZAR", "next": "pagamento_fim", "primary": true }
         ]
@@ -308,7 +308,7 @@
         "id": "contratos_negociacao",
         "title": "Oferte o pagamento para o dia",
         "body": "O pagamento hoje ficaria bom para você?",
-        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO"],
+        "tabulacao": ["CONTATO INTERROMPIDO APOS IP, MAS SEM RESULTADO DEFINIDO"],
         "buttons": [
           { "label": "CLIENTE VAI PAGAR", "next": "contratos_ratificacao_aceite", "primary": true },
           { "label": "CLIENTE FALOU QUE NÃO", "next": "faixa_de_atraso_recusa" },
@@ -323,7 +323,7 @@
         "id": "cheque_especial_caixa_contratos_negociacao",
         "title": "Oferte o pagamento para o dia",
         "body": "O pagamento hoje ficaria bom para você?",
-        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO"],
+        "tabulacao": ["CONTATO INTERROMPIDO APOS IP, MAS SEM RESULTADO DEFINIDO"],
         "buttons": [
           { "label": "CLIENTE VAI PAGAR", "next": "cheque_especial_caixa_pagamento", "primary": true },
           { "label": "CLIENTE FALOU QUE NÃO", "next": "cheque_especial_caixa_opcao_recusa" },
@@ -336,7 +336,7 @@
         "id": "cheque_especial_caixa_pagamento",
         "title": "Pagamento depositado em conta",
         "body": "Agradeço a confirmação, contamos com seu pagamento.<br><br>IMPORTANTE: Se o cliente solicitar o boleto informe que esse contrato não possui boleto, o pagamento deve ser feito por depósito ou transferência para a conta.",
-        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO"],
+        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "cheque_especial_caixa_atualizacao_cadastral_pagamento" }
         ]
@@ -345,7 +345,7 @@
         "id": "cheque_especial_caixa_atualizacao_cadastral_pagamento",
         "title": "Atualização Cadastral",
         "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
-        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO"],
+        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "cheque_especial_caixa_pesquisa_satisfacao_pagamento", "primary": true }
         ]
@@ -354,7 +354,7 @@
         "id": "cheque_especial_caixa_pesquisa_satisfacao_pagamento",
         "title": "Pesquisa de Satisfação",
         "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
-        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO"],
+        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "FINALIZAR", "next": "cheque_especial_caixa_fim", "primary": true }
         ]
@@ -363,7 +363,7 @@
         "id": "cheque_especial_caixa_opcao_recusa",
         "title": "Oferte o pagamento dentro do prazo máximo que é D+9 de forma gradativa! Lembrando que são dias corridos e não dias úteis.",
         "body": "Entendo que imprevistos podem acontecer. Para evitar os juros diários, o pagamento ficaria bom pra você até dia XX/XX?",
-        "tabulacao": ["SEM CAPACIDADE DE PAGAMENTO", "CONTATO SEM NEGOCIAÇÃO", "PESSOA SOLICITA RETORNO EM OUTRO MOMENTO", "DÍVIDA NÃO RECONHECIDA"],
+        "tabulacao": ["SEM CAPACIDADE DE PAGAMENTO", "CONTATO SEM NEGOCIACAO", "PESSOA SOLICITA RETORNO EM OUTRO MOMENTO", "DIVIDA NAO RECONHECIDA"],
         "buttons": [
           { "label": "ACEITOU", "next": "cheque_especial_caixa_pagamento", "primary": true },
           { "label": "RECUSOU", "next": "cheque_especial_caixa_atualizacao_cadastral_opcao_recusa", "primary": true }
@@ -373,7 +373,7 @@
         "id": "cheque_especial_caixa_atualizacao_cadastral_opcao_recusa",
         "title": "Atualização Cadastral",
         "body": "Ok! Vou deixar registrado o seu posicionamento.<br><br>Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
-        "tabulacao": ["SEM CAPACIDADE DE PAGAMENTO", "CONTATO SEM NEGOCIAÇÃO", "PESSOA SOLICITA RETORNO EM OUTRO MOMENTO", "DÍVIDA NÃO RECONHECIDA"],
+        "tabulacao": ["SEM CAPACIDADE DE PAGAMENTO", "CONTATO SEM NEGOCIACAO", "PESSOA SOLICITA RETORNO EM OUTRO MOMENTO", "DIVIDA NAO RECONHECIDA"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "cheque_especial_caixa_pesquisa_satisfacao_opcao_recusa", "primary": true }
         ]
@@ -382,7 +382,7 @@
         "id": "cheque_especial_caixa_pesquisa_satisfacao_opcao_recusa",
         "title": "Pesquisa de Satisfação",
         "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
-        "tabulacao": ["SEM CAPACIDADE DE PAGAMENTO", "CONTATO SEM NEGOCIAÇÃO", "PESSOA SOLICITA RETORNO EM OUTRO MOMENTO", "DÍVIDA NÃO RECONHECIDA"],
+        "tabulacao": ["SEM CAPACIDADE DE PAGAMENTO", "CONTATO SEM NEGOCIACAO", "PESSOA SOLICITA RETORNO EM OUTRO MOMENTO", "DIVIDA NAO RECONHECIDA"],
         "buttons": [
           { "label": "FINALIZAR", "next": "contratos_fim", "primary": true }
         ]
@@ -391,7 +391,7 @@
         "id": "contratos_vai_pagar_fora_do_prazo",
         "title": "Negociação",
         "body": "Para te ajudar, a data limite que eu consigo agendar seria XX/XX. Posso agendar até essa data?",
-        "tabulacao": ["CONTATO SEM NEGOCIAÇÃO", "PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSÃO DE BOLETO"],
+        "tabulacao": ["CONTATO SEM NEGOCIACAO", "PROMESSA DE PAGAMENTO SEM EMISSAO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "CLIENTE ACEITOU", "next": "contratos_ratificacao_aceite" },
           { "label": "CLIENTE RECUSOU", "next": "contratos_atualizacao_cadastral_opcao_recusa" }
@@ -410,7 +410,7 @@
         "id": "contratos_negociou_com_agencia",
         "title": "Ja negociou com a agência",
         "body": "Certo, vou deixar registrado essa informação.",
-        "tabulacao": ["NEGOCIAÇÃO EM OUTRO CANAL"],
+        "tabulacao": ["NEGOCIACAO EM OUTRO CANAL"],
         "buttons": [
           { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "contratos_negociou_com_agencia_atualizacao_cadastral", "primary": true }
         ]
@@ -419,7 +419,7 @@
         "id": "contratos_negociou_com_agencia_atualizacao_cadastral",
         "title": "Atualização Cadastral",
         "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
-        "tabulacao": ["NEGOCIAÇÃO EM OUTRO CANAL"],
+        "tabulacao": ["NEGOCIACAO EM OUTRO CANAL"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "contratos_negociou_com_agencia_pesquisa_satisfacao", "primary": true }
         ]
@@ -428,7 +428,7 @@
         "id": "contratos_negociou_com_agencia_pesquisa_satisfacao",
         "title": "Pesquisa de Satisfação",
         "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
-        "tabulacao": ["NEGOCIAÇÃO EM OUTRO CANAL"],
+        "tabulacao": ["NEGOCIACAO EM OUTRO CANAL"],
         "buttons": [
           { "label": "FINALIZAR", "next": "contratos_fim", "primary": true }
         ]
@@ -437,7 +437,7 @@
         "id": "contratos_vai_negociar_com_agencia",
         "title": "Cliente vai negociar na agência",
         "body": "Certo, vou deixar registrado essa informação.",
-        "tabulacao": ["CONTATO SEM NEGOCIAÇÃO"],
+        "tabulacao": ["CONTATO SEM NEGOCIACAO"],
         "buttons": [
           { "label": "AVANÇAR", "next": "contratos_vai_negociar_com_agencia_atualizacao_cadastral", "primary": true }
         ]
@@ -446,7 +446,7 @@
         "id": "contratos_vai_negociar_com_agencia_atualizacao_cadastral",
         "title": "Atualização Cadastral",
         "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
-        "tabulacao": ["CONTATO SEM NEGOCIAÇÃO"],
+        "tabulacao": ["CONTATO SEM NEGOCIACAO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "contratos_vai_negociar_com_agencia_pesquisa_satisfacao", "primary": true }
         ]
@@ -455,7 +455,7 @@
         "id": "contratos_vai_negociar_com_agencia_pesquisa_satisfacao",
         "title": "Pesquisa de Satisfação",
         "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
-        "tabulacao": ["CONTATO SEM NEGOCIAÇÃO"],
+        "tabulacao": ["CONTATO SEM NEGOCIACAO"],
         "buttons": [
           { "label": "FINALIZAR", "next": "contratos_fim", "primary": true }
         ]
@@ -464,7 +464,7 @@
         "id": "contratos_desconhece_divida",
         "title": "Cliente desconhece dívida",
         "body": "Nesse caso você pode verificar mais informações sobre a dívida no site da CAIXA ou na sua agência.",
-        "tabulacao": ["DÍVIDA NÃO RECONHECIDA"],
+        "tabulacao": ["DIVIDA NAO RECONHECIDA"],
         "buttons": [
           { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "contratos_desconhece_divida_atualizacao_cadastral", "primary": true }
         ]
@@ -473,7 +473,7 @@
         "id": "contratos_desconhece_divida_atualizacao_cadastral",
         "title": "Atualização Cadastral",
         "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
-        "tabulacao": ["DÍVIDA NÃO RECONHECIDA"],
+        "tabulacao": ["DIVIDA NAO RECONHECIDA"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "contratos_desconhece_divida_pesquisa_satisfacao", "primary": true }
         ]
@@ -482,7 +482,7 @@
         "id": "contratos_desconhece_divida_pesquisa_satisfacao",
         "title": "Pesquisa de Satisfação",
         "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
-        "tabulacao": ["DÍVIDA NÃO RECONHECIDA"],
+        "tabulacao": ["DIVIDA NAO RECONHECIDA"],
         "buttons": [
           { "label": "FINALIZAR", "next": "contratos_fim", "primary": true }
         ]
@@ -567,7 +567,7 @@
         "id": "contratos_ratificacao_aceite",
         "title": "Ratificação",
         "body": "Certo, vou registrar seu pagamento para o dia XX/XX.",
-        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSÃO DE BOLETO"],
+        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSAO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "PAGAMENTO TOTAL", "next": "contratos_pagamento_total" },
           { "label": "PAGAMENTO PARCIAL", "next": "contratos_pagamento_parcial" }
@@ -577,7 +577,7 @@
         "id": "contratos_pagamento_parcial",
         "title": "Pagamento Parcial",
         "body": "Agradeço a confirmação, contamos com seu pagamento.<br><br>Lembrando que é importante efetuar o pagamento para evitar os juros diários, ligações de cobrança e a restrição do CPF/CNPJ no SPC/SERASA.<br><br>Precisa da emissão do boleto?",
-        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSÃO DE BOLETO"],
+        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSAO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "SIM", "next": "emite_opcao_boleto_aceite" },
           { "label": "NÃO", "next": "contratos_atualizacao_cadastral_aceite" }
@@ -587,7 +587,7 @@
         "id": "contratos_pagamento_total",
         "title": "Pagamento Total",
         "body": "Agradeço a confirmação, contamos com seu pagamento.<br><br>Precisa da emissão do boleto?",
-        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSÃO DE BOLETO"],
+        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSAO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "SIM", "next": "emite_opcao_boleto_aceite" },
           { "label": "NÃO", "next": "contratos_atualizacao_cadastral_aceite" }
@@ -597,7 +597,7 @@
         "id": "emite_opcao_boleto_aceite",
         "title": "Opções de envio",
         "body": "ENVIO DE BOLETO VIA E-MAIL:<br>Estou encaminhando o boleto para o seu e-mail, ele pode chegar até o dia do vencimento.<br><br>SE FOR VIA WHATSAPP:<br>Você autoriza o envio do boleto por WhatsApp?",
-        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSÃO DE BOLETO"],
+        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSAO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "AVANÇAR", "next": "contratos_atualizacao_cadastral_aceite" }
         ]
@@ -606,7 +606,7 @@
         "id": "contratos_atualizacao_cadastral_aceite",
         "title": "Atualização Cadastral",
         "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
-        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSÃO DE BOLETO"],
+        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSAO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "contratos_pesquisa_satisfacao_aceite", "primary": true }
         ]
@@ -615,7 +615,7 @@
         "id": "contratos_pesquisa_satisfacao_aceite",
         "title": "Pesquisa de Satisfação",
         "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
-        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSÃO DE BOLETO"],
+        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSAO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "FINALIZAR", "next": "contratos_fim", "primary": true }
         ]

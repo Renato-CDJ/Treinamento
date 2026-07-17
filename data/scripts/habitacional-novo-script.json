@@ -5,7 +5,7 @@
         "id": "hab1_abordagem",
         "title": "Abordagem",
         "body": "Olá, falo com [Nome do cliente]?",
-        "tabulacao": ["LIGAÇÃO CAIU", "LIGAÇÃO MUDA"],
+        "tabulacao": ["LIGACAO CAIU", "LIGACAO MUDA"],
         "buttons": [
           { "label": "SIM, É O CLIENTE", "next": "hab1_identificacao", "primary": true },
           { "label": "NÃO É O CLIENTE", "next": "hab1_terceiro" },
@@ -16,7 +16,7 @@
         "id": "hab1_terceiro",
         "title": "Terceiro",
         "body": "Aqui é o [nome do operador] eu falo da Central de Negócios da CAIXA<br><br>Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
-        "tabulacao": ["LIGAÇÃO CAIU", "DESCONHECIDO NO TELEFONE"],
+        "tabulacao": ["LIGACAO CAIU", "DESCONHECIDO NO TELEFONE"],
         "buttons": [
           { "label": "CONHECE O CLIENTE", "next": "hab1_terceiro_conhece", "primary": true },
           { "label": "NÃO CONHECE", "next": "hab1_nao_conhece" },
@@ -27,7 +27,7 @@
         "id": "hab1_sem_resposta",
         "title": "Cliente/Terceiro não responde",
         "body": "Por falta de comunicação encerro o contato.",
-        "tabulacao": ["LIGAÇÃO MUDA"],
+        "tabulacao": ["LIGACAO MUDA"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab1_fim", "primary": true }
         ]
@@ -82,7 +82,7 @@
         "id": "hab1_identificacao",
         "title": "Identifique-se",
         "body": "Aqui é o [nome do operador] eu falo da Central de Negócios da CAIXA. Tudo bem?",
-        "tabulacao": ["LIGAÇÃO CAIU"],
+        "tabulacao": ["LIGACAO CAIU"],
         "buttons": [
           { "label": "AVANÇAR", "next": "hab1_identificacao_parte2", "primary": true }
         ]
@@ -91,7 +91,7 @@
         "id": "hab1_identificacao_parte2",
         "title": "Confirmação do CPF",
         "body": "Para sua segurança, essa ligação está sendo gravada.<br>Eu sou do Grupo Roveri e, por questões de sigilo bancário, preciso confirmar alguns dados.<br>Vou te dizer os (6) seis primeiros números do seu CPF e você completa com os demais, os primeiros números são: [XXX.XXX], qual o restante?",
-        "tabulacao": ["LIGAÇÃO CAIU"],
+        "tabulacao": ["LIGACAO CAIU"],
         "buttons": [
           { "label": "CONFIRMOU CPF", "next": "hab1_nome_completo_cliente", "primary": true },
           { "label": "RECUSOU CONFIRMAR", "next": "hab1_nao_confirma" }
@@ -101,7 +101,7 @@
         "id": "hab1_nao_confirma",
         "title": "Cliente não quer confirmar o CPF",
         "body": "<b>PESSOA QUESTIONA O MOTIVO DO CONTATO:</b> Esse contato é sobre o relacionamento com a CAIXA, após a confirmação dos dados, irei fornecer todos os detalhes. Os 6 primeiros números do CPF são: (XXX.XXX), qual o restante?<br><br><b>PESSOA QUESTIONA SOBRE A CONFIRMAÇÃO DE DADOS:</b> A confirmação é para sua segurança. Vou informar os 6 primeiros dígitos, e você completa os restantes para proteger seus dados. Os 6 primeiros números do CPF são: [XXX.XXX], Qual o restante?<br><br><b>PESSOA QUESTIONA O MOTIVO DO CONTATO:</b> Não posso informar o motivo do contato sem confirmar seus dados primeiro, para proteger suas informações e evitar que sejam compartilhadas com terceiros. Podemos seguir com a confirmação?",
-        "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
+        "tabulacao": ["PESSOA NAO CONFIRMA DADOS"],
         "buttons": [
           { "label": "CONFIRMOU CPF", "next": "hab1_nome_completo_cliente", "primary": true },
           { "label": "RECUSOU NOVAMENTE", "next": "hab1_nao_confirmou" },
@@ -115,7 +115,7 @@
         "id": "hab1_nao_lembra_o_cpf",
         "title": "Finalização",
         "body": "Como você não lembra, vou retornar nesse mesmo número mais tarde para te passar os detalhes do assunto",
-        "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
+        "tabulacao": ["PESSOA NAO CONFIRMA DADOS"],
         "buttons": [
           { "label": "CLIENTE CONCORDOU", "next": "hab1_nao_lembra_o_cpf_parte2", "primary": true },
           { "label": "CLIENTE INSEGURO SOBRE NOSSA EMPRESA", "next": "hab1_questiona_origem" },
@@ -126,7 +126,7 @@
         "id": "hab1_nao_lembra_o_cpf_parte2",
         "title": "Finalização",
         "body": "A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
-        "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
+        "tabulacao": ["PESSOA NAO CONFIRMA DADOS"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab1_fim", "primary": true }
         ]
@@ -144,7 +144,7 @@
         "id": "hab1_nao_confirmou_nao_consegue_falar_no_momento",
         "title": "Finalização",
         "body": "Certo, vou retornar nesse mesmo número mais tarde para te passar os detalhes do assunto. A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
-        "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
+        "tabulacao": ["PESSOA NAO CONFIRMA DADOS"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab1_fim", "primary": true }
         ]
@@ -153,7 +153,7 @@
         "id": "hab1_nao_confirmou_vai_na_agencia",
         "title": "Finalização",
         "body": "[Nome do cliente], então você pode entrar em contato com esses números que vou te passar para saber o assunto que é: 0800 104 0104, 0800 025 8833 ou 4020 0088.",
-        "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
+        "tabulacao": ["PESSOA NAO CONFIRMA DADOS"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab1_fim", "primary": true }
         ]
@@ -162,7 +162,7 @@
         "id": "hab1_nao_confirmou",
         "title": "Finalização",
         "body": "[Nome do cliente], então você pode entrar em contato com esses números que vou te passar para saber o assunto que é: 0800 104 0104, 0800 025 8833 ou 4020 0088.",
-        "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
+        "tabulacao": ["PESSOA NAO CONFIRMA DADOS"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab1_fim", "primary": true }
         ]
@@ -171,7 +171,7 @@
         "id": "hab1_questiona_origem",
         "title": "Cliente questiona origem do contato",
         "body": "A Roveri é autorizada pela CAIXA a realizar o contato. Se você estiver inseguro sobre a nossa empresa, você pode acessar o site da CAIXA e confirmar www.caixa.gov.br/voce/negociacao/telefones e ver em Empresas terceirizadas o nome da ROVERI.",
-        "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
+        "tabulacao": ["PESSOA NAO CONFIRMA DADOS"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab1_fim", "primary": true }
         ]
@@ -180,7 +180,7 @@
         "id": "hab1_nome_completo_cliente",
         "title": "Confirme o nome completo do cliente",
         "body": "Obrigado(a), pela confirmação. Seu nome completo é (nome completo do cliente)?",
-        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO"],
+        "tabulacao": ["CONTATO INTERROMPIDO APOS IP, MAS SEM RESULTADO DEFINIDO"],
         "buttons": [
           { "label": "APRESENTAR DIVIDA", "next": "hab1_opcao_apresentacao", "primary": true }
         ]
@@ -189,7 +189,7 @@
         "id": "hab1_opcao_apresentacao",
         "title": "Faixa de Atraso",
         "body": "Selecione a opção de acordo com os dias em atraso",
-        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO"],
+        "tabulacao": ["CONTATO INTERROMPIDO APOS IP, MAS SEM RESULTADO DEFINIDO"],
         "buttons": [
           { "label": "ATRASO DE ATÉ 15 DIAS", "next": "hab1_apresentacao15dias", "primary": true },
           { "label": "ATRASO ACIMA DE 15 DIAS", "next": "hab1_apresentacao30dias" }
@@ -199,7 +199,7 @@
         "id": "hab1_apresentacao15dias",
         "title": "Apresentação da Dívida",
         "body": "O motivo do meu contato é para avisar sobre o vencimento do seu financiamento habitacional, vencido há XX dias no valor aproximado de R$XX,XX.<br>Já houve o pagamento?",
-        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JÁ EFETUADO"],
+        "tabulacao": ["CONTATO INTERROMPIDO APOS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JA EFETUADO"],
         "buttons": [
           { "label": "SIM", "next": "hab1_pagamento_efetuado", "primary": true },
           { "label": "NÃO", "next": "hab1_negociacao15dias" },
@@ -210,7 +210,7 @@
         "id": "hab1_apresentacao30dias",
         "title": "Apresentação da Dívida",
         "body": "O motivo do meu contato é para confirmar o pagamento do seu financiamento habitacional, vencido há XX dias no valor aproximado de R$XX,XX.<br>Já houve o pagamento?",
-        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JÁ EFETUADO"],
+        "tabulacao": ["CONTATO INTERROMPIDO APOS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JA EFETUADO"],
         "buttons": [
           { "label": "SIM JA PAGUEI", "next": "hab1_pagamento_efetuado", "primary": true },
           { "label": "NÃO", "next": "hab1_negociacao" }
@@ -220,7 +220,7 @@
         "id": "hab1_pagamento_efetuado",
         "title": "Fraseologia de Pagamento Efetuado",
         "body": "Caso seu pagamento tenha sido efetuado há menos de 5 dias úteis, possivelmente não foi atualizado pelo sistema, mas caso tenha mais de 5 dias úteis você pode esclarecer pelo WhatsApp 0800 104 0104.<br><br>ATENÇÃO!<br><br>Não pergunte qual foi a forma de pagamento e nem a data em que foi realizado, pois o script já informa o necessário.",
-        "tabulacao": ["PAGAMENTO JÁ EFETUADO"],
+        "tabulacao": ["PAGAMENTO JA EFETUADO"],
         "buttons": [
           { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "hab1_atualizacao_cadastral" }
         ]
@@ -229,7 +229,7 @@
         "id": "hab1_negociacao",
         "title": "Oferte o pagamento para o dia",
         "body": "O pagamento hoje ficaria bom para você?",
-        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO"],
+        "tabulacao": ["CONTATO INTERROMPIDO APOS IP, MAS SEM RESULTADO DEFINIDO"],
         "buttons": [
           { "label": "CLIENTE VAI PAGAR", "next": "hab1_ratificacao_aceite", "primary": true },
           { "label": "CLIENTE FALOU QUE NÃO", "next": "hab1_recusa" }
@@ -239,7 +239,7 @@
         "id": "hab1_negociacao15dias",
         "title": "Oferte o pagamento para o dia",
         "body": "O pagamento hoje ficaria bom para você?",
-        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO"],
+        "tabulacao": ["CONTATO INTERROMPIDO APOS IP, MAS SEM RESULTADO DEFINIDO"],
         "buttons": [
           { "label": "CLIENTE VAI PAGAR", "next": "hab1_ratificacao_aceite", "primary": true },
           { "label": "CLIENTE FALOU QUE NÃO", "next": "hab1_recusa15dias" }
@@ -249,7 +249,7 @@
         "id": "hab1_vai_pagar_fora_do_prazo",
         "title": "Negociação",
         "body": "Entendo que precise de um prazo maior ou mais alternativa para realizar o pagamento. Mas nosso prazo máximo e condições disponíveis por esse canal são essas. Para te ajudar, a data limite que eu consigo agendar seria XX/XX. Posso contar com seu pagamento?",
-        "tabulacao": ["CONTATO SEM NEGOCIAÇÃO", "PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSÃO DE BOLETO"],
+        "tabulacao": ["CONTATO SEM NEGOCIACAO", "PROMESSA DE PAGAMENTO SEM EMISSAO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "CLIENTE ACEITOU", "next": "hab1_ratificacao_aceite" },
           { "label": "CLIENTE RECUSOU", "next": "hab1_fgts_recusa" }
@@ -268,7 +268,7 @@
         "id": "hab1_negociou_com_agencia",
         "title": "Ja negociou com a agência",
         "body": "Certo, vou deixar registrado essa informação.",
-        "tabulacao": ["NEGOCIAÇÃO EM OUTRO CANAL"],
+        "tabulacao": ["NEGOCIACAO EM OUTRO CANAL"],
         "buttons": [
           { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "hab1_negociou_com_agencia_atualizacao_cadastral", "primary": true }
         ]
@@ -277,7 +277,7 @@
         "id": "hab1_negociou_com_agencia_atualizacao_cadastral",
         "title": "Atualização Cadastral",
         "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
-        "tabulacao": ["NEGOCIAÇÃO EM OUTRO CANAL"],
+        "tabulacao": ["NEGOCIACAO EM OUTRO CANAL"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab1_negociou_com_agencia_pesquisa_satisfacao", "primary": true }
         ]
@@ -286,7 +286,7 @@
         "id": "hab1_negociou_com_agencia_pesquisa_satisfacao",
         "title": "Pesquisa de Satisfação",
         "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
-        "tabulacao": ["NEGOCIAÇÃO EM OUTRO CANAL"],
+        "tabulacao": ["NEGOCIACAO EM OUTRO CANAL"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab1_fim", "primary": true }
         ]
@@ -295,7 +295,7 @@
         "id": "hab1_vai_negociar_com_agencia",
         "title": "Cliente vai negociar na agência",
         "body": "Certo, vou deixar registrado essa informação.",
-        "tabulacao": ["CONTATO SEM NEGOCIAÇÃO"],
+        "tabulacao": ["CONTATO SEM NEGOCIACAO"],
         "buttons": [
           { "label": "AVANÇAR", "next": "hab1_fgts_vai_negociar_com_agencia", "primary": true }
         ]
@@ -304,7 +304,7 @@
         "id": "hab1_fgts_vai_negociar_com_agencia",
         "title": "Fraseologia do FGTS",
         "body": "Você pode verificar a possibilidade de negociar seu contrato ou utilizar o FGTS para abater até 80% das prestações por 12 meses ligando no 4004 0104 / 0800 104 0104 ou pelo App Habitação CAIXA.",
-        "tabulacao": ["CONTATO SEM NEGOCIAÇÃO"],
+        "tabulacao": ["CONTATO SEM NEGOCIACAO"],
         "buttons": [
           { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "hab1_vai_negociar_com_agencia_atualizacao_cadastral", "primary": true }
         ]
@@ -313,7 +313,7 @@
         "id": "hab1_vai_negociar_com_agencia_atualizacao_cadastral",
         "title": "Atualização Cadastral",
         "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
-        "tabulacao": ["CONTATO SEM NEGOCIAÇÃO"],
+        "tabulacao": ["CONTATO SEM NEGOCIACAO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab1_vai_negociar_com_agencia_pesquisa_satisfacao", "primary": true }
         ]
@@ -322,7 +322,7 @@
         "id": "hab1_vai_negociar_com_agencia_pesquisa_satisfacao",
         "title": "Pesquisa de Satisfação",
         "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
-        "tabulacao": ["CONTATO SEM NEGOCIAÇÃO"],
+        "tabulacao": ["CONTATO SEM NEGOCIACAO"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab1_fim", "primary": true }
         ]
@@ -331,7 +331,7 @@
         "id": "hab1_desconhece_divida",
         "title": "Cliente desconhece dívida",
         "body": "Nesse caso você pode verificar mais informações sobre a dívida no site da CAIXA ou na sua agência.",
-        "tabulacao": ["DÍVIDA NÃO RECONHECIDA"],
+        "tabulacao": ["DIVIDA NAO RECONHECIDA"],
         "buttons": [
           { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "hab1_desconhece_divida_atualizacao_cadastral", "primary": true }
         ]
@@ -340,7 +340,7 @@
         "id": "hab1_desconhece_divida_atualizacao_cadastral",
         "title": "Atualização Cadastral",
         "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
-        "tabulacao": ["DÍVIDA NÃO RECONHECIDA"],
+        "tabulacao": ["DIVIDA NAO RECONHECIDA"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab1_desconhece_divida_pesquisa_satisfacao", "primary": true }
         ]
@@ -349,7 +349,7 @@
         "id": "hab1_desconhece_divida_pesquisa_satisfacao",
         "title": "Pesquisa de Satisfação",
         "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
-        "tabulacao": ["DÍVIDA NÃO RECONHECIDA"],
+        "tabulacao": ["DIVIDA NAO RECONHECIDA"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab1_fim", "primary": true }
         ]
@@ -358,7 +358,7 @@
         "id": "hab1_nao_reside_no_imovel",
         "title": "Cliente não reside no imóvel",
         "body": "Embora você não resida no local, a dívida está registrada em seu nome e CPF, o que o(a) mantém como responsável pela regularização. Para resolver essa situação de forma rápida e eficiente, sugerimos que entre em contato com a pessoa que realiza o pagamento dessa dívida. Isso pode ajudar a esclarecer se o pagamento já foi efetuado, se há uma data prevista para a quitação ou outras informações relevantes.",
-        "tabulacao": ["CONTATO SEM NEGOCIAÇÃO"],
+        "tabulacao": ["CONTATO SEM NEGOCIACAO"],
         "buttons": [
           { "label": "AVANÇAR", "next": "hab1_fgts_nao_reside_no_imovel", "primary": true }
         ]
@@ -367,7 +367,7 @@
         "id": "hab1_fgts_nao_reside_no_imovel",
         "title": "Fraseologia do FGTS",
         "body": "Você pode verificar a possibilidade de negociar seu contrato ou utilizar o FGTS para abater até 80% das prestações por 12 meses ligando no 4004 0104 / 0800 104 0104 ou pelo App Habitação CAIXA.",
-        "tabulacao": ["CONTATO SEM NEGOCIAÇÃO"],
+        "tabulacao": ["CONTATO SEM NEGOCIACAO"],
         "buttons": [
           { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "hab1_nao_reside_no_imovel_atualizacao_cadastral", "primary": true }
         ]
@@ -376,7 +376,7 @@
         "id": "hab1_nao_reside_no_imovel_atualizacao_cadastral",
         "title": "Atualização Cadastral",
         "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
-        "tabulacao": ["CONTATO SEM NEGOCIAÇÃO"],
+        "tabulacao": ["CONTATO SEM NEGOCIACAO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab1_nao_reside_no_imovel_pesquisa_satisfacao", "primary": true }
         ]
@@ -385,7 +385,7 @@
         "id": "hab1_nao_reside_no_imovel_pesquisa_satisfacao",
         "title": "Pesquisa de Satisfação",
         "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
-        "tabulacao": ["CONTATO SEM NEGOCIAÇÃO"],
+        "tabulacao": ["CONTATO SEM NEGOCIACAO"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab1_fim", "primary": true }
         ]
@@ -450,6 +450,7 @@
       "hab1_recusa_novamente": {
         "id": "hab1_recusa_novamente",
         "title": "Ouça o que o cliente disser e adapte a sua argumentação",
+        "body": "Entendo que imprevistos podem acontecer.<br><br><b>Atraso maior que 30 dias e menor de 120 dias:</b><br>Gostaria de lembrá-lo sobre possíveis consequências de não realizar o pagamento, como a inclusão ou permanência do seu nome no SPC e SERASA. Evite também o risco de retomada do seu imóvel pagando ao menos uma parcela, A MAIS ANTIGA. Posso contar com seu pagamento?<br><br><b>Atraso superior a 120 dias:</b> <br>O pagamento da parcela mais antiga NÃO evita que o seu imóvel seja retomado. Mas você pode ir regularizando aos poucos pagando ao menos uma parcela, A MAIS ANTIGA. Posso agendar até dia XX/XX?",
         "buttons": [
           { "label": "ACEITOU", "next": "hab1_ratificacao_aceite" },
           { "label": "RECUSOU", "next": "hab1_fgts_recusa" }
@@ -486,7 +487,7 @@
         "id": "hab1_ratificacao_aceite",
         "title": "Ratificação",
         "body": "Certo, vou registrar seu pagamento para o dia XX/XX.",
-        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSÃO DE BOLETO"],
+        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSAO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "PAGAMENTO TOTAL", "next": "hab1_pagamento_total" },
           { "label": "PAGAMENTO PARCIAL", "next": "hab1_pagamento_parcial" }
@@ -496,7 +497,7 @@
         "id": "hab1_pagamento_total",
         "title": "Pagamento Total",
         "body": "Agradeço a confirmação, contamos com seu pagamento.<br><br>Precisa da emissão do boleto?",
-        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSÃO DE BOLETO"],
+        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSAO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "SIM", "next": "hab1_opcao_boleto" },
           { "label": "NÃO", "next": "hab1_fgts_recusa" }
@@ -506,7 +507,7 @@
         "id": "hab1_opcao_boleto",
         "title": "Opções de envio",
         "body": "ENVIO DE BOLETO VIA E-MAIL:<br>Estou encaminhando o boleto para o seu e-mail, ele pode chegar até o dia do vencimento.<br><br>SE FOR VIA WHATSAPP:<br>Você autoriza o envio do boleto por WhatsApp?",
-        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSÃO DE BOLETO"],
+        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSAO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "AVANÇAR", "next": "hab1_fgts_aceite" }
         ]
@@ -515,7 +516,7 @@
         "id": "hab1_fgts_aceite",
         "title": "Fraseologia do FGTS",
         "body": "Você pode verificar a possibilidade de negociar seu contrato ou utilizar o FGTS para abater até 80% das prestações por 12 meses ligando no 4004 0104 / 0800 104 0104 ou pelo App Habitação CAIXA.",
-        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSÃO DE BOLETO"],
+        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSAO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "hab1_atualizacao_cadastral_aceite", "primary": true }
         ]
@@ -524,7 +525,7 @@
         "id": "hab1_atualizacao_cadastral_aceite",
         "title": "Atualização Cadastral",
         "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
-        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSÃO DE BOLETO"],
+        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSAO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab1_pesquisa_satisfacao_aceite", "primary": true }
         ]
@@ -533,7 +534,7 @@
         "id": "hab1_pesquisa_satisfacao_aceite",
         "title": "Pesquisa de Satisfação",
         "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
-        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSÃO DE BOLETO"],
+        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSAO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab1_fim", "primary": true }
         ]
@@ -542,7 +543,7 @@
         "id": "hab1_pagamento_parcial",
         "title": "Ações de cobrança",
         "body": "Seu contrato continua em aberto até que toda a dívida seja quitada. Enquanto isso, seguem as ações de cobrança: ligações, registro no SPC/Serasa e risco de retomada ou leilão do imóvel.<br><br>Se o processo de execução já começou, ele segue normalmente até a quitação total.",
-        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSÃO DE BOLETO"],
+        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSAO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "AVANÇAR", "next": "hab1_pagamento_total" }
         ]
@@ -551,7 +552,7 @@
         "id": "hab1_atualizacao_cadastral",
         "title": "Atualização Cadastral",
         "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
-        "tabulacao": ["PAGAMENTO JÁ EFETUADO"],
+        "tabulacao": ["PAGAMENTO JA EFETUADO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab1_pesquisa_satisfacao", "primary": true }
         ]
@@ -560,7 +561,7 @@
         "id": "hab1_pesquisa_satisfacao",
         "title": "Pesquisa de Satisfação",
         "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
-        "tabulacao": ["PAGAMENTO JÁ EFETUADO"],
+        "tabulacao": ["PAGAMENTO JA EFETUADO"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab1_fim", "primary": true }
         ]

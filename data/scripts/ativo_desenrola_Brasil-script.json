@@ -5,7 +5,7 @@
         "id": "cdes1_abordagem",
         "title": "Abordagem Ativa",
         "body": "Olá, falo com [Nome do cliente]?",
-        "tabulacao": ["LIGAÇÃO CAIU", "LIGAÇÃO MUDA"],
+        "tabulacao": ["LIGACAO CAIU", "LIGACAO MUDA"],
         "buttons": [
           { "label": "SIM, É O CLIENTE", "next": "cdes1_identificacao", "primary": true },
           { "label": "NÃO É O CLIENTE", "next": "cdes1_terceiro" },
@@ -16,7 +16,7 @@
         "id": "cdes1_terceiro",
         "title": "Terceiro",
         "body": "Aqui é o [nome do operador] eu falo da Central de Negócios da CAIXA<br><br>Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
-        "tabulacao": ["LIGAÇÃO CAIU", "DESCONHECIDO NO TELEFONE"],
+        "tabulacao": ["LIGACAO CAIU", "DESCONHECIDO NO TELEFONE"],
         "buttons": [
           { "label": "CONHECE O CLIENTE", "next": "cdes1_terceiro_conhece", "primary": true },
           { "label": "NÃO CONHECE", "next": "cdes1_nao_conhece" },
@@ -27,7 +27,7 @@
         "id": "cdes1_sem_resposta",
         "title": "Cliente/Terceiro não responde",
         "body": "Por falta de comunicação encerro o contato.",
-        "tabulacao": ["LIGAÇÃO MUDA"],
+        "tabulacao": ["LIGACAO MUDA"],
         "buttons": [
           { "label": "FINALIZAR", "next": "cdes1_fim", "primary": true }
         ]
@@ -82,7 +82,7 @@
         "id": "cdes1_identificacao",
         "title": "Identifique-se",
         "body": "Aqui é o [nome do operador] eu falo da Central de Negócios da CAIXA. Tudo bem?",
-        "tabulacao": ["LIGAÇÃO CAIU"],
+        "tabulacao": ["LIGACAO CAIU"],
         "buttons": [
           { "label": "AVANÇAR", "next": "cdes1_identificacao_parte2", "primary": true }
         ]
@@ -91,7 +91,7 @@
         "id": "cdes1_identificacao_parte2",
         "title": "Confirmação do CPF",
         "body": "Para sua segurança, essa ligação está sendo gravada.<br>Eu sou do Grupo Roveri e, por questões de sigilo bancário, preciso confirmar alguns dados.<br>Vou te dizer os (6) seis primeiros números do seu CPF e você completa com os demais, os primeiros números são: [XXX.XXX], qual o restante?",
-        "tabulacao": ["LIGAÇÃO CAIU", "PESSOA NÃO CONFIRMA DADOS"],
+        "tabulacao": ["LIGACAO CAIU", "PESSOA NAO CONFIRMA DADOS"],
         "buttons": [
           { "label": "CONFIRMOU CPF", "next": "cdes1_nome_completo_cliente", "primary": true },
           { "label": "RECUSOU CONFIRMAR", "next": "cdes1_nao_confirma" }
@@ -101,7 +101,7 @@
         "id": "cdes1_nao_confirma",
         "title": "Cliente não quer confirmar o CPF",
         "body": "<b>PESSOA QUESTIONA O MOTIVO DO CONTATO:</b> Esse contato é sobre o relacionamento com a CAIXA, após a confirmação dos dados, irei fornecer todos os detalhes. Os 6 primeiros números do CPF são: (XXX.XXX), qual o restante?<br><br><b>PESSOA QUESTIONA SOBRE A CONFIRMAÇÃO DE DADOS:</b> A confirmação é para sua segurança. Vou informar os 6 primeiros dígitos, e você completa os restantes para proteger seus dados. Os 6 primeiros números do CPF são: [XXX.XXX], Qual o restante?<br><br><b>PESSOA QUESTIONA O MOTIVO DO CONTATO:</b> Não posso informar o motivo do contato sem confirmar seus dados primeiro, para proteger suas informações e evitar que sejam compartilhadas com terceiros. Podemos seguir com a confirmação?",
-        "tabulacao": ["LIGAÇÃO CAIU", "PESSOA NÃO CONFIRMA DADOS"],
+        "tabulacao": ["LIGACAO CAIU", "PESSOA NAO CONFIRMA DADOS"],
         "buttons": [
           { "label": "CONFIRMOU CPF", "next": "cdes1_nome_completo_cliente", "primary": true },
           { "label": "RECUSOU NOVAMENTE", "next": "cdes1_nao_confirmou" },
@@ -115,7 +115,7 @@
         "id": "cdes1_nao_lembra_o_cpf",
         "title": "Finalização",
         "body": "Como você não lembra, vou retornar nesse mesmo número mais tarde para te passar os detalhes do assunto",
-        "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
+        "tabulacao": ["PESSOA NAO CONFIRMA DADOS"],
         "buttons": [
           { "label": "CLIENTE CONCORDOU", "next": "cdes1_nao_lembra_o_cpf_parte2", "primary": true },
           { "label": "CLIENTE INSEGURO SOBRE NOSSA EMPRESA", "next": "cdes1_questiona_origem" },
@@ -126,7 +126,7 @@
         "id": "cdes1_nao_lembra_o_cpf_parte2",
         "title": "Finalização",
         "body": "A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
-        "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
+        "tabulacao": ["PESSOA NAO CONFIRMA DADOS"],
         "buttons": [
           { "label": "FINALIZAR", "next": "cdes1_fim", "primary": true }
         ]
@@ -144,7 +144,7 @@
         "id": "cdes1_nao_confirmou_nao_consegue_falar_no_momento",
         "title": "Finalização",
         "body": "Certo, vou retornar nesse mesmo número mais tarde para te passar os detalhes do assunto. A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
-        "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
+        "tabulacao": ["PESSOA NAO CONFIRMA DADOS"],
         "buttons": [
           { "label": "FINALIZAR", "next": "cdes1_fim", "primary": true }
         ]
@@ -153,7 +153,7 @@
         "id": "cdes1_nao_confirmou_vai_na_agencia",
         "title": "Finalização",
         "body": "(Nome do cliente), então você pode entrar em contato com esses números que vou te passar para saber o assunto que é: 0800 104 0104, 0800 025 8833 ou 4020 0088.",
-        "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
+        "tabulacao": ["PESSOA NAO CONFIRMA DADOS"],
         "buttons": [
           { "label": "FINALIZAR", "next": "cdes1_fim", "primary": true }
         ]
@@ -162,7 +162,7 @@
         "id": "cdes1_nao_confirmou",
         "title": "Finalização",
         "body": "(Nome do cliente), então você pode entrar em contato com esses números que vou te passar para saber o assunto que é: 0800 104 0104, 0800 025 8833 ou 4020 0088.",
-        "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
+        "tabulacao": ["PESSOA NAO CONFIRMA DADOS"],
         "buttons": [
           { "label": "FINALIZAR", "next": "cdes1_fim", "primary": true }
         ]
@@ -171,7 +171,7 @@
         "id": "cdes1_questiona_origem",
         "title": "Cliente questiona origem do contato",
         "body": "A Roveri é autorizada pela CAIXA a realizar o contato. Se você estiver inseguro sobre a nossa empresa, você pode acessar o site da CAIXA e confirmar www.caixa.gov.br/voce/negociacao/telefones e ver em Empresas terceirizadas o nome da ROVERI.",
-        "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
+        "tabulacao": ["PESSOA NAO CONFIRMA DADOS"],
         "buttons": [
           { "label": "FINALIZAR", "next": "cdes1_fim", "primary": true }
         ]
@@ -180,7 +180,7 @@
         "id": "cdes1_nome_completo_cliente",
         "title": "Confirme o nome completo do cliente",
         "body": "Obrigado(a), pela confirmação. Seu nome completo é (nome completo do cliente)?",
-        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO"],
+        "tabulacao": ["CONTATO INTERROMPIDO APOS IP, MAS SEM RESULTADO DEFINIDO"],
         "buttons": [
           { "label": "CONFIRMADO", "next": "cdes1_abordagem_desenrola", "primary": true }
         ]
@@ -189,7 +189,7 @@
         "id": "cdes1_abordagem_desenrola",
         "title": "Novo Desenrola Brasil",
         "body": "Aqui em nosso sistema consta o seu [nome do contrato] em aberto há aproximadamente XX dias, no valor de R$XX,XX.<br>Já houve o pagamento?",
-        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JÁ EFETUADO"],
+        "tabulacao": ["CONTATO INTERROMPIDO APOS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JA EFETUADO"],
         "buttons": [
           { "label": "CLIENTE ELEGÍVEL", "next": "cdes1_cliente_elegivel", "primary": true },
           { "label": "CLIENTE NÃO ELEGÍVEL - Perguntou do Desenrola", "next": "cdes1_cliente_nao_elegivel" },
@@ -200,7 +200,7 @@
         "id": "cdes1_pagamento_efetuado_sem_oferta",
         "title": "Pagamento Já Efetuado",
         "body": "Caso seu pagamento tenha sido efetuado há menos de 5 dias úteis, possivelmente não foi atualizado pelo sistema, mas caso tenha mais de 5 dias úteis você pode esclarecer pelo WhatsApp 0800 104 0104.<br><br>ATENÇÃO!<br><br>Peço que aguarde em linha para avaliar a qualidade do nosso atendimento.<br><br>A CAIXA agradece a sua atenção e deseja um ótimo dia/tarde/noite.",
-        "tabulacao": ["PAGAMENTO JÁ EFETUADO"],
+        "tabulacao": ["PAGAMENTO JA EFETUADO"],
         "buttons": [
           { "label": "FINALIZAR", "next": "cdes1_fim", "primary": true }
         ]
@@ -209,7 +209,7 @@
         "id": "cdes1_cliente_nao_elegivel",
         "title": "Cliente NÂO Elegível",
         "body": "Nesse momento específico, o Novo Desenrola Brasil, não está disponível para esse contrato, mas eu já consigo verificar as melhores condições vigentes no nosso sistema para você regularizar agora.",
-        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO"],
+        "tabulacao": ["CONTATO INTERROMPIDO APOS IP, MAS SEM RESULTADO DEFINIDO"],
         "buttons": [
           { "label": "OFERTA COMUM - Cliente NÂO Elegível", "next": "cdes1_oferta_comum", "primary": true },
           { "label": "RECUSOU", "next": "cdes1_cliente_recusou_oferta_comum" }
@@ -219,7 +219,7 @@
         "id": "cdes1_cliente_recusou_oferta_comum",
         "title": "Cliente NÂO Elegível",
         "body": "Sem problemas!<br>Fica registrado que hoje você optou por não seguir com a regularização. Sempre que quiser, a CAIXA permanece à disposição para te apoiar na reorganização financeira.<br><br>Peço que você aguarde em linha para avaliar a qualidade do nosso atendimento. A CAIXA agradece a sua atenção edeseja um ótimo(a) dia/tarde/noite.",
-        "tabulacao": ["SEM CAPACIDADE DE PAGAMENTO", "CONTATO SEM NEGOCIAÇÃO"],
+        "tabulacao": ["SEM CAPACIDADE DE PAGAMENTO", "CONTATO SEM NEGOCIACAO"],
         "buttons": [
           { "label": "FINALIZAR", "next": "cdes1_fim", "primary": true }
         ]
@@ -237,7 +237,7 @@
         "id": "cdes1_cliente_elegivel",
         "title": "Cliente Elegível",
         "body": "[Primeiro nome do cliente], você faz parte de um grupo de clientes elegíveis que pode aproveitar o Novo Desenrola Brasil para regularização de dívidas com condições especiais e temporárias.",
-        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO"],
+        "tabulacao": ["CONTATO INTERROMPIDO APOS IP, MAS SEM RESULTADO DEFINIDO"],
         "buttons": [
           { "label": "APRESENTAR OFERTA - SINEB", "next": "cdes1_apresentacao_sineb", "primary": true },
           { "label": "APRESENTAR OFERTA - CARTÃO", "next": "cdes1_apresentacao_cartao", "primary": true }
@@ -247,7 +247,7 @@
         "id": "cdes1_apresentacao_sineb",
         "title": "Apresentação da Oferta",
         "body": "A CAIXA está oferecendo uma oportunidade de renegociação pensada para quem precisa de mais fôlego financeiro, chamado Novo Desenrola Brasil. Você regulariza sua situação fazendo o pagamento a vista com um desconto especial no valor de RS XX,XX.<br><br>Você aceita a proposta?<br><br><b>Se for FIES - Em caso de Aceite sem emissão de boleto:</b><br>Ótimo, vou registrar seu aceite e passar as informações para pagar com o desconto. Basta acessar o endereço https://sifesweb.caixa.gov.br ou no APP FIES. E para que a renegociação seja efetivada, o estudante deverá observar os procedimentos operacionais e efetuar o pagamento da entrada, até a data de vencimento do boleto.",
-        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO"],
+        "tabulacao": ["CONTATO INTERROMPIDO APOS IP, MAS SEM RESULTADO DEFINIDO"],
         "buttons": [
           { "label": "ACEITOU À VISTA", "next": "cdes1_aceite_boleto", "primary": true },
           { "label": "ACEITOU PARCELADO", "next": "cdes1_cliente_aceite_parcelado", "primary": true },
@@ -260,7 +260,7 @@
         "id": "cdes1_apresentacao_cartao",
         "title": "Apresentação da Oferta",
         "body": "A CAIXA está oferecendo uma oportunidade de renegociação pensada para quem precisa de mais fôlego financeiro, chamado Novo Desenrola Brasil. Você regulariza sua situação fazendo o pagamento a vista com um desconto especial no valor de RS XX,XX.<br><br>Você aceita a proposta?<br><b>IMPORTANTE<b><br>Abordar utilizando o desconto apenas para os cartões com a marca Desenrola, informando os dados apresentados no SIATC [valor total para pagamento à vista de todos os contratos];<br>Caso o cliente possua mais de um cartão, informar os dados apresentados por conta, haja vista que o sistema não permite a aglutinação de contratos, ou seja, deve ser feito um acordo para cada cartão;<br>Os cartões sem a marca devem ser abordados como de costume.<br>O SIATC apresenta o desconto como DESENROLA2",
-        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO"],
+        "tabulacao": ["CONTATO INTERROMPIDO APOS IP, MAS SEM RESULTADO DEFINIDO"],
         "buttons": [
           { "label": "ACEITOU À VISTA", "next": "cdes1_aceite_boleto", "primary": true },
           { "label": "ACEITOU PARCELADO", "next": "cdes1_cliente_aceite_parcelado", "primary": true },
@@ -273,7 +273,7 @@
         "id": "cdes1_cliente_aceite_parcelado",
         "title": "Cliente Elegível - Parcelamento do Desconto",
         "body": "Para dar continuidade às opções de parcelamento, seu atendimento será encaminhado ao segundo nível, responsável pela formalização da proposta. A equipe entrará em contato para avaliar as possibilidades, tudo bem?",
-        "tabulacao": ["ACEITA AÇÃO/CAMPANHA COM PARCELAMENTO"],
+        "tabulacao": ["ACEITA ACAO/CAMPANHA COM PARCELAMENTO"],
         "buttons": [
           { "label": "AVANÇAR", "next": "cdes1_cliente_aceite_parcelado_atualizacao_cadastral", "primary": true }
         ]
@@ -281,8 +281,8 @@
       "cdes1_cliente_aceite_parcelado_atualizacao_cadastral": {
         "id": "cdes1_cliente_aceite_parcelado_atualizacao_cadastral",
         "title": "Atualização para envio da Proposta",
-        "body": "Para envio da proposta, poderia me confirmar seu WhatsApp e endereço de e mail?",
-        "tabulacao": ["ACEITA AÇÃO/CAMPANHA COM PARCELAMENTO"],
+        "body": "Para envio da proposta, poderia me confirmar seu WhatsApp e endereço de e mail?<br><br>O telefone informado é o mesmo que estamos utilizando para contato?",
+        "tabulacao": ["ACEITA ACAO/CAMPANHA COM PARCELAMENTO"],
         "buttons": [
           { "label": "AVANÇAR", "next": "cdes1_cliente_aceite_parcelado_pesquisa", "primary": true }
         ]
@@ -291,7 +291,7 @@
         "id": "cdes1_cliente_aceite_parcelado_pesquisa",
         "title": "Pesquisa de Satisfação",
         "body": "Peço que aguarde em linha para avaliar a qualidade do nosso atendimento.<br><br>A CAIXA agradece a sua atenção e deseja um ótimo dia/tarde/noite.",
-        "tabulacao": ["ACEITA AÇÃO/CAMPANHA COM PARCELAMENTO"],
+        "tabulacao": ["ACEITA ACAO/CAMPANHA COM PARCELAMENTO"],
         "buttons": [
           { "label": "FINALIZAR", "next": "cdes1_fim", "primary": true }
         ]
@@ -300,7 +300,7 @@
         "id": "cdes1_aceite_boleto",
         "title": "Aceite com Emissão de Boleto",
         "body": "Perfeito, [Primeiro nome do cliente]. Vou registrar seu aceite e emitir o boleto agora mesmo.<br><br>Assim que o pagamento for identificado, o contrato entra em processo de regularização.",
-        "tabulacao": ["ACEITA AÇÃO/CAMPANHA COM EMISSÃO DE BOLETO"],
+        "tabulacao": ["ACEITA ACAO/CAMPANHA COM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "CONTINUAR", "next": "cdes1_restricao_apostas", "primary": true }
         ]
@@ -308,17 +308,35 @@
       "cdes1_aceite_sem_boleto": {
         "id": "cdes1_aceite_sem_boleto",
         "title": "Aceite sem Emissão de Boleto",
-        "body": "Vou registrar seu aceite referente a proposta.<br><br>Como o boleto não está disponível, seu atendimento será encaminhado ao segundo nível para continuidade. Eles vão entrar em contato para finalizar, tudo bem?<br><br>Para envio da proposta, poderia me confirmar seu WhatsApp e endereço de e-mail?",
-        "tabulacao": ["ACEITA AÇÃO/CAMPANHA SEM EMISSÃO DE BOLETO"],
+        "body": "Vou registrar seu aceite referente a proposta.<br><br>Como o boleto não está disponível, seu atendimento será encaminhado ao segundo nível para continuidade. Eles vão entrar em contato para finalizar, tudo bem?",
+        "tabulacao": ["ACEITA ACAO/CAMPANHA SEM EMISSAO DE BOLETO"],
         "buttons": [
-          { "label": "CONTINUAR", "next": "cdes1_restricao_apostas", "primary": true }
+          { "label": "CONTINUAR", "next": "cdes1_atualizacao_cadastral_boleto_indisponivel", "primary": true }
+        ]
+      },
+      "cdes1_atualizacao_cadastral_boleto_indisponivel": {
+        "id": "cdes1_atualizacao_cadastral_boleto_indisponivel",
+        "title": "Atualização Cadastral",
+        "body": "Para manter seus dados atualizados, poderia me confirmar se número de telefone e o endereço de e-mail permanece sendo o mesmo?",
+        "tabulacao": ["ACEITA ACAO/CAMPANHA SEM EMISSAO DE BOLETO"],
+        "buttons": [
+          { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "cdes1_finalizacao_aceite_sem_boleto", "primary": true }
+        ]
+      },
+      "cdes1_finalizacao_aceite_sem_boleto": {
+        "id": "cdes1_finalizacao_aceite_sem_boleto",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar a qualidade do nosso atendimento.<br><br>A CAIXA agradece a sua atenção e deseja um ótimo dia/tarde/noite.",
+        "tabulacao": ["ACEITA ACAO/CAMPANHA SEM EMISSAO DE BOLETO"],
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes1_fim", "primary": true }
         ]
       },
       "cdes1_restricao_apostas": {
         "id": "cdes1_restricao_apostas",
         "title": "Frase Obrigatória",
         "body": "Caso haja algum impedimento, o acordo não será acatado.<br><br>[Primeiro nome do cliente], você está ciente de que ficará impedido de fazer apostas em jogos online por um ano?",
-        "tabulacao": ["ACEITA AÇÃO/CAMPANHA COM EMISSÃO DE BOLETO", "ACEITA AÇÃO/CAMPANHA SEM EMISSÃO DE BOLETO"],
+        "tabulacao": ["ACEITA ACAO/CAMPANHA COM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "CIENTE", "next": "envio_boleto_aceite", "primary": true },
           { "label": "RECUSOU", "next": "cdes1_recusa", "primary": true }
@@ -327,8 +345,8 @@
       "envio_boleto_aceite": {
         "id": "envio_boleto_aceite",
         "title": "Envio de Boleto",
-        "body": "Você prefere receber o boleto por E-mail ou Whatsapp?",
-        "tabulacao": ["ACEITA AÇÃO/CAMPANHA COM EMISSÃO DE BOLETO", "ACEITA AÇÃO/CAMPANHA SEM EMISSÃO DE BOLETO"],
+        "body": "Você prefere receber o boleto por E-mail ou Whatsapp?<br><br>Para finalizar, o telefone e endereço de e-mail permanece sendo os mesmos?",
+        "tabulacao": ["ACEITA ACAO/CAMPANHA COM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "AVANÇAR", "next": "cdes1_finalizacao_aceite", "primary": true }
         ]
@@ -337,7 +355,7 @@
         "id": "cdes1_recusa",
         "title": "Recusa",
         "body": "Essa proposta é por tempo limitado caso mude de ideia ligar para os números 0800 025 8833 ou 4020-0088.<br><br>[Primeiro nome do cliente], fica registrado que hoje você optou por não seguir com a regularização.",
-        "tabulacao": ["RECUSA AÇÃO/CAMPANHA + RESULTADO COM MOTIVO DA RECUSA"],
+        "tabulacao": ["RECUSA ACAO/CAMPANHA + RESULTADO COM MOTIVO DA RECUSA"],
         "buttons": [
           { "label": "FINALIZAR", "next": "cdes1_finalizacao_recusa", "primary": true }
         ]
@@ -346,7 +364,7 @@
         "id": "cdes1_pagamento_efetuado_com_oferta",
         "title": "Pagamento Já Efetuado",
         "body": "Caso seu pagamento tenha sido efetuado há menos de 5 dias úteis, possivelmente não foi atualizado pelo sistema, mas caso tenha mais de 5 dias úteis você pode esclarecer pelo WhatsApp 0800 104 0104.<br><br>ATENÇÃO!<br><br>Peço que aguarde em linha para avaliar a qualidade do nosso atendimento.<br><br>A CAIXA agradece a sua atenção e deseja um ótimo dia/tarde/noite.",
-        "tabulacao": ["RECUSA AÇÃO/CAMPANHA + PAGAMENTO JÁ EFETUADO"],
+        "tabulacao": ["RECUSA ACAO/CAMPANHA + PAGAMENTO JA EFETUADO"],
         "buttons": [
           { "label": "FINALIZAR", "next": "cdes1_fim", "primary": true }
         ]
@@ -355,7 +373,7 @@
         "id": "cdes1_finalizacao_aceite",
         "title": "Pesquisa de Satisfação",
         "body": "Peço que aguarde em linha para avaliar a qualidade do nosso atendimento.<br><br>A CAIXA agradece a sua atenção e deseja um ótimo dia/tarde/noite.",
-        "tabulacao": ["ACEITA AÇÃO/CAMPANHA COM EMISSÃO DE BOLETO", "ACEITA AÇÃO/CAMPANHA SEM EMISSÃO DE BOLETO"],
+        "tabulacao": ["ACEITA ACAO/CAMPANHA COM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "FINALIZAR", "next": "cdes1_fim", "primary": true }
         ]
@@ -364,7 +382,7 @@
         "id": "cdes1_finalizacao_recusa",
         "title": "Finalização",
         "body": "A CAIXA agradece a sua atenção e deseja um ótimo dia/tarde/noite.",
-        "tabulacao": ["RECUSA AÇÃO/CAMPANHA + RESULTADO COM MOTIVO DA RECUSA"],
+        "tabulacao": ["RECUSA ACAO/CAMPANHA + RESULTADO COM MOTIVO DA RECUSA"],
         "buttons": [
           { "label": "FINALIZAR", "next": "cdes1_fim", "primary": true }
         ]

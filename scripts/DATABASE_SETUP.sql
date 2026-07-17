@@ -539,7 +539,7 @@ INSERT INTO tabulations (name, description, color, is_active) VALUES
 ('CLIENTE COM ACORDO ATIVO RETORNA NO RECEPTIVO', 'Quando o cliente retorna no receptivo tendo acordo vigente para solicitar esclarecimentos ou solicitar o boleto.', '#22c55e', true),
 ('PROMESSA DE PAGAMENTO ACORDO DE PARCELAMENTO', 'Cliente confirma o pagamento parcelado do CARTAO DE CREDITO.', '#22c55e', true),
 ('TRANSBORDO PARA ATENDIMENTO ENTRE CANAIS, COM IP', 'Quando o atendimento e iniciado em um canal e precisa ser transbordado para resolucao por outro canal apos o cliente ter realizado a confirmacao do CPF.', '#22c55e', true),
-('ACEITA AÇÃO/CAMPANHA COM PARCELAMENTO', 'Deve ser utilizado especificamente para o registro de aceites relacionados a propostas de parcelamento no âmbito do Desenrola Brasil', '#22c55e', true),
+('ACEITA ACAO/CAMPANHA COM PARCELAMENTO', 'Deve ser utilizado especificamente para o registro de aceites relacionados a propostas de parcelamento no âmbito do Desenrola Brasil', '#22c55e', true),
 ('RECUSA ACAO/CAMPANHA + RESULTADO COM MOTIVO DA RECUSA', 'Cliente nao aceita a campanha ofertada. Motivos da Recusa: Sem capacidade de pagamento | Contato sem negociacao/acordo | Negociacao em outro canal | Pessoa solicita retorno em outro momento | Divida nao reconhecida | Promessa de pagamento sem emissao de boleto | Promessa de pagamento com emissao de boleto', '#22c55e', true)
 ON CONFLICT DO NOTHING;
 

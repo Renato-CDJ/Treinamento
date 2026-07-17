@@ -5,7 +5,7 @@
         "id": "hab532_abordagem",
         "title": "Abordagem",
         "body": "Olá, falo com [Nome do cliente]?",
-        "tabulacao": ["LIGAÇÃO CAIU", "LIGAÇÃO MUDA"],
+        "tabulacao": ["LIGACAO CAIU", "LIGACAO MUDA"],
         "buttons": [
           { "label": "SIM, É O CLIENTE", "next": "hab532_identificacao", "primary": true },
           { "label": "NÃO É O CLIENTE", "next": "hab532_terceiro" },
@@ -16,7 +16,7 @@
         "id": "hab532_terceiro",
         "title": "Terceiro",
         "body": "Aqui é o [nome do operador] eu falo da Central de Negócios da CAIXA<br><br>Só para confirmar, esse número não pertence à <b>[Nome Completo do Cliente]</b>?<br><br><b>Em caso negativo:</b><br>Entendi. E você conhece <b>[Nome Completo do Cliente]</b>?",
-        "tabulacao": ["LIGAÇÃO CAIU", "DESCONHECIDO NO TELEFONE"],
+        "tabulacao": ["LIGACAO CAIU", "DESCONHECIDO NO TELEFONE"],
         "buttons": [
           { "label": "SIM", "next": "hab532_terceiro_conhece", "primary": true },
           { "label": "NÃO CONHECE", "next": "hab532_nao_conhece" },
@@ -27,7 +27,7 @@
         "id": "hab532_sem_resposta",
         "title": "Cliente/Terceiro não responde",
         "body": "Por falta de comunicação encerro o contato.",
-        "tabulacao": ["LIGAÇÃO MUDA"],
+        "tabulacao": ["LIGACAO MUDA"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab532_fim", "primary": true }
         ]
@@ -82,7 +82,7 @@
         "id": "hab532_identificacao",
         "title": "Identifique-se",
         "body": "Aqui é o [nome do operador] eu falo da Central de Negócios da CAIXA. Tudo bem?",
-        "tabulacao": ["LIGAÇÃO CAIU"],
+        "tabulacao": ["LIGACAO CAIU"],
         "buttons": [
           { "label": "AVANÇAR", "next": "hab532_identificacao_parte2", "primary": true }
         ]
@@ -91,7 +91,7 @@
         "id": "hab532_identificacao_parte2",
         "title": "Identificação Positiva CPF",
         "body": "Para sua segurança, essa ligação está sendo gravada.<br>Eu sou do Grupo Roveri e, por questões de sigilo bancário, preciso confirmar alguns dados.<br>Vou te dizer os (6) seis primeiros números do seu CPF e você completa com os demais, os primeiros números são: [XXX.XXX], qual o restante?",
-        "tabulacao": ["LIGAÇÃO CAIU", "PESSOA NÃO CONFIRMA DADOS"],
+        "tabulacao": ["LIGACAO CAIU", "PESSOA NAO CONFIRMA DADOS"],
         "buttons": [
           { "label": "CONFIRMOU CPF", "next": "hab532_nome_completo_cliente", "primary": true },
           { "label": "RECUSOU CONFIRMAR", "next": "hab532_nao_confirma" }
@@ -101,7 +101,7 @@
         "id": "hab532_nao_confirma",
         "title": "Cliente não quer confirmar o CPF",
         "body": "<b>PESSOA QUESTIONA O MOTIVO DO CONTATO:</b> Esse contato é sobre o relacionamento com a CAIXA, após a confirmação dos dados, irei fornecer todos os detalhes. Os 6 primeiros números do CPF são: (XXX.XXX), qual o restante?<br><br><b>PESSOA QUESTIONA SOBRE A CONFIRMAÇÃO DE DADOS:</b> A confirmação é para sua segurança. Vou informar os 6 primeiros dígitos, e você completa os restantes para proteger seus dados. Os 6 primeiros números do CPF são: [XXX.XXX], Qual o restante?<br><br><b>PESSOA QUESTIONA O MOTIVO DO CONTATO:</b> Não posso informar o motivo do contato sem confirmar seus dados primeiro, para proteger suas informações e evitar que sejam compartilhadas com terceiros. Podemos seguir com a confirmação?",
-        "tabulacao": ["LIGAÇÃO CAIU", "PESSOA NÃO CONFIRMA DADOS"],
+        "tabulacao": ["LIGACAO CAIU", "PESSOA NAO CONFIRMA DADOS"],
         "buttons": [
           { "label": "CONFIRMOU CPF", "next": "hab532_nome_completo_cliente", "primary": true },
           { "label": "RECUSOU CONFIRMAR", "next": "hab532_nao_confirmou" }
@@ -111,7 +111,7 @@
         "id": "hab532_nao_confirmou",
         "title": "Finalização",
         "body": "(Nome do cliente), então você pode entrar em contato com esses números que vou te passar para saber o assunto que é: 0800 104 0104, 0800 025 8833 ou 4020 0088.",
-        "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
+        "tabulacao": ["PESSOA NAO CONFIRMA DADOS"],
         "buttons": [
           { "label": "CONFIRMOU CPF", "next": "hab532_nome_completo_cliente", "primary": true },
           { "label": "CLIENTE INSEGURO SOBRE NOSSA EMPRESA", "next": "hab532_questiona_origem" },
@@ -122,7 +122,7 @@
         "id": "hab532_questiona_origem",
         "title": "Cliente questiona origem do contato",
         "body": "A Roveri é autorizada pela CAIXA a realizar o contato. Se você estiver inseguro sobre a nossa empresa, você pode acessar o site da CAIXA e confirmar www.caixa.gov.br/voce/negociacao/telefones e ver em Empresas terceirizadas o nome da ROVERI.",
-        "tabulacao": ["PESSOA NÃO CONFIRMA DADOS"],
+        "tabulacao": ["PESSOA NAO CONFIRMA DADOS"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab532_fim", "primary": true }
         ]
@@ -131,7 +131,7 @@
         "id": "hab532_nome_completo_cliente",
         "title": "Nome completo do cliente",
         "body": "Obrigado(a), pela confirmação. Seu nome completo é (nome completo do cliente)?",
-        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO"],
+        "tabulacao": ["CONTATO INTERROMPIDO APOS IP, MAS SEM RESULTADO DEFINIDO"],
         "buttons": [
           { "label": "APRESENTAR DIVIDA", "next": "hab532_apresentacao", "primary": true }
         ]
@@ -140,7 +140,7 @@
         "id": "hab532_apresentacao",
         "title": "Apresentação da Dívida",
         "body": "O motivo do meu contato é sobre seu financiamento habitacional, consta XX prestações vencida(s).<br>Já houve o pagamento dela?",
-        "tabulacao": ["CONTATO INTERROMPIDO APÓS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JÁ EFETUADO"],
+        "tabulacao": ["CONTATO INTERROMPIDO APOS IP, MAS SEM RESULTADO DEFINIDO", "PAGAMENTO JA EFETUADO"],
         "buttons": [
           { "label": "SIM", "next": "hab532_pagamento_efetuado", "primary": true },
           { "label": "NÃO", "next": "hab532_negociacao" }
@@ -150,7 +150,7 @@
         "id": "hab532_pagamento_efetuado",
         "title": "Fraseologia de Pagamento Efetuado",
         "body": "Caso seu pagamento tenha sido efetuado há menos de 5 dias úteis, possivelmente não foi atualizado pelo sistema, mas caso tenha mais de 5 dias úteis você pode esclarecer pelo WhatsApp 0800 104 0104.<br><br>ATENÇÃO!<br>Não pergunte qual foi a forma de pagamento e nem a data em que foi realizado, pois o script já informa o necessário.",
-        "tabulacao": ["PAGAMENTO JÁ EFETUADO"],
+        "tabulacao": ["PAGAMENTO JA EFETUADO"],
         "buttons": [
           { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "hab532_atualizacao_cadastral" }
         ]
@@ -179,7 +179,7 @@
         "id": "hab532_recusa_novamente",
         "title": "INFORME",
         "body": "Informo que a proposta é por tempo limitado e caso mude de ideia ligar para a números 0800 025 8833 ou 4020-0088 ou pelo WhatsApp 0800 104 0104.",
-        "tabulacao": ["RECUSA AÇÃO/CAMPANHA + RESULTADO COM MOTIVO DA RECUSA"],
+        "tabulacao": ["RECUSA ACAO/CAMPANHA + RESULTADO COM MOTIVO DA RECUSA"],
         "buttons": [
           { "label": "ACEITOU", "next": "hab532_ratificacao_aceite" },
           { "label": "RECUSOU", "next": "hab532_consequencias_recusa" }
@@ -189,7 +189,7 @@
         "id": "hab532_consequencias_recusa",
         "title": "Consequências do NÃO pagamento",
         "body": "Reforço que as ações de cobrança terão continuidade e os juros são diários e também retirar/evitar a restrição do CPF no SPC/SERASA.",
-        "tabulacao": ["RECUSA AÇÃO/CAMPANHA + RESULTADO COM MOTIVO DA RECUSA"],
+        "tabulacao": ["RECUSA ACAO/CAMPANHA + RESULTADO COM MOTIVO DA RECUSA"],
         "buttons": [
           { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "hab532_atualizacao_cadastral_recusa", "primary": true }
         ]
@@ -198,7 +198,7 @@
         "id": "hab532_atualizacao_cadastral_recusa",
         "title": "Atualização Cadastral",
         "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
-        "tabulacao": ["RECUSA AÇÃO/CAMPANHA + RESULTADO COM MOTIVO DA RECUSA"],
+        "tabulacao": ["RECUSA ACAO/CAMPANHA + RESULTADO COM MOTIVO DA RECUSA"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab532_pesquisa_satisfacao_recusa", "primary": true }
         ]
@@ -207,7 +207,7 @@
         "id": "hab532_pesquisa_satisfacao_recusa",
         "title": "Pesquisa de Satisfação",
         "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
-        "tabulacao": ["RECUSA AÇÃO/CAMPANHA + RESULTADO COM MOTIVO DA RECUSA"],
+        "tabulacao": ["RECUSA ACAO/CAMPANHA + RESULTADO COM MOTIVO DA RECUSA"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab532_fim", "primary": true }
         ]
@@ -226,7 +226,7 @@
         "id": "hab532_pagamento_total_campanha",
         "title": "Pagamento Total",
         "body": "Agradeço a confirmação, seu pagamento ficou para o dia XX/XX.",
-        "tabulacao": ["ACEITA AÇÃO/CAMPANHA COM EMISSÃO DE BOLETO"],
+        "tabulacao": ["ACEITA ACAO/CAMPANHA COM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "AVANÇAR", "next": "hab532_atualizacao_cadastral_aceite_campanha" }
         ]
@@ -235,7 +235,7 @@
         "id": "hab532_pagamento_parcial_campanha",
         "title": "Parcial [no mínimo, uma prestação mais antiga]",
         "body": "Como não se trata do pagamento de total e sim parcial, permanecem os juros diários, ligações de cobrança e a restrição do CPF/CNPJ no SPC/SERASA.<br><br>CASO O ENVIO DO BOLETO NÃO ESTEJA DISPONÍVEL NO CIWEB:<br>O boleto dessa proposta no momento não está disponível para emissão por esse canal. Você pode solicitar/consultar pelo WhatsApp 0800 104 0104 a emissão do boleto.",
-        "tabulacao": ["ACEITA AÇÃO/CAMPANHA COM EMISSÃO DE BOLETO"],
+        "tabulacao": ["ACEITA ACAO/CAMPANHA COM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "AVANÇAR", "next": "hab532_atualizacao_cadastral_aceite_campanha" }
         ]
@@ -244,7 +244,7 @@
         "id": "hab532_boleto_indisponivel_campanha",
         "title": "Em caso de boleto indisponível",
         "body": "O boleto dessa proposta no momento não está disponível para emissão por esse canal. Você pode solicitar/consultar pelo WhatsApp 0800 104 0104 a emissão do boleto.",
-        "tabulacao": ["ACEITA AÇÃO/CAMPANHA SEM EMISSÃO DE BOLETO"],
+        "tabulacao": ["ACEITA ACAO/CAMPANHA SEM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "hab532_atualizacao_cadastral_boleto_indisponivel_campanha" }
         ]
@@ -253,7 +253,7 @@
         "id": "hab532_atualizacao_cadastral_boleto_indisponivel_campanha",
         "title": "Atualização Cadastral",
         "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
-        "tabulacao": ["ACEITA AÇÃO/CAMPANHA SEM EMISSÃO DE BOLETO"],
+        "tabulacao": ["ACEITA ACAO/CAMPANHA SEM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab532_pesquisa_satisfacao_boleto_indisponivel_campanha", "primary": true }
         ]
@@ -262,7 +262,7 @@
         "id": "hab532_pesquisa_satisfacao_boleto_indisponivel_campanha",
         "title": "Pesquisa de Satisfação",
         "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
-        "tabulacao": ["ACEITA AÇÃO/CAMPANHA SEM EMISSÃO DE BOLETO"],
+        "tabulacao": ["ACEITA ACAO/CAMPANHA SEM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab532_fim", "primary": true }
         ]
@@ -271,7 +271,7 @@
         "id": "hab532_atualizacao_cadastral_aceite_campanha",
         "title": "Atualização Cadastral",
         "body": "Gostaria de atualizar o seu e-mail?<br><br>E o número para contato permanece o mesmo?",
-        "tabulacao": ["ACEITA AÇÃO/CAMPANHA COM EMISSÃO DE BOLETO"],
+        "tabulacao": ["ACEITA ACAO/CAMPANHA COM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab532_pesquisa_satisfacao_aceite", "primary": true }
         ]
@@ -280,7 +280,7 @@
         "id": "hab532_pesquisa_satisfacao_aceite_campanha",
         "title": "Pesquisa de Satisfação",
         "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
-        "tabulacao": ["ACEITA AÇÃO/CAMPANHA COM EMISSÃO DE BOLETO"],
+        "tabulacao": ["ACEITA ACAO/CAMPANHA COM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab532_fim", "primary": true }
         ]
@@ -299,7 +299,7 @@
         "id": "hab532_boleto_indisponivel",
         "title": "Em caso de boleto indisponível",
         "body": "O boleto dessa proposta no momento não está disponível para emissão por esse canal. Você pode solicitar/consultar pelo WhatsApp 0800 104 0104 a emissão do boleto.",
-        "tabulacao": ["ACEITA AÇÃO/CAMPANHA SEM EMISSÃO DE BOLETO"],
+        "tabulacao": ["ACEITA ACAO/CAMPANHA SEM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "hab532_atualizacao_cadastral_boleto_indisponivel" }
         ]
@@ -308,7 +308,7 @@
         "id": "hab532_atualizacao_cadastral_boleto_indisponivel",
         "title": "Atualização Cadastral",
         "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
-        "tabulacao": ["ACEITA AÇÃO/CAMPANHA SEM EMISSÃO DE BOLETO"],
+        "tabulacao": ["ACEITA ACAO/CAMPANHA SEM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab532_pesquisa_satisfacao_boleto_indisponivel", "primary": true }
         ]
@@ -317,7 +317,7 @@
         "id": "hab532_pesquisa_satisfacao_boleto_indisponivel",
         "title": "Pesquisa de Satisfação",
         "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
-        "tabulacao": ["ACEITA AÇÃO/CAMPANHA SEM EMISSÃO DE BOLETO"],
+        "tabulacao": ["ACEITA ACAO/CAMPANHA SEM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab532_fim", "primary": true }
         ]
@@ -326,7 +326,7 @@
         "id": "hab532_pagamento_total",
         "title": "Pagamento Total",
         "body": "Agradeço a confirmação, contamos com seu pagamento.",
-        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSÃO DE BOLETO"],
+        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSAO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "AVANÇAR", "next": "hab532_atualizacao_cadastral_aceite" }
         ]
@@ -335,7 +335,7 @@
         "id": "hab532_atualizacao_cadastral_aceite",
         "title": "Atualização Cadastral",
         "body": "Gostaria de atualizar o seu e-mail?<br><br>E o número para contato permanece o mesmo?",
-        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSÃO DE BOLETO"],
+        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSAO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab532_pesquisa_satisfacao_aceite", "primary": true }
         ]
@@ -344,7 +344,7 @@
         "id": "hab532_pesquisa_satisfacao_aceite",
         "title": "Pesquisa de Satisfação",
         "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
-        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSÃO DE BOLETO"],
+        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSAO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab532_fim", "primary": true }
         ]
@@ -353,7 +353,7 @@
         "id": "hab532_pagamento_parcial",
         "title": "Parcial [no mínimo, uma prestação mais antiga]",
         "body": "Como não se trata do pagamento de total e sim parcial, permanecem os juros diários, ligações de cobrança e a restrição do CPF/CNPJ no SPC/SERASA.<br><br>CASO O ENVIO DO BOLETO NÃO ESTEJA DISPONÍVEL NO CIWEB:<br>O boleto dessa proposta no momento não está disponível para emissão por esse canal. Você pode solicitar/consultar pelo WhatsApp 0800 104 0104 a emissão do boleto.",
-        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSÃO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSÃO DE BOLETO"],
+        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSAO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "AVANÇAR", "next": "hab532_atualizacao_cadastral_aceite" }
         ]
@@ -362,7 +362,7 @@
         "id": "hab532_atualizacao_cadastral",
         "title": "Atualização Cadastral",
         "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
-        "tabulacao": ["PAGAMENTO JÁ EFETUADO"],
+        "tabulacao": ["PAGAMENTO JA EFETUADO"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab532_pesquisa_satisfacao", "primary": true }
         ]
@@ -371,7 +371,7 @@
         "id": "hab532_pesquisa_satisfacao",
         "title": "Pesquisa de Satisfação",
         "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
-        "tabulacao": ["PAGAMENTO JÁ EFETUADO"],
+        "tabulacao": ["PAGAMENTO JA EFETUADO"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab532_fim", "primary": true }
         ]
