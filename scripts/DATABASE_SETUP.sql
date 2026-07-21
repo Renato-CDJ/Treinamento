@@ -532,7 +532,7 @@ INSERT INTO tabulations (name, description, color, is_active) VALUES
 ('CONTATO SEM NEGOCIACAO', 'Cliente informa que nao consegue falar no momento e desliga, ou cliente informa que ira pagar ou depositar FORA do prazo estabelecido [10 dias corridos].', '#22c55e', true),
 ('SEM CAPACIDADE DE PAGAMENTO', 'Cliente informa que nao possui capacidade de efetuar o pagamento. Exemplo dos motivos: Informa que nao tem recurso disponivel, desemprego, mudancas economicas ou nao pode fazer o pagamento naquele momento.', '#22c55e', true),
 ('DIVIDA NAO RECONHECIDA', 'Cliente alega que desconhece a divida.', '#22c55e', true),
-('NEGOCIACAO EM OUTRO CANAL', 'Cliente informa que ja esta negociando em outro canal.', '#22c55e', true),
+('NEGOCIACAO EM OUTRO CANAL', 'Cliente informa que está negociando, pretende ou prefere negociar através de outro canal de atendimento.', '#22c55e', true),
 ('PROMESSA DE PAGAMENTO COM EMISSAO DE BOLETO', 'Cliente solicita boleto e informa data de pagamento dentro do periodo permitido [10 dias corridos].', '#22c55e', true),
 ('ACEITA ACAO/CAMPANHA SEM EMISSAO DE BOLETO', 'Cliente aceita a campanha sem emissao de boleto', '#22c55e', true),
 ('ACEITA ACAO/CAMPANHA COM EMISSAO DE BOLETO', 'Cliente aceita a campanha com emissao de boleto', '#22c55e', true),
