@@ -214,14 +214,14 @@ export function OperatorTrainingsView({ mediaType }: OperatorTrainingsViewProps)
         <DialogContent
           className={
             isFullscreen
-              ? "p-0 gap-0 !max-w-full !w-screen !h-[100dvh] !max-h-[100dvh] top-0 left-0 translate-x-0 translate-y-0 rounded-none"
-              : "p-0 gap-0 !max-w-none !w-[95vw] !h-[90dvh] !max-h-[90dvh]"
+              ? "p-0 gap-0 flex flex-col overflow-hidden !max-w-full !w-screen !h-[100dvh] !max-h-[100dvh] top-0 left-0 translate-x-0 translate-y-0 rounded-none"
+              : "p-0 gap-0 flex flex-col overflow-hidden !max-w-none !w-[95vw] !h-[90dvh] !max-h-[90dvh]"
           }
           showCloseButton={false}
         >
-          <div className="flex flex-col h-full bg-background">
+          <div className="flex flex-col flex-1 min-h-0 w-full bg-background">
             {/* Viewer Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b bg-gradient-to-r from-orange-500/10 to-transparent">
+            <div className="flex items-center justify-between px-6 py-4 border-b bg-gradient-to-r from-orange-500/10 to-transparent shrink-0">
               <div className="flex items-center gap-4 min-w-0">
                 <div className="p-3 bg-orange-500/20 rounded-xl shrink-0">
                   {selected?.type === "video" ? (
