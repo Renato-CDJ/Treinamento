@@ -16,10 +16,15 @@ import {
   Maximize2,
   Minimize2,
   X,
+  Video,
+  Play,
 } from "lucide-react"
+
+type TrainingType = "pdf" | "video"
 
 interface Training {
   id: string
+  type: TrainingType
   title: string
   filename: string
   url: string
@@ -127,7 +132,11 @@ export function OperatorTrainingsView() {
               <CardContent className="p-4 flex flex-col gap-4 h-full">
                 <div className="flex items-start gap-3">
                   <div className="flex-shrink-0 p-3 bg-orange-500/10 rounded-lg">
-                    <FileText className="h-6 w-6 text-orange-500" />
+                    {training.type === "video" ? (
+                      <Video className="h-6 w-6 text-orange-500" />
+                    ) : (
+                      <FileText className="h-6 w-6 text-orange-500" />
+                    )}
                   </div>
                   <div className="flex-1 min-w-0">
                     <h4 className="font-semibold text-base mb-1 line-clamp-2 capitalize">
@@ -135,7 +144,7 @@ export function OperatorTrainingsView() {
                     </h4>
                     <div className="flex items-center gap-2 flex-wrap">
                       <Badge variant="outline" className="text-xs">
-                        PDF
+                        {training.type === "video" ? "Vídeo" : "PDF"}
                       </Badge>
                       {training.size > 0 && (
                         <span className="text-xs text-muted-foreground">
@@ -153,10 +162,24 @@ export function OperatorTrainingsView() {
                     }}
                     className="flex-1 bg-orange-500 hover:bg-orange-600 text-white"
                   >
-                    <Eye className="h-4 w-4 mr-2" />
-                    Visualizar
+                    {training.type === "video" ? (
+                      <>
+                        <Play className="h-4 w-4 mr-2" />
+                        Assistir
+                      </>
+                    ) : (
+                      <>
+                        <Eye className="h-4 w-4 mr-2" />
+                        Visualizar
+                      </>
+                    )}
                   </Button>
-                  <Button variant="outline" size="icon" asChild title="Baixar PDF">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    asChild
+                    title={training.type === "video" ? "Baixar vídeo" : "Baixar PDF"}
+                  >
                     <a href={encodePath(training.url)} download={training.filename}>
                       <Download className="h-4 w-4" />
                     </a>
@@ -183,20 +206,30 @@ export function OperatorTrainingsView() {
             <div className="flex items-center justify-between px-6 py-4 border-b bg-gradient-to-r from-orange-500/10 to-transparent">
               <div className="flex items-center gap-4 min-w-0">
                 <div className="p-3 bg-orange-500/20 rounded-xl shrink-0">
-                  <FileText className="h-6 w-6 text-orange-500" />
+                  {selected?.type === "video" ? (
+                    <Video className="h-6 w-6 text-orange-500" />
+                  ) : (
+                    <FileText className="h-6 w-6 text-orange-500" />
+                  )}
                 </div>
                 <div className="min-w-0">
                   <h3 className="font-semibold text-lg truncate capitalize">
                     {selected?.title}
                   </h3>
                   <Badge variant="outline" className="text-xs mt-1">
-                    PDF
+                    {selected?.type === "video" ? "Vídeo" : "PDF"}
                   </Badge>
                 </div>
               </div>
               <div className="flex items-center gap-2 shrink-0">
                 {selected && (
-                  <Button variant="ghost" size="icon" asChild title="Baixar PDF" className="h-10 w-10">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    asChild
+                    title={selected.type === "video" ? "Baixar vídeo" : "Baixar PDF"}
+                    className="h-10 w-10"
+                  >
                     <a href={encodePath(selected.url)} download={selected.filename}>
                       <Download className="h-5 w-5" />
                     </a>
@@ -223,12 +256,23 @@ export function OperatorTrainingsView() {
               </div>
             </div>
 
-            {/* PDF Content */}
-            <div className="flex-1 overflow-hidden bg-muted">
-              {selected && (
+            {/* Conteúdo (PDF ou Vídeo) */}
+            <div className="flex-1 overflow-hidden bg-black">
+              {selected && selected.type === "video" && (
+                <video
+                  src={encodePath(selected.url)}
+                  className="w-full h-full"
+                  controls
+                  autoPlay
+                  controlsList="nodownload"
+                >
+                  Seu navegador não suporta a reprodução de vídeos.
+                </video>
+              )}
+              {selected && selected.type === "pdf" && (
                 <iframe
                   src={`${encodePath(selected.url)}#view=FitH`}
-                  className="w-full h-full"
+                  className="w-full h-full bg-muted"
                   title={selected.title}
                 />
               )}
