@@ -62,6 +62,7 @@ import {
 import { containsProfanity, getProfanityWarning } from "@/lib/profanity-filter"
 import { useToast } from "@/hooks/use-toast"
 import type { QualityPost } from "@/lib/types"
+import { OperatorTrainingsView } from "@/components/operator-trainings-view"
 
 interface QualityCenterModalProps {
   isOpen: boolean
@@ -343,15 +344,7 @@ export function QualityCenterModal({ isOpen, onClose }: QualityCenterModalProps)
                     formatTimeAgo={formatTimeAgo}
                   />
                 )}
-                {activeView === "treinamentos" && (
-                  <div className="flex flex-col items-center justify-center h-[50vh] text-muted-foreground">
-                    <div className="p-6 bg-muted rounded-full mb-4">
-                      <BookOpen className="h-12 w-12" />
-                    </div>
-                    <h3 className="text-xl font-semibold mb-2">Treinamentos</h3>
-                    <p className="text-sm">Esta funcionalidade estara disponivel em breve</p>
-                  </div>
-                )}
+                {activeView === "treinamentos" && <OperatorTrainingsView />}
               </div>
             </ScrollArea>
           </main>
