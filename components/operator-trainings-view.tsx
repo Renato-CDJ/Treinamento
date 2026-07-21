@@ -11,7 +11,6 @@ import {
   FileText,
   Loader2,
   Eye,
-  Download,
   Search,
   Maximize2,
   Minimize2,
@@ -40,12 +39,34 @@ function formatFileSize(bytes: number) {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i]
 }
 
-export function OperatorTrainingsView() {
+interface OperatorTrainingsViewProps {
+  mediaType: TrainingType
+}
+
+const VIEW_CONFIG: Record<
+  TrainingType,
+  { title: string; description: string; emptyLabel: string }
+> = {
+  pdf: {
+    title: "Treinamentos",
+    description: "Materiais de capacitacao disponibilizados pela Qualidade",
+    emptyLabel: "Nenhum treinamento disponivel",
+  },
+  video: {
+    title: "Vídeos Treinamento",
+    description: "Vídeos de capacitacao disponibilizados pela Qualidade",
+    emptyLabel: "Nenhum vídeo disponivel",
+  },
+}
+
+export function OperatorTrainingsView({ mediaType }: OperatorTrainingsViewProps) {
   const [trainings, setTrainings] = useState<Training[]>([])
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState("")
   const [selected, setSelected] = useState<Training | null>(null)
   const [isFullscreen, setIsFullscreen] = useState(false)
+
+  const config = VIEW_CONFIG[mediaType]
 
   const loadTrainings = useCallback(async () => {
     try {
@@ -70,8 +91,9 @@ export function OperatorTrainingsView() {
 
   const filteredTrainings = trainings.filter(
     (t) =>
-      t.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      t.filename.toLowerCase().includes(searchQuery.toLowerCase()),
+      t.type === mediaType &&
+      (t.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        t.filename.toLowerCase().includes(searchQuery.toLowerCase())),
   )
 
   return (
@@ -79,22 +101,24 @@ export function OperatorTrainingsView() {
       {/* Header */}
       <div className="flex items-center gap-3">
         <div className="p-2 bg-orange-500/10 rounded-xl">
-          <BookOpen className="h-6 w-6 text-orange-500" />
+          {mediaType === "video" ? (
+            <Video className="h-6 w-6 text-orange-500" />
+          ) : (
+            <BookOpen className="h-6 w-6 text-orange-500" />
+          )}
         </div>
         <div>
-          <h2 className="text-xl font-bold text-foreground">Treinamentos</h2>
-          <p className="text-sm text-muted-foreground">
-            Materiais de capacitacao disponibilizados pela Qualidade
-          </p>
+          <h2 className="text-xl font-bold text-foreground">{config.title}</h2>
+          <p className="text-sm text-muted-foreground">{config.description}</p>
         </div>
       </div>
 
       {/* Search */}
-      {trainings.length > 0 && (
+      {trainings.some((t) => t.type === mediaType) && (
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Pesquisar treinamentos..."
+            placeholder={mediaType === "video" ? "Pesquisar vídeos..." : "Pesquisar treinamentos..."}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-9"
@@ -111,10 +135,14 @@ export function OperatorTrainingsView() {
       ) : filteredTrainings.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-muted-foreground">
           <div className="p-6 bg-muted rounded-full mb-4">
-            <BookOpen className="h-12 w-12" />
+            {mediaType === "video" ? (
+              <Video className="h-12 w-12" />
+            ) : (
+              <BookOpen className="h-12 w-12" />
+            )}
           </div>
           <h3 className="text-lg font-semibold text-foreground mb-1">
-            {searchQuery ? "Nenhum resultado encontrado" : "Nenhum treinamento disponivel"}
+            {searchQuery ? "Nenhum resultado encontrado" : config.emptyLabel}
           </h3>
           <p className="text-sm">
             {searchQuery
@@ -174,16 +202,6 @@ export function OperatorTrainingsView() {
                       </>
                     )}
                   </Button>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    asChild
-                    title={training.type === "video" ? "Baixar vídeo" : "Baixar PDF"}
-                  >
-                    <a href={encodePath(training.url)} download={training.filename}>
-                      <Download className="h-4 w-4" />
-                    </a>
-                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -222,19 +240,6 @@ export function OperatorTrainingsView() {
                 </div>
               </div>
               <div className="flex items-center gap-2 shrink-0">
-                {selected && (
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    asChild
-                    title={selected.type === "video" ? "Baixar vídeo" : "Baixar PDF"}
-                    className="h-10 w-10"
-                  >
-                    <a href={encodePath(selected.url)} download={selected.filename}>
-                      <Download className="h-5 w-5" />
-                    </a>
-                  </Button>
-                )}
                 <Button
                   variant="ghost"
                   size="icon"

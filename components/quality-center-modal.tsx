@@ -41,6 +41,7 @@ import {
   AlertCircle,
   Megaphone,
   BookOpen,
+  Video,
   Check,
   X,
   Paintbrush,
@@ -243,6 +244,13 @@ export function QualityCenterModal({ isOpen, onClose }: QualityCenterModalProps)
                 onClick={() => setActiveView("treinamentos")}
               />
 
+              <SidebarButton
+                icon={<Video className="h-5 w-5" />}
+                label="Vídeos Treinamento"
+                active={activeView === "videos"}
+                onClick={() => setActiveView("videos")}
+              />
+
               {/* Filtros */}
               <div className="my-3 border-t border-border pt-3">
                 <p className="text-xs text-muted-foreground uppercase tracking-wider mb-2 px-2">Filtros</p>
@@ -344,7 +352,8 @@ export function QualityCenterModal({ isOpen, onClose }: QualityCenterModalProps)
                     formatTimeAgo={formatTimeAgo}
                   />
                 )}
-                {activeView === "treinamentos" && <OperatorTrainingsView />}
+                {activeView === "treinamentos" && <OperatorTrainingsView mediaType="pdf" />}
+                {activeView === "videos" && <OperatorTrainingsView mediaType="video" />}
               </div>
             </ScrollArea>
           </main>
