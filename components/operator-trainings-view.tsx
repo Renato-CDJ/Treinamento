@@ -214,8 +214,8 @@ export function OperatorTrainingsView({ mediaType }: OperatorTrainingsViewProps)
         <DialogContent
           className={
             isFullscreen
-              ? "p-0 gap-0 !max-w-full !w-screen !h-screen"
-              : "p-0 gap-0 !max-w-none !w-[95vw] !h-[95vh]"
+              ? "p-0 gap-0 !max-w-full !w-screen !h-[100dvh] !max-h-[100dvh] top-0 left-0 translate-x-0 translate-y-0 rounded-none"
+              : "p-0 gap-0 !max-w-none !w-[95vw] !h-[90dvh] !max-h-[90dvh]"
           }
           showCloseButton={false}
         >
@@ -262,11 +262,11 @@ export function OperatorTrainingsView({ mediaType }: OperatorTrainingsViewProps)
             </div>
 
             {/* Conteúdo (PDF ou Vídeo) */}
-            <div className="flex-1 overflow-hidden bg-black">
+            <div className="flex-1 min-h-0 overflow-hidden bg-black">
               {selected && selected.type === "video" && (
                 <video
                   src={encodePath(selected.url)}
-                  className="w-full h-full"
+                  className="w-full h-full object-contain"
                   controls
                   autoPlay
                   controlsList="nodownload"
