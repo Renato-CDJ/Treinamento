@@ -259,7 +259,7 @@
       "cdes1_apresentacao_cartao": {
         "id": "cdes1_apresentacao_cartao",
         "title": "Apresentação da Oferta",
-        "body": "A CAIXA está oferecendo uma oportunidade de renegociação pensada para quem precisa de mais fôlego financeiro, chamado Novo Desenrola Brasil. Você regulariza sua situação fazendo o pagamento a vista com um desconto especial no valor de RS XX,XX.<br><br>Você aceita a proposta?<br><b>IMPORTANTE<b><br>Abordar utilizando o desconto apenas para os cartões com a marca Desenrola, informando os dados apresentados no SIATC [valor total para pagamento à vista de todos os contratos];<br>Caso o cliente possua mais de um cartão, informar os dados apresentados por conta, haja vista que o sistema não permite a aglutinação de contratos, ou seja, deve ser feito um acordo para cada cartão;<br>Os cartões sem a marca devem ser abordados como de costume.<br>O SIATC apresenta o desconto como DESENROLA2",
+        "body": "A CAIXA está oferecendo uma oportunidade de renegociação pensada para quem precisa de mais fôlego financeiro, chamado Novo Desenrola Brasil. Você regulariza sua situação fazendo o pagamento a vista com um desconto especial no valor de RS XX,XX.<br><br>Você aceita a proposta?",
         "tabulacao": ["CONTATO INTERROMPIDO APOS IP, MAS SEM RESULTADO DEFINIDO"],
         "buttons": [
           { "label": "ACEITOU À VISTA", "next": "cdes1_aceite_boleto", "primary": true },
@@ -339,7 +339,7 @@
         "tabulacao": ["ACEITA ACAO/CAMPANHA COM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "CIENTE", "next": "envio_boleto_aceite", "primary": true },
-          { "label": "RECUSOU", "next": "cdes1_recusa", "primary": true }
+          { "label": "RECUSOU", "next": "cdes1_boleto_para_analise", "primary": true }
         ]
       },
       "envio_boleto_aceite": {
@@ -351,6 +351,16 @@
           { "label": "AVANÇAR", "next": "cdes1_finalizacao_aceite", "primary": true }
         ]
       },
+      "cdes1_boleto_para_analise": {
+        "id": "cdes1_boleto_para_analise",
+        "title": "Boleto para Análise",
+        "body": "Para que possa analisar melhor a proposta posso te enviar o boleto sem compromisso? Caso mude de ideia o pagamento pode ser feito em até 10 dias corridos.",
+        "tabulacao": ["ACEITA ACAO/CAMPANHA COM EMISSAO DE BOLETO"],
+        "buttons": [
+          { "label": "ACEITOU", "next": "cdes1_boleto_para_analise_atualizacao_cadastral", "primary": true },
+          { "label": "RECUSOU", "next": "cdes1_recusa" }
+        ]
+      },
       "cdes1_recusa": {
         "id": "cdes1_recusa",
         "title": "Recusa",
@@ -358,6 +368,24 @@
         "tabulacao": ["RECUSA ACAO/CAMPANHA + RESULTADO COM MOTIVO DA RECUSA"],
         "buttons": [
           { "label": "FINALIZAR", "next": "cdes1_finalizacao_recusa", "primary": true }
+        ]
+      },
+      "cdes1_boleto_para_analise_atualizacao_cadastral": {
+        "id": "cdes1_boleto_para_analise_atualizacao_cadastral",
+        "title": "Atualização para envio da Proposta",
+        "body": "Para envio da proposta, poderia me confirmar seu WhatsApp e endereço de e mail?<br><br>O telefone informado é o mesmo que estamos utilizando para contato?",
+        "tabulacao": ["ACEITA ACAO/CAMPANHA COM EMISSAO DE BOLETO"],
+        "buttons": [
+          { "label": "AVANÇAR", "next": "cdes1_boleto_para_analise_pesquisa", "primary": true }
+        ]
+      },
+      "cdes1_boleto_para_analise_pesquisa": {
+        "id": "cdes1_boleto_para_analise_pesquisa",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar a qualidade do nosso atendimento.<br><br>A CAIXA agradece a sua atenção e deseja um ótimo dia/tarde/noite.",
+        "tabulacao": ["ACEITA ACAO/CAMPANHA COM EMISSAO DE BOLETO"],
+        "buttons": [
+          { "label": "FINALIZAR", "next": "cdes1_fim", "primary": true }
         ]
       },
       "cdes1_pagamento_efetuado_com_oferta": {

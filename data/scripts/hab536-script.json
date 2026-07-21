@@ -162,7 +162,35 @@
         "tabulacao": ["CONTATO INTERROMPIDO APOS IP, MAS SEM RESULTADO DEFINIDO"],
         "buttons": [
           { "label": "ACEITOU", "next": "hab536_ratificacao_aceite", "primary": true },
-          { "label": "NÃO", "next": "hab536_recusa2" }
+          { "label": "NÃO", "next": "hab536_boleto_para_analise" }
+        ]
+      },
+      "hab536_boleto_para_analise": {
+        "id": "hab536_boleto_para_analise",
+        "title": "Boleto para Análise",
+        "body": "Para que possa analisar melhor a proposta posso te enviar o boleto sem compromisso? Caso mude de ideia o pagamento pode ser feito até o vencimento do boleto.",
+        "tabulacao": ["ACEITA ACAO/CAMPANHA COM EMISSAO DE BOLETO"],
+        "buttons": [
+          { "label": "ACEITOU", "next": "hab536_boleto_para_analise_atualizacao_cadastral", "primary": true },
+          { "label": "RECUSOU", "next": "hab536_recusa2" }
+        ]
+      },
+      "hab536_boleto_para_analise_atualizacao_cadastral": {
+        "id": "hab536_boleto_para_analise_atualizacao_cadastral",
+        "title": "Atualização para envio da Proposta",
+        "body": "Para envio da proposta, o seu endereço de e mail permanece o mesmo?<br><br>O telefone informado é o mesmo que estamos utilizando para contato?",
+        "tabulacao": ["ACEITA ACAO/CAMPANHA COM EMISSAO DE BOLETO"],
+        "buttons": [
+          { "label": "AVANÇAR", "next": "hab536_boleto_para_analise_pesquisa", "primary": true }
+        ]
+      },
+      "hab536_boleto_para_analise_pesquisa": {
+        "id": "hab536_boleto_para_analise_pesquisa",
+        "title": "Pesquisa de Satisfação",
+        "body": "Peço que aguarde em linha para avaliar a qualidade do nosso atendimento.<br><br>A CAIXA agradece a sua atenção e deseja um ótimo dia/tarde/noite.",
+        "tabulacao": ["ACEITA ACAO/CAMPANHA COM EMISSAO DE BOLETO"],
+        "buttons": [
+          { "label": "FINALIZAR", "next": "hab536_fim", "primary": true }
         ]
       },
       "hab536_recusa2": {
