@@ -158,7 +158,7 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-full bg-primary px-4 py-3 text-primary-foreground shadow-lg shadow-primary/30 transition-all hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
+          className="fixed bottom-6 left-6 z-50 flex items-center gap-2 rounded-full bg-primary px-4 py-3 text-primary-foreground shadow-lg shadow-primary/30 transition-all hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
           aria-label="Abrir assistente de roteiro"
         >
           <span className="relative flex h-6 w-6 items-center justify-center">
@@ -174,7 +174,7 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
 
       {/* Painel de chat */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 z-50 flex h-[min(600px,calc(100dvh-3rem))] w-[min(400px,calc(100vw-3rem))] flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl animate-in slide-in-from-bottom-4 fade-in duration-300">
+        <div className="fixed bottom-6 left-6 z-50 flex h-[min(600px,calc(100dvh-3rem))] w-[min(400px,calc(100vw-3rem))] flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl animate-in slide-in-from-bottom-4 slide-in-from-left-4 fade-in duration-300">
           {/* Cabecalho */}
           <div className="flex items-center justify-between gap-3 border-b border-border bg-primary px-4 py-3 text-primary-foreground">
             <div className="flex items-center gap-2.5 min-w-0">
