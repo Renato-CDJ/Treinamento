@@ -6,6 +6,7 @@ import { OperatorHeader } from "@/components/operator-header"
 import { OperatorSidebar } from "@/components/operator-sidebar"
 import { ScriptCard } from "@/components/script-card"
 import { AttendanceConfig } from "@/components/attendance-config"
+import { OperatorAiAssistant } from "@/components/operator-ai-assistant"
 import { useAuth } from "@/lib/auth-context"
 import { sendOperatorHeartbeat, trackScriptAccess } from "@/lib/store"
 import { usePresenceHeartbeat, updateOperatorPresence } from "@/hooks/use-supabase-realtime"
@@ -405,6 +406,11 @@ const OperatorContent = memo(function OperatorContent() {
           </div>
         )}
       </div>
+
+      {/* Assistente de IA - aparece apenas com um produto selecionado */}
+      {isSessionActive && currentProductId && (
+        <OperatorAiAssistant productName={currentProductName} allSteps={allSteps} />
+      )}
     </div>
   )
 })
