@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect, useMemo, useCallback } from "react"
-import { Bot, Send, X, Sparkles, UserRound, AlertCircle, MessageSquareText } from "lucide-react"
+import { Bot, Send, X, Sparkles, UserRound, AlertCircle, MessageSquareText, EyeOff, ChevronRight } from "lucide-react"
 import type { ScriptStep } from "@/lib/types"
 import {
   buildKnowledgeBase,
@@ -49,9 +49,26 @@ function createId() {
 
 export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssistantProps) {
   const [isOpen, setIsOpen] = useState(false)
+  const [isHidden, setIsHidden] = useState(false)
   const [input, setInput] = useState("")
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [isThinking, setIsThinking] = useState(false)
+
+  // Restaura a preferencia de "ocultar" salva pelo operador.
+  useEffect(() => {
+    setIsHidden(localStorage.getItem("operator_assistant_hidden") === "true")
+  }, [])
+
+  const hideAssistant = useCallback(() => {
+    setIsOpen(false)
+    setIsHidden(true)
+    localStorage.setItem("operator_assistant_hidden", "true")
+  }, [])
+
+  const showAssistant = useCallback(() => {
+    setIsHidden(false)
+    localStorage.setItem("operator_assistant_hidden", "false")
+  }, [])
 
   const scrollRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
@@ -152,6 +169,20 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
     [handleSend],
   )
 
+  // Assistente oculto: mostra apenas uma aba discreta na borda esquerda para reexibir.
+  if (isHidden) {
+    return (
+      <button
+        onClick={showAssistant}
+        className="fixed bottom-24 left-0 z-50 flex items-center gap-1.5 rounded-r-lg border border-l-0 border-border bg-card py-2 pl-1.5 pr-2 text-muted-foreground shadow-md transition-all hover:bg-accent hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+        aria-label="Mostrar assistente do roteiro"
+      >
+        <Bot className="h-4 w-4" />
+        <ChevronRight className="h-3.5 w-3.5" />
+      </button>
+    )
+  }
+
   return (
     <>
       {/* Botao flutuante */}
@@ -188,13 +219,24 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
                 </p>
               </div>
             </div>
-            <button
-              onClick={() => setIsOpen(false)}
-              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors hover:bg-primary-foreground/15 focus:outline-none focus:ring-2 focus:ring-primary-foreground/50"
-              aria-label="Fechar assistente"
-            >
-              <X className="h-5 w-5" />
-            </button>
+            <div className="flex shrink-0 items-center gap-1">
+              <button
+                onClick={hideAssistant}
+                className="flex h-8 w-8 items-center justify-center rounded-lg transition-colors hover:bg-primary-foreground/15 focus:outline-none focus:ring-2 focus:ring-primary-foreground/50"
+                aria-label="Ocultar assistente do roteiro"
+                title="Ocultar assistente"
+              >
+                <EyeOff className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="flex h-8 w-8 items-center justify-center rounded-lg transition-colors hover:bg-primary-foreground/15 focus:outline-none focus:ring-2 focus:ring-primary-foreground/50"
+                aria-label="Fechar assistente"
+                title="Minimizar"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
           </div>
 
           {/* Mensagens */}
