@@ -5,6 +5,7 @@
         "id": "cartao1_abordagem",
         "title": "Abordagem",
         "body": "Olá, falo com [Nome do cliente]?",
+        "tabulacao": ["LIGAÇÃO CAIU", "LIGAÇÃO MUDA"],
         "buttons": [
           { "label": "SIM, É O CLIENTE", "next": "cartao1_identificacao", "primary": true },
           { "label": "NÃO É O CLIENTE", "next": "cartao1_terceiro" },
