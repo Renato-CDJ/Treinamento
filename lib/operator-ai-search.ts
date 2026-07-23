@@ -35,6 +35,16 @@ export type KnowledgeCategory =
   | "fraseologia"
   | "documento"
 
+/** Sub-bloco de um documento (ex.: um item de tabulacao, um topico do manual). */
+export interface KnowledgeBlock {
+  /** Rotulo/titulo do bloco (ex.: "LIGACAO MUDA", "PARCELAMENTO DA FATURA"). */
+  label: string
+  /** Texto do bloco. */
+  text: string
+  /** Tokens normalizados de rotulo + texto. */
+  tokens: string[]
+}
+
 export interface KnowledgeDoc {
   id: string
   category: KnowledgeCategory
@@ -45,6 +55,8 @@ export interface KnowledgeDoc {
   titleTokens: string[]
   /** Texto normalizado do corpo. */
   bodyTokens: string[]
+  /** Sub-blocos do corpo, para extrair apenas o trecho relevante na resposta. */
+  blocks: KnowledgeBlock[]
 }
 
 export interface SearchResult {
@@ -109,6 +121,18 @@ const SYNONYM_GROUPS_RAW: string[][] = [
   ["falecido", "falecimento", "obito", "morreu", "faleceu"],
   // Nao reside / mudou / terceiro
   ["nao reside", "mudou", "endereco", "terceiro", "engano", "nao mora", "nao conhece"],
+  // Cartao de credito
+  ["cartao", "cartoes", "credito"],
+  // Fatura
+  ["fatura", "faturas"],
+  // Habitacional / imovel
+  ["habitacional", "habitacao", "imovel", "moradia", "casa", "financiamento habitacional"],
+  // Comercial
+  ["comercial", "empresa", "empresarial", "juridica", "cnpj"],
+  // Fies / estudantil (para nao confundir com outros produtos)
+  ["fies", "estudantil", "financiamento estudantil"],
+  // Passo a passo / procedimento / orientacao
+  ["passo", "procedimento", "processo", "etapa", "etapas", "orientacao", "orientacoes", "como proceder"],
 ]
 
 /** Remove acentos e normaliza para minusculas. */
@@ -122,13 +146,18 @@ export function normalizeText(text: string): string {
     .trim()
 }
 
-/** Radical simples para portugues (remove plurais e sufixos comuns). */
+/** Radical simples para portugues (remove plurais, sufixos e terminacoes verbais comuns). */
 function stem(token: string): string {
   let t = token
   if (t.length > 4) {
     t = t
       .replace(/(coes|cao|mente|mento|ndo|ivel|avel|acao|icao)$/, "")
       .replace(/(s|es)$/, "")
+  }
+  // Terminacoes verbais no infinitivo (parcelar -> parcel, negociar -> negoci).
+  // So aplica em tokens ainda longos para evitar radicais curtos demais.
+  if (t.length > 5) {
+    t = t.replace(/(ar|er|ir)$/, "")
   }
   return t
 }
@@ -188,6 +217,53 @@ function extractSegmentsText(segments: any): string {
     .join(" ")
 }
 
+/**
+ * Detecta se uma linha e um rotulo/titulo de bloco. Reconhece:
+ * - linhas curtas terminadas em ":" (ex.: "LIGACAO MUDA:")
+ * - linhas curtas majoritariamente em maiusculas (ex.: "SIM, CLIENTE CONCORDA")
+ */
+function isHeadingLine(line: string): boolean {
+  const l = line.trim()
+  if (!l || l.length > 70) return false
+  if (/:$/.test(l)) return true
+  const alpha = [...l].filter((c) => /[a-zà-ÿ]/i.test(c))
+  if (alpha.length < 3) return false
+  const upper = alpha.filter((c) => c === c.toUpperCase() && c !== c.toLowerCase()).length
+  return upper / alpha.length > 0.7
+}
+
+/**
+ * Quebra o corpo de um documento em sub-blocos, usando linhas de rotulo como
+ * separadores. Cada bloco agrupa o rotulo com o texto que vem logo abaixo dele.
+ * Isso permite extrair apenas o topico relevante em vez do documento inteiro.
+ */
+function splitBodyIntoBlocks(body: string): Array<{ label: string; text: string }> {
+  const lines = body
+    .split(/\n+/)
+    .map((l) => l.trim())
+    .filter(Boolean)
+  if (lines.length === 0) return []
+
+  const raw: Array<{ label: string; textLines: string[] }> = []
+  let current: { label: string; textLines: string[] } | null = null
+
+  for (const line of lines) {
+    if (isHeadingLine(line)) {
+      if (current) raw.push(current)
+      const colonIdx = line.indexOf(":")
+      const label = (colonIdx >= 0 ? line.slice(0, colonIdx) : line).trim()
+      const after = colonIdx >= 0 ? line.slice(colonIdx + 1).trim() : ""
+      current = { label, textLines: after ? [after] : [] }
+    } else {
+      if (!current) current = { label: "", textLines: [] }
+      current.textLines.push(line)
+    }
+  }
+  if (current) raw.push(current)
+
+  return raw.map((b) => ({ label: b.label, text: b.textLines.join("\n").trim() }))
+}
+
 function makeDoc(
   id: string,
   category: KnowledgeCategory,
@@ -196,6 +272,11 @@ function makeDoc(
 ): KnowledgeDoc {
   const cleanTitle = (title || "").trim()
   const cleanBody = (body || "").trim()
+  const blocks: KnowledgeBlock[] = splitBodyIntoBlocks(cleanBody).map((b) => ({
+    label: b.label,
+    text: b.text,
+    tokens: tokenize(`${b.label} ${b.text}`),
+  }))
   return {
     id,
     category,
@@ -204,6 +285,7 @@ function makeDoc(
     body: cleanBody,
     titleTokens: tokenize(cleanTitle),
     bodyTokens: tokenize(`${cleanTitle} ${cleanBody}`),
+    blocks,
   }
 }
 
@@ -373,6 +455,19 @@ export function searchKnowledge(
   const directTerms = expanded.filter((e) => e.weight === 1)
   const totalDirectIdf = directTerms.reduce((sum, e) => sum + idfOf(e.term, idf, N), 0) || 1
 
+  // Termo mais distintivo da pergunta (maior IDF). Documentos que nao o
+  // contem sao penalizados, evitando respostas fora do assunto perguntado
+  // (ex.: pergunta sobre "cartao" retornando conteudo de outro produto).
+  let focusTerm: string | null = null
+  let focusIdf = -1
+  for (const e of directTerms) {
+    const w = idfOf(e.term, idf, N)
+    if (w > focusIdf) {
+      focusIdf = w
+      focusTerm = e.term
+    }
+  }
+
   const results: SearchResult[] = []
 
   for (const doc of docs) {
@@ -381,6 +476,7 @@ export function searchKnowledge(
 
     let score = 0
     let matchedDirectIdf = 0
+    let focusHit = false
 
     for (const { term, weight } of expanded) {
       const termIdf = idfOf(term, idf, N)
@@ -405,9 +501,13 @@ export function searchKnowledge(
       }
 
       if (hit && weight === 1) matchedDirectIdf += termIdf
+      if (hit && term === focusTerm) focusHit = true
     }
 
     if (score === 0) continue
+
+    // Penaliza documentos que nao contem o termo mais distintivo da pergunta.
+    if (focusTerm && !focusHit) score *= 0.45
 
     // Cobertura ponderada por IDF: so termos distintivos elevam a cobertura.
     const coverage = matchedDirectIdf / totalDirectIdf
@@ -443,4 +543,113 @@ export function isConfident(results: SearchResult[]): boolean {
   if (results.length === 0) return false
   const best = results[0]
   return best.score >= 5 && best.coverage >= 0.4
+}
+
+/**
+ * Mantem apenas as frases/linhas mais relevantes de um texto quando ele e
+ * grande demais, evitando devolver blocos enormes de conteudo.
+ */
+function trimToRelevant(text: string, wanted: Map<string, number>, maxChars: number): string {
+  if (text.length <= maxChars) return text
+  const parts = text
+    .split(/\n+|(?<=[.!?])\s+/)
+    .map((s) => s.trim())
+    .filter(Boolean)
+  if (parts.length <= 1) return text.slice(0, maxChars).trim()
+
+  const scored = parts.map((p, i) => {
+    const set = new Set(tokenize(p))
+    let s = 0
+    for (const [term, weight] of wanted) if (set.has(term)) s += weight
+    return { i, p, s }
+  })
+
+  const keep = new Set<number>()
+  let len = 0
+  for (const x of scored.filter((x) => x.s > 0).sort((a, b) => b.s - a.s)) {
+    if (len + x.p.length > maxChars) continue
+    keep.add(x.i)
+    len += x.p.length
+  }
+  if (keep.size === 0) return text.slice(0, maxChars).trim()
+
+  return scored
+    .filter((x) => keep.has(x.i))
+    .sort((a, b) => a.i - b.i)
+    .map((x) => x.p)
+    .join(" ")
+}
+
+/**
+ * Extrai da resposta apenas o trecho que de fato responde a pergunta, em vez
+ * de devolver o documento/secao inteiro. Pontua cada sub-bloco do documento
+ * contra os termos da pergunta (com sinonimos) e retorna os mais relevantes,
+ * na ordem original do documento.
+ */
+export function extractAnswer(question: string, doc: KnowledgeDoc, maxChars = 700): string {
+  const body = doc.body || ""
+  if (!body) return doc.title
+
+  const expanded = expandQuery(tokenize(question))
+  const wanted = new Map<string, number>()
+  for (const { term, weight } of expanded) wanted.set(term, weight)
+
+  if (wanted.size === 0) {
+    return body.length <= maxChars ? body : trimToRelevant(body, wanted, maxChars)
+  }
+
+  const blocks =
+    doc.blocks && doc.blocks.length > 0
+      ? doc.blocks
+      : [{ label: "", text: body, tokens: doc.bodyTokens }]
+
+  // Se ha apenas um bloco, so precisamos (talvez) reduzir o tamanho.
+  if (blocks.length === 1) {
+    return body.length <= maxChars ? body : trimToRelevant(body, wanted, maxChars)
+  }
+
+  const scored = blocks.map((b, i) => {
+    const labelSet = new Set(tokenize(b.label))
+    const textSet = new Set(b.tokens)
+    let s = 0
+    const counted = new Set<string>()
+    for (const [term, weight] of wanted) {
+      if (counted.has(term)) continue
+      if (labelSet.has(term)) {
+        s += 3 * weight
+        counted.add(term)
+      } else if (textSet.has(term)) {
+        s += 1 * weight
+        counted.add(term)
+      }
+    }
+    return { i, block: b, score: s }
+  })
+
+  const positive = scored.filter((x) => x.score > 0)
+  // Nenhum bloco especifico casou: reduz o corpo inteiro pelas frases relevantes.
+  if (positive.length === 0) {
+    return body.length <= maxChars ? body : trimToRelevant(body, wanted, maxChars)
+  }
+
+  const maxScore = Math.max(...positive.map((x) => x.score))
+  const chosen = positive
+    .filter((x) => x.score >= Math.max(maxScore * 0.6, 1))
+    .sort((a, b) => a.i - b.i)
+
+  const pieces: string[] = []
+  let len = 0
+  for (const c of chosen) {
+    const label = c.block.label.trim()
+    const text = c.block.text.trim()
+    const piece = label ? (text ? `${label}: ${text}` : label) : text
+    if (!piece) continue
+    if (len + piece.length > maxChars && pieces.length > 0) break
+    pieces.push(piece)
+    len += piece.length
+  }
+
+  let result = pieces.join("\n\n").trim()
+  if (result.length > maxChars) result = trimToRelevant(result, wanted, maxChars)
+  return result || (body.length <= maxChars ? body : body.slice(0, maxChars).trim())
 }

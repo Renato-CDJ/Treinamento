@@ -8,6 +8,7 @@ import {
   addDocumentsToKnowledgeBase,
   searchKnowledge,
   isConfident,
+  extractAnswer,
   type KnowledgeCategory,
   type ExternalKnowledgeDoc,
 } from "@/lib/operator-ai-search"
@@ -160,7 +161,7 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
         answer = {
           id: createId(),
           role: "assistant",
-          content: best.doc.body || best.doc.title,
+          content: extractAnswer(question, best.doc) || best.doc.body || best.doc.title,
           source: {
             title: best.doc.title,
             categoryLabel: best.doc.categoryLabel,
