@@ -52,10 +52,12 @@ interface Section {
  * documento nao tenha titulos, o texto e agrupado em blocos por tamanho.
  */
 function splitHtmlIntoSections(html: string, fallbackTitle: string): Section[] {
-  const headingRegex = /<h([1-6])[^>]*>([\s\S]*?)<\/h\1>/gi
   const sections: Section[] = []
 
   const matches: Array<{ index: number; length: number; title: string }> = []
+
+  // 1) Titulos reais (estilos "Titulo 1..6" do Word/Docs -> h1-h6).
+  const headingRegex = /<h([1-6])[^>]*>([\s\S]*?)<\/h\1>/gi
   let m: RegExpExecArray | null
   while ((m = headingRegex.exec(html)) !== null) {
     matches.push({
@@ -64,6 +66,19 @@ function splitHtmlIntoSections(html: string, fallbackTitle: string): Section[] {
       title: htmlToText(m[2]).replace(/\n+/g, " ").trim(),
     })
   }
+
+  // 2) Pseudo-titulos: paragrafos curtos totalmente em negrito. Muitos manuais
+  //    (como este) usam negrito no lugar dos estilos de titulo do editor.
+  const boldParaRegex = /<p[^>]*>\s*<strong>([\s\S]*?)<\/strong>\s*<\/p>/gi
+  while ((m = boldParaRegex.exec(html)) !== null) {
+    const title = htmlToText(m[1]).replace(/\n+/g, " ").trim()
+    // So considera titulo se for curto (evita paragrafos inteiros em negrito).
+    if (title.length === 0 || title.length > 90) continue
+    matches.push({ index: m.index, length: m[0].length, title })
+  }
+
+  // Ordena os limites pela posicao no documento.
+  matches.sort((a, b) => a.index - b.index)
 
   if (matches.length === 0) {
     // Sem titulos: agrupa paragrafos em blocos de tamanho controlado.

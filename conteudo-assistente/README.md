@@ -14,6 +14,23 @@ operador.
 3. Salve / faça o commit. O assistente passa a consultar o conteúdo
    automaticamente na próxima vez que for aberto.
 
+## Atenção: documentos do Google Docs com "Guias no documento"
+
+As **Guias no documento** (abas laterais) são um recurso exclusivo do Google
+Docs. Ao usar **Arquivo → Baixar → Word (.docx)**, o Google exporta **apenas a
+guia que está aberta** — as demais guias ficam de fora do arquivo.
+
+Para o assistente enxergar todas as guias, use uma das opções:
+
+- **Opção A (um único arquivo):** crie um documento **sem guias**, cole o
+  conteúdo de todas as guias em sequência e aplique o estilo **"Título 1"** ao
+  nome de cada guia. Baixe como `.docx`. Cada guia vira uma seção pesquisável.
+- **Opção B (um arquivo por guia):** abra cada guia, copie o conteúdo, cole em
+  um documento novo e baixe como `.docx`. Coloque todos os arquivos nesta pasta.
+
+> O leitor também reconhece **assuntos em negrito** como início de seção, então
+> funciona mesmo que você não aplique os estilos de título.
+
 ## Dicas para respostas melhores
 
 - **Use títulos** no documento (Título 1, Título 2 no Word, ou `#`, `##` no
