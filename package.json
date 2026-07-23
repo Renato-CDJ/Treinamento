@@ -52,6 +52,7 @@
     "input-otp": "latest",
     "lodash.debounce": "4.0.8",
     "lucide-react": "^0.454.0",
+    "mammoth": "^1.12.0",
     "next": "15.3.6",
     "next-themes": "latest",
     "path": "0.12.7",

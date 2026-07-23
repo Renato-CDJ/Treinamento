@@ -33,6 +33,7 @@ export type KnowledgeCategory =
   | "codigo"
   | "guia"
   | "fraseologia"
+  | "documento"
 
 export interface KnowledgeDoc {
   id: string
@@ -61,6 +62,7 @@ const CATEGORY_LABELS: Record<KnowledgeCategory, string> = {
   codigo: "Codigo de Resultado",
   guia: "Guia Inicial",
   fraseologia: "Fraseologia",
+  documento: "Documento de Apoio",
 }
 
 // Stopwords comuns em portugues que nao ajudam a diferenciar documentos.
@@ -269,6 +271,33 @@ export function buildKnowledgeBase(scriptSteps: ScriptStep[] = []): KnowledgeDoc
   return docs.filter((d) => d.bodyTokens.length > 0 || d.titleTokens.length > 0)
 }
 
+/** Estrutura de um documento externo (vindo da pasta conteudo-assistente/). */
+export interface ExternalKnowledgeDoc {
+  id: string
+  title: string
+  body: string
+  fileName?: string
+}
+
+/**
+ * Converte os documentos de apoio (arquivos .docx/.md/.txt lidos pela rota
+ * /api/assistant-knowledge) em documentos pesquisaveis e os adiciona a base
+ * de conhecimento existente.
+ */
+export function addDocumentsToKnowledgeBase(
+  base: KnowledgeDoc[],
+  externalDocs: ExternalKnowledgeDoc[] = [],
+): KnowledgeDoc[] {
+  const extra: KnowledgeDoc[] = []
+  for (const d of externalDocs) {
+    const doc = makeDoc(d.id || `documento-${extra.length}`, "documento", d.title, d.body)
+    if (doc.bodyTokens.length > 0 || doc.titleTokens.length > 0) {
+      extra.push(doc)
+    }
+  }
+  return [...base, ...extra]
+}
+
 /** Calcula o IDF de cada termo: termos raros pesam mais, termos comuns pesam menos. */
 function computeIdf(docs: KnowledgeDoc[]): Map<string, number> {
   const df = new Map<string, number>()
@@ -317,6 +346,7 @@ function detectCategoryIntent(normalizedQuestion: string): KnowledgeCategory | n
   if (/\b(codigo|codigos|resultado)\b/.test(normalizedQuestion)) return "codigo"
   if (/\b(roteiro|script|passo|tela|texto)\b/.test(normalizedQuestion)) return "roteiro"
   if (/\b(frase|fraseologia|falar|dizer)\b/.test(normalizedQuestion)) return "fraseologia"
+  if (/\b(documento|documentos|manual|material|materiais|apostila|politica|procedimento|norma)\b/.test(normalizedQuestion)) return "documento"
   return null
 }
 

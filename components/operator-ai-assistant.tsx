@@ -5,9 +5,11 @@ import { Bot, Send, X, Sparkles, UserRound, AlertCircle, MessageSquareText, EyeO
 import type { ScriptStep } from "@/lib/types"
 import {
   buildKnowledgeBase,
+  addDocumentsToKnowledgeBase,
   searchKnowledge,
   isConfident,
   type KnowledgeCategory,
+  type ExternalKnowledgeDoc,
 } from "@/lib/operator-ai-search"
 
 interface OperatorAiAssistantProps {
@@ -41,6 +43,7 @@ const CATEGORY_COLORS: Record<KnowledgeCategory, string> = {
   codigo: "bg-amber-500/15 text-amber-500",
   guia: "bg-indigo-500/15 text-indigo-500",
   fraseologia: "bg-teal-500/15 text-teal-500",
+  documento: "bg-rose-500/15 text-rose-500",
 }
 
 function createId() {
@@ -53,6 +56,25 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
   const [input, setInput] = useState("")
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [isThinking, setIsThinking] = useState(false)
+  const [externalDocs, setExternalDocs] = useState<ExternalKnowledgeDoc[]>([])
+
+  // Carrega os documentos de apoio (pasta conteudo-assistente/) uma unica vez.
+  useEffect(() => {
+    let active = true
+    fetch("/api/assistant-knowledge")
+      .then((res) => (res.ok ? res.json() : { documents: [] }))
+      .then((data) => {
+        if (active && Array.isArray(data?.documents)) {
+          setExternalDocs(data.documents as ExternalKnowledgeDoc[])
+        }
+      })
+      .catch((err) => {
+        console.error("[v0] Falha ao carregar documentos de apoio:", err)
+      })
+    return () => {
+      active = false
+    }
+  }, [])
 
   // Restaura a preferencia de "ocultar" salva pelo operador.
   useEffect(() => {
@@ -73,8 +95,12 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
   const scrollRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
 
-  // Base de conhecimento montada a partir do roteiro atual + dados em cache.
-  const knowledgeBase = useMemo(() => buildKnowledgeBase(allSteps), [allSteps])
+  // Base de conhecimento montada a partir do roteiro atual + dados em cache +
+  // documentos de apoio (pasta conteudo-assistente/).
+  const knowledgeBase = useMemo(
+    () => addDocumentsToKnowledgeBase(buildKnowledgeBase(allSteps), externalDocs),
+    [allSteps, externalDocs],
+  )
 
   // Mensagem de boas-vindas ao abrir pela primeira vez.
   useEffect(() => {
