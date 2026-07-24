@@ -1,21 +1,34 @@
 "use client"
 
-import { useState, useRef, useEffect, useMemo, useCallback } from "react"
+import { useState, useRef, useEffect, useCallback } from "react"
 import { Bot, Send, X, Sparkles, UserRound, AlertCircle, MessageSquareText, EyeOff, ChevronRight } from "lucide-react"
 import type { ScriptStep } from "@/lib/types"
-import {
-  buildKnowledgeBase,
-  addDocumentsToKnowledgeBase,
-  searchKnowledge,
-  isConfident,
-  extractAnswer,
-  type KnowledgeCategory,
-  type ExternalKnowledgeDoc,
-} from "@/lib/operator-ai-search"
+
+type KnowledgeCategory =
+  | "roteiro"
+  | "situacao"
+  | "tabulacao"
+  | "canal"
+  | "codigo"
+  | "guia"
+  | "fraseologia"
+  | "documento"
+
+const CATEGORY_LABELS: Record<KnowledgeCategory, string> = {
+  roteiro: "Roteiro",
+  situacao: "Situacao de Atendimento",
+  tabulacao: "Tabulacao",
+  canal: "Canal",
+  codigo: "Codigo de Resultado",
+  guia: "Guia Inicial",
+  fraseologia: "Fraseologia",
+  documento: "Documento de Apoio",
+}
 
 interface OperatorAiAssistantProps {
   productName: string
-  allSteps: ScriptStep[]
+  /** Mantido por compatibilidade; a busca agora e feita no servidor com IA. */
+  allSteps?: ScriptStep[]
 }
 
 interface Source {
@@ -51,31 +64,12 @@ function createId() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
 }
 
-export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssistantProps) {
+export function OperatorAiAssistant({ productName }: OperatorAiAssistantProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [isHidden, setIsHidden] = useState(false)
   const [input, setInput] = useState("")
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [isThinking, setIsThinking] = useState(false)
-  const [externalDocs, setExternalDocs] = useState<ExternalKnowledgeDoc[]>([])
-
-  // Carrega os documentos de apoio (pasta conteudo-assistente/) uma unica vez.
-  useEffect(() => {
-    let active = true
-    fetch("/api/assistant-knowledge")
-      .then((res) => (res.ok ? res.json() : { documents: [] }))
-      .then((data) => {
-        if (active && Array.isArray(data?.documents)) {
-          setExternalDocs(data.documents as ExternalKnowledgeDoc[])
-        }
-      })
-      .catch((err) => {
-        console.error("[v0] Falha ao carregar documentos de apoio:", err)
-      })
-    return () => {
-      active = false
-    }
-  }, [])
 
   // Restaura a preferencia de "ocultar" salva pelo operador.
   useEffect(() => {
@@ -95,13 +89,6 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
 
   const scrollRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
-
-  // Base de conhecimento montada a partir do roteiro atual + dados em cache +
-  // documentos de apoio (pasta conteudo-assistente/).
-  const knowledgeBase = useMemo(
-    () => addDocumentsToKnowledgeBase(buildKnowledgeBase(allSteps), externalDocs),
-    [allSteps, externalDocs],
-  )
 
   // Mensagem de boas-vindas ao abrir pela primeira vez.
   useEffect(() => {
@@ -133,41 +120,42 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
     }
   }, [isOpen])
 
-  const handleSend = useCallback(() => {
+  const handleSend = useCallback(async () => {
     const question = input.trim()
     if (!question || isThinking) return
 
     const userMessage: ChatMessage = { id: createId(), role: "user", content: question }
+    const history = messages
+      .filter((m) => !m.needsSpecialist)
+      .slice(-6)
+      .map((m) => ({ role: m.role, content: m.content }))
+
     setMessages((prev) => [...prev, userMessage])
     setInput("")
     setIsThinking(true)
 
-    // Pequeno atraso para dar sensacao de processamento (busca e sincrona).
-    setTimeout(() => {
-      const results = searchKnowledge(question, knowledgeBase, 4)
+    try {
+      const res = await fetch("/api/assistant-ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question, productName, history }),
+      })
+      const data = await res.json()
+
       let answer: ChatMessage
-
-      if (isConfident(results)) {
-        const best = results[0]
-        const related = results
-          .slice(1, 3)
-          .filter((r) => r.score >= 3)
-          .map((r) => ({
-            title: r.doc.title,
-            categoryLabel: r.doc.categoryLabel,
-            category: r.doc.category,
-          }))
-
+      if (data?.encontrado && typeof data.resposta === "string" && data.resposta.trim()) {
+        const category: KnowledgeCategory = data.category === "documento" ? "documento" : "roteiro"
         answer = {
           id: createId(),
           role: "assistant",
-          content: extractAnswer(question, best.doc) || best.doc.body || best.doc.title,
-          source: {
-            title: best.doc.title,
-            categoryLabel: best.doc.categoryLabel,
-            category: best.doc.category,
-          },
-          related: related.length > 0 ? related : undefined,
+          content: data.resposta.trim(),
+          source: data.sourceTitle
+            ? {
+                title: String(data.sourceTitle),
+                categoryLabel: CATEGORY_LABELS[category],
+                category,
+              }
+            : undefined,
         }
       } else {
         answer = {
@@ -175,15 +163,29 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
           role: "assistant",
           needsSpecialist: true,
           content:
-            "Nao consegui localizar essa informacao no roteiro e nos materiais disponiveis. " +
-            "Recomendo buscar ajuda de um especialista ou do seu supervisor para garantir a orientacao correta.",
+            typeof data?.resposta === "string" && data.resposta.trim()
+              ? data.resposta.trim()
+              : "Nao localizei essa informacao no roteiro nem nos materiais deste produto. " +
+                "Recomendo confirmar com seu supervisor ou especialista para garantir a orientacao correta.",
         }
       }
 
       setMessages((prev) => [...prev, answer])
+    } catch (err) {
+      console.error("[v0] Falha ao consultar o assistente:", err)
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: createId(),
+          role: "assistant",
+          needsSpecialist: true,
+          content: "Tive um problema de conexao ao buscar a resposta. Tente novamente em instantes.",
+        },
+      ])
+    } finally {
       setIsThinking(false)
-    }, 350)
-  }, [input, isThinking, knowledgeBase])
+    }
+  }, [input, isThinking, messages, productName])
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
