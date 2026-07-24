@@ -74,31 +74,37 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Pergunta vazia." }, { status: 400 })
   }
 
-  if (!process.env.AI_GATEWAY_API_KEY) {
+  // 1) Recuperacao: localiza no roteiro do produto + materiais de apoio.
+  let contextText = ""
+  let usedSections: KnowledgeSection[] = []
+  let productLabelInScope = ""
+  try {
+    const ctx = await selectRelevantContext(question, productName)
+    contextText = ctx.contextText
+    usedSections = ctx.usedSections
+    productLabelInScope = ctx.productLabelInScope ?? ""
+  } catch (error) {
+    console.error("[v0] Erro ao carregar a base de conhecimento:", error)
     return NextResponse.json(
-      {
-        encontrado: false,
-        resposta:
-          "O assistente com IA nao esta configurado (AI_GATEWAY_API_KEY ausente). Avise o administrador.",
-        needsSpecialist: true,
-      },
+      { encontrado: false, resposta: FALLBACK, needsSpecialist: true, sourceTitle: null },
       { status: 200 },
     )
   }
 
-  try {
-    const { contextText, usedSections, productLabelInScope } = await selectRelevantContext(
-      question,
-      productName,
+  if (!contextText) {
+    return NextResponse.json(
+      { encontrado: false, resposta: FALLBACK, needsSpecialist: true, sourceTitle: null },
+      { status: 200 },
     )
+  }
 
-    if (!contextText) {
-      return NextResponse.json(
-        { encontrado: false, resposta: FALLBACK, needsSpecialist: true, sourceTitle: null },
-        { status: 200 },
-      )
-    }
+  // 2) Sem IA configurada: devolve o melhor trecho encontrado (ainda assertivo).
+  if (!process.env.AI_GATEWAY_API_KEY) {
+    return NextResponse.json(buildRetrievalAnswer(usedSections), { status: 200 })
+  }
 
+  // 3) Com IA: refina/interpreta a intencao usando apenas o conteudo recuperado.
+  try {
     const historyText = history.length
       ? "\n\nHISTORICO RECENTE DA CONVERSA (para dar continuidade):\n" +
         history.map((m) => `${m.role === "user" ? "Operador" : "Assistente"}: ${m.content}`).join("\n")
@@ -160,16 +166,9 @@ export async function POST(req: Request) {
       { status: 200 },
     )
   } catch (error) {
-    console.error("[v0] Erro no assistente com IA:", error)
-    return NextResponse.json(
-      {
-        encontrado: false,
-        resposta:
-          "Tive um problema para processar sua pergunta agora. Tente novamente em instantes.",
-        needsSpecialist: true,
-        sourceTitle: null,
-      },
-      { status: 200 },
-    )
+    // IA indisponivel (ex.: 403 do Gateway/sem cartao, timeout). Como a
+    // recuperacao ja encontrou o conteudo certo, devolvemos o melhor trecho.
+    console.error("[v0] IA indisponivel, usando resposta por recuperacao:", error)
+    return NextResponse.json(buildRetrievalAnswer(usedSections), { status: 200 })
   }
 }
