@@ -20,6 +20,19 @@ interface ChannelData {
   description?: string
 }
 
+// Detecta se uma linha e um titulo de secao (ex.: "LIGACAO MUDA:", "CAIXA POSTAL:").
+function isHeading(line: string): boolean {
+  const trimmed = line.trim()
+  if (trimmed.length === 0 || trimmed.length > 70) return false
+  const core = trimmed.replace(/:$/, "").trim()
+  if (core.length === 0) return false
+  const letters = core.replace(/[^a-zA-Z\u00C0-\u017F]/g, "")
+  if (letters.length === 0) return false
+  const isUpper = core === core.toUpperCase()
+  const endsWithColon = trimmed.endsWith(":")
+  return isUpper || (endsWithColon && core.split(/\s+/).length <= 6)
+}
+
 export const OperatorChannelsModal = memo(function OperatorChannelsModal({
   open,
   onOpenChange,
@@ -233,11 +246,20 @@ export const OperatorChannelsModal = memo(function OperatorChannelsModal({
                 </h4>
                 {selectedChannel.description ? (
                   <div className="space-y-2">
-                    {selectedChannel.description.split("\n").filter(line => line.trim()).map((line, idx) => (
-                      <p key={idx} className="text-foreground leading-relaxed">
-                        {line.trim()}
-                      </p>
-                    ))}
+                    {selectedChannel.description.split("\n").filter(line => line.trim()).map((line, idx) =>
+                      isHeading(line) ? (
+                        <div key={idx} className="flex items-center gap-2 pt-2 first:pt-0">
+                          <span className="h-4 w-1 shrink-0 rounded-full bg-cyan-500" />
+                          <h5 className="text-sm font-bold uppercase tracking-wide text-foreground">
+                            {line.trim().replace(/:$/, "")}
+                          </h5>
+                        </div>
+                      ) : (
+                        <p key={idx} className="text-foreground leading-relaxed">
+                          {line.trim()}
+                        </p>
+                      )
+                    )}
                   </div>
                 ) : (
                   <p className="text-foreground leading-relaxed">
