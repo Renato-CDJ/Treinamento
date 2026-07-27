@@ -61,7 +61,14 @@ function getTopicVisual(fileName: string): { icon: typeof Phone; color: string }
   return { icon: FileText, color: "text-orange-500 bg-orange-500/10" }
 }
 
-// Detecta se uma linha e um titulo de secao (ex.: "LIGACAO MUDA:", "CAIXA POSTAL:").
+// Palavras curtas de ligacao que nao precisam comecar com maiuscula em um titulo.
+const TITLE_CONNECTORS = new Set([
+  "de", "da", "do", "das", "dos", "e", "a", "o", "as", "os",
+  "no", "na", "nos", "nas", "em", "para", "por", "com", "ao", "aos",
+])
+
+// Detecta se uma linha e um titulo de secao.
+// Ex.: "LIGACAO MUDA:", "CAIXA POSTAL:", "Alo CAIXA", "Agencia Digital", "Canal de Denuncias".
 function isHeading(line: string): boolean {
   const trimmed = line.trim()
   if (trimmed.length === 0 || trimmed.length > 70) return false
@@ -70,10 +77,31 @@ function isHeading(line: string): boolean {
   if (core.length === 0) return false
   const letters = core.replace(/[^a-zA-Z\u00C0-\u017F]/g, "")
   if (letters.length === 0) return false
+
   const isUpper = core === core.toUpperCase()
   const endsWithColon = trimmed.endsWith(":")
-  // E titulo se estiver em maiusculas, ou se for uma linha curta terminada em ":".
-  return isUpper || (endsWithColon && core.split(/\s+/).length <= 6)
+  const words = core.split(/\s+/)
+
+  // 1) Linha totalmente em maiusculas (ex.: "LIGACAO MUDA").
+  if (isUpper) return true
+  // 2) Linha curta terminada em ":" (ex.: "Exemplo:").
+  if (endsWithColon && words.length <= 6) return true
+
+  // 3) Titulo em "Title Case" (ex.: "Alo CAIXA", "Canal de Denuncias").
+  //    Regras: curto, sem pontuacao de fim de frase, e cada palavra relevante
+  //    comeca com maiuscula (ou e uma palavra de ligacao / totalmente maiuscula).
+  if (words.length > 6) return false
+  if (/[.!?,;]$/.test(core)) return false
+  const startsUpper = /^[A-Z\u00C0-\u00DE]/.test(core)
+  if (!startsUpper) return false
+  const allWordsTitle = words.every((w) => {
+    const clean = w.replace(/[^a-zA-Z\u00C0-\u017F]/g, "")
+    if (clean.length === 0) return true
+    if (TITLE_CONNECTORS.has(clean.toLowerCase())) return true
+    if (clean === clean.toUpperCase()) return true // sigla, ex.: CAIXA
+    return /^[A-Z\u00C0-\u00DE]/.test(clean) // comeca com maiuscula
+  })
+  return allWordsTitle
 }
 
 // Renderiza o corpo do texto preservando quebras de linha, titulos e listas simples.
