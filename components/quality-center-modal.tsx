@@ -150,36 +150,47 @@ export function QualityCenterModal({ isOpen, onClose }: QualityCenterModalProps)
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="!max-w-[90vw] w-[90vw] !max-h-[90vh] h-[90vh] p-0 gap-0 overflow-hidden flex flex-col bg-background">
-        {/* Header */}
-        <DialogHeader className="border-b px-6 py-3 flex-shrink-0 bg-card">
-          <div className="flex items-center justify-between">
-            <DialogTitle className="text-xl font-bold flex items-center gap-3">
-              <div className="p-2 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg shadow-md">
-                <Award className="h-5 w-5 text-white" />
+      <DialogContent className="!max-w-[90vw] w-[90vw] !max-h-[90vh] h-[90vh] p-0 gap-0 overflow-hidden flex flex-col bg-background rounded-2xl border-0 shadow-2xl [&>button]:z-50">
+        {/* Header elegante */}
+        <DialogHeader className="relative bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 px-6 py-5 text-white overflow-hidden flex-shrink-0 space-y-0">
+          {/* Decoracao de fundo */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl" />
+          </div>
+
+          <div className="relative flex items-center justify-between gap-4">
+            <DialogTitle className="text-2xl font-bold flex items-center gap-4 text-white">
+              <div className="p-3 bg-gradient-to-br from-orange-400 to-orange-600 rounded-xl shadow-lg">
+                <Award className="h-6 w-6" />
               </div>
-              <span className="text-foreground">Central da Qualidade</span>
+              <div>
+                <span className="block leading-tight">Central da Qualidade</span>
+                <span className="text-sm font-normal text-slate-400 mt-1 block">
+                  Comunicados, treinamentos e base de conhecimento
+                </span>
+              </div>
             </DialogTitle>
 
             <div className="flex items-center gap-3">
               <div className="relative w-64">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                 <Input
                   placeholder="Pesquisar publicacoes..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-9 h-9 bg-muted/50 border-border text-sm"
+                  className="pl-11 h-11 bg-white/5 border-white/10 text-white placeholder:text-slate-500 focus-visible:ring-orange-400/50 focus-visible:border-orange-400/50 rounded-xl text-sm"
                 />
               </div>
 
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
-                    variant="outline"
+                    variant="ghost"
                     size="sm"
                     className={cn(
-                      "h-9 gap-2 text-sm",
-                      filterDate && "bg-orange-500/10 border-orange-500/50 text-orange-600"
+                      "h-11 gap-2 text-sm rounded-xl border border-white/10 bg-white/5 text-white hover:bg-white/10 hover:text-white",
+                      filterDate && "bg-orange-500/20 border-orange-400/50 text-orange-200 hover:bg-orange-500/30"
                     )}
                   >
                     <CalendarIcon className="h-4 w-4" />
@@ -214,13 +225,13 @@ export function QualityCenterModal({ isOpen, onClose }: QualityCenterModalProps)
                 variant="ghost"
                 size="icon"
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="h-9 w-9 text-muted-foreground hover:text-foreground"
+                className="h-11 w-11 rounded-xl border border-white/10 bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white"
               >
                 {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
               </Button>
 
-              <Avatar className="h-8 w-8 border border-border">
-                <AvatarFallback className="text-xs font-medium bg-muted">
+              <Avatar className="h-10 w-10 border-2 border-white/20">
+                <AvatarFallback className="text-xs font-semibold bg-gradient-to-br from-orange-400 to-orange-600 text-white">
                   {getInitials(user?.fullName || user?.username)}
                 </AvatarFallback>
               </Avatar>
