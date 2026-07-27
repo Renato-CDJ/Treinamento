@@ -75,11 +75,12 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
   const scrollRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
 
-  // O assistente responde SOMENTE o significado de tabulacoes cadastradas.
-  // Por isso a base de busca e filtrada para conter apenas documentos da
-  // categoria "tabulacao" (vindos do cache/admin).
+  // O assistente responde apenas sobre Tabulacoes, Situacoes de atendimento e
+  // o Guia Inicial (Contratos). A base de busca e filtrada para conter somente
+  // documentos dessas categorias (vindos do cache/admin).
+  const ALLOWED_CATEGORIES: KnowledgeCategory[] = ["tabulacao", "situacao", "guia"]
   const knowledgeBase = useMemo(
-    () => buildKnowledgeBase(allSteps).filter((doc) => doc.category === "tabulacao"),
+    () => buildKnowledgeBase(allSteps).filter((doc) => ALLOWED_CATEGORIES.includes(doc.category)),
     [allSteps],
   )
 
@@ -91,9 +92,9 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
           id: createId(),
           role: "assistant",
           content:
-            "Ola! Sou seu assistente de tabulacoes. " +
-            "Me diga o nome de uma tabulacao e eu explico o que ela significa e quando usar. " +
-            "Respondo somente duvidas sobre o significado das tabulacoes cadastradas.",
+            `Ola! Sou seu assistente do roteiro${productName ? ` de "${productName}"` : ""}. ` +
+            "Posso explicar o significado das Tabulacoes, das Situacoes de atendimento e do Guia Inicial (Contratos). " +
+            "Me diga o que voce precisa entender que eu busco a resposta para voce.",
         },
       ])
     }
@@ -156,9 +157,9 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
           role: "assistant",
           needsSpecialist: true,
           content:
-            "Eu explico apenas o significado das tabulacoes cadastradas. " +
-            "Nao encontrei uma tabulacao correspondente ao que voce perguntou. " +
-            "Tente informar o nome exato da tabulacao (ex.: \"O que significa a tabulacao ALO MUDO?\").",
+            "Eu explico apenas Tabulacoes, Situacoes de atendimento e o Guia Inicial (Contratos). " +
+            "Nao encontrei nada correspondente ao que voce perguntou nesses temas. " +
+            "Tente informar o nome exato (ex.: \"O que significa a tabulacao ALO MUDO?\").",
         }
       }
 
@@ -333,7 +334,7 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
           {/* Sugestoes rapidas (apenas antes de perguntar) */}
           {messages.length <= 1 && (
             <div className="flex flex-wrap gap-2 px-4 pb-2">
-              {["O que significa ALO MUDO?", "Significado de RECADO", "O que e CPC?"].map((s) => (
+              {["O que significa ALO MUDO?", "Guia Inicial - Contratos", "Situacao: cliente sem acordo"].map((s) => (
                 <button
                   key={s}
                   onClick={() => setInput(s)}
@@ -353,7 +354,7 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Digite o nome de uma tabulacao..."
+                placeholder="Pergunte sobre tabulacoes, situacoes ou o guia inicial..."
                 rows={1}
                 className="max-h-24 flex-1 resize-none bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
               />
@@ -367,7 +368,7 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
               </button>
             </div>
             <p className="mt-1.5 px-1 text-center text-[11px] text-muted-foreground">
-              Explico apenas o significado das tabulacoes cadastradas.
+              Explico Tabulacoes, Situacoes de atendimento e o Guia Inicial (Contratos).
             </p>
           </div>
         </div>
