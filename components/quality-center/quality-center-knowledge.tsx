@@ -61,10 +61,25 @@ function getTopicVisual(fileName: string): { icon: typeof Phone; color: string }
   return { icon: FileText, color: "text-orange-500 bg-orange-500/10" }
 }
 
-// Renderiza o corpo do texto preservando quebras de linha e listas simples.
+// Detecta se uma linha e um titulo de secao (ex.: "LIGACAO MUDA:", "CAIXA POSTAL:").
+function isHeading(line: string): boolean {
+  const trimmed = line.trim()
+  if (trimmed.length === 0 || trimmed.length > 70) return false
+  // Remove o ":" final para avaliar o conteudo.
+  const core = trimmed.replace(/:$/, "").trim()
+  if (core.length === 0) return false
+  const letters = core.replace(/[^a-zA-Z\u00C0-\u017F]/g, "")
+  if (letters.length === 0) return false
+  const isUpper = core === core.toUpperCase()
+  const endsWithColon = trimmed.endsWith(":")
+  // E titulo se estiver em maiusculas, ou se for uma linha curta terminada em ":".
+  return isUpper || (endsWithColon && core.split(/\s+/).length <= 6)
+}
+
+// Renderiza o corpo do texto preservando quebras de linha, titulos e listas simples.
 function RichBody({ text }: { text: string }) {
   const lines = text.split("\n").map((l) => l.trim()).filter(Boolean)
-  const blocks: { type: "list" | "text"; items: string[] }[] = []
+  const blocks: { type: "list" | "text" | "heading"; items: string[] }[] = []
 
   for (const line of lines) {
     const isBullet = line.startsWith("- ") || line.startsWith("• ")
@@ -73,6 +88,8 @@ function RichBody({ text }: { text: string }) {
       const item = line.replace(/^[-•]\s+/, "")
       if (last && last.type === "list") last.items.push(item)
       else blocks.push({ type: "list", items: [item] })
+    } else if (isHeading(line)) {
+      blocks.push({ type: "heading", items: [line.replace(/:$/, "").trim()] })
     } else {
       blocks.push({ type: "text", items: [line] })
     }
@@ -80,22 +97,35 @@ function RichBody({ text }: { text: string }) {
 
   return (
     <div className="space-y-3">
-      {blocks.map((block, i) =>
-        block.type === "list" ? (
-          <ul key={i} className="space-y-1.5 pl-1">
-            {block.items.map((item, j) => (
-              <li key={j} className="flex gap-2 text-sm leading-relaxed text-muted-foreground">
-                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-orange-500" />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        ) : (
+      {blocks.map((block, i) => {
+        if (block.type === "list") {
+          return (
+            <ul key={i} className="space-y-1.5 pl-1">
+              {block.items.map((item, j) => (
+                <li key={j} className="flex gap-2 text-sm leading-relaxed text-muted-foreground">
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-orange-500" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+        if (block.type === "heading") {
+          return (
+            <div key={i} className="flex items-center gap-2 pt-2 first:pt-0">
+              <span className="h-4 w-1 shrink-0 rounded-full bg-orange-500" />
+              <h4 className="text-sm font-bold uppercase tracking-wide text-foreground">
+                {block.items[0]}
+              </h4>
+            </div>
+          )
+        }
+        return (
           <p key={i} className="text-sm leading-relaxed text-muted-foreground">
             {block.items[0]}
           </p>
         )
-      )}
+      })}
     </div>
   )
 }
