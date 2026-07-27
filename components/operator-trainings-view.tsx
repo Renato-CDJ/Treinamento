@@ -276,7 +276,7 @@ export function OperatorTrainingsView({ mediaType }: OperatorTrainingsViewProps)
               )}
               {selected && selected.type === "pdf" && (
                 <iframe
-                  src={`${encodePath(selected.url)}#view=FitH`}
+                  src={`${encodePath(selected.url)}#view=FitH&toolbar=0&navpanes=0`}
                   className="w-full h-full bg-muted"
                   title={selected.title}
                 />
