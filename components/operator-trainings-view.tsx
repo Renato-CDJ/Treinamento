@@ -18,6 +18,7 @@ import {
   Video,
   Play,
 } from "lucide-react"
+import { PdfCanvasViewer } from "@/components/pdf-canvas-viewer"
 
 type TrainingType = "pdf" | "video"
 
@@ -275,11 +276,7 @@ export function OperatorTrainingsView({ mediaType }: OperatorTrainingsViewProps)
                 </video>
               )}
               {selected && selected.type === "pdf" && (
-                <iframe
-                  src={`${encodePath(selected.url)}#view=FitH&toolbar=0&navpanes=0`}
-                  className="w-full h-full bg-muted"
-                  title={selected.title}
-                />
+                <PdfCanvasViewer url={encodePath(selected.url)} title={selected.title} />
               )}
             </div>
           </div>
