@@ -5,12 +5,10 @@ import { Bot, Send, X, Sparkles, UserRound, AlertCircle, MessageSquareText, EyeO
 import type { ScriptStep } from "@/lib/types"
 import {
   buildKnowledgeBase,
-  addDocumentsToKnowledgeBase,
   searchKnowledge,
   isConfident,
   extractAnswer,
   type KnowledgeCategory,
-  type ExternalKnowledgeDoc,
 } from "@/lib/operator-ai-search"
 
 interface OperatorAiAssistantProps {
@@ -57,25 +55,6 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
   const [input, setInput] = useState("")
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [isThinking, setIsThinking] = useState(false)
-  const [externalDocs, setExternalDocs] = useState<ExternalKnowledgeDoc[]>([])
-
-  // Carrega os documentos de apoio (pasta conteudo-assistente/) uma unica vez.
-  useEffect(() => {
-    let active = true
-    fetch("/api/assistant-knowledge")
-      .then((res) => (res.ok ? res.json() : { documents: [] }))
-      .then((data) => {
-        if (active && Array.isArray(data?.documents)) {
-          setExternalDocs(data.documents as ExternalKnowledgeDoc[])
-        }
-      })
-      .catch((err) => {
-        console.error("[v0] Falha ao carregar documentos de apoio:", err)
-      })
-    return () => {
-      active = false
-    }
-  }, [])
 
   // Restaura a preferencia de "ocultar" salva pelo operador.
   useEffect(() => {
@@ -96,11 +75,12 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
   const scrollRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
 
-  // Base de conhecimento montada a partir do roteiro atual + dados em cache +
-  // documentos de apoio (pasta conteudo-assistente/).
+  // O assistente responde SOMENTE o significado de tabulacoes cadastradas.
+  // Por isso a base de busca e filtrada para conter apenas documentos da
+  // categoria "tabulacao" (vindos do cache/admin).
   const knowledgeBase = useMemo(
-    () => addDocumentsToKnowledgeBase(buildKnowledgeBase(allSteps), externalDocs),
-    [allSteps, externalDocs],
+    () => buildKnowledgeBase(allSteps).filter((doc) => doc.category === "tabulacao"),
+    [allSteps],
   )
 
   // Mensagem de boas-vindas ao abrir pela primeira vez.
@@ -111,8 +91,9 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
           id: createId(),
           role: "assistant",
           content:
-            `Ola! Sou seu assistente do roteiro${productName ? ` de "${productName}"` : ""}. ` +
-            "Pergunte qualquer coisa sobre o script, situacoes de atendimento, tabulacoes, canais ou codigos de resultado e eu busco a resposta para voce.",
+            "Ola! Sou seu assistente de tabulacoes. " +
+            "Me diga o nome de uma tabulacao e eu explico o que ela significa e quando usar. " +
+            "Respondo somente duvidas sobre o significado das tabulacoes cadastradas.",
         },
       ])
     }
@@ -175,8 +156,9 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
           role: "assistant",
           needsSpecialist: true,
           content:
-            "Nao consegui localizar essa informacao no roteiro e nos materiais disponiveis. " +
-            "Recomendo buscar ajuda de um especialista ou do seu supervisor para garantir a orientacao correta.",
+            "Eu explico apenas o significado das tabulacoes cadastradas. " +
+            "Nao encontrei uma tabulacao correspondente ao que voce perguntou. " +
+            "Tente informar o nome exato da tabulacao (ex.: \"O que significa a tabulacao ALO MUDO?\").",
         }
       }
 
@@ -351,7 +333,7 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
           {/* Sugestoes rapidas (apenas antes de perguntar) */}
           {messages.length <= 1 && (
             <div className="flex flex-wrap gap-2 px-4 pb-2">
-              {["Como abordar o cliente?", "Qual tabulacao usar?", "Cliente nao atende"].map((s) => (
+              {["O que significa ALO MUDO?", "Significado de RECADO", "O que e CPC?"].map((s) => (
                 <button
                   key={s}
                   onClick={() => setInput(s)}
@@ -371,7 +353,7 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Faca uma pergunta sobre o atendimento..."
+                placeholder="Digite o nome de uma tabulacao..."
                 rows={1}
                 className="max-h-24 flex-1 resize-none bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
               />
@@ -385,7 +367,7 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
               </button>
             </div>
             <p className="mt-1.5 px-1 text-center text-[11px] text-muted-foreground">
-              As respostas sao baseadas no roteiro e materiais cadastrados.
+              Explico apenas o significado das tabulacoes cadastradas.
             </p>
           </div>
         </div>
