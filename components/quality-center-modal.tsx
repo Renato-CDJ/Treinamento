@@ -45,6 +45,7 @@ import {
   Check,
   X,
   Paintbrush,
+  Library,
 } from "lucide-react"
 import { useTheme } from "next-themes"
 import { 
@@ -64,6 +65,7 @@ import { containsProfanity, getProfanityWarning } from "@/lib/profanity-filter"
 import { useToast } from "@/hooks/use-toast"
 import type { QualityPost } from "@/lib/types"
 import { OperatorTrainingsView } from "@/components/operator-trainings-view"
+import { QualityCenterKnowledge } from "@/components/quality-center/quality-center-knowledge"
 
 interface QualityCenterModalProps {
   isOpen: boolean
@@ -238,6 +240,13 @@ export function QualityCenterModal({ isOpen, onClose }: QualityCenterModalProps)
               />
 
               <SidebarButton
+                icon={<Library className="h-5 w-5" />}
+                label="Base de Conhecimento"
+                active={activeView === "conhecimento"}
+                onClick={() => setActiveView("conhecimento")}
+              />
+
+              <SidebarButton
                 icon={<BookOpen className="h-5 w-5" />}
                 label="Treinamentos"
                 active={activeView === "treinamentos"}
@@ -351,6 +360,11 @@ export function QualityCenterModal({ isOpen, onClose }: QualityCenterModalProps)
                     getInitials={getInitials}
                     formatTimeAgo={formatTimeAgo}
                   />
+                )}
+                {activeView === "conhecimento" && (
+                  <div className="max-w-5xl mx-auto">
+                    <QualityCenterKnowledge />
+                  </div>
                 )}
                 {activeView === "treinamentos" && <OperatorTrainingsView mediaType="pdf" />}
                 {activeView === "videos" && <OperatorTrainingsView mediaType="video" />}
