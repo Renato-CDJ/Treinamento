@@ -295,7 +295,7 @@
         "id": "hab1_vai_negociar_com_agencia",
         "title": "Cliente vai negociar na agência",
         "body": "Certo, vou deixar registrado essa informação.",
-        "tabulacao": ["CONTATO SEM NEGOCIACAO"],
+        "tabulacao": ["NEGOCIACAO EM OUTRO CANAL"],
         "buttons": [
           { "label": "AVANÇAR", "next": "hab1_fgts_vai_negociar_com_agencia", "primary": true }
         ]
@@ -304,7 +304,7 @@
         "id": "hab1_fgts_vai_negociar_com_agencia",
         "title": "Fraseologia do FGTS",
         "body": "Você pode verificar a possibilidade de negociar seu contrato ou utilizar o FGTS para abater até 80% das prestações por 12 meses ligando no 4004 0104 / 0800 104 0104 ou pelo App Habitação CAIXA.",
-        "tabulacao": ["CONTATO SEM NEGOCIACAO"],
+        "tabulacao": ["NEGOCIACAO EM OUTRO CANAL"],
         "buttons": [
           { "label": "IR PARA ATUALIZAÇÃO CADASTRAL", "next": "hab1_vai_negociar_com_agencia_atualizacao_cadastral", "primary": true }
         ]
@@ -313,7 +313,7 @@
         "id": "hab1_vai_negociar_com_agencia_atualizacao_cadastral",
         "title": "Atualização Cadastral",
         "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
-        "tabulacao": ["CONTATO SEM NEGOCIACAO"],
+        "tabulacao": ["NEGOCIACAO EM OUTRO CANAL"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "hab1_vai_negociar_com_agencia_pesquisa_satisfacao", "primary": true }
         ]
@@ -322,7 +322,7 @@
         "id": "hab1_vai_negociar_com_agencia_pesquisa_satisfacao",
         "title": "Pesquisa de Satisfação",
         "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
-        "tabulacao": ["CONTATO SEM NEGOCIACAO"],
+        "tabulacao": ["NEGOCIACAO EM OUTRO CANAL"],
         "buttons": [
           { "label": "FINALIZAR", "next": "hab1_fim", "primary": true }
         ]

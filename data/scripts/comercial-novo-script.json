@@ -437,7 +437,7 @@
         "id": "contratos_vai_negociar_com_agencia",
         "title": "Cliente vai negociar na agência",
         "body": "Certo, vou deixar registrado essa informação.",
-        "tabulacao": ["CONTATO SEM NEGOCIACAO"],
+        "tabulacao": ["NEGOCIACAO EM OUTRO CANAL"],
         "buttons": [
           { "label": "AVANÇAR", "next": "contratos_vai_negociar_com_agencia_atualizacao_cadastral", "primary": true }
         ]
@@ -446,7 +446,7 @@
         "id": "contratos_vai_negociar_com_agencia_atualizacao_cadastral",
         "title": "Atualização Cadastral",
         "body": "Para finalizar o atendimento, tem algum outro telefone ou e-mail para contato?",
-        "tabulacao": ["CONTATO SEM NEGOCIACAO"],
+        "tabulacao": ["NEGOCIACAO EM OUTRO CANAL"],
         "buttons": [
           { "label": "IR PARA PESQUISA DE SATISFAÇÃO", "next": "contratos_vai_negociar_com_agencia_pesquisa_satisfacao", "primary": true }
         ]
@@ -455,7 +455,7 @@
         "id": "contratos_vai_negociar_com_agencia_pesquisa_satisfacao",
         "title": "Pesquisa de Satisfação",
         "body": "Peço que aguarde em linha para avaliar o nosso atendimento.<br><br>A CAIXA agradece, tenha um ótimo dia/tarde/noite.",
-        "tabulacao": ["CONTATO SEM NEGOCIACAO"],
+        "tabulacao": ["NEGOCIACAO EM OUTRO CANAL"],
         "buttons": [
           { "label": "FINALIZAR", "next": "contratos_fim", "primary": true }
         ]

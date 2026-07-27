@@ -5,12 +5,10 @@ import { Bot, Send, X, Sparkles, UserRound, AlertCircle, MessageSquareText, EyeO
 import type { ScriptStep } from "@/lib/types"
 import {
   buildKnowledgeBase,
-  addDocumentsToKnowledgeBase,
   searchKnowledge,
   isConfident,
   extractAnswer,
   type KnowledgeCategory,
-  type ExternalKnowledgeDoc,
 } from "@/lib/operator-ai-search"
 
 interface OperatorAiAssistantProps {
@@ -57,25 +55,6 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
   const [input, setInput] = useState("")
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [isThinking, setIsThinking] = useState(false)
-  const [externalDocs, setExternalDocs] = useState<ExternalKnowledgeDoc[]>([])
-
-  // Carrega os documentos de apoio (pasta conteudo-assistente/) uma unica vez.
-  useEffect(() => {
-    let active = true
-    fetch("/api/assistant-knowledge")
-      .then((res) => (res.ok ? res.json() : { documents: [] }))
-      .then((data) => {
-        if (active && Array.isArray(data?.documents)) {
-          setExternalDocs(data.documents as ExternalKnowledgeDoc[])
-        }
-      })
-      .catch((err) => {
-        console.error("[v0] Falha ao carregar documentos de apoio:", err)
-      })
-    return () => {
-      active = false
-    }
-  }, [])
 
   // Restaura a preferencia de "ocultar" salva pelo operador.
   useEffect(() => {
@@ -96,11 +75,13 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
   const scrollRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
 
-  // Base de conhecimento montada a partir do roteiro atual + dados em cache +
-  // documentos de apoio (pasta conteudo-assistente/).
+  // O assistente responde apenas sobre Tabulacoes, Situacoes de atendimento e
+  // o Guia Inicial (Contratos). A base de busca e filtrada para conter somente
+  // documentos dessas categorias (vindos do cache/admin).
+  const ALLOWED_CATEGORIES: KnowledgeCategory[] = ["tabulacao", "situacao", "guia"]
   const knowledgeBase = useMemo(
-    () => addDocumentsToKnowledgeBase(buildKnowledgeBase(allSteps), externalDocs),
-    [allSteps, externalDocs],
+    () => buildKnowledgeBase(allSteps).filter((doc) => ALLOWED_CATEGORIES.includes(doc.category)),
+    [allSteps],
   )
 
   // Mensagem de boas-vindas ao abrir pela primeira vez.
@@ -112,7 +93,8 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
           role: "assistant",
           content:
             `Ola! Sou seu assistente do roteiro${productName ? ` de "${productName}"` : ""}. ` +
-            "Pergunte qualquer coisa sobre o script, situacoes de atendimento, tabulacoes, canais ou codigos de resultado e eu busco a resposta para voce.",
+            "Posso explicar o significado das Tabulacoes, das Situacoes de atendimento e do Guia Inicial (Contratos). " +
+            "Me diga o que voce precisa entender que eu busco a resposta para voce.",
         },
       ])
     }
@@ -175,8 +157,9 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
           role: "assistant",
           needsSpecialist: true,
           content:
-            "Nao consegui localizar essa informacao no roteiro e nos materiais disponiveis. " +
-            "Recomendo buscar ajuda de um especialista ou do seu supervisor para garantir a orientacao correta.",
+            "Eu explico apenas Tabulacoes, Situacoes de atendimento e o Guia Inicial (Contratos). " +
+            "Nao encontrei nada correspondente ao que voce perguntou nesses temas. " +
+            "Tente informar o nome exato (ex.: \"O que significa a tabulacao ALO MUDO?\").",
         }
       }
 
@@ -351,7 +334,7 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
           {/* Sugestoes rapidas (apenas antes de perguntar) */}
           {messages.length <= 1 && (
             <div className="flex flex-wrap gap-2 px-4 pb-2">
-              {["Como abordar o cliente?", "Qual tabulacao usar?", "Cliente nao atende"].map((s) => (
+              {["O que significa ALO MUDO?", "Guia Inicial - Contratos", "Situacao: cliente sem acordo"].map((s) => (
                 <button
                   key={s}
                   onClick={() => setInput(s)}
@@ -371,7 +354,7 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Faca uma pergunta sobre o atendimento..."
+                placeholder="Pergunte sobre tabulacoes, situacoes ou o guia inicial..."
                 rows={1}
                 className="max-h-24 flex-1 resize-none bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
               />
@@ -385,7 +368,7 @@ export function OperatorAiAssistant({ productName, allSteps }: OperatorAiAssista
               </button>
             </div>
             <p className="mt-1.5 px-1 text-center text-[11px] text-muted-foreground">
-              As respostas sao baseadas no roteiro e materiais cadastrados.
+              Explico Tabulacoes, Situacoes de atendimento e o Guia Inicial (Contratos).
             </p>
           </div>
         </div>

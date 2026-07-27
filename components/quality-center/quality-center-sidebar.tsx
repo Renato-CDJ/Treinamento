@@ -4,7 +4,7 @@ import { useAuth } from "@/lib/auth-context"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Home, BookOpen, Megaphone, FileText, HelpCircle, Shield, MessageCircle } from "lucide-react"
+import { Home, BookOpen, Megaphone, FileText, HelpCircle, Shield, MessageCircle, Library } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface QualityCenterSidebarProps {
@@ -39,6 +39,7 @@ export function QualityCenterSidebar({
 
   const mainMenuItems = [
     { id: "feed", icon: Home, label: "Inicio", adminOnly: false },
+    { id: "conhecimento", icon: Library, label: "Base de Conhecimento", adminOnly: false },
     { id: "treinamentos", icon: BookOpen, label: "Treinamentos", adminOnly: false },
   ].filter(item => !item.adminOnly || !isOperator)
 

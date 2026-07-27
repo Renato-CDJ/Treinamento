@@ -214,8 +214,8 @@
       },
       "hab532_ratificacao_aceite_campanha": {
         "id": "hab532_ratificacao_aceite_campanha",
-        "title": "Verificar valores no CIWEB",
-        "body": "Observe se o boleto está disponível no CIWEB.<br><br>[Se aparecer a mensagem “não calculou mora”, significa que não estará disponível]",
+        "title": "Selecione o botão correspondente ao tipo de pagamento",
+        "body": " ",
         "buttons": [
           { "label": "PAGAMENTO TOTAL", "next": "hab532_pagamento_total_campanha" },
           { "label": "PAGAMENTO PARCIAL", "next": "hab532_pagamento_parcial_campanha" },
@@ -234,10 +234,11 @@
       "hab532_pagamento_parcial_campanha": {
         "id": "hab532_pagamento_parcial_campanha",
         "title": "Parcial [no mínimo, uma prestação mais antiga]",
-        "body": "Como não se trata do pagamento de total e sim parcial, permanecem os juros diários, ligações de cobrança e a restrição do CPF/CNPJ no SPC/SERASA.<br><br>CASO O ENVIO DO BOLETO NÃO ESTEJA DISPONÍVEL NO CIWEB:<br>O boleto dessa proposta no momento não está disponível para emissão por esse canal. Você pode solicitar/consultar pelo WhatsApp 0800 104 0104 a emissão do boleto.",
+        "body": "Como não se trata do pagamento de total e sim parcial, permanecem os juros diários, ligações de cobrança e a restrição do CPF/CNPJ no SPC/SERASA.",
         "tabulacao": ["ACEITA ACAO/CAMPANHA COM EMISSAO DE BOLETO"],
         "buttons": [
-          { "label": "AVANÇAR", "next": "hab532_atualizacao_cadastral_aceite_campanha" }
+          { "label": "AVANÇAR", "next": "hab532_atualizacao_cadastral_aceite_campanha" },
+          { "label": "BOLETO INDISPONÍVEL", "next": "hab532_boleto_indisponivel_campanha" }
         ]
       },
       "hab532_boleto_indisponivel_campanha": {
