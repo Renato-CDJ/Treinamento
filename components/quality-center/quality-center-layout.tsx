@@ -5,6 +5,7 @@ import { useAuth } from "@/lib/auth-context"
 import { QualityCenterHeader } from "./quality-center-header"
 import { QualityCenterSidebar } from "./quality-center-sidebar"
 import { QualityCenterFeed } from "./quality-center-feed"
+import { QualityCenterKnowledge } from "./quality-center-knowledge"
 import { QualityCenterOnlineUsers } from "./quality-center-online-users"
 import { QualityCenterAdminPanel } from "./quality-center-admin-panel"
 import { useAllUsers, useAdminQuestions } from "@/hooks/use-supabase-realtime"
@@ -55,6 +56,12 @@ export function QualityCenterLayout() {
         {showAdminPanel && hasAdminAccess ? (
           <main className="flex-1 overflow-auto">
             <QualityCenterAdminPanel pendingQuestions={pendingQuestions} />
+          </main>
+        ) : activeView === "conhecimento" ? (
+          <main className="flex-1 overflow-auto px-4 py-6 lg:px-8">
+            <div className="mx-auto max-w-5xl">
+              <QualityCenterKnowledge />
+            </div>
           </main>
         ) : (
           <>
