@@ -131,7 +131,8 @@ export const STATIC_TABULATIONS: StaticTabulation[] = [
   {
     phase: "after",
     name: "NEGOCIACAO EM OUTRO CANAL",
-    description: "Cliente informa que ja esta negociando em outro canal.",
+    description:
+      "Cliente informa que está negociando, pretende ou prefere negociar através de outro canal de atendimento.",
   },
   {
     phase: "after",
