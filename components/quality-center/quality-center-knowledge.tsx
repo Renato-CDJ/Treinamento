@@ -335,22 +335,46 @@ export function QualityCenterKnowledge() {
               <button
                 key={topic.fileName}
                 onClick={() => setSelectedFile(topic.fileName)}
-                className="group text-left"
+                className="group rounded-xl text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500/60"
               >
-                <Card className="h-full border-border/50 transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-500/50 hover:shadow-lg">
-                  <CardContent className="flex h-full flex-col p-5">
-                    <div className={cn("mb-4 w-fit rounded-xl p-3", visual.color)}>
-                      <Icon className="h-6 w-6" />
+                <Card className="relative h-full overflow-hidden border-border/50 bg-card/60 transition-all duration-300 hover:-translate-y-1 hover:border-orange-500/60 hover:shadow-xl hover:shadow-orange-500/5">
+                  {/* Faixa de destaque no topo, revelada no hover */}
+                  <div className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-gradient-to-r from-orange-500 to-orange-400 transition-transform duration-300 group-hover:scale-x-100" />
+                  {/* Brilho sutil de fundo no hover */}
+                  <div
+                    className={cn(
+                      "pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100",
+                      visual.color.split(" ").find((c) => c.startsWith("bg-")),
+                    )}
+                  />
+                  <CardContent className="relative flex h-full flex-col p-5">
+                    <div className="mb-4 flex items-start justify-between gap-2">
+                      <div
+                        className={cn(
+                          "flex h-12 w-12 items-center justify-center rounded-xl ring-1 ring-inset ring-border/40 transition-transform duration-300 group-hover:scale-105",
+                          visual.color,
+                        )}
+                      >
+                        <Icon className="h-6 w-6" />
+                      </div>
+                      <Badge
+                        variant="secondary"
+                        className="rounded-full bg-muted/70 px-2.5 py-0.5 text-xs font-medium text-muted-foreground"
+                      >
+                        {topic.sections.length} {topic.sections.length === 1 ? "topico" : "topicos"}
+                      </Badge>
                     </div>
                     <h3 className="mb-1 font-semibold leading-snug text-foreground text-pretty">
                       {topic.title}
                     </h3>
-                    <p className="mb-4 text-sm text-muted-foreground">
-                      {topic.sections.length} {topic.sections.length === 1 ? "topico" : "topicos"}
+                    <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
+                      Consultar conteudos e orientacoes deste tema
                     </p>
-                    <div className="mt-auto flex items-center gap-1 text-sm font-medium text-orange-500">
+                    <div className="mt-auto flex items-center gap-1.5 text-sm font-semibold text-orange-500">
                       Abrir conteudo
-                      <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-orange-500/10 transition-all duration-300 group-hover:bg-orange-500 group-hover:text-background">
+                        <ChevronRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-px" />
+                      </span>
                     </div>
                   </CardContent>
                 </Card>
@@ -362,7 +386,7 @@ export function QualityCenterKnowledge() {
 
       {/* Topic detail */}
       {!normalized && activeTopic && (
-        <div className="space-y-4">
+        <div className="space-y-5">
           <Button
             variant="ghost"
             onClick={() => setSelectedFile(null)}
@@ -372,38 +396,62 @@ export function QualityCenterKnowledge() {
             Voltar aos temas
           </Button>
 
-          <div className="flex items-center gap-3">
-            {(() => {
-              const visual = getTopicVisual(activeTopic.fileName)
-              const Icon = visual.icon
-              return (
-                <span className={cn("rounded-xl p-3", visual.color)}>
-                  <Icon className="h-6 w-6" />
-                </span>
-              )
-            })()}
-            <div>
-              <h3 className="text-lg font-bold text-foreground">{activeTopic.title}</h3>
-              <p className="text-sm text-muted-foreground">
-                {activeTopic.sections.length} {activeTopic.sections.length === 1 ? "topico" : "topicos"}
-              </p>
-            </div>
-          </div>
+          {/* Cabecalho do tema em destaque */}
+          {(() => {
+            const visual = getTopicVisual(activeTopic.fileName)
+            const Icon = visual.icon
+            return (
+              <div className="relative overflow-hidden rounded-xl border border-border/50 bg-card/60 p-5">
+                <div
+                  className={cn(
+                    "pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full opacity-60 blur-3xl",
+                    visual.color.split(" ").find((c) => c.startsWith("bg-")),
+                  )}
+                />
+                <div className="relative flex items-center gap-4">
+                  <span
+                    className={cn(
+                      "flex h-14 w-14 shrink-0 items-center justify-center rounded-xl ring-1 ring-inset ring-border/40",
+                      visual.color,
+                    )}
+                  >
+                    <Icon className="h-7 w-7" />
+                  </span>
+                  <div>
+                    <h3 className="text-lg font-bold text-foreground text-pretty">{activeTopic.title}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {activeTopic.sections.length} {activeTopic.sections.length === 1 ? "topico" : "topicos"} disponivel
+                      {activeTopic.sections.length === 1 ? "" : "is"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )
+          })()}
 
-          <Card className="border-border/50">
+          <Card className="border-border/50 bg-card/60">
             <CardContent className="p-2 sm:p-4">
-              <Accordion type="multiple" className="w-full">
-                {activeTopic.sections.map((section) => (
-                  <AccordionItem key={section.id} value={section.id} className="border-border/50">
-                    <AccordionTrigger className="text-left text-sm font-semibold hover:no-underline">
-                      {section.title}
+              <Accordion type="multiple" className="w-full space-y-2">
+                {activeTopic.sections.map((section, index) => (
+                  <AccordionItem
+                    key={section.id}
+                    value={section.id}
+                    className="overflow-hidden rounded-lg border border-border/50 bg-background/40 px-1 transition-colors data-[state=open]:border-orange-500/40 data-[state=open]:bg-orange-500/[0.03]"
+                  >
+                    <AccordionTrigger className="px-3 text-left text-sm font-semibold hover:no-underline [&[data-state=open]>span:first-child]:bg-orange-500 [&[data-state=open]>span:first-child]:text-background">
+                      <span className="mr-3 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-muted text-xs font-bold text-muted-foreground transition-colors">
+                        {index + 1}
+                      </span>
+                      <span className="flex-1">{section.title}</span>
                     </AccordionTrigger>
-                    <AccordionContent>
-                      {section.body ? (
-                        <RichBody text={section.body} />
-                      ) : (
-                        <p className="text-sm italic text-muted-foreground">Sem detalhes adicionais.</p>
-                      )}
+                    <AccordionContent className="px-3 pb-3">
+                      <div className="border-t border-border/40 pt-3">
+                        {section.body ? (
+                          <RichBody text={section.body} />
+                        ) : (
+                          <p className="text-sm italic text-muted-foreground">Sem detalhes adicionais.</p>
+                        )}
+                      </div>
                     </AccordionContent>
                   </AccordionItem>
                 ))}
