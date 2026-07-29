@@ -6,12 +6,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
-import {
   Search,
   BookMarked,
   ArrowLeft,
@@ -429,35 +423,33 @@ export function QualityCenterKnowledge() {
             )
           })()}
 
-          <Card className="border-border/50 bg-card/60">
-            <CardContent className="p-2 sm:p-4">
-              <Accordion type="multiple" className="w-full space-y-2">
-                {activeTopic.sections.map((section, index) => (
-                  <AccordionItem
-                    key={section.id}
-                    value={section.id}
-                    className="overflow-hidden rounded-lg border border-border/50 bg-background/40 px-1 transition-colors data-[state=open]:border-orange-500/40 data-[state=open]:bg-orange-500/[0.03]"
-                  >
-                    <AccordionTrigger className="px-3 text-left text-sm font-semibold hover:no-underline [&[data-state=open]>span:first-child]:bg-orange-500 [&[data-state=open]>span:first-child]:text-background">
-                      <span className="mr-3 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-muted text-xs font-bold text-muted-foreground transition-colors">
-                        {index + 1}
-                      </span>
-                      <span className="flex-1">{section.title}</span>
-                    </AccordionTrigger>
-                    <AccordionContent className="px-3 pb-3">
-                      <div className="border-t border-border/40 pt-3">
-                        {section.body ? (
-                          <RichBody text={section.body} />
-                        ) : (
-                          <p className="text-sm italic text-muted-foreground">Sem detalhes adicionais.</p>
-                        )}
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
-            </CardContent>
-          </Card>
+          {/* Lista de topicos sempre visivel: titulo + descricao logo abaixo */}
+          <div className="space-y-3">
+            {activeTopic.sections.map((section, index) => (
+              <Card
+                key={section.id}
+                className="overflow-hidden border-border/50 bg-card/60 transition-colors hover:border-orange-500/40"
+              >
+                <CardContent className="p-4 sm:p-5">
+                  <div className="flex items-start gap-3">
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-orange-500/10 text-xs font-bold text-orange-500">
+                      {index + 1}
+                    </span>
+                    <h4 className="mt-0.5 flex-1 text-sm font-semibold leading-snug text-foreground text-pretty">
+                      {section.title}
+                    </h4>
+                  </div>
+                  <div className="mt-3 border-t border-border/40 pt-3 sm:pl-10">
+                    {section.body ? (
+                      <RichBody text={section.body} />
+                    ) : (
+                      <p className="text-sm italic text-muted-foreground">Sem detalhes adicionais.</p>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       )}
     </div>
