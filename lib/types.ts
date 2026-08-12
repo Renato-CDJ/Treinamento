@@ -37,7 +37,9 @@ export interface User {
   loginSessions?: LoginSession[]
   permissions?: AdminPermissions
   password?: string
-}
+  // Indica se o usuário possui senha definida, SEM expor a senha em si.
+  hasPassword?: boolean
+  }
 
 export interface LoginSession {
   id: string

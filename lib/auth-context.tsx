@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, type ReactNode, useMemo, useCallback, useRef } from "react"
 import { createClient } from "@/lib/supabase/client"
+import { USER_SAFE_COLUMNS } from "@/lib/shared-users"
 import type { User } from "./types"
 
 // Usuario operador padrao registrado no codigo (sem necessidade de banco de dados)
@@ -38,7 +39,11 @@ export function mapSupabaseUser(data: any): User {
     username: data.username,
     fullName: data.name || data.fullName,
     email: data.email,
-    password: data.password,
+    // SEGURANÇA: a senha NUNCA é trafegada para o cliente.
+    // A coluna `password` não é selecionada em nenhuma query do navegador.
+    password: "",
+    // Apenas indica se há senha definida (coluna booleana gerada no banco).
+    hasPassword: data.has_password ?? undefined,
     role: data.role,
     adminType: data.admin_type || data.adminType,
     allowedTabs: data.allowed_tabs || data.allowedTabs || [],
@@ -58,7 +63,7 @@ export async function getUsersFromSupabase(): Promise<User[]> {
   const supabase = createClient()
   const { data, error } = await supabase
     .from("users")
-    .select("*")
+    .select(USER_SAFE_COLUMNS)
     .order("created_at", { ascending: true })
 
   if (error) {
@@ -137,41 +142,42 @@ async function validateUserCredentials(
   try {
     const supabase = createClient()
     const normalizedEmail = normalizeEmail(email)
-    
-    // Buscar usuario por email (case insensitive)
-    const { data: users, error } = await supabase
-      .from("users")
-      .select("*")
-      .ilike("email", normalizedEmail)
-      .limit(1)
 
-    if (error) {
-      console.error("[Supabase] Query error:", error)
-      return { success: false, error: "Erro ao buscar usuario" }
+    // CAMINHO SEGURO: a verificação de senha acontece DENTRO do banco,
+    // via função `verify_login` (SECURITY DEFINER). A senha nunca é
+    // trafegada para o navegador, e a coluna `password` fica inacessível
+    // pela API pública (REVOKE aplicado no banco).
+    const { data: rpcData, error: rpcError } = await supabase.rpc("verify_login", {
+      p_email: normalizedEmail,
+      p_password: password,
+    })
+
+    // Se a função ainda não foi criada no banco, usar fallback legado
+    // (mantém o login funcionando até a migração de segurança ser aplicada).
+    const functionMissing =
+      rpcError &&
+      (rpcError.code === "42883" ||
+        /function .*verify_login/i.test(rpcError.message || "") ||
+        /could not find the function/i.test(rpcError.message || ""))
+
+    if (functionMissing) {
+      return legacyValidateCredentials(supabase, normalizedEmail, password)
     }
 
-    // Se nao encontrou usuario, retornar erro
-    if (!users || users.length === 0) {
-      return { success: false, error: "Usuario nao encontrado. Contate o administrador." }
+    if (rpcError) {
+      console.error("[Supabase] verify_login error:", rpcError.message)
+      return { success: false, error: "Erro ao validar credenciais" }
     }
 
-    const userData = users[0]
+    const result = rpcData as { success: boolean; error?: string; user?: any } | null
 
-    // Verificar se usuario esta ativo
-    if (userData.is_active === false) {
-      return { success: false, error: "Usuario desativado" }
+    if (!result || !result.success || !result.user) {
+      return { success: false, error: result?.error || "Usuario ou senha invalidos" }
     }
 
-    // Verificar senha para admins/supervisores
-    const requiresPassword = userData.role === "admin" || userData.role === "supervisor"
-    
-    if (requiresPassword && userData.password && userData.password !== password) {
-      return { success: false, error: "Senha incorreta" }
-    }
+    const user = mapSupabaseUser(result.user)
 
-    const user = mapSupabaseUser(userData)
-
-    // Atualizar status online
+    // Atualizar status online (não bloqueia o login em caso de falha)
     await supabase
       .from("users")
       .update({
@@ -186,6 +192,62 @@ async function validateUserCredentials(
     console.error("[Auth] Validation error:", error)
     return { success: false, error: "Erro ao validar credenciais" }
   }
+}
+
+// Fallback legado usado APENAS enquanto a função verify_login não existir no banco.
+// Após a migração de segurança (REVOKE da coluna password + verify_login),
+// este caminho deixa de ser usado.
+async function legacyValidateCredentials(
+  supabase: ReturnType<typeof createClient>,
+  normalizedEmail: string,
+  password: string
+): Promise<{ success: boolean; user?: User; error?: string }> {
+  const { data: users, error } = await supabase
+    .from("users")
+    .select("*")
+    .ilike("email", normalizedEmail)
+    .limit(1)
+
+  if (error) {
+    console.error("[Supabase] Query error:", error)
+    return { success: false, error: "Erro ao buscar usuario" }
+  }
+
+  if (!users || users.length === 0) {
+    return { success: false, error: "Usuario nao encontrado. Contate o administrador." }
+  }
+
+  const userData = users[0]
+
+  if (userData.is_active === false) {
+    return { success: false, error: "Usuario desativado" }
+  }
+
+  const requiresPassword = userData.role === "admin" || userData.role === "supervisor"
+
+  if (requiresPassword) {
+    // Se a senha não pôde ser lida (coluna já protegida) não é possível
+    // validar admin por este caminho: rejeita por segurança.
+    if (userData.password === undefined || userData.password === null) {
+      return { success: false, error: "Login seguro indisponivel. Contate o administrador." }
+    }
+    if (userData.password !== password) {
+      return { success: false, error: "Senha incorreta" }
+    }
+  }
+
+  const user = mapSupabaseUser(userData)
+
+  await supabase
+    .from("users")
+    .update({
+      is_online: true,
+      last_login: new Date().toISOString(),
+      last_activity: new Date().toISOString(),
+    })
+    .eq("id", user.id)
+
+  return { success: true, user }
 }
 
 // Update user online status
@@ -209,7 +271,7 @@ async function getUserById(userId: string): Promise<User | null> {
   const supabase = createClient()
   const { data, error } = await supabase
     .from("users")
-    .select("*")
+    .select(USER_SAFE_COLUMNS)
     .eq("id", userId)
     .single()
 

@@ -4,16 +4,19 @@ import { useEffect, useState, useCallback, useMemo, useRef } from "react"
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client"
 import { mapSupabaseUser } from "@/lib/auth-context"
 import { startVisibilityAwarePolling } from "@/lib/polling"
+import { fetchSharedUsers, subscribeUsers, getCachedUsers, USER_SAFE_COLUMNS } from "@/lib/shared-users"
 import type { User, QualityPost, QualityComment } from "@/lib/types"
 
 // Polling interval - 5 minutos para reduzir requisições drasticamente.
 // O polling só roda com a aba em primeiro plano (ver startVisibilityAwarePolling).
 const POLLING_INTERVAL = 300000
 
-// Users hook with polling (sem realtime)
+// Users hook com store COMPARTILHADO (sem realtime).
+// Todos os consumidores (useAllUsers, useOperatorPresence, etc.) compartilham
+// uma única requisição à tabela `users`, eliminando leituras duplicadas.
 export function useSupabaseUsers() {
-  const [users, setUsers] = useState<User[]>([])
-  const [loading, setLoading] = useState(true)
+  const [users, setUsers] = useState<User[]>(() => getCachedUsers().map(mapSupabaseUser))
+  const [loading, setLoading] = useState(getCachedUsers().length === 0)
   const mountedRef = useRef(true)
 
   const fetchUsers = useCallback(async () => {
@@ -21,36 +24,37 @@ export function useSupabaseUsers() {
       if (mountedRef.current) setLoading(false)
       return
     }
-    
-    const supabase = createClient()
-    if (!supabase) {
-      if (mountedRef.current) setLoading(false)
-      return
-    }
-    
-    const { data, error } = await supabase
-      .from("users")
-      .select("*")
-      .order("created_at", { ascending: true })
-
-    if (!error && data && mountedRef.current) {
-      setUsers(data.map(mapSupabaseUser))
-    }
+    await fetchSharedUsers(true)
     if (mountedRef.current) setLoading(false)
   }, [])
 
   useEffect(() => {
     mountedRef.current = true
-    fetchUsers()
 
-    // Polling só quando a aba está ativa
-    const stop = startVisibilityAwarePolling(fetchUsers, POLLING_INTERVAL)
+    // Assina o store compartilhado: recebe atualizações sem refazer fetch.
+    const unsubscribe = subscribeUsers((raw) => {
+      if (mountedRef.current) {
+        setUsers(raw.map(mapSupabaseUser))
+        setLoading(false)
+      }
+    })
+
+    // Dispara um fetch compartilhado (deduplicado por TTL/promise em voo).
+    fetchSharedUsers().then(() => {
+      if (mountedRef.current) setLoading(false)
+    })
+
+    // Polling só quando a aba está ativa; fetchSharedUsers evita rajadas.
+    const stop = startVisibilityAwarePolling(() => {
+      fetchSharedUsers(true)
+    }, POLLING_INTERVAL)
 
     return () => {
       mountedRef.current = false
+      unsubscribe()
       stop()
     }
-  }, [fetchUsers])
+  }, [])
 
   return { users, loading, refetch: fetchUsers }
 }
@@ -520,13 +524,11 @@ export async function getQualityStatsSupabase(): Promise<{
 
   const totalLikes = (posts || []).reduce((acc, p) => acc + (p.likes?.length || 0), 0)
 
-  const { data: users } = await supabase
-    .from("users")
-    .select("role, is_online")
-    .eq("role", "operator")
-
-  const totalUsers = users?.length || 0
-  const onlineCount = users?.filter((u) => u.is_online === true).length || 0
+  // Reutiliza o store compartilhado de usuários (evita leitura extra da tabela).
+  const allUsers = await fetchSharedUsers()
+  const operators = allUsers.filter((u) => u.role === "operator")
+  const totalUsers = operators.length
+  const onlineCount = operators.filter((u) => u.is_online === true).length
 
   return {
     totalPosts: postsCount || 0,
@@ -806,7 +808,7 @@ export async function getUserByUsername(username: string): Promise<User | null> 
   
   const { data, error } = await supabase
     .from("users")
-    .select("*")
+    .select(USER_SAFE_COLUMNS)
     .ilike("username", username)
     .eq("is_active", true)
     .single()
@@ -835,7 +837,7 @@ export async function getAllUsersFromSupabase(): Promise<User[]> {
   
   const { data, error } = await supabase
     .from("users")
-    .select("*")
+    .select(USER_SAFE_COLUMNS)
     .order("created_at", { ascending: true })
 
   if (error || !data) return []

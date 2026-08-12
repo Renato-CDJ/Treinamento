@@ -49,7 +49,7 @@ export function OperatorsTab() {
     const supabase = createClient()
     const { data, error } = await supabase
       .from("users")
-      .select("*")
+      .select("id,username,name,email,role,admin_type,allowed_tabs,is_online,is_active,created_at,last_login,last_activity,last_script_access,current_product,current_screen")
       .eq("role", "operator")
       .order("created_at", { ascending: false })
 

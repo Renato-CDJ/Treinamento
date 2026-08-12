@@ -9,6 +9,31 @@ import { startVisibilityAwarePolling } from "@/lib/polling"
 // O polling só roda com a aba em primeiro plano (ver startVisibilityAwarePolling).
 const POLLING_INTERVAL = 300000
 
+// Intervalo lento (20 min) para dados de configuração que mudam raramente.
+// Essas tabelas já são invalidadas por versão ao serem editadas (updateDataVersion),
+// então não precisam de polling frequente — reduz muito o egress.
+const SLOW_POLLING_INTERVAL = 1200000
+
+// Tabelas de configuração de baixa frequência de alteração.
+const SLOW_TABLES = new Set<string>([
+  "scripts",
+  "products",
+  "tabulations",
+  "situations",
+  "channels",
+  "result_codes",
+  "initial_guide",
+  "phraseology",
+  "campaigns",
+  "word_cloud",
+  "contracts",
+  "app_settings",
+])
+
+function getPollingInterval(tableName: string): number {
+  return SLOW_TABLES.has(tableName) ? SLOW_POLLING_INTERVAL : POLLING_INTERVAL
+}
+
 // Collection/table names
 const TABLES = {
   USERS: "users",
@@ -83,8 +108,8 @@ export function useSupabaseTable<T extends { id: string }>(
   useEffect(() => {
     fetchData()
 
-    // Polling só quando a aba está ativa
-    const stop = startVisibilityAwarePolling(fetchData, POLLING_INTERVAL)
+    // Polling só quando a aba está ativa; intervalo depende do tipo de dado.
+    const stop = startVisibilityAwarePolling(fetchData, getPollingInterval(tableName))
 
     return () => {
       stop()
@@ -277,8 +302,8 @@ export function useProductScripts(productId: string | null) {
 
     fetchScripts()
 
-    // Polling só quando a aba está ativa
-    const stop = startVisibilityAwarePolling(fetchScripts, POLLING_INTERVAL)
+    // Scripts mudam raramente -> polling lento
+    const stop = startVisibilityAwarePolling(fetchScripts, SLOW_POLLING_INTERVAL)
 
     return () => {
       stop()
@@ -491,8 +516,8 @@ export function useAppSettings() {
   useEffect(() => {
     fetchSettings()
 
-    // Polling só quando a aba está ativa
-    const stop = startVisibilityAwarePolling(fetchSettings, POLLING_INTERVAL)
+    // Configurações mudam raramente -> polling lento
+    const stop = startVisibilityAwarePolling(fetchSettings, SLOW_POLLING_INTERVAL)
 
     return () => {
       stop()
