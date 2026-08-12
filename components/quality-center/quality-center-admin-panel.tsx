@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { startVisibilityAwarePolling } from "@/lib/polling"
 import { useAuth } from "@/lib/auth-context"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -105,9 +106,9 @@ export function QualityCenterAdminPanel({ pendingQuestions }: QualityCenterAdmin
       })
     }
     loadStats()
-    // Aumentado para 3 minutos - estatísticas não precisam de atualização tão frequente
-    const interval = setInterval(loadStats, 180000)
-    return () => clearInterval(interval)
+    // Polling só com a aba ativa - estatísticas não precisam de atualização tão frequente
+    const stop = startVisibilityAwarePolling(loadStats, 300000)
+    return () => stop()
   }, [])
 
   const handlePublishComunicado = async () => {

@@ -3,6 +3,7 @@
 
 import { useState, useEffect, useCallback } from "react"
 import { createClient } from "@/lib/supabase/client"
+import { startVisibilityAwarePolling } from "@/lib/polling"
 
 // Get Supabase client
 const getSupabaseClient = () => createClient()
@@ -289,7 +290,7 @@ const MOCK_TABULATIONS: Tabulation[] = [
     id: "tab-1",
     name: "PESSOA NÃO CONFIRMA OS DADOS",
     description:
-      "Pessoa informa os números do CPF, porém os dados não conferem com os números registrados no CRM ou a pessoa se recusa a informar os números do CPF para realização da identificação positiva ou pessoa não.",
+      "Pessoa informa os números do CPF, porém os dados não conferem com os números registrados no CRM ou a pessoa se recusa a informar os números do CPF para realização da identifica��ão positiva ou pessoa não.",
     color: "#f59e0b",
     createdAt: new Date(),
   },
@@ -1029,22 +1030,67 @@ async function syncProductsFromSupabase() {
 // Initialize Supabase sync on load with polling (sem realtime)
 let syncInitialized = false
 
-// Polling interval - 3 minutos para reduzir requisições drasticamente
-const SYNC_POLLING_INTERVAL = 180000
+// Polling interval - 5 minutos para reduzir requisições drasticamente.
+const SYNC_POLLING_INTERVAL = 300000
+
+// Última versão conhecida dos dados. Usada para evitar buscar tabelas inteiras
+// quando nada mudou no banco.
+let lastKnownDataVersion: Record<string, string> = {}
+let didFallbackFullSync = false
+
+// Faz uma única consulta leve em app_settings.data_version e busca do banco
+// APENAS as tabelas cuja versão mudou desde a última verificação.
+// Isso substitui 5 SELECT * completos por 1 consulta minúscula quando nada mudou.
+async function syncChangedFromSupabase() {
+  try {
+    const { data } = await getSupabaseClient()
+      .from("app_settings")
+      .select("value")
+      .eq("key", "data_version")
+      .maybeSingle()
+
+    const remote = (data?.value || {}) as Record<string, string>
+    const hasRemoteVersion = !!(data && data.value)
+
+    // Se o banco não tem controle de versão, faz sync completo só uma vez por sessão
+    if (!hasRemoteVersion) {
+      if (didFallbackFullSync) return
+      didFallbackFullSync = true
+      await Promise.all([
+        syncScriptsFromSupabase(),
+        syncProductsFromSupabase(),
+        syncTabulationsFromSupabase(),
+        syncSituationsFromSupabase(),
+        syncChannelsFromSupabase(),
+      ])
+      return
+    }
+
+    const tasks: Promise<void>[] = []
+    if (remote.scripts !== lastKnownDataVersion.scripts) tasks.push(syncScriptsFromSupabase())
+    if (remote.products !== lastKnownDataVersion.products) tasks.push(syncProductsFromSupabase())
+    if (remote.tabulations !== lastKnownDataVersion.tabulations) tasks.push(syncTabulationsFromSupabase())
+    if (remote.situations !== lastKnownDataVersion.situations) tasks.push(syncSituationsFromSupabase())
+    if (remote.channels !== lastKnownDataVersion.channels) tasks.push(syncChannelsFromSupabase())
+
+    if (tasks.length > 0) {
+      await Promise.all(tasks)
+    }
+    lastKnownDataVersion = remote
+  } catch (e) {
+    console.error("[Store] Error checking data version:", e)
+  }
+}
 
 function initializeSupabaseSync() {
   if (syncInitialized || typeof window === "undefined") return
   syncInitialized = true
-  
-  // Initial sync
-  syncScriptsFromSupabase()
-  syncProductsFromSupabase()
-  
-  // Polling ao invés de realtime
-  setInterval(() => {
-    syncScriptsFromSupabase()
-    syncProductsFromSupabase()
-  }, SYNC_POLLING_INTERVAL)
+
+  // Sync inicial (busca apenas o necessário)
+  syncChangedFromSupabase()
+
+  // Polling só com a aba ativa e só das tabelas que mudaram
+  startVisibilityAwarePolling(syncChangedFromSupabase, SYNC_POLLING_INTERVAL)
 }
 
 // Initialize on first access
@@ -1253,19 +1299,9 @@ async function syncChannelsFromSupabase() {
   }
 }
 
-// Initialize sync for tabulations, situations, channels with polling (sem realtime)
-if (typeof window !== "undefined") {
-  syncTabulationsFromSupabase()
-  syncSituationsFromSupabase()
-  syncChannelsFromSupabase()
-  
-  // Polling ao invés de realtime
-  setInterval(() => {
-    syncTabulationsFromSupabase()
-    syncSituationsFromSupabase()
-    syncChannelsFromSupabase()
-  }, SYNC_POLLING_INTERVAL)
-}
+// A sincronização de tabulations, situations e channels agora é feita de forma
+// unificada e versionada por syncChangedFromSupabase() (ver initializeSupabaseSync),
+// evitando SELECT * repetidos e incondicionais.
 
 // Tabulations
 export function getTabulations(): Tabulation[] {

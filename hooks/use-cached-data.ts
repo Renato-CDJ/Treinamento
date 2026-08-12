@@ -20,6 +20,7 @@ import {
   hasCachedData,
   getLastSyncTime,
 } from "@/lib/cache-service"
+import { startVisibilityAwarePolling } from "@/lib/polling"
 import type { ScriptStep } from "@/lib/types"
 
 // Intervalo de verificação de atualizações (5 minutos)
@@ -33,7 +34,6 @@ export function useCacheSync() {
   const [isInitialized, setIsInitialized] = useState(false)
   const [isSyncing, setIsSyncing] = useState(false)
   const [lastSync, setLastSync] = useState<Date | null>(null)
-  const syncIntervalRef = useRef<NodeJS.Timeout | null>(null)
   const isSyncingRef = useRef(false)
 
   const doSync = useCallback(async (force = false) => {
@@ -74,8 +74,8 @@ export function useCacheSync() {
     
     initialize()
 
-    // Configurar verificação periódica
-    syncIntervalRef.current = setInterval(() => {
+    // Configurar verificação periódica (só quando a aba está ativa)
+    const stop = startVisibilityAwarePolling(() => {
       if (mounted) {
         doSync(false)
       }
@@ -83,9 +83,7 @@ export function useCacheSync() {
 
     return () => {
       mounted = false
-      if (syncIntervalRef.current) {
-        clearInterval(syncIntervalRef.current)
-      }
+      stop()
     }
   }, [doSync])
 

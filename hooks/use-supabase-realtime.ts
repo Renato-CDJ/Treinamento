@@ -3,10 +3,12 @@
 import { useEffect, useState, useCallback, useMemo, useRef } from "react"
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client"
 import { mapSupabaseUser } from "@/lib/auth-context"
+import { startVisibilityAwarePolling } from "@/lib/polling"
 import type { User, QualityPost, QualityComment } from "@/lib/types"
 
-// Polling interval - 3 minutos para reduzir requisições drasticamente
-const POLLING_INTERVAL = 180000
+// Polling interval - 5 minutos para reduzir requisições drasticamente.
+// O polling só roda com a aba em primeiro plano (ver startVisibilityAwarePolling).
+const POLLING_INTERVAL = 300000
 
 // Users hook with polling (sem realtime)
 export function useSupabaseUsers() {
@@ -41,12 +43,12 @@ export function useSupabaseUsers() {
     mountedRef.current = true
     fetchUsers()
 
-    // Polling ao invés de realtime
-    const interval = setInterval(fetchUsers, POLLING_INTERVAL)
+    // Polling só quando a aba está ativa
+    const stop = startVisibilityAwarePolling(fetchUsers, POLLING_INTERVAL)
 
     return () => {
       mountedRef.current = false
-      clearInterval(interval)
+      stop()
     }
   }, [fetchUsers])
 
@@ -185,12 +187,12 @@ export function useQualityPosts(includeArchived: boolean = false) {
     mountedRef.current = true
     fetchPosts()
 
-    // Polling ao invés de realtime
-    const interval = setInterval(fetchPosts, POLLING_INTERVAL)
+    // Polling só quando a aba está ativa
+    const stop = startVisibilityAwarePolling(fetchPosts, POLLING_INTERVAL)
 
     return () => {
       mountedRef.current = false
-      clearInterval(interval)
+      stop()
     }
   }, [fetchPosts])
 
@@ -263,12 +265,12 @@ export function useAdminQuestions(filterByUserId?: string) {
     mountedRef.current = true
     fetchQuestions()
 
-    // Polling ao invés de realtime
-    const interval = setInterval(fetchQuestions, POLLING_INTERVAL)
+    // Polling só quando a aba está ativa
+    const stop = startVisibilityAwarePolling(fetchQuestions, POLLING_INTERVAL)
 
     return () => {
       mountedRef.current = false
-      clearInterval(interval)
+      stop()
     }
   }, [fetchQuestions])
 
@@ -376,11 +378,12 @@ export function usePresenceHeartbeat(userId?: string) {
 
     updateOperatorPresence(userId)
 
-    const interval = setInterval(() => {
+    // Heartbeat só enquanto a aba está ativa - sem foco, o operador não está "presente"
+    const stop = startVisibilityAwarePolling(() => {
       updateOperatorPresence(userId)
-    }, 180000) // 3 minutos para reduzir requests drasticamente
+    }, POLLING_INTERVAL)
 
-    return () => clearInterval(interval)
+    return () => stop()
   }, [userId])
 }
 
@@ -576,12 +579,12 @@ export function useFeedbacks() {
     mountedRef.current = true
     fetchFeedbacks()
 
-    // Polling ao invés de realtime
-    const interval = setInterval(fetchFeedbacks, POLLING_INTERVAL)
+    // Polling só quando a aba está ativa
+    const stop = startVisibilityAwarePolling(fetchFeedbacks, POLLING_INTERVAL)
 
     return () => {
       mountedRef.current = false
-      clearInterval(interval)
+      stop()
     }
   }, [fetchFeedbacks])
 
@@ -607,9 +610,9 @@ export function useQualityStats() {
   useEffect(() => {
     fetchStats()
 
-    // Polling a cada 60 segundos
-    const interval = setInterval(fetchStats, POLLING_INTERVAL)
-    return () => clearInterval(interval)
+    // Polling só quando a aba está ativa
+    const stop = startVisibilityAwarePolling(fetchStats, POLLING_INTERVAL)
+    return () => stop()
   }, [fetchStats])
 
   return { stats, loading, refetch: fetchStats }

@@ -3,9 +3,11 @@
 import { useState, useEffect, useCallback } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { updateDataVersion } from "@/lib/cache-service"
+import { startVisibilityAwarePolling } from "@/lib/polling"
 
-// Polling interval - 3 minutos para reduzir requisições drasticamente
-const POLLING_INTERVAL = 180000
+// Polling interval - 5 minutos para reduzir requisições drasticamente.
+// O polling só roda com a aba em primeiro plano (ver startVisibilityAwarePolling).
+const POLLING_INTERVAL = 300000
 
 // Collection/table names
 const TABLES = {
@@ -81,11 +83,11 @@ export function useSupabaseTable<T extends { id: string }>(
   useEffect(() => {
     fetchData()
 
-    // Polling ao invés de realtime
-    const interval = setInterval(fetchData, POLLING_INTERVAL)
+    // Polling só quando a aba está ativa
+    const stop = startVisibilityAwarePolling(fetchData, POLLING_INTERVAL)
 
     return () => {
-      clearInterval(interval)
+      stop()
     }
   }, [tableName, fetchData])
 
@@ -275,11 +277,11 @@ export function useProductScripts(productId: string | null) {
 
     fetchScripts()
 
-    // Polling ao invés de realtime
-    const interval = setInterval(fetchScripts, POLLING_INTERVAL)
+    // Polling só quando a aba está ativa
+    const stop = startVisibilityAwarePolling(fetchScripts, POLLING_INTERVAL)
 
     return () => {
-      clearInterval(interval)
+      stop()
     }
   }, [productId, fetchScripts])
 
@@ -421,11 +423,11 @@ export function useNotes(userId?: string) {
 
     fetchData()
 
-    // Polling ao invés de realtime
-    const interval = setInterval(fetchData, POLLING_INTERVAL)
+    // Polling só quando a aba está ativa
+    const stop = startVisibilityAwarePolling(fetchData, POLLING_INTERVAL)
 
     return () => {
-      clearInterval(interval)
+      stop()
     }
   }, [userId, fetchData])
 
@@ -489,11 +491,11 @@ export function useAppSettings() {
   useEffect(() => {
     fetchSettings()
 
-    // Polling ao invés de realtime
-    const interval = setInterval(fetchSettings, POLLING_INTERVAL)
+    // Polling só quando a aba está ativa
+    const stop = startVisibilityAwarePolling(fetchSettings, POLLING_INTERVAL)
 
     return () => {
-      clearInterval(interval)
+      stop()
     }
   }, [fetchSettings])
 
@@ -913,11 +915,11 @@ export function useMessages(userId?: string) {
   useEffect(() => {
     fetchData()
 
-    // Polling ao invés de realtime
-    const interval = setInterval(fetchData, POLLING_INTERVAL)
+    // Polling só quando a aba está ativa
+    const stop = startVisibilityAwarePolling(fetchData, POLLING_INTERVAL)
 
     return () => {
-      clearInterval(interval)
+      stop()
     }
   }, [fetchData])
 
@@ -989,11 +991,11 @@ export function useQuizzes(userId?: string) {
   useEffect(() => {
     fetchData()
 
-    // Polling ao invés de realtime
-    const interval = setInterval(fetchData, POLLING_INTERVAL)
+    // Polling só quando a aba está ativa
+    const stop = startVisibilityAwarePolling(fetchData, POLLING_INTERVAL)
 
     return () => {
-      clearInterval(interval)
+      stop()
     }
   }, [fetchData])
 
@@ -1074,11 +1076,11 @@ export function usePresentations() {
   useEffect(() => {
     fetchData()
 
-    // Polling ao invés de realtime
-    const interval = setInterval(fetchData, POLLING_INTERVAL)
+    // Polling só quando a aba está ativa
+    const stop = startVisibilityAwarePolling(fetchData, POLLING_INTERVAL)
 
     return () => {
-      clearInterval(interval)
+      stop()
     }
   }, [fetchData])
 
@@ -1156,11 +1158,11 @@ export function useFeedbacksForOperator(userId?: string) {
   useEffect(() => {
     fetchData()
 
-    // Polling ao invés de realtime
-    const interval = setInterval(fetchData, POLLING_INTERVAL)
+    // Polling só quando a aba está ativa
+    const stop = startVisibilityAwarePolling(fetchData, POLLING_INTERVAL)
 
     return () => {
-      clearInterval(interval)
+      stop()
     }
   }, [fetchData])
 
