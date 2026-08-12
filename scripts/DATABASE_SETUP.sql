@@ -482,14 +482,14 @@ INSERT INTO channels (name, description, icon, is_active) VALUES
 ('SAC CAIXA', '0800 726 0101 - Reclamacoes, sugestoes, elogios, cancelamentos - Atendimento 24h', 'headphones', true),
 ('Ouvidoria CAIXA', '0800 725 7474 - Reclamacoes nao solucionadas - Dias uteis 9h as 18h', 'message-circle', true),
 ('Canal de Denuncias', '0800 721 0738 - Fatos irregulares contra CAIXA - 24h - https://www.caixa.gov.br/denuncia', 'alert-triangle', true),
-('WhatsApp CAIXA', '0800 101 0104 - Negociacao de dividas via www.caixa.gov.br/negociar', 'message-circle', true)
+('WhatsApp CAIXA', '0800 104 0104 - Negociacao de dividas via www.caixa.gov.br/negociar', 'message-circle', true)
 ON CONFLICT DO NOTHING;
 
 -- ============================================================
 -- INSERIR DADOS INICIAIS - SITUACOES
 -- ============================================================
 INSERT INTO situations (name, description, color, is_active) VALUES
-('EM CASOS DE FALENCIA/CONCORDATA', 'E necessario que o socio ou responsavel entre em contato com a CAIXA acessando www.caixa.gov.br/negociar e pelo WhatsApp 0800 101 0104. Tabulacao correta: Recado com terceiro', '#ef4444', true),
+('EM CASOS DE FALENCIA/CONCORDATA', 'E necessario que o socio ou responsavel entre em contato com a CAIXA acessando www.caixa.gov.br/negociar e pelo WhatsApp 0800 104 0104. Tabulacao correta: Recado com terceiro', '#ef4444', true),
 ('FALECIDO', 'Pessoa informa que o titular faleceu. E necessario que compareca a agencia levando a certidao de obito para que as ligacoes de cobranca sejam interrompidas. Tabulacao correta: FALECIDO', '#1f2937', true),
 ('SE O CLIENTE CITAR A LGPD OU PERGUNTAR POR QUE TEMOS OS SEUS DADOS', 'Seguindo a lei LGPD, n 13.709, possuimos alguns dados representando a CAIXA ECONOMICA FEDERAL, para garantir sua seguranca. Caso voce possua qualquer duvida ou solicitacao em relacao a isso, pedimos que entre em contato conosco enviando um e-mail para: dpo@gruporoveri.com.br .', '#8b5cf6', true),
 ('O CLIENTE SOLICITA O PROTOCOLO DA LIGACAO', 'Informar que nos somos uma central de negocios, ou seja, nosso atendimento nao possui carater de SAC. Entretanto, como mencionamos no inicio do contato, todas as ligacoes sao gravadas e para que voce tenha acesso a elas e necessario que as solicite na sua agencia de relacionamento. PORQUE NAO PODEMOS REPASSAR ESSA INFORMACAO PARA O CLIENTE? Nossa assessoria nao e SAC.', '#f59e0b', true),
@@ -497,7 +497,7 @@ INSERT INTO situations (name, description, color, is_active) VALUES
 ('CLIENTE SOLICITOU A LIGACAO DO ATENDIMENTO', 'Cliente solicita escuta da ligacao. PR/RJ/SP/MT: 7 dias uteis. Outros estados: solicitar na agencia', '#3b82f6', true),
 ('CLIENTE FIES QUER PAUSAR O PAGAMENTO DAS SUAS PARCELAS', 'Caso o cliente do FIES questione a possibilidade de renegociar ou solicite o desconto para seu contrato, informar: "Voce pode verificar se o seu contrato tem a possibilidade de realizar renegociacao no site http://sifesweb.caixa.gov.br, APP FIES CAIXA ou na sua agencia." ATENCAO! Lembrando que essa orientacao so deve ser repassada para aqueles clientes que ja fizeram a confirmacao positiva.', '#22c55e', true),
 ('CONTRATOS DE EMPRESTIMO CONSIGNADO', 'Devemos orientar o cliente pedindo para que ele verifique novamente se o valor foi de fato descontado da folha de pagamento. Caso ele fale que vai aguardar em linha este retorno. Se o cliente disser que nao pode fazer essa verificacao durante o atendimento, podemos solicitar o melhor horario e telefone para realizar um contato futuro. QUESTIONAMENTO NORMALMENTE REALIZADO PELO CLIENTE: "Isso e descontado na minha folha de pagamento, nao esta aparecendo no sistema?"', '#f97316', true),
-('NAO RECONHECE A DIVIDA', 'Orientar o cliente a procurar uma agencia da CAIXA para mais informacoes ou ligar no 0800 101 0104. Para cartao de credito, indicar a central de atendimento que esta no verso do cartao para contestacao das despesas.', '#dc2626', true),
+('NAO RECONHECE A DIVIDA', 'Orientar o cliente a procurar uma agencia da CAIXA para mais informacoes ou ligar no 0800 104 0104. Para cartao de credito, indicar a central de atendimento que esta no verso do cartao para contestacao das despesas.', '#dc2626', true),
 ('O QUE FAZER QUANDO CAIR UM PRODUTO QUE NAO ATENDO?', 'Passo a passo. Confirmar IP, informar transferencia, transferir em Campanha Receptivo, tabular Transferencia de Ligacao', '#64748b', true),
 ('O QUE FAZER QUANDO CAIR ATENDIMENTO CNPJ?', 'Atendimento PJ. Falar nome do socio ou solicitar socio/responsavel financeiro. Verificar em Detalhes do Cliente', '#0ea5e9', true),
 ('EM CASOS DE SINEB 2.0', 'Oferta de renegociacao. Exclusao CPF em 10 dias uteis apos pagamento. Juros corrigidos diariamente. Condicoes nao garantidas', '#7c3aed', true),

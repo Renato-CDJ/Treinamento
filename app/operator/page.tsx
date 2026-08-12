@@ -10,6 +10,7 @@ import { OperatorAiAssistant } from "@/components/operator-ai-assistant"
 import { useAuth } from "@/lib/auth-context"
 import { sendOperatorHeartbeat, trackScriptAccess } from "@/lib/store"
 import { usePresenceHeartbeat, updateOperatorPresence } from "@/hooks/use-supabase-realtime"
+import { startVisibilityAwarePolling } from "@/lib/polling"
 import { 
   useCacheSync, 
   useCachedProductScripts,
@@ -119,14 +120,14 @@ const OperatorContent = memo(function OperatorContent() {
     return () => clearInterval(interval)
   }, [logout, router])
 
-  // Heartbeat: send every 3 minutos para reduzir requests drasticamente
+  // Heartbeat: a cada 5 minutos e SÓ com a aba ativa, para reduzir requests drasticamente
   useEffect(() => {
     if (!user) return
     sendOperatorHeartbeat(user.id)
-    const heartbeatInterval = setInterval(() => {
+    const stop = startVisibilityAwarePolling(() => {
       sendOperatorHeartbeat(user.id)
-    }, 180000) // 3 minutos
-    return () => clearInterval(heartbeatInterval)
+    }, 300000) // 5 minutos
+    return () => stop()
   }, [user])
 
   // Track script access when operator starts a session with a product

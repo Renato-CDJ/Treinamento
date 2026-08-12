@@ -326,7 +326,17 @@
       "hab532_pagamento_total": {
         "id": "hab532_pagamento_total",
         "title": "Pagamento Total",
-        "body": "Agradeço a confirmação, contamos com seu pagamento.",
+        "body": "Agradeço a confirmação, contamos com seu pagamento.<br><br>Precisa da emissão do boleto?",
+        "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSAO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSAO DE BOLETO"],
+        "buttons": [
+          { "label": "SIM", "next": "hab532_pagamento_total_oferta_boleto" },
+          { "label": "NÃO", "next": "hab532_atualizacao_cadastral_aceite" }
+        ]
+      },
+      "hab532_pagamento_total_oferta_boleto": {
+        "id": "hab532_pagamento_total_oferta_boleto",
+        "title": "Opções de envio do boleto",
+        "body": "<b>ENVIO DE BOLETO VIA E-MAIL:</b><br>Estou encaminhando o boleto para o seu e-mail, ele pode chegar até o dia do vencimento.<br><br><b>SE FOR VIA WHATSAPP:</b><br>Você autoriza o envio do boleto por WhatsApp?",
         "tabulacao": ["PROMESSA DE PAGAMENTO SEM EMISSAO DE BOLETO", "PROMESSA DE PAGAMENTO COM EMISSAO DE BOLETO"],
         "buttons": [
           { "label": "AVANÇAR", "next": "hab532_atualizacao_cadastral_aceite" }

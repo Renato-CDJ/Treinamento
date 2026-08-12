@@ -3,6 +3,7 @@
 import type React from "react"
 
 import { useState, useEffect, useRef } from "react"
+import { startVisibilityAwarePolling } from "@/lib/polling"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -84,11 +85,11 @@ export function OperatorsTab() {
   useEffect(() => {
     loadOperators()
 
-    // Polling ao invés de realtime - a cada 3 minutos
-    const interval = setInterval(loadOperators, 180000)
+    // Polling só com a aba ativa - a cada 5 minutos
+    const stop = startVisibilityAwarePolling(loadOperators, 300000)
 
     return () => {
-      clearInterval(interval)
+      stop()
     }
   }, [])
 

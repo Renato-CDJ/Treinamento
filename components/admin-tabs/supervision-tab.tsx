@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { startVisibilityAwarePolling } from "@/lib/polling"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -46,8 +47,8 @@ export function SupervisionTab() {
 
   useEffect(() => {
     loadData()
-    // Aumentado para 3 minutos - dados de supervisão não precisam de atualização tão frequente
-    const interval = setInterval(loadData, 180000)
+    // Polling só com a aba ativa - dados de supervisão não precisam de atualização tão frequente
+    const stop = startVisibilityAwarePolling(loadData, 300000)
 
     const handleStoreUpdate = () => {
       loadData()
@@ -56,7 +57,7 @@ export function SupervisionTab() {
     window.addEventListener("store-updated", handleStoreUpdate)
 
     return () => {
-      clearInterval(interval)
+      stop()
       window.removeEventListener("store-updated", handleStoreUpdate)
     }
   }, [])
