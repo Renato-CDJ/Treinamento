@@ -1,6 +1,4 @@
--- ============================================================
--- REPIR - ROTEIRO CALL CENTER
--- SETUP COMPLETO DO BANCO DE DADOS
+-- SETUP COMPLETO DO BANCO
 -- 
 -- Copie e cole este script INTEIRO no SQL Editor do Supabase
 -- Versao: 5.2 - Removido chat de operadores
@@ -424,52 +422,6 @@ INSERT INTO users (username, name, email, password, role, admin_type, is_active)
 VALUES ('supervisao', 'Equipe Supervisao', 'supervisao@gruporoveri.com', 's1234@$.', 'admin', 'supervisao', true)
 ON CONFLICT (email) DO NOTHING;
 
--- ============================================================
--- INSERIR USUARIOS DE MONITORIA (monitoria1 a monitoria10)
--- ============================================================
-INSERT INTO users (username, name, email, password, role, admin_type, is_active) VALUES
-('monitoria1', 'VALDINETE LEMOS', 'monitoria1@gruporoveri.com', 'm1234@$.', 'admin', 'monitoria', true),
-('monitoria2', 'BRENO LUCAS', 'monitoria2@gruporoveri.com', 'm1234@$.', 'admin', 'monitoria', true),
-('monitoria3', 'NAELLY DA SILVA', 'monitoria3@gruporoveri.com', 'm1234@$.', 'admin', 'monitoria', true),
-('monitoria4', 'LARISSA RODRIGUES', 'monitoria4@gruporoveri.com', 'm1234@$.', 'admin', 'monitoria', true),
-('monitoria5', 'DIEGO BACCON', 'monitoria5@gruporoveri.com', 'm1234@$.', 'admin', 'monitoria', true),
-('monitoria6', 'SOPHIA DE JESUS', 'monitoria6@gruporoveri.com', 'm1234@$.', 'admin', 'monitoria', true),
-('monitoria7', 'ANA CLARA FIORENTINI', 'monitoria7@gruporoveri.com', 'm1234@$.', 'admin', 'monitoria', true),
-('monitoria8', 'FELIPE NAKAMURA', 'monitoria8@gruporoveri.com', 'm1234@$.', 'admin', 'monitoria', true),
-('monitoria9', 'LETICIA PAIS', 'monitoria9@gruporoveri.com', 'm1234@$.', 'admin', 'monitoria', true),
-('monitoria10', 'GABRIELLY PAPINI', 'monitoria10@gruporoveri.com', 'm1234@$.', 'admin', 'monitoria', true)
-ON CONFLICT (email) DO NOTHING;
-
--- ============================================================
--- INSERIR USUARIOS DE SUPERVISAO (supervisor1 a supervisor25)
--- ============================================================
-INSERT INTO users (username, name, email, password, role, admin_type, is_active) VALUES
-('supervisor1', 'Supervisor 1', 'supervisor1@gruporoveri.com', 's1234@$.', 'admin', 'supervisao', true),
-('supervisor2', 'Supervisor 2', 'supervisor2@gruporoveri.com', 's1234@$.', 'admin', 'supervisao', true),
-('supervisor3', 'Supervisor 3', 'supervisor3@gruporoveri.com', 's1234@$.', 'admin', 'supervisao', true),
-('supervisor4', 'Supervisor 4', 'supervisor4@gruporoveri.com', 's1234@$.', 'admin', 'supervisao', true),
-('supervisor5', 'Supervisor 5', 'supervisor5@gruporoveri.com', 's1234@$.', 'admin', 'supervisao', true),
-('supervisor6', 'Supervisor 6', 'supervisor6@gruporoveri.com', 's1234@$.', 'admin', 'supervisao', true),
-('supervisor7', 'Supervisor 7', 'supervisor7@gruporoveri.com', 's1234@$.', 'admin', 'supervisao', true),
-('supervisor8', 'Supervisor 8', 'supervisor8@gruporoveri.com', 's1234@$.', 'admin', 'supervisao', true),
-('supervisor9', 'Supervisor 9', 'supervisor9@gruporoveri.com', 's1234@$.', 'admin', 'supervisao', true),
-('supervisor10', 'Supervisor 10', 'supervisor10@gruporoveri.com', 's1234@$.', 'admin', 'supervisao', true),
-('supervisor11', 'Supervisor 11', 'supervisor11@gruporoveri.com', 's1234@$.', 'admin', 'supervisao', true),
-('supervisor12', 'Supervisor 12', 'supervisor12@gruporoveri.com', 's1234@$.', 'admin', 'supervisao', true),
-('supervisor13', 'Supervisor 13', 'supervisor13@gruporoveri.com', 's1234@$.', 'admin', 'supervisao', true),
-('supervisor14', 'Supervisor 14', 'supervisor14@gruporoveri.com', 's1234@$.', 'admin', 'supervisao', true),
-('supervisor15', 'Supervisor 15', 'supervisor15@gruporoveri.com', 's1234@$.', 'admin', 'supervisao', true),
-('supervisor16', 'Supervisor 16', 'supervisor16@gruporoveri.com', 's1234@$.', 'admin', 'supervisao', true),
-('supervisor17', 'Supervisor 17', 'supervisor17@gruporoveri.com', 's1234@$.', 'admin', 'supervisao', true),
-('supervisor18', 'Supervisor 18', 'supervisor18@gruporoveri.com', 's1234@$.', 'admin', 'supervisao', true),
-('supervisor19', 'Supervisor 19', 'supervisor19@gruporoveri.com', 's1234@$.', 'admin', 'supervisao', true),
-('supervisor20', 'Supervisor 20', 'supervisor20@gruporoveri.com', 's1234@$.', 'admin', 'supervisao', true),
-('supervisor21', 'Supervisor 21', 'supervisor21@gruporoveri.com', 's1234@$.', 'admin', 'supervisao', true),
-('supervisor22', 'Supervisor 22', 'supervisor22@gruporoveri.com', 's1234@$.', 'admin', 'supervisao', true),
-('supervisor23', 'Supervisor 23', 'supervisor23@gruporoveri.com', 's1234@$.', 'admin', 'supervisao', true),
-('supervisor24', 'Supervisor 24', 'supervisor24@gruporoveri.com', 's1234@$.', 'admin', 'supervisao', true),
-('supervisor25', 'Supervisor 25', 'supervisor25@gruporoveri.com', 's1234@$.', 'admin', 'supervisao', true)
-ON CONFLICT (email) DO NOTHING;
 
 -- ============================================================
 -- INSERIR DADOS INICIAIS - CANAIS DE ATENDIMENTO CAIXA

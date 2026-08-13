@@ -1,5 +1,3 @@
--- ============================================================
--- REPIR - ROTEIRO CALL CENTER
 -- POLITICAS DE ROW LEVEL SECURITY (RLS)
 -- 
 -- Execute este script APOS o DATABASE_SETUP.sql
@@ -465,13 +463,7 @@ CREATE POLICY "word_cloud_update_policy" ON word_cloud
 CREATE POLICY "word_cloud_delete_policy" ON word_cloud
   FOR DELETE USING (true);
 
--- ============================================================
--- REMOVER POLITICAS ANTIGAS DE CHAT DE OPERADORES (SE EXISTIREM)
--- ============================================================
-DROP POLICY IF EXISTS "chat_messages_select_policy" ON chat_messages;
-DROP POLICY IF EXISTS "chat_messages_insert_policy" ON chat_messages;
-DROP POLICY IF EXISTS "chat_messages_update_policy" ON chat_messages;
-DROP POLICY IF EXISTS "chat_messages_delete_policy" ON chat_messages;
+
 
 -- ============================================================
 -- FIM DO SCRIPT DE RLS
