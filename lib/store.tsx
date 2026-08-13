@@ -1030,8 +1030,8 @@ async function syncProductsFromSupabase() {
 // Initialize Supabase sync on load with polling (sem realtime)
 let syncInitialized = false
 
-// Polling interval - 5 minutos para reduzir requisições drasticamente.
-const SYNC_POLLING_INTERVAL = 300000
+// Polling interval - 30 minutos para reduzir o Egress do Supabase drasticamente.
+const SYNC_POLLING_INTERVAL = 30 * 60 * 1000
 
 // Última versão conhecida dos dados. Usada para evitar buscar tabelas inteiras
 // quando nada mudou no banco.

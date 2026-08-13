@@ -49,7 +49,7 @@ export function OperatorsTab() {
     const supabase = createClient()
     const { data, error } = await supabase
       .from("users")
-      .select("*")
+      .select("id,username,email,name,is_online,role,created_at")
       .eq("role", "operator")
       .order("created_at", { ascending: false })
 
@@ -386,7 +386,7 @@ export function OperatorsTab() {
 
       if (importedCount > 0) {
         toast({
-          title: "Importação Concluída",
+          title: "Importa��ão Concluída",
           description: `${importedCount} operador(es) importado(s) com sucesso${skippedCount > 0 ? `. ${skippedCount} ignorado(s)` : ""}`,
         })
       }

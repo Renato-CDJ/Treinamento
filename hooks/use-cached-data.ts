@@ -23,8 +23,8 @@ import {
 import { startVisibilityAwarePolling } from "@/lib/polling"
 import type { ScriptStep } from "@/lib/types"
 
-// Intervalo de verificação de atualizações (5 minutos)
-const SYNC_CHECK_INTERVAL = 5 * 60 * 1000
+// Intervalo de verificação de atualizações (30 minutos) para reduzir o Egress do Supabase.
+const SYNC_CHECK_INTERVAL = 30 * 60 * 1000
 
 /**
  * Hook principal para inicializar e manter o cache sincronizado

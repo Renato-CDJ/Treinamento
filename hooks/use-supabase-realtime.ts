@@ -6,12 +6,24 @@ import { mapSupabaseUser } from "@/lib/auth-context"
 import { startVisibilityAwarePolling } from "@/lib/polling"
 import type { User, QualityPost, QualityComment } from "@/lib/types"
 
-// Polling interval - 5 minutos para reduzir requisições drasticamente.
+// Polling interval - 30 minutos para reduzir o Egress do Supabase drasticamente.
 // O polling só roda com a aba em primeiro plano (ver startVisibilityAwarePolling).
-const POLLING_INTERVAL = 300000
+const POLLING_INTERVAL = 30 * 60 * 1000
+
+// Presença precisa ser mais fresca que o conteúdo geral (mostra quem está online).
+// Por isso usa um intervalo menor, MAS baixa apenas colunas leves (sem senha etc.).
+const PRESENCE_POLLING_INTERVAL = 2 * 60 * 1000
+
+// Colunas mínimas necessárias para monitoramento/listagem de usuários.
+// Evita baixar campos pesados/sensíveis (como "password") a cada ciclo.
+const USER_LIGHT_COLUMNS =
+  "id,username,name,email,role,admin_type,allowed_tabs,is_online,is_active,created_at,last_login,last_activity,last_script_access,current_product,current_screen"
 
 // Users hook with polling (sem realtime)
-export function useSupabaseUsers() {
+export function useSupabaseUsers(
+  pollIntervalMs: number = POLLING_INTERVAL,
+  columns: string = USER_LIGHT_COLUMNS,
+) {
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
   const mountedRef = useRef(true)
@@ -30,27 +42,27 @@ export function useSupabaseUsers() {
     
     const { data, error } = await supabase
       .from("users")
-      .select("*")
+      .select(columns)
       .order("created_at", { ascending: true })
 
     if (!error && data && mountedRef.current) {
       setUsers(data.map(mapSupabaseUser))
     }
     if (mountedRef.current) setLoading(false)
-  }, [])
+  }, [columns])
 
   useEffect(() => {
     mountedRef.current = true
     fetchUsers()
 
     // Polling só quando a aba está ativa
-    const stop = startVisibilityAwarePolling(fetchUsers, POLLING_INTERVAL)
+    const stop = startVisibilityAwarePolling(fetchUsers, pollIntervalMs)
 
     return () => {
       mountedRef.current = false
       stop()
     }
-  }, [fetchUsers])
+  }, [fetchUsers, pollIntervalMs])
 
   return { users, loading, refetch: fetchUsers }
 }
@@ -284,7 +296,8 @@ export function useAllUsers() {
 
 // Operator Presence hook
 export function useOperatorPresence() {
-  const { users, loading, refetch } = useSupabaseUsers()
+  // Presença precisa ser fresca (2 min), mas usa payload leve para não estourar Egress.
+  const { users, loading, refetch } = useSupabaseUsers(PRESENCE_POLLING_INTERVAL)
 
   const operatorsWithStatus = useMemo(() => {
     const now = Date.now()
@@ -371,7 +384,11 @@ export async function updateOperatorPresence(userId: string, data?: {
   }
 }
 
-// Hook for operator to maintain presence - intervalo de 3 minutos
+// Heartbeat do operador: precisa ser mais frequente que o limite de "online" (2 min),
+// senão o operador apareceria offline. É apenas um UPDATE minúsculo (Egress irrelevante).
+const HEARTBEAT_INTERVAL = 90 * 1000
+
+// Hook for operator to maintain presence
 export function usePresenceHeartbeat(userId?: string) {
   useEffect(() => {
     if (!userId) return
@@ -381,7 +398,7 @@ export function usePresenceHeartbeat(userId?: string) {
     // Heartbeat só enquanto a aba está ativa - sem foco, o operador não está "presente"
     const stop = startVisibilityAwarePolling(() => {
       updateOperatorPresence(userId)
-    }, POLLING_INTERVAL)
+    }, HEARTBEAT_INTERVAL)
 
     return () => stop()
   }, [userId])

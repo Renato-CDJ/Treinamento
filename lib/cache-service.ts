@@ -25,8 +25,8 @@ const CACHE_KEYS = {
   LAST_SYNC: "cache_last_sync",
 } as const
 
-// Tempo mínimo entre sincronizações (5 minutos)
-const MIN_SYNC_INTERVAL = 5 * 60 * 1000
+// Tempo mínimo entre sincronizações (30 minutos) para reduzir o Egress do Supabase.
+const MIN_SYNC_INTERVAL = 30 * 60 * 1000
 
 // Versão do cache - incrementar quando houver mudanças na estrutura
 const CACHE_SCHEMA_VERSION = "1.0"

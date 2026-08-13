@@ -1,13 +1,14 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { updateDataVersion } from "@/lib/cache-service"
 import { startVisibilityAwarePolling } from "@/lib/polling"
 
-// Polling interval - 5 minutos para reduzir requisições drasticamente.
+// Polling interval - 30 minutos para reduzir o Egress do Supabase drasticamente.
 // O polling só roda com a aba em primeiro plano (ver startVisibilityAwarePolling).
-const POLLING_INTERVAL = 300000
+// Conteúdo (scripts/produtos/etc.) muda pouco, então não precisa ser frequente.
+const POLLING_INTERVAL = 30 * 60 * 1000
 
 // Collection/table names
 const TABLES = {
@@ -59,11 +60,35 @@ export function useSupabaseTable<T extends { id: string }>(
   const [data, setData] = useState<T[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  // Última versão conhecida da tabela (quando ela tem controle de versão).
+  // Usado para evitar rebaixar a tabela inteira quando nada mudou.
+  const lastVersionRef = useRef<string | null>(null)
+  const hasFetchedRef = useRef(false)
 
-  const fetchData = useCallback(async () => {
-    setLoading(true)
+  const fetchData = useCallback(async (force = false) => {
     try {
       const supabase = createClient()
+      const versionKey = TABLE_TO_VERSION_KEY[tableName]
+
+      // Para tabelas versionadas, faz uma consulta minúscula em data_version
+      // antes de baixar tudo. Se a versão não mudou desde a última busca,
+      // pula o SELECT * completo — economiza a maior parte do Egress.
+      if (versionKey && !force) {
+        const { data: verRow } = await supabase
+          .from("app_settings")
+          .select("value")
+          .eq("key", "data_version")
+          .maybeSingle()
+        const remoteVersion = ((verRow?.value as any)?.[versionKey] ?? null) as string | null
+
+        if (hasFetchedRef.current && remoteVersion !== null && remoteVersion === lastVersionRef.current) {
+          setLoading(false)
+          return
+        }
+        lastVersionRef.current = remoteVersion
+      }
+
+      setLoading(true)
       const { data: result, error: fetchError } = await supabase
         .from(tableName)
         .select("*")
@@ -73,6 +98,7 @@ export function useSupabaseTable<T extends { id: string }>(
 
       setData(result as T[])
       setError(null)
+      hasFetchedRef.current = true
     } catch (e: any) {
       setError(e.message || "Erro ao carregar dados")
     } finally {
@@ -108,8 +134,8 @@ export function useSupabaseTable<T extends { id: string }>(
         updateDataVersion(versionKey as any).catch(console.error)
       }
 
-      // Refetch para atualizar lista
-      fetchData()
+      // Refetch para atualizar lista (força, ignorando o gate de versão)
+      fetchData(true)
 
       return { data: result as T, error: null }
     } catch (e: any) {
@@ -135,8 +161,8 @@ export function useSupabaseTable<T extends { id: string }>(
         updateDataVersion(versionKey as any).catch(console.error)
       }
 
-      // Refetch para atualizar lista
-      fetchData()
+      // Refetch para atualizar lista (força, ignorando o gate de versão)
+      fetchData(true)
 
       return { data: result as T, error: null }
     } catch (e: any) {
@@ -160,8 +186,8 @@ export function useSupabaseTable<T extends { id: string }>(
         updateDataVersion(versionKey as any).catch(console.error)
       }
 
-      // Refetch para atualizar lista
-      fetchData()
+      // Refetch para atualizar lista (força, ignorando o gate de versão)
+      fetchData(true)
 
       return { error: null }
     } catch (e: any) {
